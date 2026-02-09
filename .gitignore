@@ -18,6 +18,9 @@ migrate_working_dir/
 *.iws
 .idea/
 
+# Cursor IDE
+.cursor/
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
@@ -27,6 +30,7 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
@@ -43,3 +47,11 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Keystore files - DO NOT COMMIT
+*.jks
+*.keystore
+android/key.properties
+
+# Environment variables
+.env
