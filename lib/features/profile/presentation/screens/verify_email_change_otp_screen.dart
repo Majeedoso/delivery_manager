@@ -1,0 +1,420 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:delivery_manager/core/services/services_locator.dart';
+import 'package:delivery_manager/features/countdown/presentation/controller/countdown_bloc.dart';
+import 'package:delivery_manager/features/countdown/presentation/controller/countdown_event.dart';
+import 'package:delivery_manager/features/countdown/presentation/controller/countdown_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:delivery_manager/core/theme/theme.dart';
+import 'package:smart_auth/smart_auth.dart';
+import 'package:pinput/pinput.dart';
+import 'package:delivery_manager/l10n/app_localizations.dart';
+import 'package:sizer/sizer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
+import 'package:delivery_manager/features/auth/presentation/controller/auth_event.dart';
+import 'package:delivery_manager/features/profile/presentation/controller/profile_bloc.dart';
+import 'package:delivery_manager/features/profile/presentation/controller/profile_event.dart';
+import 'package:delivery_manager/features/profile/presentation/controller/profile_state.dart';
+import 'package:delivery_manager/core/widgets/error_snackbar.dart';
+import 'package:delivery_manager/core/services/logging_service.dart';
+import 'package:delivery_manager/core/utils/enums.dart';
+
+class VerifyEmailChangeOtpScreen extends StatefulWidget {
+  static const String route = '/verify-email-change-otp';
+  final String newEmail;
+  
+  const VerifyEmailChangeOtpScreen({
+    super.key,
+    required this.newEmail,
+  });
+
+  @override
+  State<VerifyEmailChangeOtpScreen> createState() => _VerifyEmailChangeOtpScreenState();
+}
+
+class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _otpController = TextEditingController();
+  final SmartAuth _smartAuth = SmartAuth.instance;
+  bool _isLoading = false;
+  bool _isProcessing = false; // Guard to prevent multiple simultaneous calls
+  String? _lastDetectedOtp;
+  String? _initialClipboardOtp;
+
+  @override
+  void initState() {
+    super.initState();
+    _lastDetectedOtp = null;
+    
+    // Start countdown if not already active (persists across navigation)
+    final countdownBloc = context.read<CountdownBloc>();
+    if (!countdownBloc.state.isActive) {
+      // Default to 120 seconds (2 minutes) - will be updated by resend response
+      countdownBloc.add(const StartCountdownEvent(120));
+    }
+    
+    _captureInitialClipboard();
+    _listenForSms();
+    _checkClipboardPeriodically();
+  }
+
+  @override
+  void dispose() {
+    _otpController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _captureInitialClipboard() async {
+    try {
+      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+      if (clipboardData?.text != null) {
+        final text = clipboardData!.text!;
+        final otpRegex = RegExp(r'\b\d{6}\b');
+        final match = otpRegex.firstMatch(text);
+        if (match != null) {
+          _initialClipboardOtp = match.group(0)!;
+          final logger = sl<LoggingService>();
+          logger.debug('📋 Initial clipboard OTP captured: $_initialClipboardOtp');
+        }
+      }
+    } catch (e) {
+      final logger = sl<LoggingService>();
+      logger.error('❌ Error capturing initial clipboard', error: e);
+    }
+  }
+
+  Future<void> _listenForSms() async {
+    final logger = sl<LoggingService>();
+    try {
+      logger.debug('🔍 Smart Auth: Starting SMS detection...');
+      final res = await _smartAuth.getSmsWithRetrieverApi();
+      logger.debug('🔍 Smart Auth: SMS Retriever result: ${res.hasData}');
+      
+      if (res.hasData) {
+        final code = res.requireData.code;
+        logger.debug('🔍 Smart Auth: Detected code: $code');
+        if (code != null && code.length == 6) {
+          _otpController.text = code;
+          logger.info('✅ Smart Auth: OTP auto-filled: $code');
+          // Wait a bit longer to ensure onCompleted doesn't also trigger
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            if (mounted && !_isProcessing) {
+              _confirmEmailChange();
+            }
+          });
+        }
+      } else {
+        logger.debug('❌ Smart Auth: No SMS detected');
+      }
+    } catch (e) {
+      logger.warning('❌ Smart Auth: SMS Retriever API not available', e);
+    }
+  }
+
+  Future<void> _checkClipboardPeriodically() async {
+    Timer.periodic(const Duration(seconds: 1), (timer) async {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      
+      // Continue checking clipboard even during loading, but skip verification if already processing
+      if (_isLoading || _isProcessing) {
+        return;
+      }
+      
+      try {
+        final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+        if (clipboardData?.text != null) {
+          final text = clipboardData!.text!;
+          final otpRegex = RegExp(r'\b\d{6}\b');
+          final match = otpRegex.firstMatch(text);
+          
+          if (match != null) {
+            final otp = match.group(0)!;
+            final isNewOtp = _lastDetectedOtp != otp;
+            final isNotInField = _otpController.text != otp;
+            final isNotInitialOtp = _initialClipboardOtp != otp;
+            
+            if (isNewOtp && isNotInField && isNotInitialOtp) {
+              _lastDetectedOtp = otp;
+              final logger = sl<LoggingService>();
+              logger.info('✅ Auto-detected NEW OTP: $otp');
+              _otpController.text = otp;
+              // Don't show message, just auto-confirm silently
+              Future.delayed(const Duration(milliseconds: 500), () {
+                if (mounted && !_isProcessing) {
+                  _confirmEmailChange();
+                }
+              });
+            }
+          }
+        }
+      } catch (e) {
+        final logger = sl<LoggingService>();
+        logger.error('❌ Error checking clipboard', error: e);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final defaultPinTheme = PinTheme(
+      width: 12.w,
+      height: 12.w,
+      textStyle: TextStyle(
+        fontSize: 20.sp,
+        color: Theme.of(context).colorScheme.onSurface,
+        fontWeight: FontWeight.w600,
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).inputDecorationTheme.fillColor,
+        border: Border.all(
+          color: Theme.of(context).colorScheme.inversePrimary,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(2.w),
+      ),
+    );
+
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+      border: Border.all(
+        color: Theme.of(context).colorScheme.inversePrimary,
+        width: 2,
+      ),
+    );
+
+    final submittedPinTheme = defaultPinTheme.copyDecorationWith(
+      color: Theme.of(context).inputDecorationTheme.fillColor,
+      border: Border.all(
+        color: Colors.green,
+        width: 2,
+      ),
+    );
+
+    return BlocListener<ProfileBloc, ProfileState>(
+      listener: (context, state) {
+        // Handle email change confirmation success
+        if (state.requestState == RequestState.loaded &&
+            state.message.contains('Email changed successfully')) {
+          // Clear stored newEmail from SharedPreferences
+          SharedPreferences.getInstance().then((prefs) {
+            prefs.remove('pending_email_change');
+          });
+          
+          // Stop countdown
+          context.read<CountdownBloc>().add(const StopCountdownEvent());
+          
+          // Refresh AuthBloc to get updated user
+          context.read<AuthBloc>().add(CheckAuthStatusEvent());
+          
+          if (mounted) {
+            ErrorSnackBar.showSuccess(context, state.message);
+            Navigator.of(context).pop();
+          }
+        }
+
+        // Handle resend OTP success
+        if (state.requestState == RequestState.loaded &&
+            state.message.contains('Email change request submitted') &&
+            state.resendCountdown != null) {
+          // Start countdown
+          final countdownBloc = context.read<CountdownBloc>();
+          final countdownValue = state.resendCountdown ?? 120;
+          if (!countdownBloc.state.isActive) {
+            countdownBloc.add(StartCountdownEvent(countdownValue));
+          }
+          if (mounted) {
+            final localizations = AppLocalizations.of(context)!;
+            ErrorSnackBar.showSuccess(context, localizations.emailChangeOtpSentSuccessfully);
+          }
+        }
+
+        // Handle errors
+        if (state.requestState == RequestState.error && state.message.isNotEmpty) {
+          if (mounted) {
+            ErrorSnackBar.show(context, state.message);
+          }
+        }
+
+        // Update loading state
+        if (mounted) {
+          setState(() {
+            _isLoading = state.requestState == RequestState.loading;
+            _isProcessing = state.requestState == RequestState.loading;
+          });
+        }
+      },
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, profileState) {
+          final isLoading = profileState.requestState == RequestState.loading;
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(AppLocalizations.of(context)!.verifyEmail),
+            ),
+            body: Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: double.infinity,
+                  decoration: MaterialTheme.getGradientBackground(context),
+                  child: SafeArea(
+                    child: SingleChildScrollView(
+                  padding: EdgeInsets.all(4.w),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(height: 4.h),
+                        Icon(
+                          Icons.email,
+                          size: 20.w,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                        SizedBox(height: 3.h),
+                        Text(
+                          AppLocalizations.of(context)!.enterOtp,
+                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          '${AppLocalizations.of(context)!.otpSentTo} ${widget.newEmail}',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 6.h),
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Pinput(
+                            length: 6,
+                            controller: _otpController,
+                            defaultPinTheme: defaultPinTheme,
+                            focusedPinTheme: focusedPinTheme,
+                            submittedPinTheme: submittedPinTheme,
+                            pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                            showCursor: true,
+                            onCompleted: (pin) {
+                              // Only call if not already processing (prevents duplicate calls from auto-detection)
+                              if (!_isProcessing) {
+                                _confirmEmailChange();
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 4.h),
+                          BlocBuilder<ProfileBloc, ProfileState>(
+                            builder: (context, profileState) {
+                              final isLoading = profileState.requestState == RequestState.loading;
+                              return SizedBox(
+                                height: MaterialTheme.getSpacing('buttonHeight').h,
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: (isLoading || _isProcessing) ? null : _confirmEmailChange,
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(double.infinity, MaterialTheme.getSpacing('buttonHeight').h),
+                                    padding: EdgeInsets.zero,
+                                    elevation: 4.0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: MaterialTheme.getBorderRadiusButton(),
+                                    ),
+                                  ),
+                                  child: Text(AppLocalizations.of(context)!.verifyOtp),
+                                ),
+                              );
+                            },
+                          ),
+                        SizedBox(height: 3.h),
+                        BlocBuilder<CountdownBloc, CountdownState>(
+                          builder: (context, countdownState) {
+                            final remainingSeconds = countdownState.countdownSeconds;
+                            final canResend = !countdownState.isActive;
+                            
+                            return BlocBuilder<ProfileBloc, ProfileState>(
+                              builder: (context, profileState) {
+                                final isLoading = profileState.requestState == RequestState.loading;
+                                final isDesktop = MediaQuery.of(context).size.width > 600;
+                                final buttonHeight = isDesktop ? 72.0 : MaterialTheme.getSpacing('buttonHeight').h;
+                                return SizedBox(
+                                  height: buttonHeight,
+                                  width: double.infinity,
+                                  child: TextButton(
+                                    onPressed: canResend && !isLoading ? _resendOtp : null,
+                                    style: TextButton.styleFrom(
+                                      minimumSize: Size(double.infinity, buttonHeight),
+                                      padding: EdgeInsets.zero,
+                                    ),
+                                    child: Text(
+                                      canResend
+                                          ? AppLocalizations.of(context)!.resendOtp
+                                          : '${AppLocalizations.of(context)!.resendOtp} (${remainingSeconds}s)',
+                                      style: TextStyle(
+                                        color: canResend
+                                            ? Theme.of(context).colorScheme.inversePrimary
+                                            : Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+                // Full-page loading overlay
+                if (isLoading)
+                  MaterialTheme.getFullPageLoadingOverlay(context),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> _confirmEmailChange() async {
+    if (_otpController.text.length != 6) {
+      final localizations = AppLocalizations.of(context)!;
+      ErrorSnackBar.show(context, localizations.pleaseEnterValid6DigitOtp);
+      return;
+    }
+    
+    // Prevent multiple simultaneous calls
+    if (_isProcessing) {
+      final logger = sl<LoggingService>();
+      logger.debug('_confirmEmailChange already in progress, skipping...');
+      return;
+    }
+    
+    context.read<ProfileBloc>().add(ConfirmEmailChangeEvent(
+      newEmail: widget.newEmail,
+      otp: _otpController.text,
+    ));
+  }
+
+  Future<void> _resendOtp() async {
+    // Get current user to check if they're a Google user
+    final authState = context.read<AuthBloc>().state;
+    final isGoogleUser = authState.user?.googleId != null;
+    
+    // Dispatch ChangeEmailEvent to resend OTP (same endpoint as initial request)
+    context.read<ProfileBloc>().add(ChangeEmailEvent(
+      newEmail: widget.newEmail,
+      currentPassword: isGoogleUser ? '' : '', // Empty for resend, backend handles it
+    ));
+  }
+}
+

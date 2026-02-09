@@ -1,0 +1,270 @@
+{
+  "project_info": {
+    "project_number": "279573864228",
+    "project_id": "delivery-cfbae",
+    "storage_bucket": "delivery-cfbae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279573864228:android:697ce7238a6ed936369db1",
+        "android_client_info": {
+          "package_name": "website.sofistem.delivery_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279573864228-imqlt5tf5g2bfo5tftte7g5vejho1b21.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.delivery_customer",
+            "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
+          }
+        },
+        {
+          "client_id": "279573864228-o7ahg5f0ks48lpkmq3jviucjr6347f98.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.delivery_customer",
+            "certificate_hash": "ee98ee717a4447c4140230ebfcdfcb6b512d9010"
+          }
+        },
+        {
+          "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwsMXNSjfqMsLvodPty06NGp6Ynj9AVIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "279573864228-6e10b56irmtov3hldcgkpcojlca7633s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.deliveryRestaurant"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279573864228:android:f079a156245ea1a5369db1",
+        "android_client_info": {
+          "package_name": "website.sofistem.delivery_driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279573864228-gcbu8bsqmlcn2fef2smp8fag35869rf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.delivery_driver",
+            "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
+          }
+        },
+        {
+          "client_id": "279573864228-kc1dh7chd3utc4kb919mugfk6p1dmbkr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.delivery_driver",
+            "certificate_hash": "0dcaad6e14806bf869b903832acfe1c50063182f"
+          }
+        },
+        {
+          "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwsMXNSjfqMsLvodPty06NGp6Ynj9AVIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "279573864228-6e10b56irmtov3hldcgkpcojlca7633s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.deliveryRestaurant"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279573864228:android:92bb03a6776d44f0369db1",
+        "android_client_info": {
+          "package_name": "website.sofistem.delivery_manager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279573864228-eff2hpb995g3875at28gqbp3gj48l924.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.delivery_manager",
+            "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
+          }
+        },
+        {
+          "client_id": "279573864228-hnq76b49ss93iolh7pt8pqqn6ueb6ik1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.delivery_manager",
+            "certificate_hash": "f2fd57e1317f95f52a2a8087868f5df9b01e43fc"
+          }
+        },
+        {
+          "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwsMXNSjfqMsLvodPty06NGp6Ynj9AVIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "279573864228-6e10b56irmtov3hldcgkpcojlca7633s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.deliveryRestaurant"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279573864228:android:f7d6083d46eda0fd369db1",
+        "android_client_info": {
+          "package_name": "website.sofistem.delivery_restaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279573864228-6h83fro7uncs7qe4c25m02dmbnm4emum.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.delivery_restaurant",
+            "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
+          }
+        },
+        {
+          "client_id": "279573864228-dppoae7cb47jjvsm336nm5955ann1h2f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.delivery_restaurant",
+            "certificate_hash": "beb0ec40ebefe32d797c251faa788a880039e1bf"
+          }
+        },
+        {
+          "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwsMXNSjfqMsLvodPty06NGp6Ynj9AVIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "279573864228-6e10b56irmtov3hldcgkpcojlca7633s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.deliveryRestaurant"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279573864228:android:776845f7bccc876a369db1",
+        "android_client_info": {
+          "package_name": "website.sofistem.operator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279573864228-lh5sepvhgeqkuh2phlt4o37u7ov16k68.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.operator",
+            "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
+          }
+        },
+        {
+          "client_id": "279573864228-p5ljb2fnu4rnu961t2t6nqts8r3t3cjg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.operator",
+            "certificate_hash": "beb0ec40ebefe32d797c251faa788a880039e1bf"
+          }
+        },
+        {
+          "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwsMXNSjfqMsLvodPty06NGp6Ynj9AVIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "279573864228-6e10b56irmtov3hldcgkpcojlca7633s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.deliveryRestaurant"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

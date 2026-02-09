@@ -1,0 +1,132 @@
+name: delivery_manager
+description: "Delivery Manager App - Management application for the delivery system."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Clean Architecture dependencies
+  equatable: ^2.0.5
+  dio: ^5.4.0
+  dartz: ^0.10.1
+  flutter_bloc: ^9.1.1
+  get_it: ^9.0.5
+
+  # UI dependencies
+  google_fonts: ^6.3.2
+  shared_preferences: ^2.2.2
+  flutter_secure_storage: ^9.0.0
+  firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  firebase_messaging: ^16.0.4
+  firebase_crashlytics: ^5.0.4
+  google_sign_in: ^6.2.1
+  
+  # Local notifications (for notification channels only)
+  flutter_local_notifications: ^19.5.0
+  
+  # Permission handling
+  permission_handler: ^12.0.1
+  
+  # Localization dependencies
+  intl:
+  flutter_localizations:
+    sdk: flutter
+  
+  # UI dependencies
+  lottie: ^3.3.2
+  smart_auth: ^3.2.0
+  pinput: ^5.0.2
+  url_launcher: ^6.2.2
+  badges: ^3.1.2
+  flutter_animate: ^4.5.0
+  graphic: ^2.6.0
+  device_preview: ^1.3.1
+  
+  # Package info for app version
+  package_info_plus: ^9.0.0
+  
+  # Logging
+  logger: ^2.0.2+1
+  
+  # Responsive sizing
+  sizer: ^3.1.3
+  
+  # Dropdown button
+  dropdown_button2: ^2.3.9
+  flutter_dotenv: ^6.0.0
+
+  # Map dependencies
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+  map_launcher: ^4.4.2
+  geolocator: ^13.0.2
+  
+  # Image picker
+  image_picker: ^1.0.7
+
+  # Image compression
+  flutter_image_compress: ^2.3.0
+  path_provider: ^2.1.2
+
+  # Cached network image
+  cached_network_image: ^3.3.1
+
+  # Swipe actions
+  flutter_slidable: ^3.1.1
+
+  # Rating bar
+  flutter_rating_bar: ^4.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+  flutter_native_splash: ^2.4.7
+  flutter_launcher_icons: ^0.14.4
+  
+  # Testing dependencies
+  mockito: ^5.4.4
+  build_runner: ^2.4.8
+  bloc_test: ^10.0.0
+  integration_test:
+    sdk: flutter
+
+flutter:
+  generate: true
+
+  uses-material-design: true
+
+  assets:
+    - .env
+    - assets/images/
+
+# Native splash screen configuration
+flutter_native_splash:
+  color: "#FEF8F1"
+  image: assets/images/app_icon_light_mode.png
+  color_dark: "#000000"
+  image_dark: assets/images/app_icon_dark_mode.png
+
+  android_12:
+    image: assets/images/app_icon_light_mode.png
+    color: "#FEF8F1"
+    image_dark: assets/images/app_icon_dark_mode.png
+    color_dark: "#000000"
+
+# App icon configuration
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/splash_screen_dark_mode.png"
+  adaptive_icon_foreground: "assets/images/splash_screen_dark_mode.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground_inset: 20
+  remove_alpha_ios: true
