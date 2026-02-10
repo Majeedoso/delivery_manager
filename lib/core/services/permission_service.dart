@@ -1,5 +1,6 @@
 import 'package:permission_handler/permission_handler.dart' as permission_handler;
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/core/services/base_permission_service.dart';
@@ -187,13 +188,13 @@ class PermissionService implements BasePermissionService {
   Future<bool> showSettingsDialog(BuildContext context) async {
     return await showDialog<bool>(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
       builder: (context) => AlertDialog(
         title: Row(
           children: [
             Icon(
               Icons.settings,
-              color: Colors.blue,
+              color: Theme.of(context).colorScheme.primary,
               size: 28,
             ),
             SizedBox(width: 12),
@@ -214,43 +215,38 @@ class PermissionService implements BasePermissionService {
             Text('3. Enable "Allow notifications"'),
             Text('4. Return to the app'),
             SizedBox(height: 16),
-            Container(
-              padding: EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.blue.shade200),
-              ),
-              child: Row(
-                children: [
-                  Icon(Icons.info, color: Colors.blue, size: 20),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      'The app will automatically detect when you enable notifications.',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.blue.shade700,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
         actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: Text('Exit App'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.of(context).pop(true);
-              await _instance.openAppSettings();
-            },
-            child: Text('Open Settings'),
+          Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: 40.w,
+              height: 6.h,
+              child: ElevatedButton(
+                onPressed: () async {
+                  Navigator.of(context).pop(true);
+                  await _instance.openAppSettings();
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  foregroundColor:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black,
+                ),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Open Settings',
+                    maxLines: 1,
+                    softWrap: false,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

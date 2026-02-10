@@ -154,6 +154,7 @@
   "notificationsRequired": "Les notifications sont requises pour cette application",
   "notificationsRequiredDescription": "Cette application nécessite l'autorisation de notification pour recevoir des alertes de nouvelles commandes.",
   "enableNotifications": "Activer les notifications",
+  "openSettings": "Ouvrir les param?tres",
   "exitApp": "Quitter l'application",
   "initializing": "Initialisation...",
   "checkingNotifications": "Vérification des notifications...",

@@ -154,6 +154,7 @@
   "notificationsRequired": "الإشعارات مطلوبة لهذا التطبيق",
   "notificationsRequiredDescription": "يتطلب هذا التطبيق إذن الإشعارات لتلقي تنبيهات الطلبات الجديدة.",
   "enableNotifications": "تفعيل الإشعارات",
+  "openSettings": "??? ?????????",
   "exitApp": "إغلاق التطبيق",
   "initializing": "جاري التهيئة...",
   "checkingNotifications": "جاري فحص الإشعارات...",

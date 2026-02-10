@@ -609,6 +609,10 @@
   "@enableNotifications": {
     "description": "Enable notifications button text"
   },
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Open settings button text"
+  },
   "exitApp": "Exit App",
   "@exitApp": {
     "description": "Exit app button text"

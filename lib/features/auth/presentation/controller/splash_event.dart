@@ -40,6 +40,11 @@ class RequestNotificationPermissionEvent extends SplashEvent {
   const RequestNotificationPermissionEvent();
 }
 
+/// Event triggered to re-check notification permission on app resume
+class RefreshNotificationPermissionEvent extends SplashEvent {
+  const RefreshNotificationPermissionEvent();
+}
+
 /// Event triggered when user wants to retry the initialization process
 /// 
 /// Used when initialization fails (e.g., no internet connection).

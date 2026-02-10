@@ -447,6 +447,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enableNotifications => 'Enable Notifications';
 
   @override
+  String get openSettings => 'Open Settings';
+
+  @override
   String get exitApp => 'Exit App';
 
   @override

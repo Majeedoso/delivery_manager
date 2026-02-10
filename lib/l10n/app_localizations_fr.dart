@@ -447,6 +447,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enableNotifications => 'Activer les notifications';
 
   @override
+  String get openSettings => 'Ouvrir les paramètres';
+
+  @override
   String get exitApp => 'Quitter l\'application';
 
   @override

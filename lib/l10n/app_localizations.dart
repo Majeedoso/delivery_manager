@@ -961,6 +961,12 @@ abstract class AppLocalizations {
   /// **'Enable Notifications'**
   String get enableNotifications;
 
+  /// Open settings button text
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
   /// Exit app button text
   ///
   /// In en, this message translates to:

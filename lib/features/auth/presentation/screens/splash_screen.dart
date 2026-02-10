@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
-import 'package:delivery_manager/core/services/permission_service.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/splash_bloc.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/splash_event.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/splash_state.dart';
@@ -17,6 +16,7 @@ import 'package:delivery_manager/features/app_version/presentation/screens/updat
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
+import 'package:delivery_manager/core/services/permission_service.dart';
 
 /// Splash screen for app initialization
 ///
@@ -48,13 +48,16 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with WidgetsBindingObserver {
   Timer? _timeoutTimer;
   bool _forceShowRefresh = false;
+  bool _isSettingsDialogOpen = false;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // Start initialization when screen is loaded
     context.read<SplashBloc>().add(const InitializeAppEvent());
 
@@ -72,7 +75,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void dispose() {
     _timeoutTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      final bloc = context.read<SplashBloc>();
+      final splashState = bloc.state;
+      if (!splashState.hasNotificationPermission &&
+          splashState.currentStep == SplashStep.noNotificationPermission) {
+        bloc.add(const RefreshNotificationPermissionEvent());
+      }
+    }
   }
 
   /// Handle authentication state changes
@@ -237,7 +254,24 @@ class _SplashScreenState extends State<SplashScreen> {
           height: 7.5.h,
           child: ElevatedButton(
             onPressed: () {
-              bloc.add(const RequestNotificationPermissionEvent());
+              final currentState = bloc.state;
+              final permanentlyDenied =
+                  currentState.errorMessage == 'permissionPermanentlyDenied';
+
+              if (permanentlyDenied) {
+                if (_isSettingsDialogOpen) return;
+                _isSettingsDialogOpen = true;
+                PermissionService().showSettingsDialog(context).then(
+                  (shouldOpen) {
+                    _isSettingsDialogOpen = false;
+                    if (shouldOpen) {
+                      PermissionService().openAppSettings();
+                    }
+                  },
+                );
+              } else {
+                bloc.add(const RequestNotificationPermissionEvent());
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).brightness == Brightness.dark
@@ -393,15 +427,7 @@ class _SplashScreenState extends State<SplashScreen> {
               );
             }
           }
-          // Handle permanent permission denial - open settings
-          if (state.errorMessage == 'permissionPermanentlyDenied' &&
-              state.currentStep == SplashStep.noNotificationPermission) {
-            PermissionService().showSettingsDialog(context).then((shouldOpen) {
-              if (shouldOpen) {
-                PermissionService().openAppSettings();
-              }
-            });
-          }
+          // Do not auto-show settings dialog; only show on explicit button tap.
         },
         builder: (context, state) {
           final localizations = AppLocalizations.of(context);

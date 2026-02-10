@@ -447,6 +447,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enableNotifications => 'تفعيل الإشعارات';
 
   @override
+  String get openSettings => 'فتح الإعدادات';
+
+  @override
   String get exitApp => 'إغلاق التطبيق';
 
   @override
