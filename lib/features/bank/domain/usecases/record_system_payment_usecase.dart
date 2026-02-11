@@ -4,10 +4,15 @@ import 'package:delivery_manager/features/bank/domain/entities/transaction.dart'
 import 'package:delivery_manager/features/bank/domain/repositories/base_bank_repository.dart';
 
 class RecordSystemPaymentParams {
+  final int driverId;
   final double amount;
   final String? notes;
 
-  RecordSystemPaymentParams({required this.amount, this.notes});
+  RecordSystemPaymentParams({
+    required this.driverId,
+    required this.amount,
+    this.notes,
+  });
 }
 
 class RecordSystemPaymentUseCase {
@@ -19,6 +24,7 @@ class RecordSystemPaymentUseCase {
     RecordSystemPaymentParams params,
   ) async {
     return await repository.recordSystemPayment(
+      driverId: params.driverId,
       amount: params.amount,
       notes: params.notes,
     );

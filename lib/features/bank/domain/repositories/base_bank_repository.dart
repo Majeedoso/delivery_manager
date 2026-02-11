@@ -28,11 +28,15 @@ abstract class BaseBankRepository {
   Future<Either<Failure, Transaction>> recordRestaurantPayment({
     required int restaurantId,
     required double amount,
+    String? selectedPeriod,
+    String? startDate,
+    String? endDate,
     String? notes,
   });
 
   /// Record a system fee payment
   Future<Either<Failure, Transaction>> recordSystemPayment({
+    required int driverId,
     required double amount,
     String? notes,
   });
@@ -56,6 +60,7 @@ abstract class BaseBankRepository {
 
   /// Calculate the amount driver owes to the system for a date range
   Future<Either<Failure, Map<String, dynamic>>> calculateSystemPaymentAmount({
+    required int driverId,
     required String selectedPeriod,
     String? startDate,
     String? endDate,

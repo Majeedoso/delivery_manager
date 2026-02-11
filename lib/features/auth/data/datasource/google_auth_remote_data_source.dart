@@ -187,7 +187,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
         'email': firebaseUser.email,
         'name': firebaseUser.displayName,
         'avatar': firebaseUser.photoURL,
-        'app_type': 'driver', // Validate that user role matches driver app
+        'app_type': 'manager', // Validate that user role matches manager app
       };
 
       print('🟡 [GOOGLE_AUTH] Preparing backend request...');
@@ -495,9 +495,9 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
         'email': firebaseUser.email,
         'name': firebaseUser.displayName,
         'avatar': firebaseUser.photoURL,
-        'role': 'driver', // Driver app should register as driver
+        'role': 'manager', // Manager app should register as manager
         'app_type':
-            'driver', // Validate that user role matches driver app (for login if user exists)
+            'manager', // Validate that user role matches manager app (for login if user exists)
       };
 
       print('🟡 [GOOGLE_AUTH] Preparing backend request for SIGN-UP...');

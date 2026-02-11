@@ -36,9 +36,9 @@
   "@rememberMe": {
     "description": "Remember me checkbox label"
   },
-  "forgotPassword": "Forgot Password?",
+  "forgotPassword": "Forgot Password",
   "@forgotPassword": {
-    "description": "Forgot password link text"
+    "description": "Forgot password screen title"
   },
   "dontHaveAccount": "Don't have an account? ",
   "@dontHaveAccount": {
@@ -66,7 +66,7 @@
   },
   "checkingAuthentication": "Checking authentication...",
   "@checkingAuthentication": {
-    "description": "Text shown while checking authentication status"
+    "description": "Checking authentication status message"
   },
   "welcome": "Welcome",
   "@welcome": {
@@ -152,16 +152,24 @@
   "@selectedRestaurantsCount": {
     "description": "selectedRestaurantsCount label",
     "placeholders": {
-      "count": {"type": "int"},
-      "total": {"type": "int"}
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "updatingSelections": "Updating selections {done}/{total}...",
   "@updatingSelections": {
     "description": "updatingSelections label",
     "placeholders": {
-      "done": {"type": "int"},
-      "total": {"type": "int"}
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "linkedRestaurants": "Linked Restaurants",
@@ -302,23 +310,19 @@
   },
   "editProfile": "Edit Profile",
   "@editProfile": {
-    "description": "Edit profile button text"
+    "description": "Edit profile screen title"
   },
   "changePassword": "Change Password",
   "@changePassword": {
-    "description": "Change password button text"
+    "description": "Change password screen title"
   },
   "changeEmail": "Change Email",
   "@changeEmail": {
-    "description": "Change email button text"
+    "description": "Change email screen title"
   },
   "updateProfile": "Update Profile",
   "@updateProfile": {
     "description": "Update profile button text"
-  },
-  "profileInformation": "Profile Information",
-  "@profileInformation": {
-    "description": "Profile information section title"
   },
   "main": "Main",
   "@main": {
@@ -358,11 +362,11 @@
   },
   "items": "items",
   "@items": {
-    "description": "Items count label"
+    "description": "Items label (plural)"
   },
   "total": "Total",
   "@total": {
-    "description": "Total amount label"
+    "description": "Total label"
   },
   "deliveryFee": "Delivery Fee",
   "@deliveryFee": {
@@ -402,11 +406,11 @@
   },
   "ongoingOrders": "Ongoing Orders",
   "@ongoingOrders": {
-    "description": "Ongoing orders container title"
+    "description": "Title for ongoing orders feature"
   },
-  "ongoingOrdersDescription": "Manage orders being prepared",
+  "ongoingOrdersDescription": "Manage your active deliveries",
   "@ongoingOrdersDescription": {
-    "description": "Ongoing orders container description"
+    "description": "Description for ongoing orders hub screen"
   },
   "archiveOrders": "Archive Orders",
   "@archiveOrders": {
@@ -418,11 +422,51 @@
   },
   "statistics": "Statistics",
   "@statistics": {
-    "description": "Statistics container title"
+    "description": "Statistics screen title"
   },
   "statisticsDescription": "View your performance metrics",
   "@statisticsDescription": {
     "description": "Statistics container description"
+  },
+  "statisticsMoney": "Money",
+  "@statisticsMoney": {
+    "description": "Statistics money tab title"
+  },
+  "statisticsOrders": "Orders",
+  "@statisticsOrders": {
+    "description": "Statistics orders tab title"
+  },
+  "ordersPlaced": "Placed",
+  "@ordersPlaced": {
+    "description": "Orders placed count label"
+  },
+  "ordersPendingVerification": "Pending Verification",
+  "@ordersPendingVerification": {
+    "description": "Orders pending verification count label"
+  },
+  "ordersAcceptedByOperator": "Accepted by Operator",
+  "@ordersAcceptedByOperator": {
+    "description": "Orders accepted by operator count label"
+  },
+  "ordersAcceptedByRestaurant": "Accepted by Restaurant",
+  "@ordersAcceptedByRestaurant": {
+    "description": "Orders accepted by restaurant count label"
+  },
+  "ordersRejectedByOperator": "Rejected by Operator",
+  "@ordersRejectedByOperator": {
+    "description": "Orders rejected by operator count label"
+  },
+  "ordersRejectedByRestaurant": "Rejected by Restaurant",
+  "@ordersRejectedByRestaurant": {
+    "description": "Orders rejected by restaurant count label"
+  },
+  "ordersAcceptedByDriver": "Accepted by Driver",
+  "@ordersAcceptedByDriver": {
+    "description": "Orders accepted by driver count label"
+  },
+  "ordersCancelled": "Canceled",
+  "@ordersCancelled": {
+    "description": "Orders canceled count label"
   },
   "noUserDataAvailable": "No user data available",
   "@noUserDataAvailable": {
@@ -450,7 +494,7 @@
   },
   "rejectedOrders": "Rejected Orders",
   "@rejectedOrders": {
-    "description": "Rejected orders screen title"
+    "description": "Title for rejected orders screen"
   },
   "deliveredOrders": "Delivered Orders",
   "@deliveredOrders": {
@@ -462,15 +506,11 @@
   },
   "delivered": "Delivered",
   "@delivered": {
-    "description": "Delivered status label"
+    "description": "Delivered orders status label"
   },
   "cancelled": "Cancelled",
   "@cancelled": {
     "description": "Cancelled status label"
-  },
-  "forgotPassword": "Forgot Password",
-  "@forgotPassword": {
-    "description": "Forgot password screen title"
   },
   "resetPassword": "Reset Password",
   "@resetPassword": {
@@ -559,7 +599,7 @@
   },
   "emailNotVerified": "Email Not Verified",
   "@emailNotVerified": {
-    "description": "Email not verified status title"
+    "description": "Badge text for unverified email"
   },
   "emailVerificationRequired": "Please verify your email address before accessing this resource. A verification code (OTP) has been sent to your email address. Please check your inbox and enter the 6-digit code to verify your email.",
   "@emailVerificationRequired": {
@@ -584,18 +624,6 @@
   "checkStatusDescription": "Tap \"Check Status\" to see if your account has been approved",
   "@checkStatusDescription": {
     "description": "Check status description text"
-  },
-  "editProfile": "Edit Profile",
-  "@editProfile": {
-    "description": "Edit profile screen title"
-  },
-  "changeEmail": "Change Email",
-  "@changeEmail": {
-    "description": "Change email screen title"
-  },
-  "changePassword": "Change Password",
-  "@changePassword": {
-    "description": "Change password screen title"
   },
   "notificationsRequired": "Notifications are required for this app",
   "@notificationsRequired": {
@@ -628,10 +656,6 @@
   "settingUpNotifications": "Setting up notifications...",
   "@settingUpNotifications": {
     "description": "Setting up notifications status message"
-  },
-  "checkingAuthentication": "Checking authentication...",
-  "@checkingAuthentication": {
-    "description": "Checking authentication status message"
   },
   "initializationFailed": "Initialization failed",
   "@initializationFailed": {
@@ -689,14 +713,6 @@
   "@yourCurrentVersion": {
     "description": "User's current app version label"
   },
-  "minimumRequiredVersion": "Minimum Required Version",
-  "@minimumRequiredVersion": {
-    "description": "Minimum required version label"
-  },
-  "latestAvailableVersion": "Latest Available Version",
-  "@latestAvailableVersion": {
-    "description": "Latest available version label"
-  },
   "updateAvailable": "An update is available. Please update to continue using the app.",
   "@updateAvailable": {
     "description": "Update available message (required)"
@@ -735,7 +751,7 @@
   },
   "system": "System",
   "@system": {
-    "description": "System theme option"
+    "description": "System payment option"
   },
   "pleaseEnterEmail": "Please enter your email",
   "@pleaseEnterEmail": {
@@ -765,25 +781,25 @@
   "@newEmailMustBeDifferent": {
     "description": "Validation message when new email is same as current email"
   },
-  "day": "Day",
+  "day": "day",
   "@day": {
-    "description": "Day period option"
+    "description": "Single day time unit"
   },
   "week": "Week",
   "@week": {
-    "description": "Week period option"
+    "description": "Week period option for period selector"
   },
   "month": "Month",
   "@month": {
-    "description": "Month period option"
+    "description": "Month period option for period selector"
   },
   "year": "Year",
   "@year": {
-    "description": "Year period option"
+    "description": "Year period option for period selector"
   },
   "dateRange": "Date Range",
   "@dateRange": {
-    "description": "Date range period option"
+    "description": "Date range period option for period selector"
   },
   "selectPeriod": "Select Period",
   "@selectPeriod": {
@@ -791,11 +807,11 @@
   },
   "from": "From",
   "@from": {
-    "description": "From date label"
+    "description": "From label"
   },
   "to": "To",
   "@to": {
-    "description": "To date label"
+    "description": "To label"
   },
   "selectDate": "Select date",
   "@selectDate": {
@@ -803,7 +819,7 @@
   },
   "errorLoadingStatistics": "Error loading statistics",
   "@errorLoadingStatistics": {
-    "description": "Error message when statistics fail to load"
+    "description": "Error message for statistics loading"
   },
   "noStatisticsAvailable": "No statistics available",
   "@noStatisticsAvailable": {
@@ -815,7 +831,7 @@
   },
   "totalOrders": "Total Orders",
   "@totalOrders": {
-    "description": "Total orders label"
+    "description": "Label for total count of orders"
   },
   "accepted": "Accepted",
   "@accepted": {
@@ -823,11 +839,11 @@
   },
   "pending": "Pending",
   "@pending": {
-    "description": "Pending label (singular)"
+    "description": "Pending status label"
   },
   "rejected": "Rejected",
   "@rejected": {
-    "description": "Rejected label (singular)"
+    "description": "Rejected status"
   },
   "performanceMetrics": "Performance Metrics",
   "@performanceMetrics": {
@@ -845,13 +861,13 @@
   "@acceptedOrdersSuccessRateExplanation": {
     "description": "Explanation of accepted orders success rate metric"
   },
-  "acceptedOrdersSuccessRateGood": "Higher percentage (80% and above) indicates the operator is accurate and mostly accepts real, valid orders.",
+  "acceptedOrdersSuccessRateGood": "High success rate means you're accepting orders you can fulfill reliably.",
   "@acceptedOrdersSuccessRateGood": {
-    "description": "When accepted orders success rate is good"
+    "description": "Explanation when success rate is good"
   },
-  "acceptedOrdersSuccessRateBad": "Lower percentage (70% and below) suggests the operator may be accepting too many problematic or suspicious orders.",
+  "acceptedOrdersSuccessRateBad": "Low success rate indicates issues with order fulfillment - review your capacity.",
   "@acceptedOrdersSuccessRateBad": {
-    "description": "When accepted orders success rate is bad"
+    "description": "Explanation when success rate is bad"
   },
   "acceptedOrdersFailureRate": "Bad Decisions Rate",
   "@acceptedOrdersFailureRate": {
@@ -861,37 +877,37 @@
   "@acceptedOrdersFailureRateExplanation": {
     "description": "Explanation of accepted orders failure rate metric"
   },
-  "acceptedOrdersFailureRateGood": "Lower percentage (20% and below) indicates good decision-making and acceptance of quality orders.",
+  "acceptedOrdersFailureRateGood": "Low failure rate shows reliable order handling.",
   "@acceptedOrdersFailureRateGood": {
-    "description": "When accepted orders failure rate is good"
+    "description": "Explanation when failure rate is good"
   },
-  "acceptedOrdersFailureRateBad": "Higher percentage (40% and above) suggests the operator may be accepting too many low-quality, fake, or problematic orders.",
+  "acceptedOrdersFailureRateBad": "High failure rate damages reputation - consider why orders are failing.",
   "@acceptedOrdersFailureRateBad": {
-    "description": "When accepted orders failure rate is bad"
+    "description": "Explanation when failure rate is bad"
   },
   "averageRespondingTimeExplanation": "Measures the average time it takes for the operator to respond to an order (accept or reject) after it's created.",
   "@averageRespondingTimeExplanation": {
     "description": "Explanation of average responding time metric"
   },
-  "averageRespondingTimeGood": "Lower time (under 5 minutes) indicates quick response and efficient order processing.",
+  "averageRespondingTimeGood": "Fast response times lead to better customer satisfaction and higher order acceptance.",
   "@averageRespondingTimeGood": {
-    "description": "When average responding time is good"
+    "description": "Explanation when response time is good"
   },
-  "averageRespondingTimeBad": "Higher time (over 15 minutes) suggests delays in order processing which may impact customer satisfaction.",
+  "averageRespondingTimeBad": "Slow response times may result in cancelled orders and unhappy customers.",
   "@averageRespondingTimeBad": {
-    "description": "When average responding time is bad"
+    "description": "Explanation when response time is bad"
   },
-  "whenGood": "When Good:",
+  "whenGood": "When good",
   "@whenGood": {
-    "description": "Label for when a metric is good"
+    "description": "Label for good performance explanation"
   },
-  "whenBad": "When Bad:",
+  "whenBad": "When bad",
   "@whenBad": {
-    "description": "Label for when a metric is bad"
+    "description": "Label for bad performance explanation"
   },
   "close": "Close",
   "@close": {
-    "description": "Close button text"
+    "description": "Closing time label"
   },
   "orderBreakdown": "Order Breakdown",
   "@orderBreakdown": {
@@ -899,39 +915,35 @@
   },
   "all": "All",
   "@all": {
-    "description": "All time period option for statistics"
+    "description": "All period option for period selector"
   },
   "second": "second",
   "@second": {
-    "description": "Second (singular) time unit"
+    "description": "Single second time unit"
   },
   "seconds": "seconds",
   "@seconds": {
-    "description": "Seconds (plural) time unit"
+    "description": "Plural seconds time unit"
   },
   "minute": "minute",
   "@minute": {
-    "description": "Minute (singular) time unit"
+    "description": "Single minute time unit"
   },
   "minutes": "minutes",
   "@minutes": {
-    "description": "Minutes (plural) time unit"
+    "description": "Plural minutes time unit"
   },
   "hour": "hour",
   "@hour": {
-    "description": "Hour (singular) time unit"
+    "description": "Single hour time unit"
   },
   "hours": "hours",
   "@hours": {
-    "description": "Hours (plural) time unit"
-  },
-  "day": "day",
-  "@day": {
-    "description": "Day (singular) time unit"
+    "description": "Plural hours time unit"
   },
   "days": "days",
   "@days": {
-    "description": "Days (plural) time unit"
+    "description": "Plural days time unit"
   },
   "errorGeneric": "Something went wrong. Please try again.",
   "@errorGeneric": {
@@ -1031,11 +1043,11 @@
   },
   "customer": "Customer",
   "@customer": {
-    "description": "Customer label"
+    "description": "Role name for customer"
   },
   "restaurant": "Restaurant",
   "@restaurant": {
-    "description": "Restaurant label"
+    "description": "Role name for restaurant"
   },
   "description": "Description",
   "@description": {
@@ -1055,15 +1067,11 @@
   },
   "notes": "Notes",
   "@notes": {
-    "description": "Notes label"
+    "description": "Notes field label"
   },
-  "rejectionReason": "Rejection Reason",
+  "rejectionReason": "Reason",
   "@rejectionReason": {
-    "description": "Rejection reason label"
-  },
-  "total": "Total",
-  "@total": {
-    "description": "Total label"
+    "description": "Label for rejection reason"
   },
   "deliveryInstructions": "Delivery Instructions",
   "@deliveryInstructions": {
@@ -1095,7 +1103,7 @@
   },
   "loadMore": "Load More",
   "@loadMore": {
-    "description": "Load More button text"
+    "description": "Load more button text"
   },
   "noPendingOrders": "No Pending Orders",
   "@noPendingOrders": {
@@ -1444,14 +1452,6 @@
   "@openingHours": {
     "description": "Opening hours section title"
   },
-  "day": "Day",
-  "@day": {
-    "description": "Day column header"
-  },
-  "hours": "Hours",
-  "@hours": {
-    "description": "Hours column header"
-  },
   "closed": "Closed",
   "@closed": {
     "description": "Closed status for a day"
@@ -1487,10 +1487,6 @@
   "open": "Open",
   "@open": {
     "description": "Opening time label"
-  },
-  "close": "Close",
-  "@close": {
-    "description": "Closing time label"
   },
   "schedule": "Schedule",
   "@schedule": {
@@ -1535,10 +1531,6 @@
   "discard": "Discard",
   "@discard": {
     "description": "Discard button text"
-  },
-  "cancel": "Cancel",
-  "@cancel": {
-    "description": "Cancel button text"
   },
   "selectLocationMethod": "Select Location Method",
   "@selectLocationMethod": {
@@ -1690,7 +1682,7 @@
   },
   "search": "Search",
   "@search": {
-    "description": "Search field label"
+    "description": "Search hint text"
   },
   "filter": "Filter",
   "@filter": {
@@ -1716,13 +1708,9 @@
   "@dragToReorder": {
     "description": "Drag to reorder instruction"
   },
-  "items": "items",
-  "@items": {
-    "description": "Items label (plural)"
-  },
   "active": "Active",
   "@active": {
-    "description": "Active status label"
+    "description": "Status name for active"
   },
   "inactive": "Inactive",
   "@inactive": {
@@ -1959,7 +1947,7 @@
   },
   "pendingPayments": "Pending Payments",
   "@pendingPayments": {
-    "description": "Pending payments section title"
+    "description": "Section header for pending payments"
   },
   "noPendingTransactions": "No pending transactions",
   "@noPendingTransactions": {
@@ -1967,7 +1955,7 @@
   },
   "errorLoadingData": "Error loading data",
   "@errorLoadingData": {
-    "description": "Error loading data message"
+    "description": "Error message when data fails to load"
   },
   "noDataAvailable": "No data available",
   "@noDataAvailable": {
@@ -1991,7 +1979,7 @@
   },
   "driver": "Driver",
   "@driver": {
-    "description": "Driver label"
+    "description": "Role name for driver"
   },
   "expectedFromDrivers": "Expected from Drivers",
   "@expectedFromDrivers": {
@@ -2071,7 +2059,7 @@
   },
   "breakdown": "Breakdown",
   "@breakdown": {
-    "description": "Breakdown section title"
+    "description": "Section title for breakdown details"
   },
   "transactionType": "Type",
   "@transactionType": {
@@ -2081,7 +2069,7 @@
   "@paymentToDriver": {
     "description": "Payment to driver transaction type"
   },
-  "paymentToSystem": "To System",
+  "paymentToSystem": "Payment to System",
   "@paymentToSystem": {
     "description": "Payment to system transaction type"
   },
@@ -2093,53 +2081,13 @@
   "@enterAmount": {
     "description": "Enter amount label"
   },
-  "description": "Description",
-  "@description": {
-    "description": "Description field label"
-  },
-  "notes": "Notes",
-  "@notes": {
-    "description": "Notes field label"
-  },
   "submit": "Submit",
   "@submit": {
     "description": "Submit button text"
   },
-  "cancel": "Cancel",
-  "@cancel": {
-    "description": "Cancel button text"
-  },
   "approve": "Approve",
   "@approve": {
     "description": "Approve button text"
-  },
-  "reject": "Reject",
-  "@reject": {
-    "description": "Reject button text"
-  },
-  "all": "All",
-  "@all": {
-    "description": "All filter option"
-  },
-  "confirmed": "Confirmed",
-  "@confirmed": {
-    "description": "Confirmed status"
-  },
-  "rejected": "Rejected",
-  "@rejected": {
-    "description": "Rejected status"
-  },
-  "pending": "Pending",
-  "@pending": {
-    "description": "Pending status"
-  },
-  "from": "From",
-  "@from": {
-    "description": "From label"
-  },
-  "to": "To",
-  "@to": {
-    "description": "To label"
   },
   "date": "Date",
   "@date": {
@@ -2185,9 +2133,9 @@
   "@pendingTransactions": {
     "description": "Pending transactions screen title"
   },
-  "transactionsHistory": "Transactions History",
+  "transactionsHistory": "Transaction History",
   "@transactionsHistory": {
-    "description": "Transactions history screen title"
+    "description": "Transaction history screen title"
   },
   "ratings": "Ratings",
   "@ratings": {
@@ -2370,30 +2318,6 @@
   "@custom": {
     "description": "Custom period option"
   },
-  "all": "All",
-  "@all": {
-    "description": "All period option for period selector"
-  },
-  "day": "Day",
-  "@day": {
-    "description": "Day period option for period selector"
-  },
-  "week": "Week",
-  "@week": {
-    "description": "Week period option for period selector"
-  },
-  "month": "Month",
-  "@month": {
-    "description": "Month period option for period selector"
-  },
-  "year": "Year",
-  "@year": {
-    "description": "Year period option for period selector"
-  },
-  "dateRange": "Date Range",
-  "@dateRange": {
-    "description": "Date range period option for period selector"
-  },
   "responseSpeed": "Response Speed",
   "@responseSpeed": {
     "description": "Response speed metric label"
@@ -2429,102 +2353,6 @@
   "statisticsDataFrom": "Data from",
   "@statisticsDataFrom": {
     "description": "Statistics data from date label"
-  },
-  "errorLoadingData": "Error loading data",
-  "@errorLoadingData": {
-    "description": "Generic error message for data loading"
-  },
-  "statistics": "Statistics",
-  "@statistics": {
-    "description": "Statistics screen title"
-  },
-  "overview": "Overview",
-  "@overview": {
-    "description": "Overview section title"
-  },
-  "performanceMetrics": "Performance Metrics",
-  "@performanceMetrics": {
-    "description": "Performance metrics section title"
-  },
-  "noStatisticsAvailable": "No statistics available",
-  "@noStatisticsAvailable": {
-    "description": "Message when no statistics data is available"
-  },
-  "errorLoadingStatistics": "Error loading statistics",
-  "@errorLoadingStatistics": {
-    "description": "Error message for statistics loading"
-  },
-  "totalOrders": "Total Orders",
-  "@totalOrders": {
-    "description": "Total orders label"
-  },
-  "whenGood": "When good",
-  "@whenGood": {
-    "description": "Label for good performance explanation"
-  },
-  "whenBad": "When bad",
-  "@whenBad": {
-    "description": "Label for bad performance explanation"
-  },
-  "averageRespondingTimeGood": "Fast response times lead to better customer satisfaction and higher order acceptance.",
-  "@averageRespondingTimeGood": {
-    "description": "Explanation when response time is good"
-  },
-  "averageRespondingTimeBad": "Slow response times may result in cancelled orders and unhappy customers.",
-  "@averageRespondingTimeBad": {
-    "description": "Explanation when response time is bad"
-  },
-  "acceptedOrdersSuccessRateGood": "High success rate means you're accepting orders you can fulfill reliably.",
-  "@acceptedOrdersSuccessRateGood": {
-    "description": "Explanation when success rate is good"
-  },
-  "acceptedOrdersSuccessRateBad": "Low success rate indicates issues with order fulfillment - review your capacity.",
-  "@acceptedOrdersSuccessRateBad": {
-    "description": "Explanation when success rate is bad"
-  },
-  "acceptedOrdersFailureRateGood": "Low failure rate shows reliable order handling.",
-  "@acceptedOrdersFailureRateGood": {
-    "description": "Explanation when failure rate is good"
-  },
-  "acceptedOrdersFailureRateBad": "High failure rate damages reputation - consider why orders are failing.",
-  "@acceptedOrdersFailureRateBad": {
-    "description": "Explanation when failure rate is bad"
-  },
-  "day": "day",
-  "@day": {
-    "description": "Single day time unit"
-  },
-  "days": "days",
-  "@days": {
-    "description": "Plural days time unit"
-  },
-  "hour": "hour",
-  "@hour": {
-    "description": "Single hour time unit"
-  },
-  "hours": "hours",
-  "@hours": {
-    "description": "Plural hours time unit"
-  },
-  "minute": "minute",
-  "@minute": {
-    "description": "Single minute time unit"
-  },
-  "minutes": "minutes",
-  "@minutes": {
-    "description": "Plural minutes time unit"
-  },
-  "second": "second",
-  "@second": {
-    "description": "Single second time unit"
-  },
-  "seconds": "seconds",
-  "@seconds": {
-    "description": "Plural seconds time unit"
-  },
-  "delivered": "Delivered",
-  "@delivered": {
-    "description": "Delivered orders status label"
   },
   "orderCapacity": "Order Capacity",
   "@orderCapacity": {
@@ -2587,18 +2415,6 @@
   "@navigateToCustomer": {
     "description": "Button to open Google Maps navigation to customer"
   },
-  "ongoingOrders": "Ongoing Orders",
-  "@ongoingOrders": {
-    "description": "Title for ongoing orders feature"
-  },
-  "ongoingOrdersDescription": "Manage your active deliveries",
-  "@ongoingOrdersDescription": {
-    "description": "Description for ongoing orders hub screen"
-  },
-  "totalOrders": "Total Orders",
-  "@totalOrders": {
-    "description": "Label for total count of orders"
-  },
   "rejectOrder": "Reject Order",
   "@rejectOrder": {
     "description": "Title for reject order dialog"
@@ -2651,10 +2467,6 @@
   "@orderRejected": {
     "description": "Message shown when order is successfully rejected"
   },
-  "rejectedOrders": "Rejected Orders",
-  "@rejectedOrders": {
-    "description": "Title for rejected orders screen"
-  },
   "noRejectedOrders": "No rejected orders",
   "@noRejectedOrders": {
     "description": "Message when there are no rejected orders"
@@ -2662,10 +2474,6 @@
   "rejectedAt": "Rejected at",
   "@rejectedAt": {
     "description": "Label for rejection timestamp"
-  },
-  "rejectionReason": "Reason",
-  "@rejectionReason": {
-    "description": "Label for rejection reason"
   },
   "unassignOrder": "Unassign from Order",
   "@unassignOrder": {
@@ -2733,7 +2541,7 @@
   },
   "totalDebt": "Total Debt",
   "@totalDebt": {
-    "description": "Total debt label"
+    "description": "Label for total debt amount"
   },
   "systemDebt": "System",
   "@systemDebt": {
@@ -2751,14 +2559,6 @@
   "@restaurantCredits": {
     "description": "Restaurants section title"
   },
-  "restaurant": "Restaurant",
-  "@restaurant": {
-    "description": "Restaurant label"
-  },
-  "amount": "Amount",
-  "@amount": {
-    "description": "Amount label"
-  },
   "recordPayment": "Record Payment",
   "@recordPayment": {
     "description": "Record payment dialog title"
@@ -2774,10 +2574,6 @@
   "paymentToRestaurant": "Payment to Restaurant",
   "@paymentToRestaurant": {
     "description": "Payment to restaurant transaction type"
-  },
-  "paymentToSystem": "Payment to System",
-  "@paymentToSystem": {
-    "description": "Payment to system transaction type"
   },
   "noDebts": "No Outstanding Debts",
   "@noDebts": {
@@ -2799,65 +2595,17 @@
   "@noTransactionsFound": {
     "description": "Message when no transactions are available"
   },
-  "notes": "Notes",
-  "@notes": {
-    "description": "Notes field label"
-  },
-  "receivablesAndPayables": "Credits and Debts",
-  "@receivablesAndPayables": {
-    "description": "Credits and Debts screen title"
-  },
-  "newTransaction": "New Transaction",
-  "@newTransaction": {
-    "description": "New transaction screen title"
-  },
-  "transactionsHistory": "Transaction History",
-  "@transactionsHistory": {
-    "description": "Transaction history screen title"
-  },
-  "pendingPayments": "Pending Payments",
-  "@pendingPayments": {
-    "description": "Section header for pending payments"
-  },
   "paymentType": "Payment Type",
   "@paymentType": {
     "description": "Payment type label"
-  },
-  "system": "System",
-  "@system": {
-    "description": "System payment option"
   },
   "selectRestaurant": "Select Restaurant",
   "@selectRestaurant": {
     "description": "Restaurant selection hint"
   },
-  "pending": "Pending",
-  "@pending": {
-    "description": "Pending status label"
-  },
-  "errorLoadingData": "Error loading data",
-  "@errorLoadingData": {
-    "description": "Error message when data fails to load"
-  },
-  "breakdown": "Breakdown",
-  "@breakdown": {
-    "description": "Section title for breakdown details"
-  },
-  "receivables": "Credits",
-  "@receivables": {
-    "description": "Tab label for credits (money owed to driver)"
-  },
-  "payables": "Debts",
-  "@payables": {
-    "description": "Tab label for debts (money driver owes)"
-  },
   "paymentDate": "Payment Date",
   "@paymentDate": {
     "description": "Label for payment date selection"
-  },
-  "totalDebt": "Total Debt",
-  "@totalDebt": {
-    "description": "Label for total debt amount"
   },
   "totalCredits": "Total Credits",
   "@totalCredits": {
@@ -2978,13 +2726,221 @@
   "invalidCredentialsMessage": "The email or password you entered is incorrect. Please check your credentials and try again.",
   "@invalidCredentialsMessage": {
     "description": "Message for invalid credentials error"
-  }
+  },
+  "userManagement": "User Management",
+  "@userManagement": {
+    "description": "User management screen title"
+  },
+  "errorLoadingUsers": "Error Loading Users",
+  "@errorLoadingUsers": {
+    "description": "Error title when users fail to load"
+  },
+  "noUsersFound": "No Users Found",
+  "@noUsersFound": {
+    "description": "Empty state title"
+  },
+  "noUsersMatchFilters": "No users match your filters",
+  "@noUsersMatchFilters": {
+    "description": "Message when filtered results are empty"
+  },
+  "noUsersInSystem": "No users in the system",
+  "@noUsersInSystem": {
+    "description": "Message when there are no users at all"
+  },
+  "userApprovedSuccessfully": "User approved successfully",
+  "@userApprovedSuccessfully": {
+    "description": "Success message after approving user"
+  },
+  "userRejectedSuccessfully": "User rejected successfully",
+  "@userRejectedSuccessfully": {
+    "description": "Success message after rejecting user"
+  },
+  "userSuspendedSuccessfully": "User suspended successfully",
+  "@userSuspendedSuccessfully": {
+    "description": "Success message after suspending user"
+  },
+  "userActivatedSuccessfully": "User activated successfully",
+  "@userActivatedSuccessfully": {
+    "description": "Success message after activating user"
+  },
+  "changeStatus": "Change Status",
+  "@changeStatus": {
+    "description": "Status dropdown hint"
+  },
+  "pendingApproval": "Pending Approval",
+  "@pendingApproval": {
+    "description": "Status name for pending approval"
+  },
+  "suspended": "Suspended",
+  "@suspended": {
+    "description": "Status name for suspended"
+  },
+  "rejectedStatus": "Rejected",
+  "@rejectedStatus": {
+    "description": "Status name for rejected"
+  },
+  "operator": "Operator",
+  "@operator": {
+    "description": "Role name for operator"
+  },
+  "manager": "Manager",
+  "@manager": {
+    "description": "Role name for manager"
+  },
+  "filters": "Filters",
+  "@filters": {
+    "description": "Filters section title"
+  },
+  "clear": "Clear",
+  "@clear": {
+    "description": "Clear button text"
+  },
+  "allRoles": "All Roles",
+  "@allRoles": {
+    "description": "All roles filter option"
+  },
+  "allStatuses": "All Statuses",
+  "@allStatuses": {
+    "description": "All statuses filter option"
+  },
+  "rejectUser": "Reject User",
+  "@rejectUser": {
+    "description": "Reject user dialog title"
+  },
+  "rejectingUser": "Rejecting: {userName}",
+  "@rejectingUser": {
+    "description": "Reject user dialog subtitle",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "rejectionReasonLabel": "Rejection Reason *",
+  "@rejectionReasonLabel": {
+    "description": "Rejection reason field label"
+  },
+  "enterRejectionReason": "Enter reason for rejection...",
+  "@enterRejectionReason": {
+    "description": "Rejection reason field hint"
+  },
+  "minimumCharacters": "Minimum 10 characters",
+  "@minimumCharacters": {
+    "description": "Helper text for minimum characters"
+  },
+  "rejectionReasonRequired": "Rejection reason is required",
+  "@rejectionReasonRequired": {
+    "description": "Validation error for empty rejection reason"
+  },
+  "reasonMinimum10Characters": "Reason must be at least 10 characters",
+  "@reasonMinimum10Characters": {
+    "description": "Validation error for short rejection reason"
+  },
+  "suspendUser": "Suspend User",
+  "@suspendUser": {
+    "description": "Suspend user dialog title"
+  },
+  "suspendingUser": "Suspending: {userName}",
+  "@suspendingUser": {
+    "description": "Suspend user dialog subtitle",
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "suspensionReasonLabel": "Suspension Reason *",
+  "@suspensionReasonLabel": {
+    "description": "Suspension reason field label"
+  },
+  "enterSuspensionReason": "Enter reason for suspension...",
+  "@enterSuspensionReason": {
+    "description": "Suspension reason field hint"
+  },
+  "suspensionReasonRequired": "Suspension reason is required",
+  "@suspensionReasonRequired": {
+    "description": "Validation error for empty suspension reason"
+  },
+  "searchUsers": "Search by name, email or phone",
+  "@searchUsers": {
+    "description": "Search users hint text"
+  },
+  "coupons": "Coupons",
+  "restaurantCoupons": "Restaurant Coupons",
+  "deliveryCoupons": "Delivery Coupons",
+  "draft": "Draft",
+  "disabled": "Disabled",
+  "newDeliveryCoupon": "New Delivery Coupon",
+  "newCoupon": "New Coupon",
+  "noDeliveryCouponsYet": "No delivery coupons yet",
+  "noCouponsYet": "No coupons yet",
+  "createFirstDeliveryCoupon": "Create your first delivery coupon!",
+  "createFirstCoupon": "Create your first coupon to attract more customers!",
+  "off": "OFF",
+  "discount": "Discount",
+  "valid": "Valid",
+  "uses": "Uses",
+  "minOrder": "Min Order",
+  "dzd": "DZD",
+  "expired": "Expired",
+  "globalAllRestaurants": "Global (all restaurants)",
+  "issuer": "Issuer: ",
+  "discardChanges": "Discard Changes?",
+  "editCoupon": "Edit Coupon",
+  "update": "Update",
+  "create": "Create",
+  "couponCode": "Coupon Code",
+  "couponCodeHint": "e.g. SUMMER20",
+  "pleaseEnterCouponCode": "Please enter a coupon code",
+  "codeMinLength": "Code must be at least 3 characters",
+  "type": "Type",
+  "percentage": "Percentage",
+  "fixedAmount": "Fixed Amount",
+  "value": "Value",
+  "required": "Required",
+  "min1": "Min 1",
+  "max100Percent": "Max 100%",
+  "discountAppliesTo": "Discount Applies To",
+  "orderSubtotal": "Order Subtotal",
+  "validityPeriod": "Validity Period",
+  "startDate": "Start Date",
+  "endDate": "End Date",
+  "restaurantOptional": "Restaurant (Optional)",
+  "couponZonesOptional": "Coupon Zones (Optional)",
+  "manageZones": "Manage Zones",
+  "usageLimitsOptional": "Usage Limits (Optional)",
+  "totalUses": "Total uses",
+  "perCustomer": "Per customer",
+  "orderConstraintsOptional": "Order Constraints (Optional)",
+  "minOrderDzd": "Min order (DZD)",
+  "maxDiscountDzd": "Max discount (DZD)",
+  "descriptionOptional": "Description (Optional)",
+  "internalNoteHint": "Internal note about this coupon...",
+  "noCouponZonesAvailable": "No coupon zones available. Create zones to restrict coupon availability.",
+  "selectZonesInfo": "Select zones (applies to all if none selected)",
+  "zone": "zone",
+  "zones": "zones",
+  "noRestaurantsAvailable": "No restaurants available. This coupon will be global.",
+  "selectedRestaurant": "Selected Restaurant",
+  "allRestaurantsGlobal": "All Restaurants (Global)",
+  "kmRadius": "km radius",
+  "couponZones": "Coupon Zones",
+  "addZone": "Add Zone",
+  "success": "Success!",
+  "errorOccurred": "Error occurred",
+  "noCouponZonesYet": "No coupon zones yet",
+  "createZonesToRestrict": "Create zones to restrict coupons\\nto specific areas",
+  "createZone": "Create Zone",
+  "editZone": "Edit Zone",
+  "zoneNameRequired": "Zone Name *",
+  "zoneNameHint": "e.g., Downtown Area",
+  "optionalDescription": "Optional description",
+  "latitudeHint": "e.g., 36.7538",
+  "longitudeHint": "e.g., 3.0588",
+  "radiusKm": "Radius (km)",
+  "radiusHint": "e.g., 5.0",
+  "km": "km",
+  "zoneNameIsRequired": "Zone name is required",
+  "deleteZone": "Delete Zone",
+  "deleteZoneConfirmation": "Are you sure you want to delete \"{zoneName}\"?"
 }
-
-
-
-
-
-
-
-

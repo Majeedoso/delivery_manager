@@ -322,6 +322,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statisticsDescription => 'Voir vos métriques de performance';
 
   @override
+  String get statisticsMoney => 'Argent';
+
+  @override
+  String get statisticsOrders => 'Commandes';
+
+  @override
+  String get ordersPlaced => 'Passées';
+
+  @override
+  String get ordersPendingVerification => 'En attente de vérification';
+
+  @override
+  String get ordersAcceptedByOperator => 'Acceptées par l\'opérateur';
+
+  @override
+  String get ordersAcceptedByRestaurant => 'Acceptées par le restaurant';
+
+  @override
+  String get ordersRejectedByOperator => 'Rejetées par l\'opérateur';
+
+  @override
+  String get ordersRejectedByRestaurant => 'Rejetées par le restaurant';
+
+  @override
+  String get ordersAcceptedByDriver => 'Acceptées par le livreur';
+
+  @override
+  String get ordersCancelled => 'Annulées';
+
+  @override
   String get noUserDataAvailable => 'Aucune donnée utilisateur disponible';
 
   @override
@@ -417,7 +447,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get emailNotVerified => 'Email non vérifié';
+  String get emailNotVerified => 'E-mail non vérifié';
 
   @override
   String get emailVerificationRequired => 'Veuillez vérifier votre adresse e-mail avant d\'accéder à cette ressource. Un code de vérification (OTP) a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception et entrer le code à 6 chiffres pour vérifier votre e-mail.';
@@ -447,7 +477,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enableNotifications => 'Activer les notifications';
 
   @override
-  String get openSettings => 'Ouvrir les paramètres';
+  String get openSettings => 'Ouvrir les param?tres';
 
   @override
   String get exitApp => 'Quitter l\'application';
@@ -1992,4 +2022,340 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get invalidCredentialsMessage => 'L\'e-mail ou le mot de passe que vous avez entré est incorrect. Veuillez vérifier vos identifiants et réessayer.';
+
+  @override
+  String get userManagement => 'Gestion des utilisateurs';
+
+  @override
+  String get errorLoadingUsers => 'Erreur de chargement des utilisateurs';
+
+  @override
+  String get noUsersFound => 'Aucun utilisateur trouvé';
+
+  @override
+  String get noUsersMatchFilters => 'Aucun utilisateur ne correspond à vos filtres';
+
+  @override
+  String get noUsersInSystem => 'Aucun utilisateur dans le système';
+
+  @override
+  String get userApprovedSuccessfully => 'Utilisateur approuvé avec succès';
+
+  @override
+  String get userRejectedSuccessfully => 'Utilisateur rejeté avec succès';
+
+  @override
+  String get userSuspendedSuccessfully => 'Utilisateur suspendu avec succès';
+
+  @override
+  String get userActivatedSuccessfully => 'Utilisateur activé avec succès';
+
+  @override
+  String get changeStatus => 'Changer le statut';
+
+  @override
+  String get pendingApproval => 'En attente d\'approbation';
+
+  @override
+  String get suspended => 'Suspendu';
+
+  @override
+  String get rejectedStatus => 'Rejeté';
+
+  @override
+  String get operator => 'Opérateur';
+
+  @override
+  String get manager => 'Gestionnaire';
+
+  @override
+  String get filters => 'Filtres';
+
+  @override
+  String get clear => 'Effacer';
+
+  @override
+  String get allRoles => 'Tous les rôles';
+
+  @override
+  String get allStatuses => 'Tous les statuts';
+
+  @override
+  String get rejectUser => 'Rejeter l\'utilisateur';
+
+  @override
+  String rejectingUser(String userName) {
+    return 'Rejet en cours: $userName';
+  }
+
+  @override
+  String get rejectionReasonLabel => 'Motif du rejet *';
+
+  @override
+  String get enterRejectionReason => 'Entrez le motif du rejet...';
+
+  @override
+  String get minimumCharacters => 'Minimum 10 caractères';
+
+  @override
+  String get rejectionReasonRequired => 'Le motif du rejet est obligatoire';
+
+  @override
+  String get reasonMinimum10Characters => 'Le motif doit contenir au moins 10 caractères';
+
+  @override
+  String get suspendUser => 'Suspendre l\'utilisateur';
+
+  @override
+  String suspendingUser(String userName) {
+    return 'Suspension en cours: $userName';
+  }
+
+  @override
+  String get suspensionReasonLabel => 'Motif de suspension *';
+
+  @override
+  String get enterSuspensionReason => 'Entrez le motif de suspension...';
+
+  @override
+  String get suspensionReasonRequired => 'Le motif de suspension est obligatoire';
+
+  @override
+  String get searchUsers => 'Rechercher par nom, e-mail ou téléphone';
+
+  @override
+  String get coupons => 'Coupons';
+
+  @override
+  String get restaurantCoupons => 'Coupons de restaurant';
+
+  @override
+  String get deliveryCoupons => 'Coupons de livraison';
+
+  @override
+  String get draft => 'Brouillon';
+
+  @override
+  String get disabled => 'Désactivé';
+
+  @override
+  String get newDeliveryCoupon => 'Nouveau coupon de livraison';
+
+  @override
+  String get newCoupon => 'Nouveau coupon';
+
+  @override
+  String get noDeliveryCouponsYet => 'Aucun coupon de livraison pour le moment';
+
+  @override
+  String get noCouponsYet => 'Aucun coupon pour le moment';
+
+  @override
+  String get createFirstDeliveryCoupon => 'Créez votre premier coupon de livraison!';
+
+  @override
+  String get createFirstCoupon => 'Créez votre premier coupon pour attirer plus de clients!';
+
+  @override
+  String get off => 'REMISE';
+
+  @override
+  String get discount => 'Remise';
+
+  @override
+  String get valid => 'Valide';
+
+  @override
+  String get uses => 'Utilisations';
+
+  @override
+  String get minOrder => 'Commande minimale';
+
+  @override
+  String get dzd => 'DZD';
+
+  @override
+  String get expired => 'Expiré';
+
+  @override
+  String get globalAllRestaurants => 'Global (tous les restaurants)';
+
+  @override
+  String get issuer => 'Émetteur: ';
+
+  @override
+  String get discardChanges => 'Ignorer les modifications?';
+
+  @override
+  String get editCoupon => 'Modifier le coupon';
+
+  @override
+  String get update => 'Mettre à jour';
+
+  @override
+  String get create => 'Créer';
+
+  @override
+  String get couponCode => 'Code du coupon';
+
+  @override
+  String get couponCodeHint => 'ex. SUMMER20';
+
+  @override
+  String get pleaseEnterCouponCode => 'Veuillez saisir un code de coupon';
+
+  @override
+  String get codeMinLength => 'Le code doit contenir au moins 3 caractères';
+
+  @override
+  String get type => 'Type';
+
+  @override
+  String get percentage => 'Pourcentage';
+
+  @override
+  String get fixedAmount => 'Montant fixe';
+
+  @override
+  String get value => 'Valeur';
+
+  @override
+  String get required => 'Requis';
+
+  @override
+  String get min1 => 'Min 1';
+
+  @override
+  String get max100Percent => 'Max 100%';
+
+  @override
+  String get discountAppliesTo => 'Réduction applicable à';
+
+  @override
+  String get orderSubtotal => 'Sous-total de la commande';
+
+  @override
+  String get validityPeriod => 'Période de validité';
+
+  @override
+  String get startDate => 'Date de début';
+
+  @override
+  String get endDate => 'Date de fin';
+
+  @override
+  String get restaurantOptional => 'Restaurant (Optionnel)';
+
+  @override
+  String get couponZonesOptional => 'Zones de coupon (Optionnel)';
+
+  @override
+  String get manageZones => 'Gérer les zones';
+
+  @override
+  String get usageLimitsOptional => 'Limites d\'utilisation (Optionnel)';
+
+  @override
+  String get totalUses => 'Utilisations totales';
+
+  @override
+  String get perCustomer => 'Par client';
+
+  @override
+  String get orderConstraintsOptional => 'Contraintes de commande (Optionnel)';
+
+  @override
+  String get minOrderDzd => 'Commande min (DZD)';
+
+  @override
+  String get maxDiscountDzd => 'Remise max (DZD)';
+
+  @override
+  String get descriptionOptional => 'Description (Optionnel)';
+
+  @override
+  String get internalNoteHint => 'Note interne sur ce coupon...';
+
+  @override
+  String get noCouponZonesAvailable => 'Aucune zone de coupon disponible. Créez des zones pour restreindre la disponibilité du coupon.';
+
+  @override
+  String get selectZonesInfo => 'Sélectionner les zones (s\'applique à tous si aucune sélection)';
+
+  @override
+  String get zone => 'zone';
+
+  @override
+  String get zones => 'zones';
+
+  @override
+  String get noRestaurantsAvailable => 'Aucun restaurant disponible. Ce coupon sera global.';
+
+  @override
+  String get selectedRestaurant => 'Restaurant sélectionné';
+
+  @override
+  String get allRestaurantsGlobal => 'Tous les restaurants (Global)';
+
+  @override
+  String get kmRadius => 'km de rayon';
+
+  @override
+  String get couponZones => 'Zones de coupon';
+
+  @override
+  String get addZone => 'Ajouter une zone';
+
+  @override
+  String get success => 'Succès!';
+
+  @override
+  String get errorOccurred => 'Une erreur s\'est produite';
+
+  @override
+  String get noCouponZonesYet => 'Aucune zone de coupon pour le moment';
+
+  @override
+  String get createZonesToRestrict => 'Créez des zones pour restreindre les coupons\\nà des zones spécifiques';
+
+  @override
+  String get createZone => 'Créer une zone';
+
+  @override
+  String get editZone => 'Modifier la zone';
+
+  @override
+  String get zoneNameRequired => 'Nom de la zone *';
+
+  @override
+  String get zoneNameHint => 'ex. Centre-ville';
+
+  @override
+  String get optionalDescription => 'Description optionnelle';
+
+  @override
+  String get latitudeHint => 'ex. 36.7538';
+
+  @override
+  String get longitudeHint => 'ex. 3.0588';
+
+  @override
+  String get radiusKm => 'Rayon (km)';
+
+  @override
+  String get radiusHint => 'ex. 5.0';
+
+  @override
+  String get km => 'km';
+
+  @override
+  String get zoneNameIsRequired => 'Le nom de la zone est requis';
+
+  @override
+  String get deleteZone => 'Supprimer la zone';
+
+  @override
+  String deleteZoneConfirmation(Object zoneName) {
+    return 'Êtes-vous sûr de vouloir supprimer \"$zoneName\"?';
+  }
 }

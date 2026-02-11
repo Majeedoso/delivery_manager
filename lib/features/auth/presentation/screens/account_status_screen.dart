@@ -132,7 +132,6 @@ class AccountStatusScreen extends StatelessWidget {
                 (user.status == null &&
                     (user.role == UserRole.operator ||
                         user.role == UserRole.restaurant ||
-                        user.role == UserRole.driver ||
                         user.role == UserRole.manager));
 
             final isLoading = state.requestState == RequestState.loading;

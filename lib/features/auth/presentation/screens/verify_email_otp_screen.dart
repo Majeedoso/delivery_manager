@@ -381,7 +381,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
           'name': currentUserResult?.name ?? '',
           'email': data['email'] ?? widget.email,
           'phone': currentUserResult?.phone ?? '',
-          'role': currentUserResult?.role.toString() ?? 'driver',
+          'role': currentUserResult?.role.toString() ?? 'manager',
           'email_verified_at': data['email_verified_at'],
           'has_password': currentUserResult?.hasPassword ?? false,
         };

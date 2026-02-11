@@ -80,6 +80,19 @@ import '../../features/bank/domain/usecases/record_restaurant_payment_usecase.da
 import '../../features/bank/domain/usecases/record_system_payment_usecase.dart';
 import '../../features/bank/domain/usecases/get_transactions_usecase.dart';
 import '../../features/bank/presentation/controller/bank_bloc.dart';
+import '../../features/coupons/data/datasource/coupons_remote_data_source.dart';
+import '../../features/coupons/data/repository/coupons_repository.dart';
+import '../../features/coupons/domain/repository/base_coupons_repository.dart';
+import '../../features/coupons/presentation/controller/coupons_bloc.dart';
+import '../../features/users/data/datasource/users_remote_data_source.dart';
+import '../../features/users/data/repository/users_repository_impl.dart';
+import '../../features/users/domain/repository/base_users_repository.dart';
+import '../../features/users/domain/usecases/get_users_usecase.dart';
+import '../../features/users/domain/usecases/approve_user_usecase.dart';
+import '../../features/users/domain/usecases/reject_user_usecase.dart';
+import '../../features/users/domain/usecases/suspend_user_usecase.dart';
+import '../../features/users/domain/usecases/activate_user_usecase.dart';
+import '../../features/users/presentation/controller/users_bloc.dart';
 import '../services/api_service.dart';
 import '../interceptors/retry_interceptor.dart';
 
@@ -263,6 +276,9 @@ class ServicesLocator {
     sl.registerLazySingleton<BaseProfileLocalDataSource>(
       () => ProfileLocalDataSource(sharedPreferences: sl()),
     );
+    sl.registerLazySingleton<BaseCouponsRemoteDataSource>(
+      () => CouponsRemoteDataSource(dio: sl(), logger: sl()),
+    );
 
     // App Version Data Sources
     sl.registerLazySingleton<BaseAppVersionRemoteDataSource>(
@@ -292,6 +308,9 @@ class ServicesLocator {
         baseProfileRemoteDataSource: sl(),
         baseProfileLocalDataSource: sl(),
       ),
+    );
+    sl.registerLazySingleton<BaseCouponsRepository>(
+      () => CouponsRepository(remoteDataSource: sl()),
     );
 
     // App Version Repository
@@ -391,6 +410,11 @@ class ServicesLocator {
         logger: sl(),
       ),
     );
+    sl.registerFactory(
+      () => CouponsBloc(
+        repository: sl<BaseCouponsRepository>(),
+      ),
+    );
 
     // App Version BLoC
     sl.registerFactory(() => AppVersionBloc(checkAppVersionUseCase: sl()));
@@ -429,6 +453,39 @@ class ServicesLocator {
         recordSystemPaymentUseCase: sl(),
         getTransactionsUseCase: sl(),
         bankRepository: sl<BaseBankRepository>(),
+      ),
+    );
+
+    // Users Remote Data Source
+    sl.registerLazySingleton<BaseUsersRemoteDataSource>(
+      () => UsersRemoteDataSourceImpl(
+        dio: sl(),
+        tokenRepository: sl(),
+      ),
+    );
+
+    // Users Repository
+    sl.registerLazySingleton<BaseUsersRepository>(
+      () => UsersRepositoryImpl(
+        remoteDataSource: sl(),
+      ),
+    );
+
+    // Users Use Cases
+    sl.registerLazySingleton(() => GetUsersUseCase(sl()));
+    sl.registerLazySingleton(() => ApproveUserUseCase(sl()));
+    sl.registerLazySingleton(() => RejectUserUseCase(sl()));
+    sl.registerLazySingleton(() => SuspendUserUseCase(sl()));
+    sl.registerLazySingleton(() => ActivateUserUseCase(sl()));
+
+    // Users BLoC
+    sl.registerFactory(
+      () => UsersBloc(
+        getUsersUseCase: sl(),
+        approveUserUseCase: sl(),
+        rejectUserUseCase: sl(),
+        suspendUserUseCase: sl(),
+        activateUserUseCase: sl(),
       ),
     );
   }

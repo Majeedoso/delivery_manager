@@ -28,6 +28,7 @@ abstract class BankRemoteDataSource {
     String? endDate,
   });
   Future<Map<String, dynamic>> calculateSystemPaymentAmount({
+    required int driverId,
     required String selectedPeriod,
     String? startDate,
     String? endDate,
@@ -35,9 +36,13 @@ abstract class BankRemoteDataSource {
   Future<TransactionModel> recordRestaurantPayment({
     required int restaurantId,
     required double amount,
+    String? selectedPeriod,
+    String? startDate,
+    String? endDate,
     String? notes,
   });
   Future<TransactionModel> recordSystemPayment({
+    required int driverId,
     required double amount,
     String? notes,
   });
@@ -70,7 +75,7 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
     String? to,
   }) async {
     logger.debug(
-      'BankRemoteDataSource: Starting to fetch driver balance from ${ApiConstance.driverBalancePath}',
+      'BankRemoteDataSource: Starting to fetch manager credits/debts from ${ApiConstance.managerCreditsDebtsPath}',
     );
 
     try {
@@ -79,11 +84,11 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       if (to != null) queryParams['to'] = to;
 
       logger.info(
-        'BankRemoteDataSource: Making GET request to ${ApiConstance.driverBalancePath} with params: $queryParams',
+        'BankRemoteDataSource: Making GET request to ${ApiConstance.managerCreditsDebtsPath} with params: $queryParams',
       );
 
       final response = await dio.get(
-        ApiConstance.driverBalancePath,
+        ApiConstance.managerCreditsDebtsPath,
         queryParameters: queryParams,
         options: Options(
           receiveTimeout: const Duration(seconds: 30),
@@ -208,12 +213,12 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       }
 
       logger.info(
-        'BankRemoteDataSource: Making GET request to ${ApiConstance.driverRestaurantPaymentAmountPath}',
+        'BankRemoteDataSource: Making GET request to ${ApiConstance.managerRestaurantPaymentAmountPath}',
       );
       logger.debug('BankRemoteDataSource: Query params: $queryParams');
 
       final response = await dio.get(
-        ApiConstance.driverRestaurantPaymentAmountPath,
+        ApiConstance.managerRestaurantPaymentAmountPath,
         queryParameters: queryParams,
         options: Options(
           receiveTimeout: const Duration(seconds: 30),
@@ -268,16 +273,20 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
 
   @override
   Future<Map<String, dynamic>> calculateSystemPaymentAmount({
+    required int driverId,
     required String selectedPeriod,
     String? startDate,
     String? endDate,
   }) async {
     logger.debug(
-      'BankRemoteDataSource: Calculating system payment amount, period: $selectedPeriod',
+      'BankRemoteDataSource: Calculating system payment amount, driver: $driverId, period: $selectedPeriod',
     );
 
     try {
-      final queryParams = <String, dynamic>{'selected_period': selectedPeriod};
+      final queryParams = <String, dynamic>{
+        'selected_period': selectedPeriod,
+        'driver_id': driverId,
+      };
 
       if (startDate != null) {
         queryParams['start_date'] = startDate;
@@ -287,12 +296,12 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       }
 
       logger.info(
-        'BankRemoteDataSource: Making GET request to ${ApiConstance.driverSystemPaymentAmountPath}',
+        'BankRemoteDataSource: Making GET request to ${ApiConstance.managerSystemPaymentAmountPath}',
       );
       logger.debug('BankRemoteDataSource: Query params: $queryParams');
 
       final response = await dio.get(
-        ApiConstance.driverSystemPaymentAmountPath,
+        ApiConstance.managerSystemPaymentAmountPath,
         queryParameters: queryParams,
         options: Options(
           receiveTimeout: const Duration(seconds: 30),
@@ -351,6 +360,9 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
   Future<TransactionModel> recordRestaurantPayment({
     required int restaurantId,
     required double amount,
+    String? selectedPeriod,
+    String? startDate,
+    String? endDate,
     String? notes,
   }) async {
     logger.debug(
@@ -363,17 +375,26 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
         'amount': amount,
       };
 
+      if (selectedPeriod != null && selectedPeriod.isNotEmpty) {
+        data['selected_period'] = selectedPeriod;
+      }
+      if (startDate != null) {
+        data['start_date'] = startDate;
+      }
+      if (endDate != null) {
+        data['end_date'] = endDate;
+      }
       if (notes != null && notes.isNotEmpty) {
         data['notes'] = notes;
       }
 
       logger.info(
-        'BankRemoteDataSource: Making POST request to ${ApiConstance.driverPaymentsPath}',
+        'BankRemoteDataSource: Making POST request to ${ApiConstance.managerRestaurantPaymentsPath}',
       );
       logger.debug('BankRemoteDataSource: Request data: $data');
 
       final response = await dio.post(
-        ApiConstance.driverPaymentsPath,
+        ApiConstance.managerRestaurantPaymentsPath,
         data: data,
         options: Options(
           receiveTimeout: const Duration(seconds: 30),
@@ -444,27 +465,28 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
 
   @override
   Future<TransactionModel> recordSystemPayment({
+    required int driverId,
     required double amount,
     String? notes,
   }) async {
     logger.debug(
-      'BankRemoteDataSource: Recording system payment, amount: $amount',
+      'BankRemoteDataSource: Recording system payment, driver: $driverId, amount: $amount',
     );
 
     try {
-      final data = <String, dynamic>{'amount': amount};
+      final data = <String, dynamic>{'amount': amount, 'driver_id': driverId};
 
       if (notes != null && notes.isNotEmpty) {
         data['notes'] = notes;
       }
 
       logger.info(
-        'BankRemoteDataSource: Making POST request to ${ApiConstance.driverSystemPaymentsPath}',
+        'BankRemoteDataSource: Making POST request to ${ApiConstance.managerSystemPaymentsPath}',
       );
       logger.debug('BankRemoteDataSource: Request data: $data');
 
       final response = await dio.post(
-        ApiConstance.driverSystemPaymentsPath,
+        ApiConstance.managerSystemPaymentsPath,
         data: data,
         options: Options(
           receiveTimeout: const Duration(seconds: 30),
@@ -553,12 +575,12 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       }
 
       logger.info(
-        'BankRemoteDataSource: Making GET request to ${ApiConstance.driverTransactionsPath}',
+        'BankRemoteDataSource: Making GET request to ${ApiConstance.managerSystemPaymentsPath}',
       );
       logger.debug('BankRemoteDataSource: Query params: $queryParams');
 
       final response = await dio.get(
-        ApiConstance.driverTransactionsPath,
+        ApiConstance.managerSystemPaymentsPath,
         queryParameters: queryParams,
         options: Options(
           receiveTimeout: const Duration(seconds: 30),

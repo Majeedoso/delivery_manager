@@ -237,7 +237,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
         'password_confirmation': password,
         'role': role,
         'phone': phone,
-        'app_type': 'driver', // Validate that role matches driver app
+        'app_type': 'manager', // Validate that role matches manager app
       };
 
       final response = await dio.post(
@@ -308,7 +308,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
         data: {
           'email': email,
           'password': password,
-          'app_type': 'driver', // Validate that user role matches driver app
+          'app_type': 'manager', // Validate that user role matches manager app
         },
         options: Options(
           headers: {

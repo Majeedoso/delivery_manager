@@ -282,10 +282,17 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
             Builder(
               builder: (context) {
                 final systemCredits = restaurantCredits
-                    .where((c) => c.restaurantId == 0)
+                    .where((c) => c.counterpartyType == 'system')
+                    .toList();
+                final driverCredits = restaurantCredits
+                    .where((c) => c.counterpartyType == 'driver')
                     .toList();
                 final otherCredits = restaurantCredits
-                    .where((c) => c.restaurantId != 0)
+                    .where(
+                      (c) =>
+                          c.counterpartyType != 'system' &&
+                          c.counterpartyType != 'driver',
+                    )
                     .toList();
 
                 return Column(
@@ -294,7 +301,7 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
                     // System Credits
                     if (systemCredits.isNotEmpty) ...[
                       Text(
-                        AppLocalizations.of(context)!.systemDebt, // "System"
+                        _sectionTitle(context, 'system', isCredit: true),
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -312,12 +319,31 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
                       SizedBox(height: 4.h),
                     ],
 
+                    // Driver Credits
+                    if (driverCredits.isNotEmpty) ...[
+                      Text(
+                        _sectionTitle(context, 'driver', isCredit: true),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+                      ...driverCredits.map(
+                        (credit) => Padding(
+                          padding: EdgeInsets.only(bottom: 2.h),
+                          child: RestaurantDebtCard(
+                            restaurantDebt: credit,
+                            onTap: () => _navigateToDetails(credit),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                    ],
+
                     // Restaurant Credits
                     if (otherCredits.isNotEmpty) ...[
                       Text(
-                        AppLocalizations.of(
-                          context,
-                        )!.restaurantCredits, // "Restaurants"
+                        _sectionTitle(context, 'restaurant', isCredit: true),
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -378,6 +404,16 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
     // Use backend total directly
     final totalDebt = balance.totalDebt;
 
+    final driverDebts = restaurantDebts
+        .where((d) => d.counterpartyType == 'driver')
+        .toList();
+    final systemDebtsList = restaurantDebts
+        .where((d) => d.counterpartyType == 'system')
+        .toList();
+    final restaurantDebtsList = restaurantDebts
+        .where((d) => d.counterpartyType != 'driver' && d.counterpartyType != 'system')
+        .toList();
+
     return RefreshIndicator(
       onRefresh: () async {
         String? fromStr = _dateFrom?.toIso8601String().split('T')[0];
@@ -405,90 +441,29 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
             ),
             SizedBox(height: 4.h),
 
-            // Restaurant Debts Section
-            if (restaurantDebts.isNotEmpty) ...[
-              Text(
-                AppLocalizations.of(context)!.restaurantDebts,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            // Debts by counterparty type
+            if (driverDebts.isNotEmpty) ...[
+              _buildDebtSection(
+                context,
+                _sectionTitle(context, 'driver', isCredit: false),
+                driverDebts,
               ),
-              SizedBox(height: 2.h),
-              ...restaurantDebts.map((debt) {
-                final fillColor =
-                    Theme.of(context).inputDecorationTheme.fillColor ??
-                    Theme.of(context).colorScheme.surface;
-
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: RepaintBoundary(
-                    child: InkWell(
-                      onTap: () => _navigateToDetails(debt),
-                      borderRadius: BorderRadius.circular(12),
-                      child: Card(
-                        key: ValueKey('restaurant_debt_${debt.restaurantId}'),
-                        elevation: 4,
-                        color: fillColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          debt.restaurantName,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium
-                                              ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.restaurant,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(
-                                                color: Colors.grey[600],
-                                              ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Text(
-                                    '-${debt.formattedAmount}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleLarge
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: const Color(0xFFD32F2F), // Red
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              }),
+              SizedBox(height: 4.h),
+            ],
+            if (restaurantDebtsList.isNotEmpty) ...[
+              _buildDebtSection(
+                context,
+                _sectionTitle(context, 'restaurant', isCredit: false),
+                restaurantDebtsList,
+              ),
+              SizedBox(height: 4.h),
+            ],
+            if (systemDebtsList.isNotEmpty) ...[
+              _buildDebtSection(
+                context,
+                _sectionTitle(context, 'system', isCredit: false),
+                systemDebtsList,
+              ),
               SizedBox(height: 4.h),
             ],
 
@@ -847,6 +822,131 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
           await _selectDate(context, false);
         },
       ),
+      );
+  }
+
+  String _sectionTitle(
+    BuildContext context,
+    String type, {
+    required bool isCredit,
+  }) {
+    switch (type) {
+      case 'driver':
+        return AppLocalizations.of(context)!.drivers;
+      case 'system':
+        return AppLocalizations.of(context)!.systemDebt;
+      case 'restaurant':
+      default:
+        return isCredit
+            ? AppLocalizations.of(context)!.restaurantCredits
+            : AppLocalizations.of(context)!.restaurantDebts;
+    }
+  }
+
+  String _counterpartyLabel(BuildContext context, String type) {
+    switch (type) {
+      case 'driver':
+        return AppLocalizations.of(context)!.driver;
+      case 'system':
+        return AppLocalizations.of(context)!.system;
+      case 'restaurant':
+      default:
+        return AppLocalizations.of(context)!.restaurant;
+    }
+  }
+
+  Widget _buildDebtSection(
+    BuildContext context,
+    String title,
+    List<RestaurantDebt> debts,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 2.h),
+        ...debts.map((debt) {
+          final fillColor =
+              Theme.of(context).inputDecorationTheme.fillColor ??
+              Theme.of(context).colorScheme.surface;
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: RepaintBoundary(
+              child: InkWell(
+                onTap: () => _navigateToDetails(debt),
+                borderRadius: BorderRadius.circular(12),
+                child: Card(
+                  key: ValueKey(
+                    'counterparty_debt_${debt.counterpartyType}_${debt.restaurantId}',
+                  ),
+                  elevation: 4,
+                  color: fillColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    debt.restaurantName,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    _counterpartyLabel(
+                                      context,
+                                      debt.counterpartyType,
+                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: Colors.grey[600],
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Text(
+                              '-${debt.formattedAmount}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: const Color(0xFFD32F2F), // Red
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
+      ],
     );
   }
 }

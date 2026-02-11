@@ -1,0 +1,2990 @@
+{
+  "@@locale": "en",
+  "appName": "Delivery Driver",
+  "@appName": {
+    "description": "The name of the application"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login button text"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign up button text"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm password field label"
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Name field label"
+  },
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone field label"
+  },
+  "rememberMe": "Remember Me",
+  "@rememberMe": {
+    "description": "Remember me checkbox label"
+  },
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password link text"
+  },
+  "dontHaveAccount": "Don't have an account? ",
+  "@dontHaveAccount": {
+    "description": "Text before sign up link"
+  },
+  "alreadyHaveAccount": "Already have an account? ",
+  "@alreadyHaveAccount": {
+    "description": "Text before login link"
+  },
+  "signInWithGoogle": "Sign in with Google",
+  "@signInWithGoogle": {
+    "description": "Google sign in button text"
+  },
+  "signUpWithGoogle": "Sign up with Google",
+  "@signUpWithGoogle": {
+    "description": "Google sign up button text"
+  },
+  "signUpWithEmail": "Sign up with Email",
+  "@signUpWithEmail": {
+    "description": "Email sign up button text"
+  },
+  "createAccount": "Create Account",
+  "@createAccount": {
+    "description": "Create account title"
+  },
+  "checkingAuthentication": "Checking authentication...",
+  "@checkingAuthentication": {
+    "description": "Text shown while checking authentication status"
+  },
+  "welcome": "Welcome",
+  "@welcome": {
+    "description": "Welcome message"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Logout button text"
+  },
+  "clearSavedCredentials": "Clear Saved Credentials",
+  "@clearSavedCredentials": {
+    "description": "Clear saved credentials button text"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language selection label"
+  },
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "description": "Language selection dialog title"
+  },
+  "english": "English",
+  "@english": {
+    "description": "English language name"
+  },
+  "arabic": "Arabic",
+  "@arabic": {
+    "description": "Arabic language name"
+  },
+  "french": "French",
+  "@french": {
+    "description": "French language name"
+  },
+  "or": "OR",
+  "@or": {
+    "description": "OR text between login options"
+  },
+  "profile": "Profile",
+  "@profile": {
+    "description": "Profile screen title"
+  },
+  "profileInformation": "Profile Information",
+  "@profileInformation": {
+    "description": "Profile information section title"
+  },
+  "userType": "User Type",
+  "@userType": {
+    "description": "User type field label"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings screen title"
+  },
+  "appSettings": "App Settings",
+  "@appSettings": {
+    "description": "App settings section title"
+  },
+  "deliveryPreferences": "Delivery Preferences",
+  "@deliveryPreferences": {
+    "description": "Delivery preferences screen title"
+  },
+  "deliveryPreferencesDescription": "Choose which restaurants you want to deliver for",
+  "@deliveryPreferencesDescription": {
+    "description": "Delivery preferences description"
+  },
+  "mutualSelected": "Mutual",
+  "@mutualSelected": {
+    "description": "mutualSelected badge"
+  },
+  "pendingSelected": "Pending",
+  "@pendingSelected": {
+    "description": "pendingSelected badge"
+  },
+  "selectAllRestaurants": "Select All Restaurants",
+  "@selectAllRestaurants": {
+    "description": "selectAllRestaurants label"
+  },
+  "noSelectionAllRestaurantsHint": "No selection means you will receive orders from all restaurants.",
+  "@noSelectionAllRestaurantsHint": {
+    "description": "Hint shown when no restaurants are selected"
+  },
+  "selectedRestaurantsCount": "{count} of {total} selected",
+  "@selectedRestaurantsCount": {
+    "description": "selectedRestaurantsCount label",
+    "placeholders": {
+      "count": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "updatingSelections": "Updating selections {done}/{total}...",
+  "@updatingSelections": {
+    "description": "updatingSelections label",
+    "placeholders": {
+      "done": {"type": "int"},
+      "total": {"type": "int"}
+    }
+  },
+  "linkedRestaurants": "Linked Restaurants",
+  "@linkedRestaurants": {
+    "description": "Linked restaurants section title"
+  },
+  "addRestaurantByCode": "Add Restaurant by Code",
+  "@addRestaurantByCode": {
+    "description": "Button label to add restaurant by code"
+  },
+  "restaurantCode": "Restaurant Code",
+  "@restaurantCode": {
+    "description": "Restaurant code field label"
+  },
+  "enterRestaurantCode": "Enter restaurant code",
+  "@enterRestaurantCode": {
+    "description": "Restaurant code input hint"
+  },
+  "linkRestaurant": "Link",
+  "@linkRestaurant": {
+    "description": "Button label to link restaurant"
+  },
+  "linkRestaurantSuccess": "Linked successfully",
+  "@linkRestaurantSuccess": {
+    "description": "Success message when restaurant is linked"
+  },
+  "unlinkRestaurant": "Unlinked successfully",
+  "@unlinkRestaurant": {
+    "description": "Success message when restaurant is unlinked"
+  },
+  "noLinkedRestaurants": "No linked restaurants yet",
+  "@noLinkedRestaurants": {
+    "description": "Empty state title when no linked restaurants"
+  },
+  "noLinkedRestaurantsDescription": "Add a restaurant code to start delivering for specific restaurants.",
+  "@noLinkedRestaurantsDescription": {
+    "description": "Empty state description when no linked restaurants"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Notifications section title"
+  },
+  "pushNotifications": "Push Notifications",
+  "@pushNotifications": {
+    "description": "Push notifications setting"
+  },
+  "pushNotificationsDescription": "Receive push notifications",
+  "@pushNotificationsDescription": {
+    "description": "Push notifications description"
+  },
+  "emailNotifications": "Email Notifications",
+  "@emailNotifications": {
+    "description": "Email notifications setting"
+  },
+  "emailNotificationsDescription": "Receive email notifications",
+  "@emailNotificationsDescription": {
+    "description": "Email notifications description"
+  },
+  "privacy": "Privacy",
+  "@privacy": {
+    "description": "Privacy section title"
+  },
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy policy link"
+  },
+  "termsOfService": "Terms of Service",
+  "@termsOfService": {
+    "description": "Terms of service link"
+  },
+  "appInformation": "App Information",
+  "@appInformation": {
+    "description": "App information section title"
+  },
+  "version": "Version",
+  "@version": {
+    "description": "App version label"
+  },
+  "checkForUpdates": "Check for Updates",
+  "@checkForUpdates": {
+    "description": "Check for updates option"
+  },
+  "aboutApp": "About App",
+  "@aboutApp": {
+    "description": "About app screen title"
+  },
+  "aboutDescription": "This application is designed for delivery drivers to manage their deliveries efficiently. Drivers can view available orders, accept delivery requests, navigate to pickup and delivery locations, update delivery status in real-time, set their availability schedule, and track their earnings.",
+  "@aboutDescription": {
+    "description": "Description of the app shown in about page"
+  },
+  "features": "Features",
+  "@features": {
+    "description": "Features section title"
+  },
+  "userAuthentication": "User Authentication",
+  "@userAuthentication": {
+    "description": "User authentication feature"
+  },
+  "userAuthenticationDescription": "Secure login and registration system",
+  "@userAuthenticationDescription": {
+    "description": "User authentication description"
+  },
+  "multiLanguageSupport": "Multi-Language Support",
+  "@multiLanguageSupport": {
+    "description": "Multi-language support feature"
+  },
+  "multiLanguageSupportDescription": "Support for multiple languages",
+  "@multiLanguageSupportDescription": {
+    "description": "Multi-language support description"
+  },
+  "secureStorage": "Secure Storage",
+  "@secureStorage": {
+    "description": "Secure storage feature"
+  },
+  "secureStorageDescription": "Secure storage for sensitive data",
+  "@secureStorageDescription": {
+    "description": "Secure storage description"
+  },
+  "googleSignIn": "Google Sign-In",
+  "@googleSignIn": {
+    "description": "Google sign-in feature"
+  },
+  "googleSignInDescription": "Quick sign-in with Google account",
+  "@googleSignInDescription": {
+    "description": "Google sign-in description"
+  },
+  "contactUs": "Contact Us",
+  "@contactUs": {
+    "description": "Contact us section title"
+  },
+  "copyright": "© 2024 Delivery Driver. All rights reserved.",
+  "@copyright": {
+    "description": "Copyright text"
+  },
+  "website": "Website",
+  "@website": {
+    "description": "Website label"
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit profile button text"
+  },
+  "changePassword": "Change Password",
+  "@changePassword": {
+    "description": "Change password button text"
+  },
+  "changeEmail": "Change Email",
+  "@changeEmail": {
+    "description": "Change email button text"
+  },
+  "updateProfile": "Update Profile",
+  "@updateProfile": {
+    "description": "Update profile button text"
+  },
+  "profileInformation": "Profile Information",
+  "@profileInformation": {
+    "description": "Profile information section title"
+  },
+  "main": "Main",
+  "@main": {
+    "description": "Main screen title"
+  },
+  "pendingOrders": "Pending Orders",
+  "@pendingOrders": {
+    "description": "Pending orders container title"
+  },
+  "pendingOrdersDescription": "Manage orders waiting for verification",
+  "@pendingOrdersDescription": {
+    "description": "Pending orders container description"
+  },
+  "acceptOrder": "Accept Order",
+  "@acceptOrder": {
+    "description": "Accept order button text"
+  },
+  "orderAcceptedSuccessfully": "Order accepted successfully!",
+  "@orderAcceptedSuccessfully": {
+    "description": "Success message when order is accepted"
+  },
+  "noOrdersAvailable": "No orders available",
+  "@noOrdersAvailable": {
+    "description": "Empty state message when no orders"
+  },
+  "checkBackLater": "Check back later for new orders",
+  "@checkBackLater": {
+    "description": "Empty state subtitle"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh button text"
+  },
+  "noDeliveryAddress": "No delivery address",
+  "@noDeliveryAddress": {
+    "description": "Placeholder when no delivery address"
+  },
+  "items": "items",
+  "@items": {
+    "description": "Items count label"
+  },
+  "total": "Total",
+  "@total": {
+    "description": "Total amount label"
+  },
+  "deliveryFee": "Delivery Fee",
+  "@deliveryFee": {
+    "description": "Delivery fee label"
+  },
+  "cash": "Cash",
+  "@cash": {
+    "description": "Cash payment method"
+  },
+  "card": "Card",
+  "@card": {
+    "description": "Card payment method"
+  },
+  "confirmed": "Confirmed",
+  "@confirmed": {
+    "description": "Confirmed status"
+  },
+  "readyForPickup": "Ready for Pickup",
+  "@readyForPickup": {
+    "description": "Ready for pickup status"
+  },
+  "showMore": "Show more",
+  "@showMore": {
+    "description": "Show more details button"
+  },
+  "showLess": "Show less",
+  "@showLess": {
+    "description": "Show less details button"
+  },
+  "paymentMethod": "Payment",
+  "@paymentMethod": {
+    "description": "Payment method label"
+  },
+  "deliveryNotes": "Notes",
+  "@deliveryNotes": {
+    "description": "Delivery notes label"
+  },
+  "ongoingOrders": "Ongoing Orders",
+  "@ongoingOrders": {
+    "description": "Ongoing orders container title"
+  },
+  "ongoingOrdersDescription": "Manage orders being prepared",
+  "@ongoingOrdersDescription": {
+    "description": "Ongoing orders container description"
+  },
+  "archiveOrders": "Archive Orders",
+  "@archiveOrders": {
+    "description": "Archive orders container title"
+  },
+  "archiveOrdersDescription": "View accepted and rejected orders",
+  "@archiveOrdersDescription": {
+    "description": "Archive orders container description"
+  },
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Statistics container title"
+  },
+  "statisticsDescription": "View your performance metrics",
+  "@statisticsDescription": {
+    "description": "Statistics container description"
+  },
+  "noUserDataAvailable": "No user data available",
+  "@noUserDataAvailable": {
+    "description": "Message when no user data is available"
+  },
+  "user": "User",
+  "@user": {
+    "description": "Default user name when no name is available"
+  },
+  "orders": "Orders",
+  "@orders": {
+    "description": "Orders screen title"
+  },
+  "archive": "Archive",
+  "@archive": {
+    "description": "Archive screen title"
+  },
+  "ordersArchive": "Orders Archive",
+  "@ordersArchive": {
+    "description": "Orders archive container title"
+  },
+  "acceptedOrders": "Accepted Orders",
+  "@acceptedOrders": {
+    "description": "Accepted orders screen title"
+  },
+  "rejectedOrders": "Rejected Orders",
+  "@rejectedOrders": {
+    "description": "Rejected orders screen title"
+  },
+  "deliveredOrders": "Delivered Orders",
+  "@deliveredOrders": {
+    "description": "Delivered orders screen title"
+  },
+  "canceledOrders": "Canceled Orders",
+  "@canceledOrders": {
+    "description": "Canceled orders screen title"
+  },
+  "delivered": "Delivered",
+  "@delivered": {
+    "description": "Delivered status label"
+  },
+  "cancelled": "Cancelled",
+  "@cancelled": {
+    "description": "Cancelled status label"
+  },
+  "forgotPassword": "Forgot Password",
+  "@forgotPassword": {
+    "description": "Forgot password screen title"
+  },
+  "resetPassword": "Reset Password",
+  "@resetPassword": {
+    "description": "Reset password screen title"
+  },
+  "resetYourPassword": "Reset Your Password",
+  "@resetYourPassword": {
+    "description": "Reset password form title"
+  },
+  "enterEmailDescription": "Enter your email address and we'll send you an OTP code to reset your password.",
+  "@enterEmailDescription": {
+    "description": "Description for forgot password form"
+  },
+  "emailAddress": "Email Address",
+  "@emailAddress": {
+    "description": "Email address field label"
+  },
+  "sendResetLink": "Send Reset Link",
+  "@sendResetLink": {
+    "description": "Send reset link button text"
+  },
+  "sendOtp": "Send OTP",
+  "@sendOtp": {
+    "description": "Send OTP button text"
+  },
+  "backToLogin": "Back to Login",
+  "@backToLogin": {
+    "description": "Back to login button text"
+  },
+  "enterOtpCode": "Enter OTP Code",
+  "@enterOtpCode": {
+    "description": "OTP input screen title"
+  },
+  "enterOtpDescription": "Enter the 6-digit OTP sent to your email\nIt will be verified automatically when complete",
+  "@enterOtpDescription": {
+    "description": "OTP input description"
+  },
+  "setNewPassword": "Set New Password",
+  "@setNewPassword": {
+    "description": "Set new password screen title"
+  },
+  "enterNewPasswordDescription": "Enter your new password below",
+  "@enterNewPasswordDescription": {
+    "description": "New password form description"
+  },
+  "newPassword": "New Password",
+  "@newPassword": {
+    "description": "New password field label"
+  },
+  "confirmNewPassword": "Confirm Password",
+  "@confirmNewPassword": {
+    "description": "Confirm new password field label"
+  },
+  "resendOtp": "Resend OTP",
+  "@resendOtp": {
+    "description": "Resend OTP button text"
+  },
+  "verifyEmail": "Verify Email",
+  "@verifyEmail": {
+    "description": "Verify email screen title"
+  },
+  "enterOtp": "Enter OTP",
+  "@enterOtp": {
+    "description": "Enter OTP label"
+  },
+  "otpSentTo": "OTP sent to",
+  "@otpSentTo": {
+    "description": "OTP sent to email message"
+  },
+  "verifyOtp": "Verify OTP",
+  "@verifyOtp": {
+    "description": "Verify OTP button text"
+  },
+  "confirmEmailChange": "Confirm Email Change",
+  "@confirmEmailChange": {
+    "description": "Confirm email change button text"
+  },
+  "resendIn": "You can resend OTP in {seconds}s",
+  "@resendIn": {
+    "description": "Resend countdown text",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "emailNotVerified": "Email Not Verified",
+  "@emailNotVerified": {
+    "description": "Email not verified status title"
+  },
+  "emailVerificationRequired": "Please verify your email address before accessing this resource. A verification code (OTP) has been sent to your email address. Please check your inbox and enter the 6-digit code to verify your email.",
+  "@emailVerificationRequired": {
+    "description": "Email verification required message"
+  },
+  "resendVerificationEmail": "Resend Verification",
+  "@resendVerificationEmail": {
+    "description": "Resend verification email button text"
+  },
+  "verificationEmailSent": "Verification email sent successfully. Please check your inbox.",
+  "@verificationEmailSent": {
+    "description": "Verification email sent success message"
+  },
+  "checking": "Checking...",
+  "@checking": {
+    "description": "Checking status text"
+  },
+  "checkStatus": "Check Status",
+  "@checkStatus": {
+    "description": "Check status button text"
+  },
+  "checkStatusDescription": "Tap \"Check Status\" to see if your account has been approved",
+  "@checkStatusDescription": {
+    "description": "Check status description text"
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit profile screen title"
+  },
+  "changeEmail": "Change Email",
+  "@changeEmail": {
+    "description": "Change email screen title"
+  },
+  "changePassword": "Change Password",
+  "@changePassword": {
+    "description": "Change password screen title"
+  },
+  "notificationsRequired": "Notifications are required for this app",
+  "@notificationsRequired": {
+    "description": "Message when notifications are required"
+  },
+  "notificationsRequiredDescription": "This app requires notification permission to receive new order alerts.",
+  "@notificationsRequiredDescription": {
+    "description": "Description of why notifications are required"
+  },
+  "enableNotifications": "Enable Notifications",
+  "@enableNotifications": {
+    "description": "Enable notifications button text"
+  },
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Open settings button text"
+  },
+  "exitApp": "Exit App",
+  "@exitApp": {
+    "description": "Exit app button text"
+  },
+  "initializing": "Initializing...",
+  "@initializing": {
+    "description": "Initialization status message"
+  },
+  "checkingNotifications": "Checking notifications...",
+  "@checkingNotifications": {
+    "description": "Checking notifications status message"
+  },
+  "settingUpNotifications": "Setting up notifications...",
+  "@settingUpNotifications": {
+    "description": "Setting up notifications status message"
+  },
+  "checkingAuthentication": "Checking authentication...",
+  "@checkingAuthentication": {
+    "description": "Checking authentication status message"
+  },
+  "initializationFailed": "Initialization failed",
+  "@initializationFailed": {
+    "description": "Initialization failed error message"
+  },
+  "requestingPermission": "Requesting permission...",
+  "@requestingPermission": {
+    "description": "Requesting permission status message"
+  },
+  "permissionRequestFailed": "Permission request failed",
+  "@permissionRequestFailed": {
+    "description": "Permission request failed error message"
+  },
+  "checkingInternet": "Checking internet connection...",
+  "@checkingInternet": {
+    "description": "Checking internet connection status message"
+  },
+  "noInternetConnection": "No internet connection",
+  "@noInternetConnection": {
+    "description": "No internet connection error message"
+  },
+  "noInternetDescription": "Please check your internet connection and try again.",
+  "@noInternetDescription": {
+    "description": "No internet connection description"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Retry button text"
+  },
+  "updateRequired": "Update Required",
+  "@updateRequired": {
+    "description": "Update required screen title"
+  },
+  "updateRequiredDescription": "A new version of the app is available. Please update to continue using the app.",
+  "@updateRequiredDescription": {
+    "description": "Update required description text"
+  },
+  "minimumRequiredVersion": "Minimum Required Version",
+  "@minimumRequiredVersion": {
+    "description": "Minimum required version label"
+  },
+  "latestAvailableVersion": "Latest Available Version",
+  "@latestAvailableVersion": {
+    "description": "Latest available version label"
+  },
+  "updateNow": "Update Now",
+  "@updateNow": {
+    "description": "Update now button text"
+  },
+  "updateIsRequired": "Update is required to continue",
+  "@updateIsRequired": {
+    "description": "Update is required message"
+  },
+  "yourCurrentVersion": "Your Current Version",
+  "@yourCurrentVersion": {
+    "description": "User's current app version label"
+  },
+  "minimumRequiredVersion": "Minimum Required Version",
+  "@minimumRequiredVersion": {
+    "description": "Minimum required version label"
+  },
+  "latestAvailableVersion": "Latest Available Version",
+  "@latestAvailableVersion": {
+    "description": "Latest available version label"
+  },
+  "updateAvailable": "An update is available. Please update to continue using the app.",
+  "@updateAvailable": {
+    "description": "Update available message (required)"
+  },
+  "updateAvailableOptional": "A new version is available. Update to get the latest features.",
+  "@updateAvailableOptional": {
+    "description": "Optional update available message"
+  },
+  "appUpToDate": "Your app is up to date!",
+  "@appUpToDate": {
+    "description": "App up to date message"
+  },
+  "accountStatus": "Account Status",
+  "@accountStatus": {
+    "description": "Account status label"
+  },
+  "areYouSureLogout": "Are you sure you want to logout?",
+  "@areYouSureLogout": {
+    "description": "Logout confirmation message"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Theme setting label"
+  },
+  "light": "Light",
+  "@light": {
+    "description": "Light theme option"
+  },
+  "dark": "Dark",
+  "@dark": {
+    "description": "Dark theme option"
+  },
+  "system": "System",
+  "@system": {
+    "description": "System theme option"
+  },
+  "pleaseEnterEmail": "Please enter your email",
+  "@pleaseEnterEmail": {
+    "description": "Email required validation message"
+  },
+  "pleaseEnterValidEmail": "Please enter a valid email",
+  "@pleaseEnterValidEmail": {
+    "description": "Email format validation message"
+  },
+  "pleaseEnterPassword": "Please enter your password",
+  "@pleaseEnterPassword": {
+    "description": "Password required validation message"
+  },
+  "passwordMinLength": "Password must be at least 6 characters",
+  "@passwordMinLength": {
+    "description": "Password minimum length validation message"
+  },
+  "newEmailAddress": "New Email Address",
+  "@newEmailAddress": {
+    "description": "New email address field label"
+  },
+  "currentPassword": "Current Password",
+  "@currentPassword": {
+    "description": "Current password field label"
+  },
+  "newEmailMustBeDifferent": "New email must be different from current email",
+  "@newEmailMustBeDifferent": {
+    "description": "Validation message when new email is same as current email"
+  },
+  "day": "Day",
+  "@day": {
+    "description": "Day period option"
+  },
+  "week": "Week",
+  "@week": {
+    "description": "Week period option"
+  },
+  "month": "Month",
+  "@month": {
+    "description": "Month period option"
+  },
+  "year": "Year",
+  "@year": {
+    "description": "Year period option"
+  },
+  "dateRange": "Date Range",
+  "@dateRange": {
+    "description": "Date range period option"
+  },
+  "selectPeriod": "Select Period",
+  "@selectPeriod": {
+    "description": "Period selection dropdown label"
+  },
+  "from": "From",
+  "@from": {
+    "description": "From date label"
+  },
+  "to": "To",
+  "@to": {
+    "description": "To date label"
+  },
+  "selectDate": "Select date",
+  "@selectDate": {
+    "description": "Select date placeholder"
+  },
+  "errorLoadingStatistics": "Error loading statistics",
+  "@errorLoadingStatistics": {
+    "description": "Error message when statistics fail to load"
+  },
+  "noStatisticsAvailable": "No statistics available",
+  "@noStatisticsAvailable": {
+    "description": "Message when no statistics data is available"
+  },
+  "overview": "Overview",
+  "@overview": {
+    "description": "Overview section title"
+  },
+  "totalOrders": "Total Orders",
+  "@totalOrders": {
+    "description": "Total orders label"
+  },
+  "accepted": "Accepted",
+  "@accepted": {
+    "description": "Accepted label (singular)"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Pending label (singular)"
+  },
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "Rejected label (singular)"
+  },
+  "performanceMetrics": "Performance Metrics",
+  "@performanceMetrics": {
+    "description": "Performance metrics section title"
+  },
+  "averageRespondingTime": "Average Responding Time",
+  "@averageRespondingTime": {
+    "description": "Average responding time label"
+  },
+  "acceptedOrdersSuccessRate": "Good Decisions Rate",
+  "@acceptedOrdersSuccessRate": {
+    "description": "Accepted orders success rate label - measures how many accepted orders were actually delivered successfully"
+  },
+  "acceptedOrdersSuccessRateExplanation": "Measures how many accepted orders were successfully delivered. This is a positive metric that focuses on successes.",
+  "@acceptedOrdersSuccessRateExplanation": {
+    "description": "Explanation of accepted orders success rate metric"
+  },
+  "acceptedOrdersSuccessRateGood": "Higher percentage (80% and above) indicates the operator is accurate and mostly accepts real, valid orders.",
+  "@acceptedOrdersSuccessRateGood": {
+    "description": "When accepted orders success rate is good"
+  },
+  "acceptedOrdersSuccessRateBad": "Lower percentage (70% and below) suggests the operator may be accepting too many problematic or suspicious orders.",
+  "@acceptedOrdersSuccessRateBad": {
+    "description": "When accepted orders success rate is bad"
+  },
+  "acceptedOrdersFailureRate": "Bad Decisions Rate",
+  "@acceptedOrdersFailureRate": {
+    "description": "Accepted orders failure rate label - measures how many accepted orders failed"
+  },
+  "acceptedOrdersFailureRateExplanation": "Measures how many accepted orders failed for any reason (canceled, returned, refused by customer, not delivered). This is a negative metric that focuses on failures.",
+  "@acceptedOrdersFailureRateExplanation": {
+    "description": "Explanation of accepted orders failure rate metric"
+  },
+  "acceptedOrdersFailureRateGood": "Lower percentage (20% and below) indicates good decision-making and acceptance of quality orders.",
+  "@acceptedOrdersFailureRateGood": {
+    "description": "When accepted orders failure rate is good"
+  },
+  "acceptedOrdersFailureRateBad": "Higher percentage (40% and above) suggests the operator may be accepting too many low-quality, fake, or problematic orders.",
+  "@acceptedOrdersFailureRateBad": {
+    "description": "When accepted orders failure rate is bad"
+  },
+  "averageRespondingTimeExplanation": "Measures the average time it takes for the operator to respond to an order (accept or reject) after it's created.",
+  "@averageRespondingTimeExplanation": {
+    "description": "Explanation of average responding time metric"
+  },
+  "averageRespondingTimeGood": "Lower time (under 5 minutes) indicates quick response and efficient order processing.",
+  "@averageRespondingTimeGood": {
+    "description": "When average responding time is good"
+  },
+  "averageRespondingTimeBad": "Higher time (over 15 minutes) suggests delays in order processing which may impact customer satisfaction.",
+  "@averageRespondingTimeBad": {
+    "description": "When average responding time is bad"
+  },
+  "whenGood": "When Good:",
+  "@whenGood": {
+    "description": "Label for when a metric is good"
+  },
+  "whenBad": "When Bad:",
+  "@whenBad": {
+    "description": "Label for when a metric is bad"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Close button text"
+  },
+  "orderBreakdown": "Order Breakdown",
+  "@orderBreakdown": {
+    "description": "Order breakdown section title"
+  },
+  "all": "All",
+  "@all": {
+    "description": "All time period option for statistics"
+  },
+  "second": "second",
+  "@second": {
+    "description": "Second (singular) time unit"
+  },
+  "seconds": "seconds",
+  "@seconds": {
+    "description": "Seconds (plural) time unit"
+  },
+  "minute": "minute",
+  "@minute": {
+    "description": "Minute (singular) time unit"
+  },
+  "minutes": "minutes",
+  "@minutes": {
+    "description": "Minutes (plural) time unit"
+  },
+  "hour": "hour",
+  "@hour": {
+    "description": "Hour (singular) time unit"
+  },
+  "hours": "hours",
+  "@hours": {
+    "description": "Hours (plural) time unit"
+  },
+  "day": "day",
+  "@day": {
+    "description": "Day (singular) time unit"
+  },
+  "days": "days",
+  "@days": {
+    "description": "Days (plural) time unit"
+  },
+  "errorGeneric": "Something went wrong. Please try again.",
+  "@errorGeneric": {
+    "description": "Generic error message"
+  },
+  "errorNetworkTimeout": "Request timed out. Please check your internet connection and try again.",
+  "@errorNetworkTimeout": {
+    "description": "Network timeout error message"
+  },
+  "errorConnectionError": "Cannot connect to server. Please check your internet connection and ensure the server is running.",
+  "@errorConnectionError": {
+    "description": "Connection error message"
+  },
+  "errorRequestCancelled": "Request was cancelled. Please try again.",
+  "@errorRequestCancelled": {
+    "description": "Request cancelled error message"
+  },
+  "errorNetworkGeneric": "Network error occurred. Please check your internet connection and try again.",
+  "@errorNetworkGeneric": {
+    "description": "Generic network error message"
+  },
+  "errorInvalidRequest": "Invalid request. Please check your input and try again.",
+  "@errorInvalidRequest": {
+    "description": "Invalid request error (400)"
+  },
+  "errorSessionExpired": "Your session has expired. Please login again.",
+  "@errorSessionExpired": {
+    "description": "Session expired error (401)"
+  },
+  "errorNoPermission": "You do not have permission to perform this action.",
+  "@errorNoPermission": {
+    "description": "No permission error (403)"
+  },
+  "errorNotFound": "The requested resource was not found.",
+  "@errorNotFound": {
+    "description": "Not found error (404)"
+  },
+  "errorConflict": "This action conflicts with the current state. Please refresh and try again.",
+  "@errorConflict": {
+    "description": "Conflict error (409)"
+  },
+  "errorValidation": "Validation error. Please check your input.",
+  "@errorValidation": {
+    "description": "Validation error (422)"
+  },
+  "errorTooManyRequests": "Too many requests. Please wait a moment and try again.",
+  "@errorTooManyRequests": {
+    "description": "Too many requests error (429)"
+  },
+  "errorServerUnavailable": "Service temporarily unavailable. Please try again later.",
+  "@errorServerUnavailable": {
+    "description": "Server unavailable error (5xx)"
+  },
+  "errorServerGeneric": "Server error occurred. Please try again later.",
+  "@errorServerGeneric": {
+    "description": "Generic server error"
+  },
+  "errorDatabaseLocal": "Unable to save data locally. Please try again.",
+  "@errorDatabaseLocal": {
+    "description": "Local database error"
+  },
+  "errorCacheLoad": "Unable to load cached data. Please refresh.",
+  "@errorCacheLoad": {
+    "description": "Cache load error"
+  },
+  "errorAuthFailed": "Authentication failed. Please check your credentials and try again.",
+  "@errorAuthFailed": {
+    "description": "Authentication failed error"
+  },
+  "errorInvalidCredentials": "Invalid email or password. Please check your credentials and try again.",
+  "@errorInvalidCredentials": {
+    "description": "Invalid credentials error"
+  },
+  "errorAuthRequired": "Authentication required. Please login again.",
+  "@errorAuthRequired": {
+    "description": "Authentication required error"
+  },
+  "errorSignInCancelled": "Sign-in was cancelled.",
+  "@errorSignInCancelled": {
+    "description": "Sign-in cancelled message"
+  },
+  "errorServerMaintenance": "Service is temporarily unavailable for maintenance. Please try again later.",
+  "@errorServerMaintenance": {
+    "description": "Server maintenance message"
+  },
+  "errorDatabaseServer": "Database error occurred. Please try again later.",
+  "@errorDatabaseServer": {
+    "description": "Database server error"
+  },
+  "errorLoadingOrders": "Error loading orders",
+  "@errorLoadingOrders": {
+    "description": "Error loading orders message"
+  },
+  "order": "Order",
+  "@order": {
+    "description": "Order label"
+  },
+  "customer": "Customer",
+  "@customer": {
+    "description": "Customer label"
+  },
+  "restaurant": "Restaurant",
+  "@restaurant": {
+    "description": "Restaurant label"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Description field label"
+  },
+  "address": "Address",
+  "@address": {
+    "description": "Address field label"
+  },
+  "isOpen": "Is Open",
+  "@isOpen": {
+    "description": "Is Open toggle label"
+  },
+  "restaurantAndNotes": "Restaurant & Notes",
+  "@restaurantAndNotes": {
+    "description": "Restaurant and Notes toggle button label"
+  },
+  "notes": "Notes",
+  "@notes": {
+    "description": "Notes label"
+  },
+  "rejectionReason": "Rejection Reason",
+  "@rejectionReason": {
+    "description": "Rejection reason label"
+  },
+  "total": "Total",
+  "@total": {
+    "description": "Total label"
+  },
+  "deliveryInstructions": "Delivery Instructions",
+  "@deliveryInstructions": {
+    "description": "Delivery Instructions label"
+  },
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button text"
+  },
+  "reject": "Reject",
+  "@reject": {
+    "description": "Reject button text"
+  },
+  "startPreparing": "Start Preparing",
+  "@startPreparing": {
+    "description": "Start Preparing button text"
+  },
+  "markReady": "Mark Ready",
+  "@markReady": {
+    "description": "Mark Ready button text"
+  },
+  "pickedUp": "Picked Up",
+  "@pickedUp": {
+    "description": "Picked Up button text"
+  },
+  "markDelivered": "Mark Delivered",
+  "@markDelivered": {
+    "description": "Mark Delivered button text"
+  },
+  "loadMore": "Load More",
+  "@loadMore": {
+    "description": "Load More button text"
+  },
+  "noPendingOrders": "No Pending Orders",
+  "@noPendingOrders": {
+    "description": "No pending orders message"
+  },
+  "noPendingOrdersDescription": "There are no pending orders in this date range.",
+  "@noPendingOrdersDescription": {
+    "description": "No pending orders description"
+  },
+  "noOngoingOrders": "No Ongoing Orders",
+  "@noOngoingOrders": {
+    "description": "No ongoing orders message"
+  },
+  "noOngoingOrdersDescription": "There are no ongoing orders in this date range.",
+  "@noOngoingOrdersDescription": {
+    "description": "No ongoing orders description"
+  },
+  "selectDeliveryMethod": "Select Delivery Method",
+  "@selectDeliveryMethod": {
+    "description": "Dialog title for selecting delivery method"
+  },
+  "selfDelivery": "Self Delivery",
+  "@selfDelivery": {
+    "description": "Self delivery option label"
+  },
+  "externalDelivery": "External Delivery",
+  "@externalDelivery": {
+    "description": "External delivery option label"
+  },
+  "selfDeliveryDescription": "The restaurant will deliver the order with its own driver",
+  "@selfDeliveryDescription": {
+    "description": "Self delivery description"
+  },
+  "externalDeliveryDescription": "The order will be picked up by third-party drivers",
+  "@externalDeliveryDescription": {
+    "description": "External delivery description"
+  },
+  "pleaseSelectDeliveryMethod": "Please select a delivery method before marking the order as ready",
+  "@pleaseSelectDeliveryMethod": {
+    "description": "Message prompting user to select delivery method"
+  },
+  "drivers": "Drivers",
+  "@drivers": {
+    "description": "Drivers section title"
+  },
+  "addDriver": "Add Driver",
+  "@addDriver": {
+    "description": "Add driver button text"
+  },
+  "editDriver": "Edit Driver",
+  "@editDriver": {
+    "description": "Edit driver button text"
+  },
+  "deleteDriver": "Delete Driver",
+  "@deleteDriver": {
+    "description": "Delete driver button text"
+  },
+  "driverCode": "Driver Code",
+  "@driverCode": {
+    "description": "Driver code field label"
+  },
+  "driverCodeRequired": "Driver code is required",
+  "@driverCodeRequired": {
+    "description": "Driver code required validation message"
+  },
+  "noDriversAdded": "No drivers added yet",
+  "@noDriversAdded": {
+    "description": "Message when no drivers are added"
+  },
+  "pleaseAddDriverBeforeSelfDelivery": "Please add a driver in your profile before choosing Self Delivery.",
+  "@pleaseAddDriverBeforeSelfDelivery": {
+    "description": "Warning message when no drivers exist for self delivery"
+  },
+  "selectDriversForDelivery": "Select Drivers for Delivery",
+  "@selectDriversForDelivery": {
+    "description": "Dialog title for selecting drivers"
+  },
+  "selectAllDrivers": "Select All Drivers",
+  "@selectAllDrivers": {
+    "description": "Option to select all drivers"
+  },
+  "selectSpecificDrivers": "Select Specific Drivers",
+  "@selectSpecificDrivers": {
+    "description": "Option to select specific drivers"
+  },
+  "driverSelected": "{count} driver(s) selected",
+  "@driverSelected": {
+    "description": "Message showing number of selected drivers",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "driverCodeNotFound": "Driver code not found. Please enter a valid driver code.",
+  "@driverCodeNotFound": {
+    "description": "Error message when driver code doesn't exist"
+  },
+  "driverAlreadyLinked": "This driver is already linked to your restaurant.",
+  "@driverAlreadyLinked": {
+    "description": "Error message when trying to link an already linked driver"
+  },
+  "driverLinkedSuccessfully": "Driver linked successfully!",
+  "@driverLinkedSuccessfully": {
+    "description": "Success message when driver is linked successfully"
+  },
+  "requestTimeout": "Request Timeout",
+  "@requestTimeout": {
+    "description": "Request timeout error message"
+  },
+  "requestTimeoutDescription": "The request took too long to complete. Please check your internet connection and try again.",
+  "@requestTimeoutDescription": {
+    "description": "Request timeout description"
+  },
+  "call": "Call",
+  "@call": {
+    "description": "Call button tooltip"
+  },
+  "failedToOpenPhoneApp": "Failed to open phone app",
+  "@failedToOpenPhoneApp": {
+    "description": "Failed to open phone app error message"
+  },
+  "errorMakingPhoneCall": "Error making phone call",
+  "@errorMakingPhoneCall": {
+    "description": "Error making phone call message"
+  },
+  "ordersLoadedSuccessfully": "Orders loaded successfully",
+  "@ordersLoadedSuccessfully": {
+    "description": "Orders loaded successfully message"
+  },
+  "orderConfirmedSuccessfully": "Order confirmed successfully",
+  "@orderConfirmedSuccessfully": {
+    "description": "Order confirmed successfully message"
+  },
+  "orderRejectedSuccessfully": "Order rejected successfully",
+  "@orderRejectedSuccessfully": {
+    "description": "Order rejected successfully message"
+  },
+  "confirmOrder": "Confirm",
+  "@confirmOrder": {
+    "description": "Confirm order dialog title and button"
+  },
+  "areYouSureConfirmOrder": "Are you sure you want to confirm this order?",
+  "@areYouSureConfirmOrder": {
+    "description": "Confirm order confirmation message"
+  },
+  "confirmOrderDescription": "This will approve the order and make it visible to the restaurant.",
+  "@confirmOrderDescription": {
+    "description": "Confirm order description"
+  },
+  "pleaseSelectRejectReason": "Please select a reason for rejecting this order:",
+  "@pleaseSelectRejectReason": {
+    "description": "Reject order dialog title"
+  },
+  "enterYourReason": "Enter your reason...",
+  "@enterYourReason": {
+    "description": "Custom reject reason input hint"
+  },
+  "rejectReasonDidntPickUp": "Didn't pick up the phone",
+  "@rejectReasonDidntPickUp": {
+    "description": "Reject reason option"
+  },
+  "rejectReasonSuspiciousBehavior": "Suspicious customer behavior",
+  "@rejectReasonSuspiciousBehavior": {
+    "description": "Reject reason option"
+  },
+  "rejectReasonInvalidAddress": "Invalid delivery address",
+  "@rejectReasonInvalidAddress": {
+    "description": "Reject reason option"
+  },
+  "rejectReasonUnrealisticAmount": "Order amount seems unrealistic",
+  "@rejectReasonUnrealisticAmount": {
+    "description": "Reject reason option"
+  },
+  "rejectReasonInvalidContact": "Customer contact information invalid",
+  "@rejectReasonInvalidContact": {
+    "description": "Reject reason option"
+  },
+  "rejectReasonRestaurantUnavailable": "Restaurant not available",
+  "@rejectReasonRestaurantUnavailable": {
+    "description": "Reject reason option"
+  },
+  "other": "Other",
+  "@other": {
+    "description": "Other option label"
+  },
+  "currentPasswordRequired": "Current password is required",
+  "@currentPasswordRequired": {
+    "description": "Current password required validation message"
+  },
+  "newPasswordRequired": "New password is required",
+  "@newPasswordRequired": {
+    "description": "New password required validation message"
+  },
+  "passwordMinLength8": "Password must be at least 8 characters",
+  "@passwordMinLength8": {
+    "description": "Password minimum length validation message (8 characters)"
+  },
+  "passwordComplexity": "Password must contain uppercase, lowercase, number, and symbol",
+  "@passwordComplexity": {
+    "description": "Password complexity validation message"
+  },
+  "pleaseConfirmNewPassword": "Please confirm your new password",
+  "@pleaseConfirmNewPassword": {
+    "description": "Confirm new password required validation message"
+  },
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": {
+    "description": "Passwords do not match validation message"
+  },
+  "deleteAccount": "Delete Account",
+  "@deleteAccount": {
+    "description": "Delete account dialog title and button text"
+  },
+  "deleteAccountConfirmation": "Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently deleted.\n\nYou will need to verify your identity with an OTP code sent to your email.",
+  "@deleteAccountConfirmation": {
+    "description": "Delete account confirmation message"
+  },
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": "Continue button text"
+  },
+  "errorOpeningUrl": "Error opening URL: {error}",
+  "@errorOpeningUrl": {
+    "description": "Error message when URL cannot be opened",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "appStoreUrlNotConfigured": "App Store URL is not configured. Please update the app manually from the App Store.",
+  "@appStoreUrlNotConfigured": {
+    "description": "Message when App Store URL is not configured"
+  },
+  "unableToDetermineAppPackage": "Unable to determine app package. Please update the app manually from {store}.",
+  "@unableToDetermineAppPackage": {
+    "description": "Message when app package cannot be determined",
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "unableToOpenStore": "Unable to open {store}. Please update the app manually.",
+  "@unableToOpenStore": {
+    "description": "Message when app store cannot be opened",
+    "placeholders": {
+      "store": {
+        "type": "String"
+      }
+    }
+  },
+  "errorOpeningAppStore": "Error opening app store: {error}. Please update the app manually.",
+  "@errorOpeningAppStore": {
+    "description": "Error message when app store cannot be opened",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "emailVerifiedSuccessfully": "Email verified successfully",
+  "@emailVerifiedSuccessfully": {
+    "description": "Success message when email is verified"
+  },
+  "failedToVerifyEmailOtp": "Failed to verify email OTP",
+  "@failedToVerifyEmailOtp": {
+    "description": "Error message when email OTP verification fails"
+  },
+  "requestTimeoutCheckConnection": "Request timeout. Please check your internet connection and try again.",
+  "@requestTimeoutCheckConnection": {
+    "description": "Request timeout error message"
+  },
+  "cannotConnectToServer": "Cannot connect to server. Please check your internet connection.",
+  "@cannotConnectToServer": {
+    "description": "Connection error message"
+  },
+  "verificationOtpSentSuccessfully": "Verification OTP sent successfully. Please check your email.",
+  "@verificationOtpSentSuccessfully": {
+    "description": "Success message when verification OTP is sent"
+  },
+  "failedToResendVerificationOtp": "Failed to resend verification OTP",
+  "@failedToResendVerificationOtp": {
+    "description": "Error message when resending verification OTP fails"
+  },
+  "emailChangeOtpSentSuccessfully": "Email change OTP sent successfully. Please check your new email.",
+  "@emailChangeOtpSentSuccessfully": {
+    "description": "Success message when email change OTP is sent"
+  },
+  "pleaseEnterValid6DigitOtp": "Please enter a valid 6-digit OTP",
+  "@pleaseEnterValid6DigitOtp": {
+    "description": "Validation message for OTP input"
+  },
+  "failedToGetLegalUrls": "Failed to get legal URLs",
+  "@failedToGetLegalUrls": {
+    "description": "Error message when legal URLs cannot be retrieved"
+  },
+  "networkErrorCheckConnection": "Network error. Please check your internet connection.",
+  "@networkErrorCheckConnection": {
+    "description": "Network error message"
+  },
+  "serverErrorOccurred": "Server error occurred",
+  "@serverErrorOccurred": {
+    "description": "Generic server error message"
+  },
+  "failedToGetContactInformation": "Failed to get contact information",
+  "@failedToGetContactInformation": {
+    "description": "Error message when contact information cannot be retrieved"
+  },
+  "unexpectedErrorOccurred": "An unexpected error occurred: {error}",
+  "@unexpectedErrorOccurred": {
+    "description": "Unexpected error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "appStore": "App Store",
+  "@appStore": {
+    "description": "App Store name"
+  },
+  "playStore": "Play Store",
+  "@playStore": {
+    "description": "Play Store name"
+  },
+  "urlNotAvailable": "URL not available. Please try again later.",
+  "@urlNotAvailable": {
+    "description": "Message when URL is not available"
+  },
+  "unableToOpenUrlTryAgain": "Unable to open URL. Please try again.",
+  "@unableToOpenUrlTryAgain": {
+    "description": "Message when URL cannot be opened"
+  },
+  "unableToOpenUrlCheckConnection": "Unable to open URL. Please check your internet connection.",
+  "@unableToOpenUrlCheckConnection": {
+    "description": "Message when URL cannot be opened due to connection issues"
+  },
+  "anErrorOccurred": "An error occurred",
+  "@anErrorOccurred": {
+    "description": "Generic error message fallback"
+  },
+  "openingHours": "Opening Hours",
+  "@openingHours": {
+    "description": "Opening hours section title"
+  },
+  "day": "Day",
+  "@day": {
+    "description": "Day column header"
+  },
+  "hours": "Hours",
+  "@hours": {
+    "description": "Hours column header"
+  },
+  "closed": "Closed",
+  "@closed": {
+    "description": "Closed status for a day"
+  },
+  "monday": "Monday",
+  "@monday": {
+    "description": "Monday day name"
+  },
+  "tuesday": "Tuesday",
+  "@tuesday": {
+    "description": "Tuesday day name"
+  },
+  "wednesday": "Wednesday",
+  "@wednesday": {
+    "description": "Wednesday day name"
+  },
+  "thursday": "Thursday",
+  "@thursday": {
+    "description": "Thursday day name"
+  },
+  "friday": "Friday",
+  "@friday": {
+    "description": "Friday day name"
+  },
+  "saturday": "Saturday",
+  "@saturday": {
+    "description": "Saturday day name"
+  },
+  "sunday": "Sunday",
+  "@sunday": {
+    "description": "Sunday day name"
+  },
+  "open": "Open",
+  "@open": {
+    "description": "Opening time label"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Closing time label"
+  },
+  "schedule": "Schedule",
+  "@schedule": {
+    "description": "Schedule page title"
+  },
+  "restaurantIsOpen": "Restaurant is currently open",
+  "@restaurantIsOpen": {
+    "description": "Message when restaurant is open"
+  },
+  "restaurantIsClosed": "Restaurant is currently closed",
+  "@restaurantIsClosed": {
+    "description": "Message when restaurant is closed"
+  },
+  "updateSchedule": "Update Schedule",
+  "@updateSchedule": {
+    "description": "Button text to update schedule"
+  },
+  "driverAvailability": "Availability",
+  "@driverAvailability": {
+    "description": "Driver availability toggle label"
+  },
+  "driverIsAvailable": "You are currently available for deliveries",
+  "@driverIsAvailable": {
+    "description": "Message when driver is available"
+  },
+  "driverIsUnavailable": "You are currently unavailable for deliveries",
+  "@driverIsUnavailable": {
+    "description": "Message when driver is unavailable"
+  },
+  "unsavedChanges": "Unsaved Changes",
+  "@unsavedChanges": {
+    "description": "Title for unsaved changes dialog"
+  },
+  "unsavedChangesMessage": "You have unsaved changes. Do you want to save them or discard them?",
+  "@unsavedChangesMessage": {
+    "description": "Message for unsaved changes dialog"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button text"
+  },
+  "discard": "Discard",
+  "@discard": {
+    "description": "Discard button text"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "selectLocationMethod": "Select Location Method",
+  "@selectLocationMethod": {
+    "description": "Title for location selection dialog"
+  },
+  "manualEntry": "Manual Entry",
+  "@manualEntry": {
+    "description": "Manual entry option for location"
+  },
+  "fromMap": "From Map",
+  "@fromMap": {
+    "description": "Map selection option for location"
+  },
+  "selectLocationOnMap": "Select Location on Map",
+  "@selectLocationOnMap": {
+    "description": "Title for map picker page"
+  },
+  "selectLocation": "Select Location",
+  "@selectLocation": {
+    "description": "Button text to select location"
+  },
+  "locationCoordinates": "Location Coordinates",
+  "@locationCoordinates": {
+    "description": "Label for location coordinates field"
+  },
+  "enterCoordinatesManually": "Enter Coordinates Manually",
+  "@enterCoordinatesManually": {
+    "description": "Title for manual coordinates dialog"
+  },
+  "latitude": "Latitude",
+  "@latitude": {
+    "description": "Latitude field label"
+  },
+  "longitude": "Longitude",
+  "@longitude": {
+    "description": "Longitude field label"
+  },
+  "latitudeRequired": "Latitude is required",
+  "@latitudeRequired": {
+    "description": "Validation message for required latitude"
+  },
+  "longitudeRequired": "Longitude is required",
+  "@longitudeRequired": {
+    "description": "Validation message for required longitude"
+  },
+  "invalidLatitude": "Invalid latitude value",
+  "@invalidLatitude": {
+    "description": "Validation message for invalid latitude"
+  },
+  "invalidLongitude": "Invalid longitude value",
+  "@invalidLongitude": {
+    "description": "Validation message for invalid longitude"
+  },
+  "latitudeRange": "Latitude must be between -90 and 90",
+  "@latitudeRange": {
+    "description": "Validation message for latitude range"
+  },
+  "longitudeRange": "Longitude must be between -180 and 180",
+  "@longitudeRange": {
+    "description": "Validation message for longitude range"
+  },
+  "menu": "Menu",
+  "@menu": {
+    "description": "Menu feature title"
+  },
+  "categories": "Categories",
+  "@categories": {
+    "description": "Categories label"
+  },
+  "menuItems": "Menu Items",
+  "@menuItems": {
+    "description": "Menu items label"
+  },
+  "addCategory": "Add Category",
+  "@addCategory": {
+    "description": "Add category button text"
+  },
+  "editCategory": "Edit Category",
+  "@editCategory": {
+    "description": "Edit category button text"
+  },
+  "deleteCategory": "Delete Category",
+  "@deleteCategory": {
+    "description": "Delete category button text"
+  },
+  "addMenuItem": "Add Menu Item",
+  "@addMenuItem": {
+    "description": "Add menu item button text"
+  },
+  "editMenuItem": "Edit Menu Item",
+  "@editMenuItem": {
+    "description": "Edit menu item button text"
+  },
+  "deleteMenuItem": "Delete Menu Item",
+  "@deleteMenuItem": {
+    "description": "Delete menu item button text"
+  },
+  "categoryName": "Category Name",
+  "@categoryName": {
+    "description": "Category name field label"
+  },
+  "categoryDescription": "Category Description",
+  "@categoryDescription": {
+    "description": "Category description field label"
+  },
+  "itemName": "Item Name",
+  "@itemName": {
+    "description": "Menu item name field label"
+  },
+  "itemDescription": "Item Description",
+  "@itemDescription": {
+    "description": "Menu item description field label"
+  },
+  "itemPrice": "Price",
+  "@itemPrice": {
+    "description": "Menu item price field label"
+  },
+  "preparationTime": "Preparation Time",
+  "@preparationTime": {
+    "description": "Preparation time field label"
+  },
+  "ingredients": "Ingredients",
+  "@ingredients": {
+    "description": "Ingredients label"
+  },
+  "allergens": "Allergens",
+  "@allergens": {
+    "description": "Allergens label"
+  },
+  "nutritionalInfo": "Nutritional Information",
+  "@nutritionalInfo": {
+    "description": "Nutritional information label"
+  },
+  "image": "Image",
+  "@image": {
+    "description": "Image label"
+  },
+  "selectImage": "Select Image",
+  "@selectImage": {
+    "description": "Select image button text"
+  },
+  "takePhoto": "Take Photo",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+  "chooseFromGallery": "Choose from Gallery",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+  "search": "Search",
+  "@search": {
+    "description": "Search field label"
+  },
+  "filter": "Filter",
+  "@filter": {
+    "description": "Filter button text"
+  },
+  "bulkActions": "Bulk Actions",
+  "@bulkActions": {
+    "description": "Bulk actions label"
+  },
+  "deleteSelected": "Delete Selected",
+  "@deleteSelected": {
+    "description": "Delete selected items button text"
+  },
+  "toggleAvailability": "Toggle Availability",
+  "@toggleAvailability": {
+    "description": "Toggle availability button text"
+  },
+  "reorder": "Reorder",
+  "@reorder": {
+    "description": "Reorder button text"
+  },
+  "dragToReorder": "Drag to reorder",
+  "@dragToReorder": {
+    "description": "Drag to reorder instruction"
+  },
+  "items": "items",
+  "@items": {
+    "description": "Items label (plural)"
+  },
+  "active": "Active",
+  "@active": {
+    "description": "Active status label"
+  },
+  "inactive": "Inactive",
+  "@inactive": {
+    "description": "Inactive status label"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button text"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button text"
+  },
+  "featured": "Featured",
+  "@featured": {
+    "description": "Featured label"
+  },
+  "available": "Available",
+  "@available": {
+    "description": "Available status label"
+  },
+  "unavailable": "Unavailable",
+  "@unavailable": {
+    "description": "Unavailable status label"
+  },
+  "selected": "Selected",
+  "@selected": {
+    "description": "Selected label"
+  },
+  "makeUnavailable": "Make Unavailable",
+  "@makeUnavailable": {
+    "description": "Make unavailable button text"
+  },
+  "makeAvailable": "Make Available",
+  "@makeAvailable": {
+    "description": "Make available button text"
+  },
+  "remove": "Remove",
+  "@remove": {
+    "description": "Remove button text"
+  },
+  "removeImage": "Remove Image",
+  "@removeImage": {
+    "description": "Remove image dialog title"
+  },
+  "areYouSureYouWantToRemoveThisImage": "Are you sure you want to remove this image?",
+  "@areYouSureYouWantToRemoveThisImage": {
+    "description": "Remove image confirmation message"
+  },
+  "noCategories": "No Categories",
+  "@noCategories": {
+    "description": "No categories message"
+  },
+  "noCategoriesDescription": "You haven't created any categories yet. Tap the + button to add one.",
+  "@noCategoriesDescription": {
+    "description": "No categories description"
+  },
+  "noMenuItems": "No Menu Items",
+  "@noMenuItems": {
+    "description": "No menu items message"
+  },
+  "noMenuItemsDescription": "This category doesn't have any items yet. Tap the + button to add one.",
+  "@noMenuItemsDescription": {
+    "description": "No menu items description"
+  },
+  "areYouSureDeleteCategory": "Are you sure you want to delete this category?",
+  "@areYouSureDeleteCategory": {
+    "description": "Delete category confirmation message"
+  },
+  "areYouSureDeleteMenuItem": "Are you sure you want to delete this menu item?",
+  "@areYouSureDeleteMenuItem": {
+    "description": "Delete menu item confirmation message"
+  },
+  "areYouSureDeleteSelected": "Are you sure you want to delete {count} selected item(s)?",
+  "@areYouSureDeleteSelected": {
+    "description": "Delete selected items confirmation message",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "categoryHasItems": "This category contains {count} item(s). Please delete or move the items first.",
+  "@categoryHasItems": {
+    "description": "Message when trying to delete category with items",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "categoryNameRequired": "Category name is required",
+  "@categoryNameRequired": {
+    "description": "Category name required validation"
+  },
+  "itemNameRequired": "Item name is required",
+  "@itemNameRequired": {
+    "description": "Item name required validation"
+  },
+  "priceRequired": "Price is required",
+  "@priceRequired": {
+    "description": "Price required validation"
+  },
+  "priceInvalid": "Price must be greater than 0",
+  "@priceInvalid": {
+    "description": "Price invalid validation"
+  },
+  "preparationTimeRequired": "Preparation time is required",
+  "@preparationTimeRequired": {
+    "description": "Preparation time required validation"
+  },
+  "preparationTimeInvalid": "Preparation time must be at least 1 minute",
+  "@preparationTimeInvalid": {
+    "description": "Preparation time invalid validation"
+  },
+  "categoryRequired": "Category is required",
+  "@categoryRequired": {
+    "description": "Category required validation"
+  },
+  "addIngredient": "Add Ingredient",
+  "@addIngredient": {
+    "description": "Add ingredient button text"
+  },
+  "addAllergen": "Add Allergen",
+  "@addAllergen": {
+    "description": "Add allergen button text"
+  },
+  "sortOrder": "Sort Order",
+  "@sortOrder": {
+    "description": "Sort order field label"
+  },
+  "isActive": "Is Active",
+  "@isActive": {
+    "description": "Is active toggle label"
+  },
+  "isAvailable": "Is Available",
+  "@isAvailable": {
+    "description": "Is available toggle label"
+  },
+  "isFeatured": "Is Featured",
+  "@isFeatured": {
+    "description": "Is featured toggle label"
+  },
+  "clearFilters": "Clear Filters",
+  "@clearFilters": {
+    "description": "Clear filters button text"
+  },
+  "sortByName": "Sort by Name",
+  "@sortByName": {
+    "description": "Sort by name option"
+  },
+  "sortByPrice": "Sort by Price",
+  "@sortByPrice": {
+    "description": "Sort by price option"
+  },
+  "sortByOrder": "Sort by Order",
+  "@sortByOrder": {
+    "description": "Sort by order option"
+  },
+  "sortAscending": "Ascending",
+  "@sortAscending": {
+    "description": "Sort ascending option"
+  },
+  "sortDescending": "Descending",
+  "@sortDescending": {
+    "description": "Sort descending option"
+  },
+  "minPrice": "Min Price",
+  "@minPrice": {
+    "description": "Minimum price filter label"
+  },
+  "maxPrice": "Max Price",
+  "@maxPrice": {
+    "description": "Maximum price filter label"
+  },
+  "selectCategory": "Select Category",
+  "@selectCategory": {
+    "description": "Select category label"
+  },
+  "categoryCreatedSuccessfully": "Category created successfully",
+  "@categoryCreatedSuccessfully": {
+    "description": "Category created success message"
+  },
+  "categoryUpdatedSuccessfully": "Category updated successfully",
+  "@categoryUpdatedSuccessfully": {
+    "description": "Category updated success message"
+  },
+  "categoryDeletedSuccessfully": "Category deleted successfully",
+  "@categoryDeletedSuccessfully": {
+    "description": "Category deleted success message"
+  },
+  "menuItemCreatedSuccessfully": "Menu item created successfully",
+  "@menuItemCreatedSuccessfully": {
+    "description": "Menu item created success message"
+  },
+  "menuItemUpdatedSuccessfully": "Menu item updated successfully",
+  "@menuItemUpdatedSuccessfully": {
+    "description": "Menu item updated success message"
+  },
+  "menuItemDeletedSuccessfully": "Menu item deleted successfully",
+  "@menuItemDeletedSuccessfully": {
+    "description": "Menu item deleted success message"
+  },
+  "menuItemsUpdatedSuccessfully": "Menu items updated successfully",
+  "@menuItemsUpdatedSuccessfully": {
+    "description": "Menu items updated success message"
+  },
+  "menuItemsDeletedSuccessfully": "Menu items deleted successfully",
+  "@menuItemsDeletedSuccessfully": {
+    "description": "Menu items deleted success message"
+  },
+  "categoriesReorderedSuccessfully": "Categories reordered successfully",
+  "@categoriesReorderedSuccessfully": {
+    "description": "Categories reordered success message"
+  },
+  "menuItemsReorderedSuccessfully": "Menu items reordered successfully",
+  "@menuItemsReorderedSuccessfully": {
+    "description": "Menu items reordered success message"
+  },
+  "@currency": {
+    "description": "Currency symbol/abbreviation"
+  },
+  "bank": "Bank",
+  "@bank": {
+    "description": "Bank feature title"
+  },
+  "totalExpected": "Total Expected",
+  "@totalExpected": {
+    "description": "Total expected amount label"
+  },
+  "driverDebts": "Driver Debts",
+  "@driverDebts": {
+    "description": "Driver debts section title"
+  },
+  "pendingPayments": "Pending Payments",
+  "@pendingPayments": {
+    "description": "Pending payments section title"
+  },
+  "noPendingTransactions": "No pending transactions",
+  "@noPendingTransactions": {
+    "description": "No pending transactions message"
+  },
+  "errorLoadingData": "Error loading data",
+  "@errorLoadingData": {
+    "description": "Error loading data message"
+  },
+  "noDataAvailable": "No data available",
+  "@noDataAvailable": {
+    "description": "No data available message"
+  },
+  "restaurantSystemManagerDebt": "Restaurant System Manager Debt",
+  "@restaurantSystemManagerDebt": {
+    "description": "Restaurant system manager debt label"
+  },
+  "restaurantDebtToSystem": "The restaurant's debt to the system",
+  "@restaurantDebtToSystem": {
+    "description": "Restaurant debt to system title"
+  },
+  "restaurantSystemManagerDebtDescription": "Amount restaurant owes to system manager (10% of order total)",
+  "@restaurantSystemManagerDebtDescription": {
+    "description": "Restaurant system manager debt description"
+  },
+  "amount": "Amount",
+  "@amount": {
+    "description": "Amount label"
+  },
+  "driver": "Driver",
+  "@driver": {
+    "description": "Driver label"
+  },
+  "expectedFromDrivers": "Expected from Drivers",
+  "@expectedFromDrivers": {
+    "description": "Expected from drivers page title"
+  },
+  "payToSystemAdministrator": "Pay to System Administrator",
+  "@payToSystemAdministrator": {
+    "description": "Pay to system administrator page title"
+  },
+  "transactions": "Transactions",
+  "@transactions": {
+    "description": "Transactions page title"
+  },
+  "bankArchive": "Bank Archive",
+  "@bankArchive": {
+    "description": "Bank archive page title"
+  },
+  "createTransaction": "Create Transaction",
+  "@createTransaction": {
+    "description": "Create transaction button/label"
+  },
+  "paySystem": "Pay System",
+  "@paySystem": {
+    "description": "Pay System tab label"
+  },
+  "calculatingAmount": "Calculating amount...",
+  "@calculatingAmount": {
+    "description": "Message shown while calculating payment amount"
+  },
+  "amountCalculated": "Amount calculated",
+  "@amountCalculated": {
+    "description": "Message shown when amount is calculated"
+  },
+  "noAmountForRange": "No amount due for the selected date range",
+  "@noAmountForRange": {
+    "description": "Message shown when calculated amount is zero"
+  },
+  "amountFieldReadOnly": "Amount is automatically calculated based on selected date range",
+  "@amountFieldReadOnly": {
+    "description": "Helper text for read-only amount field"
+  },
+  "pendingApprovals": "Pending Approvals",
+  "@pendingApprovals": {
+    "description": "Pending approvals section title"
+  },
+  "myPendingTransactions": "My Pending Transactions",
+  "@myPendingTransactions": {
+    "description": "My pending transactions section title"
+  },
+  "transactionHistory": "Transaction History",
+  "@transactionHistory": {
+    "description": "Transaction history section title"
+  },
+  "filterByType": "Filter by Type",
+  "@filterByType": {
+    "description": "Filter by type label"
+  },
+  "filterByDate": "Filter by Date",
+  "@filterByDate": {
+    "description": "Filter by date label"
+  },
+  "waitingForApproval": "Waiting for Approval",
+  "@waitingForApproval": {
+    "description": "Waiting for approval status"
+  },
+  "approvedBy": "Approved by",
+  "@approvedBy": {
+    "description": "Approved by label"
+  },
+  "rejectedBy": "Rejected by",
+  "@rejectedBy": {
+    "description": "Rejected by label"
+  },
+  "breakdownByDriver": "Breakdown by Driver",
+  "@breakdownByDriver": {
+    "description": "Breakdown by driver section title"
+  },
+  "breakdown": "Breakdown",
+  "@breakdown": {
+    "description": "Breakdown section title"
+  },
+  "transactionType": "Type",
+  "@transactionType": {
+    "description": "Transaction type label"
+  },
+  "paymentToDriver": "From Driver",
+  "@paymentToDriver": {
+    "description": "Payment to driver transaction type"
+  },
+  "paymentToSystem": "To System",
+  "@paymentToSystem": {
+    "description": "Payment to system transaction type"
+  },
+  "selectDriver": "Select Driver",
+  "@selectDriver": {
+    "description": "Select driver label"
+  },
+  "enterAmount": "Enter Amount",
+  "@enterAmount": {
+    "description": "Enter amount label"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Description field label"
+  },
+  "notes": "Notes",
+  "@notes": {
+    "description": "Notes field label"
+  },
+  "submit": "Submit",
+  "@submit": {
+    "description": "Submit button text"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button text"
+  },
+  "approve": "Approve",
+  "@approve": {
+    "description": "Approve button text"
+  },
+  "reject": "Reject",
+  "@reject": {
+    "description": "Reject button text"
+  },
+  "all": "All",
+  "@all": {
+    "description": "All filter option"
+  },
+  "confirmed": "Confirmed",
+  "@confirmed": {
+    "description": "Confirmed status"
+  },
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "Rejected status"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Pending status"
+  },
+  "from": "From",
+  "@from": {
+    "description": "From label"
+  },
+  "to": "To",
+  "@to": {
+    "description": "To label"
+  },
+  "date": "Date",
+  "@date": {
+    "description": "Date label"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "Status label"
+  },
+  "confirmCancellation": "Confirm Cancellation",
+  "@confirmCancellation": {
+    "description": "Confirm cancellation dialog title"
+  },
+  "cancelTransactionConfirmation": "Are you sure you want to cancel this transaction? This action cannot be undone.",
+  "@cancelTransactionConfirmation": {
+    "description": "Cancel transaction confirmation message"
+  },
+  "no": "No",
+  "@no": {
+    "description": "No button text"
+  },
+  "yesCancel": "Yes, Cancel",
+  "@yesCancel": {
+    "description": "Yes cancel button text"
+  },
+  "receivables": "Credits",
+  "@receivables": {
+    "description": "Tab label for credits (money owed to driver)"
+  },
+  "payables": "Debts",
+  "@payables": {
+    "description": "Tab label for debts (money driver owes)"
+  },
+  "receivablesAndPayables": "Credits and Debts",
+  "@receivablesAndPayables": {
+    "description": "Credits and Debts screen title"
+  },
+  "newTransaction": "New Transaction",
+  "@newTransaction": {
+    "description": "New transaction screen title"
+  },
+  "pendingTransactions": "Pending Transactions",
+  "@pendingTransactions": {
+    "description": "Pending transactions screen title"
+  },
+  "transactionsHistory": "Transactions History",
+  "@transactionsHistory": {
+    "description": "Transactions history screen title"
+  },
+  "ratings": "Ratings",
+  "@ratings": {
+    "description": "Ratings menu item title"
+  },
+  "ratingsTitle": "Customer Ratings",
+  "@ratingsTitle": {
+    "description": "Ratings screen title"
+  },
+  "ratingsDetailTitle": "Rating Details",
+  "@ratingsDetailTitle": {
+    "description": "Rating detail screen title"
+  },
+  "ratingsBasedOn": "Based on {count} ratings",
+  "@ratingsBasedOn": {
+    "description": "Label showing number of ratings",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "ratingsAnonymous": "Anonymous Customer",
+  "@ratingsAnonymous": {
+    "description": "Placeholder name for anonymous ratings"
+  },
+  "ratingsResponded": "Responded",
+  "@ratingsResponded": {
+    "description": "Badge showing rating has been responded to"
+  },
+  "ratingsReplyNow": "Reply Now",
+  "@ratingsReplyNow": {
+    "description": "Button to reply to a rating"
+  },
+  "ratingsResponseSuccess": "Response submitted successfully",
+  "@ratingsResponseSuccess": {
+    "description": "Success message after submitting response"
+  },
+  "ratingsOverallRating": "Overall Rating",
+  "@ratingsOverallRating": {
+    "description": "Label for overall rating"
+  },
+  "ratingsDate": "Date",
+  "@ratingsDate": {
+    "description": "Label for rating date"
+  },
+  "ratingsWouldReorder": "Would Reorder",
+  "@ratingsWouldReorder": {
+    "description": "Badge showing customer would reorder"
+  },
+  "ratingsWouldRecommend": "Would Recommend",
+  "@ratingsWouldRecommend": {
+    "description": "Badge showing customer would recommend"
+  },
+  "ratingsDetailedRatings": "Detailed Ratings",
+  "@ratingsDetailedRatings": {
+    "description": "Section title for detailed ratings breakdown"
+  },
+  "ratingsFoodQuality": "Food Quality",
+  "@ratingsFoodQuality": {
+    "description": "Label for food quality rating"
+  },
+  "ratingsDeliverySpeed": "Delivery Speed",
+  "@ratingsDeliverySpeed": {
+    "description": "Label for delivery speed rating"
+  },
+  "ratingsDriver": "Driver",
+  "@ratingsDriver": {
+    "description": "Label for driver rating"
+  },
+  "ratingsService": "Service",
+  "@ratingsService": {
+    "description": "Label for restaurant service rating"
+  },
+  "ratingsComments": "Comments",
+  "@ratingsComments": {
+    "description": "Section title for rating comments"
+  },
+  "ratingsGeneralComment": "General Comment",
+  "@ratingsGeneralComment": {
+    "description": "Label for general comment"
+  },
+  "ratingsFoodComment": "Food Comment",
+  "@ratingsFoodComment": {
+    "description": "Label for food comment"
+  },
+  "ratingsDeliveryComment": "Delivery Comment",
+  "@ratingsDeliveryComment": {
+    "description": "Label for delivery comment"
+  },
+  "ratingsDriverComment": "Driver Comment",
+  "@ratingsDriverComment": {
+    "description": "Label for driver comment"
+  },
+  "ratingsRestaurantComment": "Restaurant Comment",
+  "@ratingsRestaurantComment": {
+    "description": "Label for restaurant comment"
+  },
+  "ratingsTags": "Tags",
+  "@ratingsTags": {
+    "description": "Section title for rating tags"
+  },
+  "ratingsYourResponse": "Your Response",
+  "@ratingsYourResponse": {
+    "description": "Section title for existing response"
+  },
+  "ratingsWriteResponse": "Write a Response",
+  "@ratingsWriteResponse": {
+    "description": "Section title for response form"
+  },
+  "ratingsResponseHint": "Thank the customer or address their feedback...",
+  "@ratingsResponseHint": {
+    "description": "Placeholder text for response input"
+  },
+  "ratingsResponseRequired": "Please enter a response",
+  "@ratingsResponseRequired": {
+    "description": "Validation message when response is empty"
+  },
+  "ratingsResponseMinLength": "Response must be at least 10 characters",
+  "@ratingsResponseMinLength": {
+    "description": "Validation message when response is too short"
+  },
+  "ratingsSubmitResponse": "Submit Response",
+  "@ratingsSubmitResponse": {
+    "description": "Button to submit response"
+  },
+  "ratingsEmptyTitle": "No Ratings Yet",
+  "@ratingsEmptyTitle": {
+    "description": "Title when no ratings are available"
+  },
+  "ratingsEmptyMessage": "Customer ratings will appear here once you receive them.",
+  "@ratingsEmptyMessage": {
+    "description": "Message when no ratings are available"
+  },
+  "ratingsLoadMore": "Load More",
+  "@ratingsLoadMore": {
+    "description": "Button to load more ratings"
+  },
+  "ratingsFilterAll": "All",
+  "@ratingsFilterAll": {
+    "description": "Filter option for all ratings"
+  },
+  "ratingsFilterPositive": "Positive",
+  "@ratingsFilterPositive": {
+    "description": "Filter option for positive ratings (4+ stars)"
+  },
+  "ratingsFilterNegative": "Negative",
+  "@ratingsFilterNegative": {
+    "description": "Filter option for negative ratings (2 or less stars)"
+  },
+  "orderCounts": "Order Counts",
+  "@orderCounts": {
+    "description": "Section title for order counts"
+  },
+  "performance": "Performance",
+  "@performance": {
+    "description": "Section title for performance metrics"
+  },
+  "allTime": "All Time",
+  "@allTime": {
+    "description": "All time period option"
+  },
+  "today": "Today",
+  "@today": {
+    "description": "Today period option"
+  },
+  "thisWeek": "This Week",
+  "@thisWeek": {
+    "description": "This week period option"
+  },
+  "thisMonth": "This Month",
+  "@thisMonth": {
+    "description": "This month period option"
+  },
+  "thisYear": "This Year",
+  "@thisYear": {
+    "description": "This year period option"
+  },
+  "custom": "Custom",
+  "@custom": {
+    "description": "Custom period option"
+  },
+  "all": "All",
+  "@all": {
+    "description": "All period option for period selector"
+  },
+  "day": "Day",
+  "@day": {
+    "description": "Day period option for period selector"
+  },
+  "week": "Week",
+  "@week": {
+    "description": "Week period option for period selector"
+  },
+  "month": "Month",
+  "@month": {
+    "description": "Month period option for period selector"
+  },
+  "year": "Year",
+  "@year": {
+    "description": "Year period option for period selector"
+  },
+  "dateRange": "Date Range",
+  "@dateRange": {
+    "description": "Date range period option for period selector"
+  },
+  "responseSpeed": "Response Speed",
+  "@responseSpeed": {
+    "description": "Response speed metric label"
+  },
+  "responseSpeedDescription": "Time to accept or reject orders",
+  "@responseSpeedDescription": {
+    "description": "Description of response speed metric"
+  },
+  "preparationSpeed": "Preparation Speed",
+  "@preparationSpeed": {
+    "description": "Preparation speed metric label"
+  },
+  "preparationSpeedDescription": "Time to prepare accepted orders",
+  "@preparationSpeedDescription": {
+    "description": "Description of preparation speed metric"
+  },
+  "decisionQuality": "Decision Quality",
+  "@decisionQuality": {
+    "description": "Decision quality metric label"
+  },
+  "decisionQualityDescription": "Rate of completed vs accepted orders",
+  "@decisionQualityDescription": {
+    "description": "Description of decision quality metric"
+  },
+  "poorDecisions": "Poor Decisions",
+  "@poorDecisions": {
+    "description": "Poor decisions metric label"
+  },
+  "poorDecisionsDescription": "Rate of cancelled orders after acceptance",
+  "@poorDecisionsDescription": {
+    "description": "Description of poor decisions metric"
+  },
+  "statisticsDataFrom": "Data from",
+  "@statisticsDataFrom": {
+    "description": "Statistics data from date label"
+  },
+  "errorLoadingData": "Error loading data",
+  "@errorLoadingData": {
+    "description": "Generic error message for data loading"
+  },
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Statistics screen title"
+  },
+  "overview": "Overview",
+  "@overview": {
+    "description": "Overview section title"
+  },
+  "performanceMetrics": "Performance Metrics",
+  "@performanceMetrics": {
+    "description": "Performance metrics section title"
+  },
+  "noStatisticsAvailable": "No statistics available",
+  "@noStatisticsAvailable": {
+    "description": "Message when no statistics data is available"
+  },
+  "errorLoadingStatistics": "Error loading statistics",
+  "@errorLoadingStatistics": {
+    "description": "Error message for statistics loading"
+  },
+  "totalOrders": "Total Orders",
+  "@totalOrders": {
+    "description": "Total orders label"
+  },
+  "whenGood": "When good",
+  "@whenGood": {
+    "description": "Label for good performance explanation"
+  },
+  "whenBad": "When bad",
+  "@whenBad": {
+    "description": "Label for bad performance explanation"
+  },
+  "averageRespondingTimeGood": "Fast response times lead to better customer satisfaction and higher order acceptance.",
+  "@averageRespondingTimeGood": {
+    "description": "Explanation when response time is good"
+  },
+  "averageRespondingTimeBad": "Slow response times may result in cancelled orders and unhappy customers.",
+  "@averageRespondingTimeBad": {
+    "description": "Explanation when response time is bad"
+  },
+  "acceptedOrdersSuccessRateGood": "High success rate means you're accepting orders you can fulfill reliably.",
+  "@acceptedOrdersSuccessRateGood": {
+    "description": "Explanation when success rate is good"
+  },
+  "acceptedOrdersSuccessRateBad": "Low success rate indicates issues with order fulfillment - review your capacity.",
+  "@acceptedOrdersSuccessRateBad": {
+    "description": "Explanation when success rate is bad"
+  },
+  "acceptedOrdersFailureRateGood": "Low failure rate shows reliable order handling.",
+  "@acceptedOrdersFailureRateGood": {
+    "description": "Explanation when failure rate is good"
+  },
+  "acceptedOrdersFailureRateBad": "High failure rate damages reputation - consider why orders are failing.",
+  "@acceptedOrdersFailureRateBad": {
+    "description": "Explanation when failure rate is bad"
+  },
+  "day": "day",
+  "@day": {
+    "description": "Single day time unit"
+  },
+  "days": "days",
+  "@days": {
+    "description": "Plural days time unit"
+  },
+  "hour": "hour",
+  "@hour": {
+    "description": "Single hour time unit"
+  },
+  "hours": "hours",
+  "@hours": {
+    "description": "Plural hours time unit"
+  },
+  "minute": "minute",
+  "@minute": {
+    "description": "Single minute time unit"
+  },
+  "minutes": "minutes",
+  "@minutes": {
+    "description": "Plural minutes time unit"
+  },
+  "second": "second",
+  "@second": {
+    "description": "Single second time unit"
+  },
+  "seconds": "seconds",
+  "@seconds": {
+    "description": "Plural seconds time unit"
+  },
+  "delivered": "Delivered",
+  "@delivered": {
+    "description": "Delivered orders status label"
+  },
+  "orderCapacity": "Order Capacity",
+  "@orderCapacity": {
+    "description": "Order capacity indicator title"
+  },
+  "canAcceptMoreOrders": "You can accept {count} more order(s)",
+  "@canAcceptMoreOrders": {
+    "description": "Message showing how many more orders driver can accept",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "maxCapacityReached": "Maximum capacity reached",
+  "@maxCapacityReached": {
+    "description": "Message when driver has reached maximum order capacity"
+  },
+  "preparing": "Preparing",
+  "@preparing": {
+    "description": "Orders being prepared by restaurant"
+  },
+  "onDelivery": "On Delivery",
+  "@onDelivery": {
+    "description": "Orders currently being delivered"
+  },
+  "noPreparingOrders": "No orders being prepared",
+  "@noPreparingOrders": {
+    "description": "Empty state title for preparing orders tab"
+  },
+  "noPreparingOrdersDescription": "Orders waiting for food preparation will appear here",
+  "@noPreparingOrdersDescription": {
+    "description": "Empty state description for preparing orders tab"
+  },
+  "noReadyOrders": "No orders ready for pickup",
+  "@noReadyOrders": {
+    "description": "Empty state title for ready orders tab"
+  },
+  "noReadyOrdersDescription": "Orders ready to be picked up will appear here",
+  "@noReadyOrdersDescription": {
+    "description": "Empty state description for ready orders tab"
+  },
+  "noDeliveringOrders": "No orders on delivery",
+  "@noDeliveringOrders": {
+    "description": "Empty state title for delivering orders tab"
+  },
+  "noDeliveringOrdersDescription": "Orders you are delivering will appear here",
+  "@noDeliveringOrdersDescription": {
+    "description": "Empty state description for delivering orders tab"
+  },
+  "markPickedUp": "Mark as Picked Up",
+  "@markPickedUp": {
+    "description": "Button to mark order as picked up from restaurant"
+  },
+  "navigateToRestaurant": "Navigate to Restaurant",
+  "@navigateToRestaurant": {
+    "description": "Button to open Google Maps navigation to restaurant"
+  },
+  "navigateToCustomer": "Navigate to Customer",
+  "@navigateToCustomer": {
+    "description": "Button to open Google Maps navigation to customer"
+  },
+  "ongoingOrders": "Ongoing Orders",
+  "@ongoingOrders": {
+    "description": "Title for ongoing orders feature"
+  },
+  "ongoingOrdersDescription": "Manage your active deliveries",
+  "@ongoingOrdersDescription": {
+    "description": "Description for ongoing orders hub screen"
+  },
+  "totalOrders": "Total Orders",
+  "@totalOrders": {
+    "description": "Label for total count of orders"
+  },
+  "rejectOrder": "Reject Order",
+  "@rejectOrder": {
+    "description": "Title for reject order dialog"
+  },
+  "selectRejectionReason": "Select a reason for rejection:",
+  "@selectRejectionReason": {
+    "description": "Prompt to select rejection reason"
+  },
+  "rejectionReasonTooFar": "Too far from my location",
+  "@rejectionReasonTooFar": {
+    "description": "Rejection reason: distance too far"
+  },
+  "rejectionReasonLowEarnings": "Low earnings for this order",
+  "@rejectionReasonLowEarnings": {
+    "description": "Rejection reason: low pay"
+  },
+  "rejectionReasonBadArea": "Delivery area is problematic",
+  "@rejectionReasonBadArea": {
+    "description": "Rejection reason: bad delivery area"
+  },
+  "rejectionReasonBusy": "Currently busy with other deliveries",
+  "@rejectionReasonBusy": {
+    "description": "Rejection reason: driver busy"
+  },
+  "rejectionReasonVehicleIssue": "Vehicle/transportation issue",
+  "@rejectionReasonVehicleIssue": {
+    "description": "Rejection reason: vehicle problem"
+  },
+  "rejectionReasonPersonal": "Personal reasons",
+  "@rejectionReasonPersonal": {
+    "description": "Rejection reason: personal"
+  },
+  "rejectionReasonOther": "Other",
+  "@rejectionReasonOther": {
+    "description": "Rejection reason: other"
+  },
+  "additionalNotes": "Additional Notes (optional)",
+  "@additionalNotes": {
+    "description": "Label for additional notes field"
+  },
+  "additionalNotesHint": "Add any additional details...",
+  "@additionalNotesHint": {
+    "description": "Hint for additional notes field"
+  },
+  "confirmRejection": "Reject",
+  "@confirmRejection": {
+    "description": "Button to confirm order rejection"
+  },
+  "orderRejected": "Order rejected",
+  "@orderRejected": {
+    "description": "Message shown when order is successfully rejected"
+  },
+  "rejectedOrders": "Rejected Orders",
+  "@rejectedOrders": {
+    "description": "Title for rejected orders screen"
+  },
+  "noRejectedOrders": "No rejected orders",
+  "@noRejectedOrders": {
+    "description": "Message when there are no rejected orders"
+  },
+  "rejectedAt": "Rejected at",
+  "@rejectedAt": {
+    "description": "Label for rejection timestamp"
+  },
+  "rejectionReason": "Reason",
+  "@rejectionReason": {
+    "description": "Label for rejection reason"
+  },
+  "unassignOrder": "Unassign from Order",
+  "@unassignOrder": {
+    "description": "Title for unassign order dialog"
+  },
+  "selectUnassignReason": "Why can't you complete this order?",
+  "@selectUnassignReason": {
+    "description": "Prompt to select unassign reason"
+  },
+  "unassignReasonVehicleBreakdown": "Vehicle breakdown",
+  "@unassignReasonVehicleBreakdown": {
+    "description": "Unassign reason: vehicle broke down"
+  },
+  "unassignReasonPersonalEmergency": "Personal emergency",
+  "@unassignReasonPersonalEmergency": {
+    "description": "Unassign reason: personal emergency"
+  },
+  "unassignReasonSafetyConcern": "Safety concern at location",
+  "@unassignReasonSafetyConcern": {
+    "description": "Unassign reason: safety issue"
+  },
+  "unassignReasonCannotReach": "Cannot reach pickup/delivery location",
+  "@unassignReasonCannotReach": {
+    "description": "Unassign reason: inaccessible location"
+  },
+  "unassignReasonLongWait": "Restaurant wait time too long",
+  "@unassignReasonLongWait": {
+    "description": "Unassign reason: excessive waiting"
+  },
+  "unassignReasonOrderIssue": "Issue with order (missing items, wrong order)",
+  "@unassignReasonOrderIssue": {
+    "description": "Unassign reason: order problem"
+  },
+  "unassignReasonOther": "Other reason",
+  "@unassignReasonOther": {
+    "description": "Unassign reason: other"
+  },
+  "confirmUnassign": "Unassign",
+  "@confirmUnassign": {
+    "description": "Button to confirm order unassignment"
+  },
+  "orderUnassigned": "Unassigned from order",
+  "@orderUnassigned": {
+    "description": "Message when order is successfully unassigned"
+  },
+  "unassignOnDeliveryWarning": "Emergency only! Unassigning during delivery is serious and will be reviewed. Only use for genuine emergencies.",
+  "@unassignOnDeliveryWarning": {
+    "description": "Warning for unassigning during delivery"
+  },
+  "unassignReadyWarning": "The food is ready and waiting. Unassigning now may affect food quality for the customer.",
+  "@unassignReadyWarning": {
+    "description": "Warning for unassigning when food is ready"
+  },
+  "unassignEmergencyNotesHint": "Please describe the emergency situation...",
+  "@unassignEmergencyNotesHint": {
+    "description": "Hint for emergency notes"
+  },
+  "unassignConsequenceNotice": "Frequent unassignments may affect your driver metrics. The order will be returned to the available pool.",
+  "@unassignConsequenceNotice": {
+    "description": "Notice about consequences of unassigning"
+  },
+  "cantCompleteOrder": "Can't Complete",
+  "@cantCompleteOrder": {
+    "description": "Button label for unassigning from order"
+  },
+  "totalDebt": "Total Debt",
+  "@totalDebt": {
+    "description": "Total debt label"
+  },
+  "systemDebt": "System",
+  "@systemDebt": {
+    "description": "System debt label"
+  },
+  "systemDebtDescription": "Amount owed to system manager for delivery fees",
+  "@systemDebtDescription": {
+    "description": "System debt description"
+  },
+  "restaurantDebts": "Restaurants",
+  "@restaurantDebts": {
+    "description": "Restaurant debts section title"
+  },
+  "restaurantCredits": "Restaurants",
+  "@restaurantCredits": {
+    "description": "Restaurants section title"
+  },
+  "restaurant": "Restaurant",
+  "@restaurant": {
+    "description": "Restaurant label"
+  },
+  "amount": "Amount",
+  "@amount": {
+    "description": "Amount label"
+  },
+  "recordPayment": "Record Payment",
+  "@recordPayment": {
+    "description": "Record payment dialog title"
+  },
+  "recordSystemPayment": "Record System Payment",
+  "@recordSystemPayment": {
+    "description": "Record system payment dialog title"
+  },
+  "paySystemDebt": "Pay System Debt",
+  "@paySystemDebt": {
+    "description": "Pay system debt button text"
+  },
+  "paymentToRestaurant": "Payment to Restaurant",
+  "@paymentToRestaurant": {
+    "description": "Payment to restaurant transaction type"
+  },
+  "paymentToSystem": "Payment to System",
+  "@paymentToSystem": {
+    "description": "Payment to system transaction type"
+  },
+  "noDebts": "No Outstanding Debts",
+  "@noDebts": {
+    "description": "Message when driver has no debts"
+  },
+  "confirmedAt": "Confirmed At",
+  "@confirmedAt": {
+    "description": "Confirmed at label"
+  },
+  "invalidAmount": "Invalid amount",
+  "@invalidAmount": {
+    "description": "Invalid amount error message"
+  },
+  "record": "Record",
+  "@record": {
+    "description": "Record button text"
+  },
+  "noTransactionsFound": "No Transactions Found",
+  "@noTransactionsFound": {
+    "description": "Message when no transactions are available"
+  },
+  "notes": "Notes",
+  "@notes": {
+    "description": "Notes field label"
+  },
+  "receivablesAndPayables": "Credits and Debts",
+  "@receivablesAndPayables": {
+    "description": "Credits and Debts screen title"
+  },
+  "newTransaction": "New Transaction",
+  "@newTransaction": {
+    "description": "New transaction screen title"
+  },
+  "transactionsHistory": "Transaction History",
+  "@transactionsHistory": {
+    "description": "Transaction history screen title"
+  },
+  "pendingPayments": "Pending Payments",
+  "@pendingPayments": {
+    "description": "Section header for pending payments"
+  },
+  "paymentType": "Payment Type",
+  "@paymentType": {
+    "description": "Payment type label"
+  },
+  "system": "System",
+  "@system": {
+    "description": "System payment option"
+  },
+  "selectRestaurant": "Select Restaurant",
+  "@selectRestaurant": {
+    "description": "Restaurant selection hint"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Pending status label"
+  },
+  "errorLoadingData": "Error loading data",
+  "@errorLoadingData": {
+    "description": "Error message when data fails to load"
+  },
+  "breakdown": "Breakdown",
+  "@breakdown": {
+    "description": "Section title for breakdown details"
+  },
+  "receivables": "Credits",
+  "@receivables": {
+    "description": "Tab label for credits (money owed to driver)"
+  },
+  "payables": "Debts",
+  "@payables": {
+    "description": "Tab label for debts (money driver owes)"
+  },
+  "paymentDate": "Payment Date",
+  "@paymentDate": {
+    "description": "Label for payment date selection"
+  },
+  "totalDebt": "Total Debt",
+  "@totalDebt": {
+    "description": "Label for total debt amount"
+  },
+  "totalCredits": "Total Credits",
+  "@totalCredits": {
+    "description": "Label for total credits amount"
+  },
+  "overpay": "Overpay",
+  "@overpay": {
+    "description": "Label indicating overpayment credit (money paid in excess)"
+  },
+  "credit": "Credit",
+  "@credit": {
+    "description": "Credit label"
+  },
+  "pickupSpeed": "Pickup Speed",
+  "@pickupSpeed": {
+    "description": "Time between food ready and driver pickup"
+  },
+  "pickupSpeedDescription": "Time from food ready to pickup",
+  "@pickupSpeedDescription": {
+    "description": "Description of pickup speed metric"
+  },
+  "pickupSpeedGood": "Faster pickup (under 10 minutes) ensures fresh food and happy customers.",
+  "@pickupSpeedGood": {
+    "description": "When pickup speed is good"
+  },
+  "pickupSpeedBad": "Slow pickup (over 20 minutes) may result in cold food and unhappy customers.",
+  "@pickupSpeedBad": {
+    "description": "When pickup speed is bad"
+  },
+  "deliverySpeed": "Delivery Speed",
+  "@deliverySpeed": {
+    "description": "Time between pickup and delivery"
+  },
+  "deliverySpeedDescription": "Time from pickup to delivery",
+  "@deliverySpeedDescription": {
+    "description": "Description of delivery speed metric"
+  },
+  "deliverySpeedGood": "Fast delivery (under 20 minutes) leads to satisfied customers and better ratings.",
+  "@deliverySpeedGood": {
+    "description": "When delivery speed is good"
+  },
+  "deliverySpeedBad": "Slow delivery (over 40 minutes) can result in complaints and lower ratings.",
+  "@deliverySpeedBad": {
+    "description": "When delivery speed is bad"
+  },
+  "completionRate": "Completion Rate",
+  "@completionRate": {
+    "description": "Percentage of orders completed successfully"
+  },
+  "completionRateDescription": "Percentage of accepted orders that were delivered",
+  "@completionRateDescription": {
+    "description": "Description of completion rate metric"
+  },
+  "completionRateGood": "High rate (95%+) shows reliability and professionalism.",
+  "@completionRateGood": {
+    "description": "When completion rate is good"
+  },
+  "completionRateBad": "Low rate (below 85%) indicates issues with order handling.",
+  "@completionRateBad": {
+    "description": "When completion rate is bad"
+  },
+  "cancellationRate": "Cancellation Rate",
+  "@cancellationRate": {
+    "description": "Percentage of orders cancelled"
+  },
+  "cancellationRateDescription": "Percentage of accepted orders that were cancelled",
+  "@cancellationRateDescription": {
+    "description": "Description of cancellation rate metric"
+  },
+  "cancellationRateGood": "Low rate (under 5%) is excellent and shows consistent service.",
+  "@cancellationRateGood": {
+    "description": "When cancellation rate is good"
+  },
+  "cancellationRateBad": "High rate (over 15%) raises concerns about reliability.",
+  "@cancellationRateBad": {
+    "description": "When cancellation rate is bad"
+  },
+  "iHaveArrived": "I've Arrived",
+  "@iHaveArrived": {
+    "description": "Button text for driver to mark arrival at customer location"
+  },
+  "arrived": "Arrived",
+  "@arrived": {
+    "description": "Status label when driver has arrived at delivery location"
+  },
+  "driverArrived": "Driver Arrived",
+  "@driverArrived": {
+    "description": "Notification/status text when driver has arrived"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  "understood": "Understood",
+  "@understood": {
+    "description": "Understood button text for dialogs"
+  },
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Try again button text"
+  },
+  "wrongApp": "Wrong App",
+  "@wrongApp": {
+    "description": "Title for wrong app error dialog"
+  },
+  "accountNotFound": "Account Not Found",
+  "@accountNotFound": {
+    "description": "Title for account not found error dialog"
+  },
+  "accountNotFoundMessage": "No account found with this email. Please sign up first.",
+  "@accountNotFoundMessage": {
+    "description": "Message for account not found error"
+  },
+  "loginFailed": "Login Failed",
+  "@loginFailed": {
+    "description": "Title for login failed error dialog"
+  },
+  "invalidCredentialsMessage": "The email or password you entered is incorrect. Please check your credentials and try again.",
+  "@invalidCredentialsMessage": {
+    "description": "Message for invalid credentials error"
+  }
+}
+
+
+
+
+
+
+
+

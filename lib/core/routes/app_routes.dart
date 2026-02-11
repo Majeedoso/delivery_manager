@@ -46,4 +46,18 @@ class AppRoutes {
   static const String bankNewTransaction = '/bank-new-transaction';
   static const String bankArchive = '/bank-archive';
   static const String driverDebtDetails = '/driver-debt-details';
+
+  // Statistics routes
+  static const String statistics = '/statistics';
+  static const String statisticsMoney = '/statistics/money';
+  static const String statisticsOrders = '/statistics/orders';
+
+  // Coupons routes
+  static const String coupons = '/coupons';
+  static const String restaurantCoupons = '/coupons/restaurant';
+  static const String deliveryCoupons = '/coupons/delivery';
+  static const String deliveryZones = '/delivery-zones';
+
+  // User management routes
+  static const String users = '/users';
 }

@@ -86,6 +86,15 @@ class _MainScreenState extends State<MainScreen> {
                       // Bank Container
                       _buildBankContainer(context),
 
+                      // Statistics Container
+                      _buildStatisticsContainer(context),
+
+                      // Coupons Container
+                      _buildCouponsContainer(context),
+
+                      // Users Container
+                      _buildUsersContainer(context),
+
                       // Profile Container
                       _buildProfileContainer(context),
 
@@ -217,8 +226,47 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  Widget _buildStatisticsContainer(BuildContext context) {
+    return _buildIconContainer(
+      context,
+      title: AppLocalizations.of(context)!.statistics,
+      iconPath: 'assets/images/statistics.ico',
+      onTap: () => _navigateToStatistics(context),
+    );
+  }
+
+  Widget _buildCouponsContainer(BuildContext context) {
+    return _buildIconContainer(
+      context,
+      title: 'Coupons',
+      iconPath: 'assets/images/menu.ico',
+      onTap: () => _navigateToCoupons(context),
+    );
+  }
+
   void _navigateToBank(BuildContext context) {
     Navigator.of(context).pushNamed(AppRoutes.bank);
+  }
+
+  void _navigateToStatistics(BuildContext context) {
+    Navigator.of(context).pushNamed(AppRoutes.statistics);
+  }
+
+  void _navigateToCoupons(BuildContext context) {
+    Navigator.of(context).pushNamed(AppRoutes.coupons);
+  }
+
+  Widget _buildUsersContainer(BuildContext context) {
+    return _buildIconContainer(
+      context,
+      title: 'User Management',
+      iconPath: 'assets/images/users.ico',
+      onTap: () => _navigateToUsers(context),
+    );
+  }
+
+  void _navigateToUsers(BuildContext context) {
+    Navigator.of(context).pushNamed(AppRoutes.users);
   }
 
   Widget _buildIcon(BuildContext context, String iconPath) {

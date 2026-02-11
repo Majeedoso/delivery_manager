@@ -38,6 +38,16 @@ import 'package:delivery_manager/features/bank/presentation/screens/bank_archive
 import 'package:delivery_manager/features/bank/presentation/controller/bank_bloc.dart';
 import 'package:delivery_manager/features/bank/presentation/screens/driver_debt_details_screen.dart';
 import 'package:delivery_manager/features/bank/domain/entities/restaurant_debt.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_main_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_orders_screen.dart';
+import 'package:delivery_manager/features/coupons/presentation/screens/coupons_home_screen.dart';
+import 'package:delivery_manager/features/coupons/presentation/screens/coupons_list_screen.dart';
+import 'package:delivery_manager/features/coupons/presentation/screens/delivery_zones_screen.dart';
+import 'package:delivery_manager/features/coupons/presentation/controller/coupons_bloc.dart';
+import 'package:delivery_manager/features/users/presentation/screens/users_screen.dart';
+import 'package:delivery_manager/features/users/presentation/controller/users_bloc.dart';
+import 'package:delivery_manager/features/users/presentation/controller/users_event.dart';
 
 /// Route generator for the application
 ///
@@ -217,6 +227,34 @@ class RouteGenerator {
           ),
         );
       },
+      // Statistics routes
+      AppRoutes.statistics: (context) => const StatisticsMainScreen(),
+      AppRoutes.statisticsMoney: (context) => const StatisticsMoneyScreen(),
+      AppRoutes.statisticsOrders: (context) => const StatisticsOrdersScreen(),
+      AppRoutes.coupons: (context) => const CouponsHomeScreen(),
+      AppRoutes.restaurantCoupons: (context) => BlocProvider(
+        create: (context) => sl<CouponsBloc>(),
+        child: const CouponsListScreen(
+          title: 'Restaurant Coupons',
+          discountTarget: 'subtotal',
+        ),
+      ),
+      AppRoutes.deliveryCoupons: (context) => BlocProvider(
+        create: (context) => sl<CouponsBloc>(),
+        child: const CouponsListScreen(
+          title: 'Delivery Coupons',
+          discountTarget: 'delivery_fee',
+        ),
+      ),
+      AppRoutes.deliveryZones: (context) => BlocProvider.value(
+        value: context.read<CouponsBloc>(),
+        child: const DeliveryZonesScreen(),
+      ),
+      // User management routes
+      AppRoutes.users: (context) => BlocProvider(
+        create: (context) => sl<UsersBloc>()..add(const LoadUsersEvent()),
+        child: const UsersScreen(),
+      ),
     };
   }
 }

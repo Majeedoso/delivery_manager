@@ -32,7 +32,7 @@ class LoginEvent extends AuthEvent {
 /// - [name]: User's full name
 /// - [email]: User's email address
 /// - [password]: User's chosen password
-/// - [role]: User's role (typically 'driver' for this app)
+/// - [role]: User's role (typically 'manager' for this app)
 /// - [phone]: User's phone number (optional)
 class RegisterEvent extends AuthEvent {
   final String name;

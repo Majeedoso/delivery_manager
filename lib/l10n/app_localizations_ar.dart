@@ -322,6 +322,36 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statisticsDescription => 'عرض مقاييس الأداء الخاصة بك';
 
   @override
+  String get statisticsMoney => 'المال';
+
+  @override
+  String get statisticsOrders => 'الطلبات';
+
+  @override
+  String get ordersPlaced => 'تم الطلب';
+
+  @override
+  String get ordersPendingVerification => 'قيد التحقق';
+
+  @override
+  String get ordersAcceptedByOperator => 'تم القبول من قبل المشغل';
+
+  @override
+  String get ordersAcceptedByRestaurant => 'تم القبول من قبل المطعم';
+
+  @override
+  String get ordersRejectedByOperator => 'تم الرفض من قبل المشغل';
+
+  @override
+  String get ordersRejectedByRestaurant => 'تم الرفض من قبل المطعم';
+
+  @override
+  String get ordersAcceptedByDriver => 'تم القبول من قبل السائق';
+
+  @override
+  String get ordersCancelled => 'ملغاة';
+
+  @override
   String get noUserDataAvailable => 'لا توجد بيانات مستخدم متاحة';
 
   @override
@@ -417,7 +447,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get emailNotVerified => 'البريد الإلكتروني غير مُتحقق منه';
+  String get emailNotVerified => 'البريد الإلكتروني غير موثق';
 
   @override
   String get emailVerificationRequired => 'يرجى التحقق من عنوان بريدك الإلكتروني قبل الوصول إلى هذا المورد. تم إرسال رمز التحقق (OTP) إلى عنوان بريدك الإلكتروني. يرجى التحقق من صندوق الوارد وإدخال الرمز المكون من 6 أرقام للتحقق من بريدك الإلكتروني.';
@@ -447,7 +477,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get enableNotifications => 'تفعيل الإشعارات';
 
   @override
-  String get openSettings => 'فتح الإعدادات';
+  String get openSettings => '??? ?????????';
 
   @override
   String get exitApp => 'إغلاق التطبيق';
@@ -750,10 +780,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get order => 'طلب';
 
   @override
-  String get customer => 'العميل';
+  String get customer => 'عميل';
 
   @override
-  String get restaurant => 'المطعم';
+  String get restaurant => 'مطعم';
 
   @override
   String get description => 'الوصف';
@@ -1435,7 +1465,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get amount => 'المبلغ';
 
   @override
-  String get driver => 'السائق';
+  String get driver => 'سائق';
 
   @override
   String get expectedFromDrivers => 'المتوقع من السائقين';
@@ -1992,4 +2022,340 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get invalidCredentialsMessage => 'البريد الإلكتروني أو كلمة المرور التي أدخلتها غير صحيحة. يرجى التحقق من بيانات الاعتماد والمحاولة مرة أخرى.';
+
+  @override
+  String get userManagement => 'إدارة المستخدمين';
+
+  @override
+  String get errorLoadingUsers => 'خطأ في تحميل المستخدمين';
+
+  @override
+  String get noUsersFound => 'لم يتم العثور على مستخدمين';
+
+  @override
+  String get noUsersMatchFilters => 'لا يوجد مستخدمون يطابقون المرشحات';
+
+  @override
+  String get noUsersInSystem => 'لا يوجد مستخدمون في النظام';
+
+  @override
+  String get userApprovedSuccessfully => 'تمت الموافقة على المستخدم بنجاح';
+
+  @override
+  String get userRejectedSuccessfully => 'تم رفض المستخدم بنجاح';
+
+  @override
+  String get userSuspendedSuccessfully => 'تم تعليق المستخدم بنجاح';
+
+  @override
+  String get userActivatedSuccessfully => 'تم تنشيط المستخدم بنجاح';
+
+  @override
+  String get changeStatus => 'تغيير الحالة';
+
+  @override
+  String get pendingApproval => 'في انتظار الموافقة';
+
+  @override
+  String get suspended => 'معلق';
+
+  @override
+  String get rejectedStatus => 'مرفوض';
+
+  @override
+  String get operator => 'مشغل';
+
+  @override
+  String get manager => 'مدير';
+
+  @override
+  String get filters => 'المرشحات';
+
+  @override
+  String get clear => 'مسح';
+
+  @override
+  String get allRoles => 'جميع الأدوار';
+
+  @override
+  String get allStatuses => 'جميع الحالات';
+
+  @override
+  String get rejectUser => 'رفض المستخدم';
+
+  @override
+  String rejectingUser(String userName) {
+    return 'جاري رفض: $userName';
+  }
+
+  @override
+  String get rejectionReasonLabel => 'سبب الرفض *';
+
+  @override
+  String get enterRejectionReason => 'أدخل سبب الرفض...';
+
+  @override
+  String get minimumCharacters => '10 أحرف كحد أدنى';
+
+  @override
+  String get rejectionReasonRequired => 'سبب الرفض مطلوب';
+
+  @override
+  String get reasonMinimum10Characters => 'يجب أن يكون السبب 10 أحرف على الأقل';
+
+  @override
+  String get suspendUser => 'تعليق المستخدم';
+
+  @override
+  String suspendingUser(String userName) {
+    return 'جاري تعليق: $userName';
+  }
+
+  @override
+  String get suspensionReasonLabel => 'سبب التعليق *';
+
+  @override
+  String get enterSuspensionReason => 'أدخل سبب التعليق...';
+
+  @override
+  String get suspensionReasonRequired => 'سبب التعليق مطلوب';
+
+  @override
+  String get searchUsers => 'البحث بالاسم أو البريد الإلكتروني أو الهاتف';
+
+  @override
+  String get coupons => 'قسائم الخصم';
+
+  @override
+  String get restaurantCoupons => 'قسائم المطاعم';
+
+  @override
+  String get deliveryCoupons => 'قسائم التوصيل';
+
+  @override
+  String get draft => 'مسودة';
+
+  @override
+  String get disabled => 'معطل';
+
+  @override
+  String get newDeliveryCoupon => 'قسيمة توصيل جديدة';
+
+  @override
+  String get newCoupon => 'قسيمة جديدة';
+
+  @override
+  String get noDeliveryCouponsYet => 'لا توجد قسائم توصيل بعد';
+
+  @override
+  String get noCouponsYet => 'لا توجد قسائم بعد';
+
+  @override
+  String get createFirstDeliveryCoupon => 'أنشئ قسيمة التوصيل الأولى!';
+
+  @override
+  String get createFirstCoupon => 'أنشئ قسيمتك الأولى لجذب المزيد من العملاء!';
+
+  @override
+  String get off => 'خصم';
+
+  @override
+  String get discount => 'خصم';
+
+  @override
+  String get valid => 'صالح';
+
+  @override
+  String get uses => 'الاستخدامات';
+
+  @override
+  String get minOrder => 'الحد الأدنى للطلب';
+
+  @override
+  String get dzd => 'دج';
+
+  @override
+  String get expired => 'منتهية الصلاحية';
+
+  @override
+  String get globalAllRestaurants => 'عام (جميع المطاعم)';
+
+  @override
+  String get issuer => 'المُصدر: ';
+
+  @override
+  String get discardChanges => 'تجاهل التغييرات؟';
+
+  @override
+  String get editCoupon => 'تعديل القسيمة';
+
+  @override
+  String get update => 'تحديث';
+
+  @override
+  String get create => 'إنشاء';
+
+  @override
+  String get couponCode => 'كود القسيمة';
+
+  @override
+  String get couponCodeHint => 'مثال: SUMMER20';
+
+  @override
+  String get pleaseEnterCouponCode => 'الرجاء إدخال كود القسيمة';
+
+  @override
+  String get codeMinLength => 'يجب أن يكون الكود 3 أحرف على الأقل';
+
+  @override
+  String get type => 'النوع';
+
+  @override
+  String get percentage => 'نسبة مئوية';
+
+  @override
+  String get fixedAmount => 'مبلغ ثابت';
+
+  @override
+  String get value => 'القيمة';
+
+  @override
+  String get required => 'مطلوب';
+
+  @override
+  String get min1 => 'الحد الأدنى 1';
+
+  @override
+  String get max100Percent => 'الحد الأقصى 100%';
+
+  @override
+  String get discountAppliesTo => 'الخصم ينطبق على';
+
+  @override
+  String get orderSubtotal => 'المجموع الفرعي للطلب';
+
+  @override
+  String get validityPeriod => 'فترة الصلاحية';
+
+  @override
+  String get startDate => 'تاريخ البدء';
+
+  @override
+  String get endDate => 'تاريخ الانتهاء';
+
+  @override
+  String get restaurantOptional => 'المطعم (اختياري)';
+
+  @override
+  String get couponZonesOptional => 'مناطق القسيمة (اختياري)';
+
+  @override
+  String get manageZones => 'إدارة المناطق';
+
+  @override
+  String get usageLimitsOptional => 'حدود الاستخدام (اختياري)';
+
+  @override
+  String get totalUses => 'إجمالي الاستخدامات';
+
+  @override
+  String get perCustomer => 'لكل عميل';
+
+  @override
+  String get orderConstraintsOptional => 'قيود الطلب (اختياري)';
+
+  @override
+  String get minOrderDzd => 'الحد الأدنى للطلب (دج)';
+
+  @override
+  String get maxDiscountDzd => 'الحد الأقصى للخصم (دج)';
+
+  @override
+  String get descriptionOptional => 'الوصف (اختياري)';
+
+  @override
+  String get internalNoteHint => 'ملاحظة داخلية حول هذه القسيمة...';
+
+  @override
+  String get noCouponZonesAvailable => 'لا توجد مناطق متاحة للقسيمة. أنشئ مناطق لتقييد توفر القسيمة.';
+
+  @override
+  String get selectZonesInfo => 'اختر المناطق (ينطبق على الكل إذا لم يتم الاختيار)';
+
+  @override
+  String get zone => 'منطقة';
+
+  @override
+  String get zones => 'مناطق';
+
+  @override
+  String get noRestaurantsAvailable => 'لا توجد مطاعم متاحة. ستكون هذه القسيمة عامة.';
+
+  @override
+  String get selectedRestaurant => 'المطعم المحدد';
+
+  @override
+  String get allRestaurantsGlobal => 'جميع المطاعم (عام)';
+
+  @override
+  String get kmRadius => 'كم نصف قطر';
+
+  @override
+  String get couponZones => 'مناطق القسيمة';
+
+  @override
+  String get addZone => 'إضافة منطقة';
+
+  @override
+  String get success => 'نجح!';
+
+  @override
+  String get errorOccurred => 'حدث خطأ';
+
+  @override
+  String get noCouponZonesYet => 'لا توجد مناطق قسيمة بعد';
+
+  @override
+  String get createZonesToRestrict => 'أنشئ مناطق لتقييد القسائم\\nإلى مناطق محددة';
+
+  @override
+  String get createZone => 'إنشاء منطقة';
+
+  @override
+  String get editZone => 'تعديل المنطقة';
+
+  @override
+  String get zoneNameRequired => 'اسم المنطقة *';
+
+  @override
+  String get zoneNameHint => 'مثال: منطقة وسط المدينة';
+
+  @override
+  String get optionalDescription => 'وصف اختياري';
+
+  @override
+  String get latitudeHint => 'مثال: 36.7538';
+
+  @override
+  String get longitudeHint => 'مثال: 3.0588';
+
+  @override
+  String get radiusKm => 'نصف القطر (كم)';
+
+  @override
+  String get radiusHint => 'مثال: 5.0';
+
+  @override
+  String get km => 'كم';
+
+  @override
+  String get zoneNameIsRequired => 'اسم المنطقة مطلوب';
+
+  @override
+  String get deleteZone => 'حذف المنطقة';
+
+  @override
+  String deleteZoneConfirmation(Object zoneName) {
+    return 'هل أنت متأكد أنك تريد حذف \"$zoneName\"؟';
+  }
 }

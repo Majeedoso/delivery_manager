@@ -119,6 +119,9 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       RecordRestaurantPaymentParams(
         restaurantId: event.restaurantId,
         amount: event.amount,
+        selectedPeriod: event.selectedPeriod,
+        startDate: event.startDate,
+        endDate: event.endDate,
         notes: event.notes,
       ),
     );
@@ -152,7 +155,11 @@ class BankBloc extends Bloc<BankEvent, BankState> {
     emit(const PaymentRecording());
 
     final result = await recordSystemPaymentUseCase(
-      RecordSystemPaymentParams(amount: event.amount, notes: event.notes),
+      RecordSystemPaymentParams(
+        driverId: event.driverId,
+        amount: event.amount,
+        notes: event.notes,
+      ),
     );
 
     result.fold(
@@ -340,6 +347,7 @@ class BankBloc extends Bloc<BankEvent, BankState> {
     }
 
     final result = await bankRepository!.calculateSystemPaymentAmount(
+      driverId: event.driverId,
       selectedPeriod: event.selectedPeriod,
       startDate: event.startDate,
       endDate: event.endDate,

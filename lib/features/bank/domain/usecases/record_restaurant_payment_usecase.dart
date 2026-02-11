@@ -6,11 +6,17 @@ import 'package:delivery_manager/features/bank/domain/repositories/base_bank_rep
 class RecordRestaurantPaymentParams {
   final int restaurantId;
   final double amount;
+  final String? selectedPeriod;
+  final String? startDate;
+  final String? endDate;
   final String? notes;
 
   RecordRestaurantPaymentParams({
     required this.restaurantId,
     required this.amount,
+    this.selectedPeriod,
+    this.startDate,
+    this.endDate,
     this.notes,
   });
 }
@@ -26,6 +32,9 @@ class RecordRestaurantPaymentUseCase {
     return await repository.recordRestaurantPayment(
       restaurantId: params.restaurantId,
       amount: params.amount,
+      selectedPeriod: params.selectedPeriod,
+      startDate: params.startDate,
+      endDate: params.endDate,
       notes: params.notes,
     );
   }

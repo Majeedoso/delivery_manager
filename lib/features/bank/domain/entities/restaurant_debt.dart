@@ -6,6 +6,7 @@ class RestaurantDebt {
   final double amount;
   final String formattedAmount;
   final bool isCredit;
+  final String counterpartyType;
   final DateTime? confirmedAt;
   final List<DriverCreditDebtDetail> details;
 
@@ -15,6 +16,7 @@ class RestaurantDebt {
     required this.amount,
     required this.formattedAmount,
     this.isCredit = false,
+    this.counterpartyType = 'restaurant',
     this.confirmedAt,
     this.details = const [],
   });

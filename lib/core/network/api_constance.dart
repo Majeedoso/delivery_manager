@@ -111,6 +111,9 @@ class ApiConstance {
   static String respondToRatingPath(int ratingId) =>
       "/restaurant/ratings/$ratingId/respond";
 
+  // Public restaurants endpoint
+  static const String restaurantsPath = "/restaurants";
+
   // Driver orders endpoints
   static const String availableOrdersPath = "/driver/orders/available";
   static const String availableOrdersCountPath =
@@ -147,6 +150,16 @@ class ApiConstance {
 
   // Driver bank endpoints
   static const String driverBalancePath = "/driver/credits-debts";
+  // Manager bank endpoints
+  static const String managerCreditsDebtsPath = "/manager/credits-debts";
+  static const String managerRestaurantPaymentAmountPath =
+      "/manager/restaurant-payment-amount";
+  static const String managerSystemPaymentAmountPath =
+      "/manager/system-payment-amount";
+  static const String managerRestaurantPaymentsPath = "/manager/restaurant-payments";
+  static const String managerSystemPaymentsPath = "/manager/system-payments";
+  static const String managerOrderStatisticsPath =
+      "/manager/statistics/orders";
   static const String driverRestaurantPaymentAmountPath =
       "/driver/restaurant-payment-amount";
   static const String driverSystemPaymentAmountPath =
@@ -154,6 +167,30 @@ class ApiConstance {
   static const String driverPaymentsPath = "/driver/payments";
   static const String driverSystemPaymentsPath = "/driver/system-payments";
   static const String driverTransactionsPath = "/driver/transactions";
+
+  // Manager coupons endpoints
+  static const String managerCouponsPath = "/manager/coupons";
+  static String managerCouponByIdPath(int id) => "/manager/coupons/$id";
+  static const String managerGenerateCouponCodePath =
+      "/manager/coupons/generate-code";
+
+  // Manager delivery zones endpoints
+  static const String managerDeliveryZonesPath = "/manager/delivery-zones";
+  static String managerDeliveryZoneByIdPath(int id) =>
+      "/manager/delivery-zones/$id";
+
+  // Manager coupon zones endpoints
+  static const String managerCouponZonesPath = "/manager/coupon-zones";
+  static String managerCouponZoneByIdPath(int id) =>
+      "/manager/coupon-zones/$id";
+
+  // Manager user management endpoints
+  static const String managerUsersPath = "/manager/users";
+  static String managerUserByIdPath(int id) => "/manager/users/$id";
+  static String managerApproveUserPath(int id) => "/manager/users/$id/approve";
+  static String managerRejectUserPath(int id) => "/manager/users/$id/reject";
+  static String managerSuspendUserPath(int id) => "/manager/users/$id/suspend";
+  static String managerActivateUserPath(int id) => "/manager/users/$id/activate";
 
   // Driver statistics endpoint
   static const String driverStatisticsPath = "/driver/statistics";

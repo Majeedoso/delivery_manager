@@ -9,6 +9,7 @@ class RestaurantDebtModel extends RestaurantDebt {
     required super.amount,
     required super.formattedAmount,
     super.isCredit,
+    super.counterpartyType,
     super.confirmedAt,
     super.details,
   });
@@ -35,6 +36,11 @@ class RestaurantDebtModel extends RestaurantDebt {
     final id = json['counterparty_id'] ?? json['restaurant_id'] ?? 0;
     final name =
         json['counterparty_name'] ?? json['restaurant_name'] ?? 'Unknown';
+    final typeRaw = json['counterparty_type'] ?? json['type'];
+    final counterpartyType = typeRaw?.toString() ??
+        ((id is int ? id : int.tryParse(id.toString()) ?? 0) == 0
+            ? 'system'
+            : 'restaurant');
 
     // Attempt to parse a date
     DateTime? confirmedAt;
@@ -65,6 +71,7 @@ class RestaurantDebtModel extends RestaurantDebt {
           json['formatted_amount'] as String? ??
           '${amount.toStringAsFixed(2)} ${Currency.dzd.code}',
       isCredit: rawAmount > 0, // Heuristic, or passed parameter
+      counterpartyType: counterpartyType,
       confirmedAt: confirmedAt,
       details: detailsList,
     );

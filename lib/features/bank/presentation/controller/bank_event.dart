@@ -30,26 +30,44 @@ class RefreshBalanceEvent extends BankEvent {
 class RecordRestaurantPaymentEvent extends BankEvent {
   final int restaurantId;
   final double amount;
+  final String? selectedPeriod;
+  final String? startDate;
+  final String? endDate;
   final String? notes;
 
   const RecordRestaurantPaymentEvent({
     required this.restaurantId,
     required this.amount,
+    this.selectedPeriod,
+    this.startDate,
+    this.endDate,
     this.notes,
   });
 
   @override
-  List<Object?> get props => [restaurantId, amount, notes];
+  List<Object?> get props => [
+    restaurantId,
+    amount,
+    selectedPeriod,
+    startDate,
+    endDate,
+    notes,
+  ];
 }
 
 class RecordSystemPaymentEvent extends BankEvent {
+  final int driverId;
   final double amount;
   final String? notes;
 
-  const RecordSystemPaymentEvent({required this.amount, this.notes});
+  const RecordSystemPaymentEvent({
+    required this.driverId,
+    required this.amount,
+    this.notes,
+  });
 
   @override
-  List<Object?> get props => [amount, notes];
+  List<Object?> get props => [driverId, amount, notes];
 }
 
 class GetTransactionsEvent extends BankEvent {
@@ -91,16 +109,18 @@ class CalculateRestaurantPaymentAmountEvent extends BankEvent {
 }
 
 class CalculateSystemPaymentAmountEvent extends BankEvent {
+  final int driverId;
   final String selectedPeriod;
   final String? startDate;
   final String? endDate;
 
   const CalculateSystemPaymentAmountEvent({
+    required this.driverId,
     required this.selectedPeriod,
     this.startDate,
     this.endDate,
   });
 
   @override
-  List<Object?> get props => [selectedPeriod, startDate, endDate];
+  List<Object?> get props => [driverId, selectedPeriod, startDate, endDate];
 }

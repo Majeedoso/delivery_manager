@@ -30,12 +30,18 @@ class BankRepositoryImpl implements BaseBankRepository {
   Future<Either<Failure, Transaction>> recordRestaurantPayment({
     required int restaurantId,
     required double amount,
+    String? selectedPeriod,
+    String? startDate,
+    String? endDate,
     String? notes,
   }) async {
     try {
       final transaction = await remoteDataSource.recordRestaurantPayment(
         restaurantId: restaurantId,
         amount: amount,
+        selectedPeriod: selectedPeriod,
+        startDate: startDate,
+        endDate: endDate,
         notes: notes,
       );
       return Right(transaction);
@@ -46,11 +52,13 @@ class BankRepositoryImpl implements BaseBankRepository {
 
   @override
   Future<Either<Failure, Transaction>> recordSystemPayment({
+    required int driverId,
     required double amount,
     String? notes,
   }) async {
     try {
       final transaction = await remoteDataSource.recordSystemPayment(
+        driverId: driverId,
         amount: amount,
         notes: notes,
       );
@@ -110,12 +118,14 @@ class BankRepositoryImpl implements BaseBankRepository {
 
   @override
   Future<Either<Failure, Map<String, dynamic>>> calculateSystemPaymentAmount({
+    required int driverId,
     required String selectedPeriod,
     String? startDate,
     String? endDate,
   }) async {
     try {
       final result = await remoteDataSource.calculateSystemPaymentAmount(
+        driverId: driverId,
         selectedPeriod: selectedPeriod,
         startDate: startDate,
         endDate: endDate,

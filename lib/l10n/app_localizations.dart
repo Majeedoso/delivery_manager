@@ -715,6 +715,66 @@ abstract class AppLocalizations {
   /// **'View your performance metrics'**
   String get statisticsDescription;
 
+  /// Statistics money tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Money'**
+  String get statisticsMoney;
+
+  /// Statistics orders tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get statisticsOrders;
+
+  /// Orders placed count label
+  ///
+  /// In en, this message translates to:
+  /// **'Placed'**
+  String get ordersPlaced;
+
+  /// Orders pending verification count label
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Verification'**
+  String get ordersPendingVerification;
+
+  /// Orders accepted by operator count label
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted by Operator'**
+  String get ordersAcceptedByOperator;
+
+  /// Orders accepted by restaurant count label
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted by Restaurant'**
+  String get ordersAcceptedByRestaurant;
+
+  /// Orders rejected by operator count label
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected by Operator'**
+  String get ordersRejectedByOperator;
+
+  /// Orders rejected by restaurant count label
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected by Restaurant'**
+  String get ordersRejectedByRestaurant;
+
+  /// Orders accepted by driver count label
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted by Driver'**
+  String get ordersAcceptedByDriver;
+
+  /// Orders canceled count label
+  ///
+  /// In en, this message translates to:
+  /// **'Canceled'**
+  String get ordersCancelled;
+
   /// Message when no user data is available
   ///
   /// In en, this message translates to:
@@ -901,7 +961,7 @@ abstract class AppLocalizations {
   /// **'You can resend OTP in {seconds}s'**
   String resendIn(int seconds);
 
-  /// Email not verified status title
+  /// Badge text for unverified email
   ///
   /// In en, this message translates to:
   /// **'Email Not Verified'**
@@ -1567,13 +1627,13 @@ abstract class AppLocalizations {
   /// **'Order'**
   String get order;
 
-  /// Customer label
+  /// Role name for customer
   ///
   /// In en, this message translates to:
   /// **'Customer'**
   String get customer;
 
-  /// Restaurant label
+  /// Role name for restaurant
   ///
   /// In en, this message translates to:
   /// **'Restaurant'**
@@ -1657,7 +1717,7 @@ abstract class AppLocalizations {
   /// **'Mark Delivered'**
   String get markDelivered;
 
-  /// Load More button text
+  /// Load more button text
   ///
   /// In en, this message translates to:
   /// **'Load More'**
@@ -2479,7 +2539,7 @@ abstract class AppLocalizations {
   /// **'Choose from Gallery'**
   String get chooseFromGallery;
 
-  /// Search field label
+  /// Search hint text
   ///
   /// In en, this message translates to:
   /// **'Search'**
@@ -2521,7 +2581,7 @@ abstract class AppLocalizations {
   /// **'Drag to reorder'**
   String get dragToReorder;
 
-  /// Active status label
+  /// Status name for active
   ///
   /// In en, this message translates to:
   /// **'Active'**
@@ -2905,7 +2965,7 @@ abstract class AppLocalizations {
   /// **'Amount'**
   String get amount;
 
-  /// Driver label
+  /// Role name for driver
   ///
   /// In en, this message translates to:
   /// **'Driver'**
@@ -4014,6 +4074,666 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The email or password you entered is incorrect. Please check your credentials and try again.'**
   String get invalidCredentialsMessage;
+
+  /// User management screen title
+  ///
+  /// In en, this message translates to:
+  /// **'User Management'**
+  String get userManagement;
+
+  /// Error title when users fail to load
+  ///
+  /// In en, this message translates to:
+  /// **'Error Loading Users'**
+  String get errorLoadingUsers;
+
+  /// Empty state title
+  ///
+  /// In en, this message translates to:
+  /// **'No Users Found'**
+  String get noUsersFound;
+
+  /// Message when filtered results are empty
+  ///
+  /// In en, this message translates to:
+  /// **'No users match your filters'**
+  String get noUsersMatchFilters;
+
+  /// Message when there are no users at all
+  ///
+  /// In en, this message translates to:
+  /// **'No users in the system'**
+  String get noUsersInSystem;
+
+  /// Success message after approving user
+  ///
+  /// In en, this message translates to:
+  /// **'User approved successfully'**
+  String get userApprovedSuccessfully;
+
+  /// Success message after rejecting user
+  ///
+  /// In en, this message translates to:
+  /// **'User rejected successfully'**
+  String get userRejectedSuccessfully;
+
+  /// Success message after suspending user
+  ///
+  /// In en, this message translates to:
+  /// **'User suspended successfully'**
+  String get userSuspendedSuccessfully;
+
+  /// Success message after activating user
+  ///
+  /// In en, this message translates to:
+  /// **'User activated successfully'**
+  String get userActivatedSuccessfully;
+
+  /// Status dropdown hint
+  ///
+  /// In en, this message translates to:
+  /// **'Change Status'**
+  String get changeStatus;
+
+  /// Status name for pending approval
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Approval'**
+  String get pendingApproval;
+
+  /// Status name for suspended
+  ///
+  /// In en, this message translates to:
+  /// **'Suspended'**
+  String get suspended;
+
+  /// Status name for rejected
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get rejectedStatus;
+
+  /// Role name for operator
+  ///
+  /// In en, this message translates to:
+  /// **'Operator'**
+  String get operator;
+
+  /// Role name for manager
+  ///
+  /// In en, this message translates to:
+  /// **'Manager'**
+  String get manager;
+
+  /// Filters section title
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filters;
+
+  /// Clear button text
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// All roles filter option
+  ///
+  /// In en, this message translates to:
+  /// **'All Roles'**
+  String get allRoles;
+
+  /// All statuses filter option
+  ///
+  /// In en, this message translates to:
+  /// **'All Statuses'**
+  String get allStatuses;
+
+  /// Reject user dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Reject User'**
+  String get rejectUser;
+
+  /// Reject user dialog subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Rejecting: {userName}'**
+  String rejectingUser(String userName);
+
+  /// Rejection reason field label
+  ///
+  /// In en, this message translates to:
+  /// **'Rejection Reason *'**
+  String get rejectionReasonLabel;
+
+  /// Rejection reason field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter reason for rejection...'**
+  String get enterRejectionReason;
+
+  /// Helper text for minimum characters
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum 10 characters'**
+  String get minimumCharacters;
+
+  /// Validation error for empty rejection reason
+  ///
+  /// In en, this message translates to:
+  /// **'Rejection reason is required'**
+  String get rejectionReasonRequired;
+
+  /// Validation error for short rejection reason
+  ///
+  /// In en, this message translates to:
+  /// **'Reason must be at least 10 characters'**
+  String get reasonMinimum10Characters;
+
+  /// Suspend user dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Suspend User'**
+  String get suspendUser;
+
+  /// Suspend user dialog subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Suspending: {userName}'**
+  String suspendingUser(String userName);
+
+  /// Suspension reason field label
+  ///
+  /// In en, this message translates to:
+  /// **'Suspension Reason *'**
+  String get suspensionReasonLabel;
+
+  /// Suspension reason field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter reason for suspension...'**
+  String get enterSuspensionReason;
+
+  /// Validation error for empty suspension reason
+  ///
+  /// In en, this message translates to:
+  /// **'Suspension reason is required'**
+  String get suspensionReasonRequired;
+
+  /// Search users hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name, email or phone'**
+  String get searchUsers;
+
+  /// No description provided for @coupons.
+  ///
+  /// In en, this message translates to:
+  /// **'Coupons'**
+  String get coupons;
+
+  /// No description provided for @restaurantCoupons.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant Coupons'**
+  String get restaurantCoupons;
+
+  /// No description provided for @deliveryCoupons.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Coupons'**
+  String get deliveryCoupons;
+
+  /// No description provided for @draft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get draft;
+
+  /// No description provided for @disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get disabled;
+
+  /// No description provided for @newDeliveryCoupon.
+  ///
+  /// In en, this message translates to:
+  /// **'New Delivery Coupon'**
+  String get newDeliveryCoupon;
+
+  /// No description provided for @newCoupon.
+  ///
+  /// In en, this message translates to:
+  /// **'New Coupon'**
+  String get newCoupon;
+
+  /// No description provided for @noDeliveryCouponsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No delivery coupons yet'**
+  String get noDeliveryCouponsYet;
+
+  /// No description provided for @noCouponsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No coupons yet'**
+  String get noCouponsYet;
+
+  /// No description provided for @createFirstDeliveryCoupon.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first delivery coupon!'**
+  String get createFirstDeliveryCoupon;
+
+  /// No description provided for @createFirstCoupon.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first coupon to attract more customers!'**
+  String get createFirstCoupon;
+
+  /// No description provided for @off.
+  ///
+  /// In en, this message translates to:
+  /// **'OFF'**
+  String get off;
+
+  /// No description provided for @discount.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount'**
+  String get discount;
+
+  /// No description provided for @valid.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid'**
+  String get valid;
+
+  /// No description provided for @uses.
+  ///
+  /// In en, this message translates to:
+  /// **'Uses'**
+  String get uses;
+
+  /// No description provided for @minOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Min Order'**
+  String get minOrder;
+
+  /// No description provided for @dzd.
+  ///
+  /// In en, this message translates to:
+  /// **'DZD'**
+  String get dzd;
+
+  /// No description provided for @expired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get expired;
+
+  /// No description provided for @globalAllRestaurants.
+  ///
+  /// In en, this message translates to:
+  /// **'Global (all restaurants)'**
+  String get globalAllRestaurants;
+
+  /// No description provided for @issuer.
+  ///
+  /// In en, this message translates to:
+  /// **'Issuer: '**
+  String get issuer;
+
+  /// No description provided for @discardChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard Changes?'**
+  String get discardChanges;
+
+  /// No description provided for @editCoupon.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Coupon'**
+  String get editCoupon;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @couponCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Coupon Code'**
+  String get couponCode;
+
+  /// No description provided for @couponCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. SUMMER20'**
+  String get couponCodeHint;
+
+  /// No description provided for @pleaseEnterCouponCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a coupon code'**
+  String get pleaseEnterCouponCode;
+
+  /// No description provided for @codeMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Code must be at least 3 characters'**
+  String get codeMinLength;
+
+  /// No description provided for @type.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get type;
+
+  /// No description provided for @percentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage'**
+  String get percentage;
+
+  /// No description provided for @fixedAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed Amount'**
+  String get fixedAmount;
+
+  /// No description provided for @value.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get value;
+
+  /// No description provided for @required.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get required;
+
+  /// No description provided for @min1.
+  ///
+  /// In en, this message translates to:
+  /// **'Min 1'**
+  String get min1;
+
+  /// No description provided for @max100Percent.
+  ///
+  /// In en, this message translates to:
+  /// **'Max 100%'**
+  String get max100Percent;
+
+  /// No description provided for @discountAppliesTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount Applies To'**
+  String get discountAppliesTo;
+
+  /// No description provided for @orderSubtotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Subtotal'**
+  String get orderSubtotal;
+
+  /// No description provided for @validityPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Validity Period'**
+  String get validityPeriod;
+
+  /// No description provided for @startDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Date'**
+  String get startDate;
+
+  /// No description provided for @endDate.
+  ///
+  /// In en, this message translates to:
+  /// **'End Date'**
+  String get endDate;
+
+  /// No description provided for @restaurantOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant (Optional)'**
+  String get restaurantOptional;
+
+  /// No description provided for @couponZonesOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Coupon Zones (Optional)'**
+  String get couponZonesOptional;
+
+  /// No description provided for @manageZones.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Zones'**
+  String get manageZones;
+
+  /// No description provided for @usageLimitsOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Usage Limits (Optional)'**
+  String get usageLimitsOptional;
+
+  /// No description provided for @totalUses.
+  ///
+  /// In en, this message translates to:
+  /// **'Total uses'**
+  String get totalUses;
+
+  /// No description provided for @perCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Per customer'**
+  String get perCustomer;
+
+  /// No description provided for @orderConstraintsOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Order Constraints (Optional)'**
+  String get orderConstraintsOptional;
+
+  /// No description provided for @minOrderDzd.
+  ///
+  /// In en, this message translates to:
+  /// **'Min order (DZD)'**
+  String get minOrderDzd;
+
+  /// No description provided for @maxDiscountDzd.
+  ///
+  /// In en, this message translates to:
+  /// **'Max discount (DZD)'**
+  String get maxDiscountDzd;
+
+  /// No description provided for @descriptionOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (Optional)'**
+  String get descriptionOptional;
+
+  /// No description provided for @internalNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal note about this coupon...'**
+  String get internalNoteHint;
+
+  /// No description provided for @noCouponZonesAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No coupon zones available. Create zones to restrict coupon availability.'**
+  String get noCouponZonesAvailable;
+
+  /// No description provided for @selectZonesInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Select zones (applies to all if none selected)'**
+  String get selectZonesInfo;
+
+  /// No description provided for @zone.
+  ///
+  /// In en, this message translates to:
+  /// **'zone'**
+  String get zone;
+
+  /// No description provided for @zones.
+  ///
+  /// In en, this message translates to:
+  /// **'zones'**
+  String get zones;
+
+  /// No description provided for @noRestaurantsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No restaurants available. This coupon will be global.'**
+  String get noRestaurantsAvailable;
+
+  /// No description provided for @selectedRestaurant.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected Restaurant'**
+  String get selectedRestaurant;
+
+  /// No description provided for @allRestaurantsGlobal.
+  ///
+  /// In en, this message translates to:
+  /// **'All Restaurants (Global)'**
+  String get allRestaurantsGlobal;
+
+  /// No description provided for @kmRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'km radius'**
+  String get kmRadius;
+
+  /// No description provided for @couponZones.
+  ///
+  /// In en, this message translates to:
+  /// **'Coupon Zones'**
+  String get couponZones;
+
+  /// No description provided for @addZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Zone'**
+  String get addZone;
+
+  /// No description provided for @success.
+  ///
+  /// In en, this message translates to:
+  /// **'Success!'**
+  String get success;
+
+  /// No description provided for @errorOccurred.
+  ///
+  /// In en, this message translates to:
+  /// **'Error occurred'**
+  String get errorOccurred;
+
+  /// No description provided for @noCouponZonesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No coupon zones yet'**
+  String get noCouponZonesYet;
+
+  /// No description provided for @createZonesToRestrict.
+  ///
+  /// In en, this message translates to:
+  /// **'Create zones to restrict coupons\\nto specific areas'**
+  String get createZonesToRestrict;
+
+  /// No description provided for @createZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Zone'**
+  String get createZone;
+
+  /// No description provided for @editZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Zone'**
+  String get editZone;
+
+  /// No description provided for @zoneNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Zone Name *'**
+  String get zoneNameRequired;
+
+  /// No description provided for @zoneNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Downtown Area'**
+  String get zoneNameHint;
+
+  /// No description provided for @optionalDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional description'**
+  String get optionalDescription;
+
+  /// No description provided for @latitudeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 36.7538'**
+  String get latitudeHint;
+
+  /// No description provided for @longitudeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 3.0588'**
+  String get longitudeHint;
+
+  /// No description provided for @radiusKm.
+  ///
+  /// In en, this message translates to:
+  /// **'Radius (km)'**
+  String get radiusKm;
+
+  /// No description provided for @radiusHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 5.0'**
+  String get radiusHint;
+
+  /// No description provided for @km.
+  ///
+  /// In en, this message translates to:
+  /// **'km'**
+  String get km;
+
+  /// No description provided for @zoneNameIsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Zone name is required'**
+  String get zoneNameIsRequired;
+
+  /// No description provided for @deleteZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Zone'**
+  String get deleteZone;
+
+  /// No description provided for @deleteZoneConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{zoneName}\"?'**
+  String deleteZoneConfirmation(Object zoneName);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

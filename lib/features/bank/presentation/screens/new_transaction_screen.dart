@@ -28,6 +28,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
   String _selectedPaymentType = 'restaurant';
   int? _selectedRestaurantId;
+  int? _selectedDriverId;
 
   // Period selection state
   String _selectedPeriod = 'week';
@@ -38,12 +39,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   double? _calculatedAmount;
   bool _isCalculating = false;
 
-  // Calculated system amount (from API) - for system payments
-  double? _calculatedSystemAmount;
-  bool _isCalculatingSystem = false;
+  // Calculated driver system amount (from API) - for driver payments
+  double? _calculatedDriverAmount;
+  bool _isCalculatingDriver = false;
 
   // Cached restaurant list and system debt (persisted across state changes)
   List<Map<String, dynamic>> _restaurants = [];
+  List<Map<String, dynamic>> _drivers = [];
 
   @override
   void initState() {
@@ -77,9 +79,11 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
     );
   }
 
-  void _calculateSystemAmount() {
+  void _calculateDriverAmount() {
+    if (_selectedDriverId == null) return;
     context.read<BankBloc>().add(
       CalculateSystemPaymentAmountEvent(
+        driverId: _selectedDriverId!,
         selectedPeriod: _selectedPeriod,
         startDate: _dateFrom?.toIso8601String().split('T')[0],
         endDate: _dateTo?.toIso8601String().split('T')[0],
@@ -108,8 +112,8 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
       // Recalculate amount when date changes
       if (_selectedPaymentType == 'restaurant') {
         _calculateAmount();
-      } else if (_selectedPaymentType == 'system') {
-        _calculateSystemAmount();
+      } else if (_selectedPaymentType == 'driver') {
+        _calculateDriverAmount();
       }
     }
   }
@@ -135,14 +139,25 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
         RecordRestaurantPaymentEvent(
           restaurantId: _selectedRestaurantId!,
           amount: amount,
+          selectedPeriod: _selectedPeriod,
+          startDate: _dateFrom?.toIso8601String().split('T')[0],
+          endDate: _dateTo?.toIso8601String().split('T')[0],
           notes: _notesController.text.isNotEmpty
               ? _notesController.text
               : null,
         ),
       );
     } else {
+      if (_selectedDriverId == null) {
+        ErrorSnackBar.show(
+          context,
+          AppLocalizations.of(context)!.selectDriver,
+        );
+        return;
+      }
       context.read<BankBloc>().add(
         RecordSystemPaymentEvent(
+          driverId: _selectedDriverId!,
           amount: amount,
           notes: _notesController.text.isNotEmpty
               ? _notesController.text
@@ -180,14 +195,26 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                 _calculatedAmount = null;
               });
             } else if (state is BalanceLoaded) {
-              // Cache the restaurant list and system debt
+              // Cache counterparty lists from credits (who owe the system)
               setState(() {
-                _restaurants = state.balance.restaurantDebts
+                final credits = state.balance.restaurantCredits;
+                _restaurants = credits
+                    .where((item) => item.counterpartyType == 'restaurant')
                     .map(
-                      (debt) => {
-                        'id': debt.restaurantId,
-                        'name': debt.restaurantName,
-                        'amount': debt.amount,
+                      (credit) => {
+                        'id': credit.restaurantId,
+                        'name': credit.restaurantName,
+                        'amount': credit.amount,
+                      },
+                    )
+                    .toList();
+                _drivers = credits
+                    .where((item) => item.counterpartyType == 'driver')
+                    .map(
+                      (credit) => {
+                        'id': credit.restaurantId,
+                        'name': credit.restaurantName,
+                        'amount': credit.amount,
                       },
                     )
                     .toList();
@@ -208,17 +235,17 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
               });
             } else if (state is SystemAmountCalculating) {
               setState(() {
-                _isCalculatingSystem = true;
+                _isCalculatingDriver = true;
               });
             } else if (state is SystemAmountCalculated) {
               setState(() {
-                _isCalculatingSystem = false;
-                _calculatedSystemAmount = state.amount;
+                _isCalculatingDriver = false;
+                _calculatedDriverAmount = state.amount;
               });
             } else if (state is SystemAmountCalculationError) {
               setState(() {
-                _isCalculatingSystem = false;
-                _calculatedSystemAmount = null;
+                _isCalculatingDriver = false;
+                _calculatedDriverAmount = null;
               });
             }
           },
@@ -228,6 +255,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             // Use cached restaurant list from widget state
             // (populated in listener when BalanceLoaded is received)
             final restaurants = _restaurants;
+            final drivers = _drivers;
 
             return SingleChildScrollView(
               padding: EdgeInsets.all(4.w),
@@ -258,9 +286,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                           icon: const Icon(Icons.restaurant),
                         ),
                         ButtonSegment(
-                          value: 'system',
-                          label: Text(AppLocalizations.of(context)!.system),
-                          icon: const Icon(Icons.business),
+                          value: 'driver',
+                          label: Text(AppLocalizations.of(context)!.driver),
+                          icon: const Icon(Icons.person),
                         ),
                       ],
                       selected: {_selectedPaymentType},
@@ -268,12 +296,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         setState(() {
                           _selectedPaymentType = selection.first;
                           _selectedRestaurantId = null;
+                          _selectedDriverId = null;
                           _calculatedAmount = null;
-                          _calculatedSystemAmount = null;
+                          _calculatedDriverAmount = null;
                         });
-                        // If system payment selected, calculate system amount
-                        if (selection.first == 'system') {
-                          _calculateSystemAmount();
+                        // If driver payment selected, calculate driver amount
+                        if (selection.first == 'driver') {
+                          _calculateDriverAmount();
                         }
                       },
                     ),
@@ -316,13 +345,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                           _dateFrom = newDateFrom;
                           _dateTo = newDateTo;
                           _calculatedAmount = null;
-                          _calculatedSystemAmount = null;
+                          _calculatedDriverAmount = null;
                         });
                         // Recalculate amount when period changes
                         if (_selectedPaymentType == 'restaurant') {
                           _calculateAmount();
-                        } else if (_selectedPaymentType == 'system') {
-                          _calculateSystemAmount();
+                        } else if (_selectedPaymentType == 'driver') {
+                          _calculateDriverAmount();
                         }
                       },
                       onDateFromSelected: (DateTime? date) async {
@@ -519,65 +548,191 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                       ],
                     ],
 
-                    // System debt info (for system payments)
-                    if (_selectedPaymentType == 'system') ...[
-                      Container(
-                        padding: EdgeInsets.all(3.w),
-                        decoration: BoxDecoration(
-                          color: Theme.of(
+                    // Driver Selection (only for driver payments)
+                    if (_selectedPaymentType == 'driver') ...[
+                      Text(
+                        AppLocalizations.of(context)!.selectDriver,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      SizedBox(height: 1.h),
+                      if (drivers.isEmpty)
+                        Text(
+                          AppLocalizations.of(context)!.noDebts,
+                          style: Theme.of(
                             context,
-                          ).colorScheme.primaryContainer.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: Theme.of(
+                          ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+                        )
+                      else
+                        Builder(
+                          builder: (context) {
+                            final fillColor =
+                                Theme.of(
+                                  context,
+                                ).inputDecorationTheme.fillColor ??
+                                Theme.of(
+                                  context,
+                                ).colorScheme.secondaryContainer;
+                            final borderColor = Theme.of(
                               context,
-                            ).colorScheme.primary.withOpacity(0.3),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.account_balance_wallet,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            SizedBox(width: 2.w),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    AppLocalizations.of(context)!.totalDebt,
+                            ).colorScheme.inversePrimary;
+
+                            return DropdownButton2<int>(
+                              value: _selectedDriverId,
+                              hint: Text(
+                                AppLocalizations.of(context)!.selectDriver,
+                                style: Theme.of(context).textTheme.bodyMedium
+                                    ?.copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface.withOpacity(0.6),
+                                    ),
+                              ),
+                              isExpanded: true,
+                              underline: const SizedBox.shrink(),
+                              iconStyleData: IconStyleData(
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: borderColor,
+                                  size: 28.sp,
+                                ),
+                              ),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              dropdownStyleData: DropdownStyleData(
+                                maxHeight: 60.h,
+                                decoration: BoxDecoration(
+                                  color: fillColor,
+                                  borderRadius:
+                                      MaterialTheme.getBorderRadiusMedium(),
+                                  border: Border.all(
+                                    color: borderColor,
+                                    width: 0.2.w,
+                                  ),
+                                ),
+                                scrollbarTheme: ScrollbarThemeData(
+                                  radius: MaterialTheme.getBorderRadiusMedium()
+                                      .topLeft,
+                                  thickness: WidgetStateProperty.all(0.6.w),
+                                  thumbVisibility: WidgetStateProperty.all(
+                                    true,
+                                  ),
+                                ),
+                              ),
+                              menuItemStyleData: MenuItemStyleData(
+                                height: 6.h,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 4.w,
+                                  vertical: 0,
+                                ),
+                              ),
+                              buttonStyleData: ButtonStyleData(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 3.w,
+                                  vertical: 1.5.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: fillColor,
+                                  borderRadius:
+                                      MaterialTheme.getBorderRadiusMedium(),
+                                  border: Border.all(
+                                    color: borderColor,
+                                    width: 0.2.w,
+                                  ),
+                                ),
+                              ),
+                              items: drivers.map((driver) {
+                                return DropdownMenuItem<int>(
+                                  value: driver['id'] as int,
+                                  child: Text(
+                                    driver['name'] as String,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .titleSmall
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  _isCalculatingSystem
-                                      ? const SizedBox(
-                                          height: 20,
-                                          width: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                          ),
-                                        )
-                                      : Text(
-                                          '${(_calculatedSystemAmount ?? 0.0).toStringAsFixed(2)} ${Currency.dzd.code}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium
-                                              ?.copyWith(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
                                         ),
-                                ],
-                              ),
-                            ),
-                          ],
+                                    overflow: TextOverflow.visible,
+                                    softWrap: true,
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedDriverId = value;
+                                  _calculatedDriverAmount = null;
+                                });
+                                _calculateDriverAmount();
+                              },
+                            );
+                          },
                         ),
-                      ),
                       SizedBox(height: 2.h),
+
+                      // Calculated Total for selected driver
+                      if (_selectedDriverId != null) ...[
+                        Container(
+                          padding: EdgeInsets.all(3.w),
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.primaryContainer.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.3),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.account_balance_wallet,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              SizedBox(width: 2.w),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.totalDebt,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                    _isCalculatingDriver
+                                        ? const SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                            ),
+                                          )
+                                        : Text(
+                                            '${(_calculatedDriverAmount ?? 0.0).toStringAsFixed(2)} ${Currency.dzd.code}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium
+                                                ?.copyWith(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                      ],
                     ],
+
+                    // Driver debt info (handled in driver section)
 
                     // Amount Input
                     TextFormField(
