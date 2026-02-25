@@ -328,7 +328,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get statisticsOrders => 'Commandes';
 
   @override
-  String get ordersPlaced => 'Passées';
+  String get ordersPlaced => 'Commandes';
 
   @override
   String get ordersPendingVerification => 'En attente de vérification';
@@ -1934,7 +1934,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get paymentDate => 'Date de paiement';
 
   @override
-  String get totalCredits => 'Total Credits';
+  String get totalCredits => 'Total des Crédits';
 
   @override
   String get overpay => 'Paiement excédentaire';
@@ -2358,4 +2358,217 @@ class AppLocalizationsFr extends AppLocalizations {
   String deleteZoneConfirmation(Object zoneName) {
     return 'Êtes-vous sûr de vouloir supprimer \"$zoneName\"?';
   }
+
+  @override
+  String get currency => 'DZD';
+
+  @override
+  String get revenueOverview => 'Aperçu';
+
+  @override
+  String get totalRevenue => 'Revenu total';
+
+  @override
+  String get subtotalRevenue => 'Sous-total nourriture';
+
+  @override
+  String get deliveryFeesCollected => 'Frais de livraison';
+
+  @override
+  String get platformEarnings => 'Revenus';
+
+  @override
+  String get platformRevenue => 'Revenu de la plateforme';
+
+  @override
+  String get platformShort => 'Plateforme';
+
+  @override
+  String get driverEarnings => 'Gains du livreur';
+
+  @override
+  String get driversShort => 'Livreurs';
+
+  @override
+  String get restaurantEarnings => 'Gains des restaurants';
+
+  @override
+  String get restaurantsShort => 'Restaurants';
+
+  @override
+  String get totalRevenueDesc => 'Montant total payé par les clients pour toutes les commandes livrées, incluant le coût des plats et les frais de livraison.';
+
+  @override
+  String get subtotalRevenueDesc => 'Total du coût des plats sur toutes les commandes livrées, hors frais de livraison.';
+
+  @override
+  String get deliveryFeesDesc => 'Total des frais de livraison facturés aux clients sur toutes les commandes livrées.';
+
+  @override
+  String get platformRevenueDesc => 'La commission de la plateforme : un pourcentage prélevé sur les commandes de nourriture des restaurants et sur les frais de livraison des livreurs.';
+
+  @override
+  String get driversRevenueDesc => 'Ce que les livreurs conservent réellement : frais de livraison collectés moins la commission de la plateforme sur les livraisons.';
+
+  @override
+  String get restaurantsRevenueDesc => 'Ce que les restaurants conservent réellement : revenus des commandes alimentaires moins la commission de la plateforme sur les plats.';
+
+  @override
+  String get restaurantEarningsSection => 'Gains';
+
+  @override
+  String get restaurantNetEarnings => 'Gains nets';
+
+  @override
+  String get driverEarningsSection => 'Gains';
+
+  @override
+  String get driverNetEarnings => 'Gains nets';
+
+  @override
+  String get averageOrderValueDesc => 'Montant total moyen (nourriture + livraison) par commande livrée dans la période sélectionnée.';
+
+  @override
+  String get ordersPlacedDesc => 'Nombre total de commandes livrées avec succès dans la période sélectionnée.';
+
+  @override
+  String get netProfit => 'Bénéfice net';
+
+  @override
+  String get orderMetrics => 'Métriques des commandes';
+
+  @override
+  String get averageOrderValue => 'Valeur moyenne des commandes';
+
+  @override
+  String get completedOrders => 'Commandes complétées';
+
+  @override
+  String get statisticsDelivery => 'Livraison';
+
+  @override
+  String get statisticsRatings => 'Évaluations';
+
+  @override
+  String get statisticsPerformance => 'Performance';
+
+  @override
+  String get deliveryPerformance => 'Performance de livraison';
+
+  @override
+  String get totalDeliveries => 'Total des livraisons';
+
+  @override
+  String get completedDeliveries => 'Livraisons complétées';
+
+  @override
+  String get cancelledDeliveries => 'Livraisons annulées';
+
+  @override
+  String get onTimeRate => 'Taux de ponctualité';
+
+  @override
+  String get avgDeliveryTime => 'Temps moy. de livraison';
+
+  @override
+  String get fastestDelivery => 'Livraison la plus rapide';
+
+  @override
+  String get slowestDelivery => 'Livraison la plus lente';
+
+  @override
+  String get totalDeliveriesDesc => 'Nombre total de commandes de livraison sur la période sélectionnée.';
+
+  @override
+  String get completedDeliveriesDesc => 'Commandes livrées avec succès au client.';
+
+  @override
+  String get cancelledDeliveriesDesc => 'Commandes annulées après avoir été acceptées.';
+
+  @override
+  String get completionRateDesc => 'Pourcentage des commandes acceptées qui ont été livrées avec succès.';
+
+  @override
+  String get avgDeliveryTimeDesc => 'Temps moyen en minutes entre la prise en charge et la livraison.';
+
+  @override
+  String get onTimeRateDesc => 'Pourcentage de livraisons effectuées dans le délai cible.';
+
+  @override
+  String get fastestDeliveryDesc => 'Le temps de livraison le plus court enregistré sur la période.';
+
+  @override
+  String get slowestDeliveryDesc => 'Le temps de livraison le plus long enregistré sur la période.';
+
+  @override
+  String get driverPerformance => 'Performance des livreurs';
+
+  @override
+  String get minutesAbbr => 'min';
+
+  @override
+  String get noDriverData => 'Aucune donnée de performance disponible';
+
+  @override
+  String get averageRating => 'Note moyenne';
+
+  @override
+  String get totalRatings => 'Total des évaluations';
+
+  @override
+  String get ratingDistribution => 'Distribution des notes';
+
+  @override
+  String get foodQualityRating => 'Qualité des aliments';
+
+  @override
+  String get restaurantServiceRating => 'Service du restaurant';
+
+  @override
+  String get driverRatingLabel => 'Note du livreur';
+
+  @override
+  String get deliverySpeedRating => 'Vitesse de livraison';
+
+  @override
+  String get reorderRate => 'Taux de récommande';
+
+  @override
+  String get recommendRate => 'Taux de recommandation';
+
+  @override
+  String get customerSatisfaction => 'Satisfaction client';
+
+  @override
+  String get categoryRatings => 'Notes par catégorie';
+
+  @override
+  String get last7Days => '7 derniers jours';
+
+  @override
+  String get last30Days => '30 derniers jours';
+
+  @override
+  String get last90Days => '90 derniers jours';
+
+  @override
+  String get last365Days => '365 derniers jours';
+
+  @override
+  String get outOf5 => 'sur 5';
+
+  @override
+  String get quarter => 'Trimestre';
+
+  @override
+  String get restaurantsTab => 'Restaurants';
+
+  @override
+  String get reviews => 'avis';
+
+  @override
+  String get noRatingsYet => 'Aucune note pour l\'instant';
+
+  @override
+  String get driversTab => 'Chauffeurs';
 }

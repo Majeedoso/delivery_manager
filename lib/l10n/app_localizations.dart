@@ -730,7 +730,7 @@ abstract class AppLocalizations {
   /// Orders placed count label
   ///
   /// In en, this message translates to:
-  /// **'Placed'**
+  /// **'Orders'**
   String get ordersPlaced;
 
   /// Orders pending verification count label
@@ -4734,6 +4734,432 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete \"{zoneName}\"?'**
   String deleteZoneConfirmation(Object zoneName);
+
+  /// Currency abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'DZD'**
+  String get currency;
+
+  /// Revenue overview section header
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get revenueOverview;
+
+  /// Total revenue label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Revenue'**
+  String get totalRevenue;
+
+  /// Food subtotal label
+  ///
+  /// In en, this message translates to:
+  /// **'Food Subtotal'**
+  String get subtotalRevenue;
+
+  /// Delivery fees collected label
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Fees'**
+  String get deliveryFeesCollected;
+
+  /// Platform earnings section header
+  ///
+  /// In en, this message translates to:
+  /// **'Revenues'**
+  String get platformEarnings;
+
+  /// Platform revenue label
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Revenue'**
+  String get platformRevenue;
+
+  /// Short label for platform revenue card
+  ///
+  /// In en, this message translates to:
+  /// **'Platform'**
+  String get platformShort;
+
+  /// Driver earnings label
+  ///
+  /// In en, this message translates to:
+  /// **'Driver Earnings'**
+  String get driverEarnings;
+
+  /// Short label for drivers earnings card
+  ///
+  /// In en, this message translates to:
+  /// **'Drivers'**
+  String get driversShort;
+
+  /// Restaurant earnings label
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant Earnings'**
+  String get restaurantEarnings;
+
+  /// Short label for restaurants earnings card
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurants'**
+  String get restaurantsShort;
+
+  /// No description provided for @totalRevenueDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Total amount paid by customers for all delivered orders, including food cost and delivery fees.'**
+  String get totalRevenueDesc;
+
+  /// No description provided for @subtotalRevenueDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The food cost total across all delivered orders, excluding delivery fees.'**
+  String get subtotalRevenueDesc;
+
+  /// No description provided for @deliveryFeesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Total delivery fees charged to customers across all delivered orders.'**
+  String get deliveryFeesDesc;
+
+  /// No description provided for @platformRevenueDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The platform\'s commission: a percentage taken from restaurant food orders and from driver delivery fees.'**
+  String get platformRevenueDesc;
+
+  /// No description provided for @driversRevenueDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'What drivers actually keep: delivery fees collected minus the platform\'s commission on deliveries.'**
+  String get driversRevenueDesc;
+
+  /// No description provided for @restaurantsRevenueDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'What restaurants actually keep: food order revenue minus the platform\'s commission on food orders.'**
+  String get restaurantsRevenueDesc;
+
+  /// No description provided for @restaurantEarningsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Earnings'**
+  String get restaurantEarningsSection;
+
+  /// No description provided for @restaurantNetEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Net Earnings'**
+  String get restaurantNetEarnings;
+
+  /// No description provided for @driverEarningsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Earnings'**
+  String get driverEarningsSection;
+
+  /// No description provided for @driverNetEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Net Earnings'**
+  String get driverNetEarnings;
+
+  /// No description provided for @averageOrderValueDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The average total amount (food + delivery) per delivered order in the selected period.'**
+  String get averageOrderValueDesc;
+
+  /// No description provided for @ordersPlacedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Total number of successfully delivered orders in the selected period.'**
+  String get ordersPlacedDesc;
+
+  /// Net profit label
+  ///
+  /// In en, this message translates to:
+  /// **'Net Profit'**
+  String get netProfit;
+
+  /// Order metrics section header
+  ///
+  /// In en, this message translates to:
+  /// **'Order Metrics'**
+  String get orderMetrics;
+
+  /// Average order value label
+  ///
+  /// In en, this message translates to:
+  /// **'Average Order Value'**
+  String get averageOrderValue;
+
+  /// Completed orders label
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Orders'**
+  String get completedOrders;
+
+  /// Statistics delivery tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery'**
+  String get statisticsDelivery;
+
+  /// Statistics ratings tab title
+  ///
+  /// In en, this message translates to:
+  /// **'Ratings'**
+  String get statisticsRatings;
+
+  /// Statistics performance tile title
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get statisticsPerformance;
+
+  /// Delivery performance section header
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Performance'**
+  String get deliveryPerformance;
+
+  /// Total deliveries label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Deliveries'**
+  String get totalDeliveries;
+
+  /// Completed deliveries label
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Deliveries'**
+  String get completedDeliveries;
+
+  /// Cancelled deliveries label
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled Deliveries'**
+  String get cancelledDeliveries;
+
+  /// On-time delivery rate label
+  ///
+  /// In en, this message translates to:
+  /// **'On-Time Rate'**
+  String get onTimeRate;
+
+  /// Average delivery time label
+  ///
+  /// In en, this message translates to:
+  /// **'Avg. Delivery Time'**
+  String get avgDeliveryTime;
+
+  /// Fastest delivery label
+  ///
+  /// In en, this message translates to:
+  /// **'Fastest Delivery'**
+  String get fastestDelivery;
+
+  /// Slowest delivery label
+  ///
+  /// In en, this message translates to:
+  /// **'Slowest Delivery'**
+  String get slowestDelivery;
+
+  /// Tooltip for total deliveries card
+  ///
+  /// In en, this message translates to:
+  /// **'The total number of delivery orders in the selected period.'**
+  String get totalDeliveriesDesc;
+
+  /// Tooltip for completed deliveries card
+  ///
+  /// In en, this message translates to:
+  /// **'Orders that were successfully delivered to the customer.'**
+  String get completedDeliveriesDesc;
+
+  /// Tooltip for cancelled deliveries card
+  ///
+  /// In en, this message translates to:
+  /// **'Orders that were cancelled after being accepted.'**
+  String get cancelledDeliveriesDesc;
+
+  /// Tooltip for completion rate card
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage of accepted orders that were successfully delivered.'**
+  String get completionRateDesc;
+
+  /// Tooltip for average delivery time card
+  ///
+  /// In en, this message translates to:
+  /// **'Average time in minutes from order pickup to delivery.'**
+  String get avgDeliveryTimeDesc;
+
+  /// Tooltip for on-time rate card
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage of deliveries completed within the target time.'**
+  String get onTimeRateDesc;
+
+  /// Tooltip for fastest delivery card
+  ///
+  /// In en, this message translates to:
+  /// **'The shortest delivery time recorded in the selected period.'**
+  String get fastestDeliveryDesc;
+
+  /// Tooltip for slowest delivery card
+  ///
+  /// In en, this message translates to:
+  /// **'The longest delivery time recorded in the selected period.'**
+  String get slowestDeliveryDesc;
+
+  /// Driver performance section header
+  ///
+  /// In en, this message translates to:
+  /// **'Driver Performance'**
+  String get driverPerformance;
+
+  /// Minutes abbreviation
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get minutesAbbr;
+
+  /// Empty state for driver performance table
+  ///
+  /// In en, this message translates to:
+  /// **'No driver performance data available'**
+  String get noDriverData;
+
+  /// Average rating label
+  ///
+  /// In en, this message translates to:
+  /// **'Average Rating'**
+  String get averageRating;
+
+  /// Total ratings count label
+  ///
+  /// In en, this message translates to:
+  /// **'Total Ratings'**
+  String get totalRatings;
+
+  /// Rating distribution section header
+  ///
+  /// In en, this message translates to:
+  /// **'Rating Distribution'**
+  String get ratingDistribution;
+
+  /// Food quality rating label
+  ///
+  /// In en, this message translates to:
+  /// **'Food Quality'**
+  String get foodQualityRating;
+
+  /// Restaurant service rating label
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurant Service'**
+  String get restaurantServiceRating;
+
+  /// Driver rating label
+  ///
+  /// In en, this message translates to:
+  /// **'Driver Rating'**
+  String get driverRatingLabel;
+
+  /// Delivery speed rating label
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Speed'**
+  String get deliverySpeedRating;
+
+  /// Customer reorder rate label
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder Rate'**
+  String get reorderRate;
+
+  /// Customer recommend rate label
+  ///
+  /// In en, this message translates to:
+  /// **'Recommend Rate'**
+  String get recommendRate;
+
+  /// Customer satisfaction section header
+  ///
+  /// In en, this message translates to:
+  /// **'Customer Satisfaction'**
+  String get customerSatisfaction;
+
+  /// Category ratings section header
+  ///
+  /// In en, this message translates to:
+  /// **'Category Ratings'**
+  String get categoryRatings;
+
+  /// Last 7 days filter option
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get last7Days;
+
+  /// Last 30 days filter option
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get last30Days;
+
+  /// Last 90 days filter option
+  ///
+  /// In en, this message translates to:
+  /// **'Last 90 days'**
+  String get last90Days;
+
+  /// Last 365 days filter option
+  ///
+  /// In en, this message translates to:
+  /// **'Last 365 days'**
+  String get last365Days;
+
+  /// Rating out of 5 suffix
+  ///
+  /// In en, this message translates to:
+  /// **'out of 5'**
+  String get outOf5;
+
+  /// Quarter period option
+  ///
+  /// In en, this message translates to:
+  /// **'Quarter'**
+  String get quarter;
+
+  /// Restaurants tab label in ratings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurants'**
+  String get restaurantsTab;
+
+  /// Reviews count suffix
+  ///
+  /// In en, this message translates to:
+  /// **'reviews'**
+  String get reviews;
+
+  /// Empty state when no ratings exist
+  ///
+  /// In en, this message translates to:
+  /// **'No ratings yet'**
+  String get noRatingsYet;
+
+  /// Drivers tab label in ratings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Drivers'**
+  String get driversTab;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

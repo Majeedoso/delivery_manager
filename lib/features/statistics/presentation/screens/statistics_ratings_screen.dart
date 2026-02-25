@@ -4,16 +4,16 @@ import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 
-class StatisticsMoneyScreen extends StatelessWidget {
-  static const String route = '/statistics/money';
+class StatisticsRatingsScreen extends StatelessWidget {
+  static const String route = '/statistics/ratings';
 
-  const StatisticsMoneyScreen({super.key});
+  const StatisticsRatingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(l.statisticsMoney)),
+      appBar: AppBar(title: Text(l.statisticsRatings)),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -37,21 +37,21 @@ class StatisticsMoneyScreen extends StatelessWidget {
                     title: l.overview,
                     icon: Icons.bar_chart,
                     onTap: () => Navigator.of(context)
-                        .pushNamed(AppRoutes.statisticsMoneyOverview),
+                        .pushNamed(AppRoutes.statisticsRatingsOverview),
                   ),
                   _buildIconContainer(
                     context,
                     title: l.restaurantsTab,
                     icon: Icons.store,
                     onTap: () => Navigator.of(context)
-                        .pushNamed(AppRoutes.statisticsMoneyRestaurants),
+                        .pushNamed(AppRoutes.statisticsRatingsRestaurants),
                   ),
                   _buildIconContainer(
                     context,
                     title: l.driversTab,
                     icon: Icons.delivery_dining,
                     onTap: () => Navigator.of(context)
-                        .pushNamed(AppRoutes.statisticsMoneyDrivers),
+                        .pushNamed(AppRoutes.statisticsRatingsDrivers),
                   ),
                 ],
               ),
@@ -86,12 +86,13 @@ class StatisticsMoneyScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height:
-                      MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
+                  height: MaterialTheme.getSpacing('containerWidthMedium').w *
+                      1.05,
                   child: Center(
                     child: Icon(
                       icon,
-                      size: MaterialTheme.getSpacing('containerWidthMedium').w *
+                      size:
+                          MaterialTheme.getSpacing('containerWidthMedium').w *
                           1.05,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
@@ -102,24 +103,20 @@ class StatisticsMoneyScreen extends StatelessWidget {
                   child: SizedBox(
                     height:
                         Theme.of(context).textTheme.titleMedium?.fontSize !=
-                                null
-                            ? Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .fontSize! *
-                                2.8
-                            : 48,
+                            null
+                        ? Theme.of(context).textTheme.titleMedium!.fontSize! *
+                              2.8
+                        : 48,
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 1.w),
                         child: Text(
                           title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
+                          style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
+                                color:
+                                    Theme.of(context).colorScheme.onSurface,
                               ),
                           textAlign: TextAlign.center,
                           maxLines: 2,

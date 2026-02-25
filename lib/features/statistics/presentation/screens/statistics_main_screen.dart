@@ -47,6 +47,31 @@ class StatisticsMainScreen extends StatelessWidget {
                       context,
                     ).pushNamed(AppRoutes.statisticsOrders),
                   ),
+                  _buildIconContainer(
+                    context,
+                    title: AppLocalizations.of(context)!.statisticsDelivery,
+                    icon: Icons.local_shipping,
+                    onTap: () => Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutes.statisticsDelivery),
+                  ),
+                  _buildIconContainer(
+                    context,
+                    title: AppLocalizations.of(context)!.statisticsRatings,
+                    icon: Icons.star_rounded,
+                    onTap: () => Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutes.statisticsRatings),
+                  ),
+                  _buildIconContainer(
+                    context,
+                    title:
+                        AppLocalizations.of(context)!.statisticsPerformance,
+                    icon: Icons.bar_chart_rounded,
+                    onTap: () => Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutes.statisticsPerformance),
+                  ),
                 ],
               ),
               SizedBox(height: 4.h),

@@ -38,9 +38,24 @@ import 'package:delivery_manager/features/bank/presentation/screens/bank_archive
 import 'package:delivery_manager/features/bank/presentation/controller/bank_bloc.dart';
 import 'package:delivery_manager/features/bank/presentation/screens/driver_debt_details_screen.dart';
 import 'package:delivery_manager/features/bank/domain/entities/restaurant_debt.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_delivery_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_main_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_overview_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_restaurant_detail_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_restaurants_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_driver_detail_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_drivers_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_orders_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_ratings_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_ratings_overview_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_ratings_restaurants_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_ratings_drivers_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_restaurants_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_restaurant_detail_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_drivers_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_driver_detail_screen.dart';
 import 'package:delivery_manager/features/coupons/presentation/screens/coupons_home_screen.dart';
 import 'package:delivery_manager/features/coupons/presentation/screens/coupons_list_screen.dart';
 import 'package:delivery_manager/features/coupons/presentation/screens/delivery_zones_screen.dart';
@@ -230,7 +245,76 @@ class RouteGenerator {
       // Statistics routes
       AppRoutes.statistics: (context) => const StatisticsMainScreen(),
       AppRoutes.statisticsMoney: (context) => const StatisticsMoneyScreen(),
+      AppRoutes.statisticsMoneyOverview: (context) =>
+          const StatisticsMoneyOverviewScreen(),
+      AppRoutes.statisticsMoneyRestaurants: (context) =>
+          const StatisticsMoneyRestaurantsScreen(),
+      AppRoutes.statisticsMoneyRestaurantDetail: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        if (args == null || args is! Map<String, dynamic>) {
+          return const Scaffold(
+            body: Center(child: Text('Invalid route arguments')),
+          );
+        }
+        return StatisticsMoneyRestaurantDetailScreen(
+          restaurantId: args['id'] as int,
+          restaurantName: args['name'] as String,
+        );
+      },
+      AppRoutes.statisticsMoneyDrivers: (context) =>
+          const StatisticsMoneyDriversScreen(),
+      AppRoutes.statisticsMoneyDriverDetail: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        if (args == null || args is! Map<String, dynamic>) {
+          return const Scaffold(
+            body: Center(child: Text('Invalid route arguments')),
+          );
+        }
+        return StatisticsMoneyDriverDetailScreen(
+          driverId: args['id'] as int,
+          driverName: args['name'] as String,
+        );
+      },
       AppRoutes.statisticsOrders: (context) => const StatisticsOrdersScreen(),
+      AppRoutes.statisticsDelivery: (context) =>
+          const StatisticsDeliveryScreen(),
+      AppRoutes.statisticsRatings: (context) => const StatisticsRatingsScreen(),
+      AppRoutes.statisticsRatingsOverview: (context) =>
+          const StatisticsRatingsOverviewScreen(),
+      AppRoutes.statisticsRatingsRestaurants: (context) =>
+          const StatisticsRatingsRestaurantsScreen(),
+      AppRoutes.statisticsRatingsDrivers: (context) =>
+          const StatisticsRatingsDriversScreen(),
+      AppRoutes.statisticsPerformance: (context) =>
+          const StatisticsPerformanceScreen(),
+      AppRoutes.statisticsPerformanceRestaurants: (context) =>
+          const StatisticsPerformanceRestaurantsScreen(),
+      AppRoutes.statisticsPerformanceRestaurantDetail: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        if (args == null || args is! Map<String, dynamic>) {
+          return const Scaffold(
+            body: Center(child: Text('Invalid route arguments')),
+          );
+        }
+        return StatisticsPerformanceRestaurantDetailScreen(
+          restaurantId: args['id'] as int,
+          restaurantName: args['name'] as String,
+        );
+      },
+      AppRoutes.statisticsPerformanceDrivers: (context) =>
+          const StatisticsPerformanceDriversScreen(),
+      AppRoutes.statisticsPerformanceDriverDetail: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        if (args == null || args is! Map<String, dynamic>) {
+          return const Scaffold(
+            body: Center(child: Text('Invalid route arguments')),
+          );
+        }
+        return StatisticsPerformanceDriverDetailScreen(
+          driverId: args['id'] as int,
+          driverName: args['name'] as String,
+        );
+      },
       AppRoutes.coupons: (context) => const CouponsHomeScreen(),
       AppRoutes.restaurantCoupons: (context) => BlocProvider(
         create: (context) => sl<CouponsBloc>(),

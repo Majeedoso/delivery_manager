@@ -328,7 +328,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statisticsOrders => 'Orders';
 
   @override
-  String get ordersPlaced => 'Placed';
+  String get ordersPlaced => 'Orders';
 
   @override
   String get ordersPendingVerification => 'Pending Verification';
@@ -2358,4 +2358,217 @@ class AppLocalizationsEn extends AppLocalizations {
   String deleteZoneConfirmation(Object zoneName) {
     return 'Are you sure you want to delete \"$zoneName\"?';
   }
+
+  @override
+  String get currency => 'DZD';
+
+  @override
+  String get revenueOverview => 'Overview';
+
+  @override
+  String get totalRevenue => 'Total Revenue';
+
+  @override
+  String get subtotalRevenue => 'Food Subtotal';
+
+  @override
+  String get deliveryFeesCollected => 'Delivery Fees';
+
+  @override
+  String get platformEarnings => 'Revenues';
+
+  @override
+  String get platformRevenue => 'Platform Revenue';
+
+  @override
+  String get platformShort => 'Platform';
+
+  @override
+  String get driverEarnings => 'Driver Earnings';
+
+  @override
+  String get driversShort => 'Drivers';
+
+  @override
+  String get restaurantEarnings => 'Restaurant Earnings';
+
+  @override
+  String get restaurantsShort => 'Restaurants';
+
+  @override
+  String get totalRevenueDesc => 'Total amount paid by customers for all delivered orders, including food cost and delivery fees.';
+
+  @override
+  String get subtotalRevenueDesc => 'The food cost total across all delivered orders, excluding delivery fees.';
+
+  @override
+  String get deliveryFeesDesc => 'Total delivery fees charged to customers across all delivered orders.';
+
+  @override
+  String get platformRevenueDesc => 'The platform\'s commission: a percentage taken from restaurant food orders and from driver delivery fees.';
+
+  @override
+  String get driversRevenueDesc => 'What drivers actually keep: delivery fees collected minus the platform\'s commission on deliveries.';
+
+  @override
+  String get restaurantsRevenueDesc => 'What restaurants actually keep: food order revenue minus the platform\'s commission on food orders.';
+
+  @override
+  String get restaurantEarningsSection => 'Earnings';
+
+  @override
+  String get restaurantNetEarnings => 'Net Earnings';
+
+  @override
+  String get driverEarningsSection => 'Earnings';
+
+  @override
+  String get driverNetEarnings => 'Net Earnings';
+
+  @override
+  String get averageOrderValueDesc => 'The average total amount (food + delivery) per delivered order in the selected period.';
+
+  @override
+  String get ordersPlacedDesc => 'Total number of successfully delivered orders in the selected period.';
+
+  @override
+  String get netProfit => 'Net Profit';
+
+  @override
+  String get orderMetrics => 'Order Metrics';
+
+  @override
+  String get averageOrderValue => 'Average Order Value';
+
+  @override
+  String get completedOrders => 'Completed Orders';
+
+  @override
+  String get statisticsDelivery => 'Delivery';
+
+  @override
+  String get statisticsRatings => 'Ratings';
+
+  @override
+  String get statisticsPerformance => 'Performance';
+
+  @override
+  String get deliveryPerformance => 'Delivery Performance';
+
+  @override
+  String get totalDeliveries => 'Total Deliveries';
+
+  @override
+  String get completedDeliveries => 'Completed Deliveries';
+
+  @override
+  String get cancelledDeliveries => 'Cancelled Deliveries';
+
+  @override
+  String get onTimeRate => 'On-Time Rate';
+
+  @override
+  String get avgDeliveryTime => 'Avg. Delivery Time';
+
+  @override
+  String get fastestDelivery => 'Fastest Delivery';
+
+  @override
+  String get slowestDelivery => 'Slowest Delivery';
+
+  @override
+  String get totalDeliveriesDesc => 'The total number of delivery orders in the selected period.';
+
+  @override
+  String get completedDeliveriesDesc => 'Orders that were successfully delivered to the customer.';
+
+  @override
+  String get cancelledDeliveriesDesc => 'Orders that were cancelled after being accepted.';
+
+  @override
+  String get completionRateDesc => 'Percentage of accepted orders that were successfully delivered.';
+
+  @override
+  String get avgDeliveryTimeDesc => 'Average time in minutes from order pickup to delivery.';
+
+  @override
+  String get onTimeRateDesc => 'Percentage of deliveries completed within the target time.';
+
+  @override
+  String get fastestDeliveryDesc => 'The shortest delivery time recorded in the selected period.';
+
+  @override
+  String get slowestDeliveryDesc => 'The longest delivery time recorded in the selected period.';
+
+  @override
+  String get driverPerformance => 'Driver Performance';
+
+  @override
+  String get minutesAbbr => 'min';
+
+  @override
+  String get noDriverData => 'No driver performance data available';
+
+  @override
+  String get averageRating => 'Average Rating';
+
+  @override
+  String get totalRatings => 'Total Ratings';
+
+  @override
+  String get ratingDistribution => 'Rating Distribution';
+
+  @override
+  String get foodQualityRating => 'Food Quality';
+
+  @override
+  String get restaurantServiceRating => 'Restaurant Service';
+
+  @override
+  String get driverRatingLabel => 'Driver Rating';
+
+  @override
+  String get deliverySpeedRating => 'Delivery Speed';
+
+  @override
+  String get reorderRate => 'Reorder Rate';
+
+  @override
+  String get recommendRate => 'Recommend Rate';
+
+  @override
+  String get customerSatisfaction => 'Customer Satisfaction';
+
+  @override
+  String get categoryRatings => 'Category Ratings';
+
+  @override
+  String get last7Days => 'Last 7 days';
+
+  @override
+  String get last30Days => 'Last 30 days';
+
+  @override
+  String get last90Days => 'Last 90 days';
+
+  @override
+  String get last365Days => 'Last 365 days';
+
+  @override
+  String get outOf5 => 'out of 5';
+
+  @override
+  String get quarter => 'Quarter';
+
+  @override
+  String get restaurantsTab => 'Restaurants';
+
+  @override
+  String get reviews => 'reviews';
+
+  @override
+  String get noRatingsYet => 'No ratings yet';
+
+  @override
+  String get driversTab => 'Drivers';
 }

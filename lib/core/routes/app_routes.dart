@@ -50,7 +50,23 @@ class AppRoutes {
   // Statistics routes
   static const String statistics = '/statistics';
   static const String statisticsMoney = '/statistics/money';
+  static const String statisticsMoneyOverview = '/statistics/money/overview';
+  static const String statisticsMoneyRestaurants = '/statistics/money/restaurants';
+  static const String statisticsMoneyRestaurantDetail = '/statistics/money/restaurant-detail';
+  static const String statisticsMoneyDrivers = '/statistics/money/drivers';
+  static const String statisticsMoneyDriverDetail = '/statistics/money/driver-detail';
   static const String statisticsOrders = '/statistics/orders';
+  static const String statisticsDelivery = '/statistics/delivery';
+  static const String statisticsRatings = '/statistics/ratings';
+  static const String statisticsRatingsOverview = '/statistics/ratings/overview';
+  static const String statisticsRatingsRestaurants =
+      '/statistics/ratings/restaurants';
+  static const String statisticsRatingsDrivers = '/statistics/ratings/drivers';
+  static const String statisticsPerformance = '/statistics/performance';
+  static const String statisticsPerformanceRestaurants = '/statistics/performance/restaurants';
+  static const String statisticsPerformanceRestaurantDetail = '/statistics/performance/restaurant-detail';
+  static const String statisticsPerformanceDrivers = '/statistics/performance/drivers';
+  static const String statisticsPerformanceDriverDetail = '/statistics/performance/driver-detail';
 
   // Coupons routes
   static const String coupons = '/coupons';

@@ -328,7 +328,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statisticsOrders => 'الطلبات';
 
   @override
-  String get ordersPlaced => 'تم الطلب';
+  String get ordersPlaced => 'طلبات';
 
   @override
   String get ordersPendingVerification => 'قيد التحقق';
@@ -1934,7 +1934,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get paymentDate => 'تاريخ الدفع';
 
   @override
-  String get totalCredits => 'Total Credits';
+  String get totalCredits => 'إجمالي الأرصدة';
 
   @override
   String get overpay => 'دفع زائد';
@@ -2358,4 +2358,217 @@ class AppLocalizationsAr extends AppLocalizations {
   String deleteZoneConfirmation(Object zoneName) {
     return 'هل أنت متأكد أنك تريد حذف \"$zoneName\"؟';
   }
+
+  @override
+  String get currency => 'دج';
+
+  @override
+  String get revenueOverview => 'نظرة عامة';
+
+  @override
+  String get totalRevenue => 'إجمالي الإيرادات';
+
+  @override
+  String get subtotalRevenue => 'مجموع الطعام';
+
+  @override
+  String get deliveryFeesCollected => 'رسوم التوصيل';
+
+  @override
+  String get platformEarnings => 'الإيرادات';
+
+  @override
+  String get platformRevenue => 'إيرادات المنصة';
+
+  @override
+  String get platformShort => 'المنصة';
+
+  @override
+  String get driverEarnings => 'أرباح السائق';
+
+  @override
+  String get driversShort => 'السائقون';
+
+  @override
+  String get restaurantEarnings => 'أرباح المطعم';
+
+  @override
+  String get restaurantsShort => 'المطاعم';
+
+  @override
+  String get totalRevenueDesc => 'إجمالي المبالغ التي دفعها العملاء لجميع الطلبات المُسلَّمة، شاملةً تكلفة الطعام ورسوم التوصيل.';
+
+  @override
+  String get subtotalRevenueDesc => 'إجمالي تكلفة الطعام عبر جميع الطلبات المُسلَّمة، باستثناء رسوم التوصيل.';
+
+  @override
+  String get deliveryFeesDesc => 'إجمالي رسوم التوصيل المحصَّلة من العملاء عبر جميع الطلبات المُسلَّمة.';
+
+  @override
+  String get platformRevenueDesc => 'عمولة المنصة: نسبة مئوية مأخوذة من طلبات الطعام الخاصة بالمطاعم ومن رسوم توصيل السائقين.';
+
+  @override
+  String get driversRevenueDesc => 'ما يحتفظ به السائقون فعليًا: رسوم التوصيل المحصَّلة ناقص عمولة المنصة على عمليات التوصيل.';
+
+  @override
+  String get restaurantsRevenueDesc => 'ما تحتفظ به المطاعم فعليًا: إيرادات طلبات الطعام ناقص عمولة المنصة على الطلبات الغذائية.';
+
+  @override
+  String get restaurantEarningsSection => 'الأرباح';
+
+  @override
+  String get restaurantNetEarnings => 'صافي الأرباح';
+
+  @override
+  String get driverEarningsSection => 'الأرباح';
+
+  @override
+  String get driverNetEarnings => 'صافي الأرباح';
+
+  @override
+  String get averageOrderValueDesc => 'متوسط المبلغ الإجمالي (طعام + توصيل) لكل طلب مُسلَّم في الفترة المحددة.';
+
+  @override
+  String get ordersPlacedDesc => 'إجمالي عدد الطلبات المُسلَّمة بنجاح في الفترة المحددة.';
+
+  @override
+  String get netProfit => 'صافي الربح';
+
+  @override
+  String get orderMetrics => 'مقاييس الطلبات';
+
+  @override
+  String get averageOrderValue => 'متوسط قيمة الطلب';
+
+  @override
+  String get completedOrders => 'الطلبات المكتملة';
+
+  @override
+  String get statisticsDelivery => 'التوصيل';
+
+  @override
+  String get statisticsRatings => 'التقييمات';
+
+  @override
+  String get statisticsPerformance => 'الأداء';
+
+  @override
+  String get deliveryPerformance => 'أداء التوصيل';
+
+  @override
+  String get totalDeliveries => 'إجمالي التوصيلات';
+
+  @override
+  String get completedDeliveries => 'التوصيلات المكتملة';
+
+  @override
+  String get cancelledDeliveries => 'التوصيلات الملغاة';
+
+  @override
+  String get onTimeRate => 'معدل الالتزام بالوقت';
+
+  @override
+  String get avgDeliveryTime => 'متوسط وقت التوصيل';
+
+  @override
+  String get fastestDelivery => 'أسرع توصيل';
+
+  @override
+  String get slowestDelivery => 'أبطأ توصيل';
+
+  @override
+  String get totalDeliveriesDesc => 'إجمالي عدد طلبات التوصيل في الفترة المحددة.';
+
+  @override
+  String get completedDeliveriesDesc => 'الطلبات التي تم توصيلها بنجاح إلى العميل.';
+
+  @override
+  String get cancelledDeliveriesDesc => 'الطلبات التي تم إلغاؤها بعد قبولها.';
+
+  @override
+  String get completionRateDesc => 'نسبة الطلبات المقبولة التي تم توصيلها بنجاح.';
+
+  @override
+  String get avgDeliveryTimeDesc => 'متوسط الوقت بالدقائق من استلام الطلب حتى التسليم.';
+
+  @override
+  String get onTimeRateDesc => 'نسبة عمليات التوصيل المنجزة ضمن الوقت المستهدف.';
+
+  @override
+  String get fastestDeliveryDesc => 'أقصر وقت توصيل مسجل في الفترة المحددة.';
+
+  @override
+  String get slowestDeliveryDesc => 'أطول وقت توصيل مسجل في الفترة المحددة.';
+
+  @override
+  String get driverPerformance => 'أداء السائقين';
+
+  @override
+  String get minutesAbbr => 'د';
+
+  @override
+  String get noDriverData => 'لا توجد بيانات أداء للسائقين';
+
+  @override
+  String get averageRating => 'متوسط التقييم';
+
+  @override
+  String get totalRatings => 'إجمالي التقييمات';
+
+  @override
+  String get ratingDistribution => 'توزيع التقييمات';
+
+  @override
+  String get foodQualityRating => 'جودة الطعام';
+
+  @override
+  String get restaurantServiceRating => 'خدمة المطعم';
+
+  @override
+  String get driverRatingLabel => 'تقييم السائق';
+
+  @override
+  String get deliverySpeedRating => 'سرعة التوصيل';
+
+  @override
+  String get reorderRate => 'معدل إعادة الطلب';
+
+  @override
+  String get recommendRate => 'معدل التوصية';
+
+  @override
+  String get customerSatisfaction => 'رضا العملاء';
+
+  @override
+  String get categoryRatings => 'تقييمات الفئات';
+
+  @override
+  String get last7Days => 'آخر 7 أيام';
+
+  @override
+  String get last30Days => 'آخر 30 يومًا';
+
+  @override
+  String get last90Days => 'آخر 90 يومًا';
+
+  @override
+  String get last365Days => 'آخر 365 يومًا';
+
+  @override
+  String get outOf5 => 'من 5';
+
+  @override
+  String get quarter => 'ربع السنة';
+
+  @override
+  String get restaurantsTab => 'المطاعم';
+
+  @override
+  String get reviews => 'تقييمات';
+
+  @override
+  String get noRatingsYet => 'لا توجد تقييمات بعد';
+
+  @override
+  String get driversTab => 'السائقون';
 }

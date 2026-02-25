@@ -194,4 +194,21 @@ class ApiConstance {
 
   // Driver statistics endpoint
   static const String driverStatisticsPath = "/driver/statistics";
+
+  // Manager analytics endpoints
+  static const String managerAnalyticsStatisticsPath =
+      "/manager/analytics/statistics";
+  static const String managerAnalyticsRevenuePath = "/manager/analytics/revenue";
+  static const String managerAnalyticsDashboardPath =
+      "/manager/analytics/dashboard";
+  static const String managerDeliveryAnalyticsPath =
+      "/manager/deliveries/analytics";
+  static const String managerRatingStatisticsPath =
+      "/manager/ratings/statistics";
+  static const String managerRestaurantsPath = "/manager/restaurants";
+  static String managerRestaurantRatingsPath(int id) =>
+      "/manager/restaurants/$id/ratings";
+  static const String managerDriversPath = "/manager/drivers";
+  static String managerDriverRatingsPath(int id) =>
+      "/manager/drivers/$id/ratings";
 }
