@@ -56,13 +56,16 @@ class AppRoutes {
   static const String statisticsMoneyDrivers = '/statistics/money/drivers';
   static const String statisticsMoneyDriverDetail = '/statistics/money/driver-detail';
   static const String statisticsOrders = '/statistics/orders';
-  static const String statisticsDelivery = '/statistics/delivery';
+  static const String statisticsOrdersOverview = '/statistics/orders/overview';
+  static const String statisticsOrdersRestaurants = '/statistics/orders/restaurants';
+  static const String statisticsOrdersDrivers = '/statistics/orders/drivers';
   static const String statisticsRatings = '/statistics/ratings';
   static const String statisticsRatingsOverview = '/statistics/ratings/overview';
   static const String statisticsRatingsRestaurants =
       '/statistics/ratings/restaurants';
   static const String statisticsRatingsDrivers = '/statistics/ratings/drivers';
   static const String statisticsPerformance = '/statistics/performance';
+  static const String statisticsPerformanceOverview = '/statistics/performance/overview';
   static const String statisticsPerformanceRestaurants = '/statistics/performance/restaurants';
   static const String statisticsPerformanceRestaurantDetail = '/statistics/performance/restaurant-detail';
   static const String statisticsPerformanceDrivers = '/statistics/performance/drivers';

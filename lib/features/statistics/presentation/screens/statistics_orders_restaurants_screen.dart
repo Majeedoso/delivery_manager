@@ -7,18 +7,18 @@ import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 
-class StatisticsPerformanceRestaurantsScreen extends StatefulWidget {
-  static const String route = '/statistics/performance/restaurants';
+class StatisticsOrdersRestaurantsScreen extends StatefulWidget {
+  static const String route = '/statistics/orders/restaurants';
 
-  const StatisticsPerformanceRestaurantsScreen({super.key});
+  const StatisticsOrdersRestaurantsScreen({super.key});
 
   @override
-  State<StatisticsPerformanceRestaurantsScreen> createState() =>
-      _StatisticsPerformanceRestaurantsScreenState();
+  State<StatisticsOrdersRestaurantsScreen> createState() =>
+      _StatisticsOrdersRestaurantsScreenState();
 }
 
-class _StatisticsPerformanceRestaurantsScreenState
-    extends State<StatisticsPerformanceRestaurantsScreen> {
+class _StatisticsOrdersRestaurantsScreenState
+    extends State<StatisticsOrdersRestaurantsScreen> {
   final List<_RestaurantItem> _restaurants = [];
   int _currentPage = 0;
   int _lastPage = 1;
@@ -48,16 +48,10 @@ class _StatisticsPerformanceRestaurantsScreenState
         final items = (response.data['data'] as List? ?? [])
             .whereType<Map<String, dynamic>>()
             .map((e) {
-              final perf =
-                  e['performance_metrics'] as Map<String, dynamic>? ?? {};
               return _RestaurantItem(
                 id: (e['id'] as num?)?.toInt() ?? 0,
                 name: e['name']?.toString() ?? '',
                 isOpen: e['is_open'] as bool? ?? false,
-                rating: (e['rating'] as num?)?.toDouble() ?? 0.0,
-                totalOrders: (perf['total_orders'] as num?)?.toInt() ?? 0,
-                completionRate:
-                    (perf['completion_rate'] as num?)?.toDouble() ?? 0.0,
               );
             })
             .toList();
@@ -149,7 +143,7 @@ class _StatisticsPerformanceRestaurantsScreenState
         itemBuilder: (context, index) {
           if (index < _restaurants.length) {
             final r = _restaurants[index];
-            return _RestaurantCard(
+            return _RestaurantOrderCard(
               restaurant: r,
               onTap: () => Navigator.of(context).pushNamed(
                 AppRoutes.statisticsPerformanceRestaurantDetail,
@@ -189,27 +183,21 @@ class _RestaurantItem {
   final int id;
   final String name;
   final bool isOpen;
-  final double rating;
-  final int totalOrders;
-  final double completionRate;
 
   const _RestaurantItem({
     required this.id,
     required this.name,
     required this.isOpen,
-    required this.rating,
-    required this.totalOrders,
-    required this.completionRate,
   });
 }
 
 // ─── Widgets ──────────────────────────────────────────────────────────────────
 
-class _RestaurantCard extends StatelessWidget {
+class _RestaurantOrderCard extends StatelessWidget {
   final _RestaurantItem restaurant;
   final VoidCallback onTap;
 
-  const _RestaurantCard({required this.restaurant, required this.onTap});
+  const _RestaurantOrderCard({required this.restaurant, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -248,33 +236,21 @@ class _RestaurantCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      restaurant.name,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(height: 0.3.h),
                     Row(
                       children: [
-                        Icon(
-                          Icons.star_rounded,
-                          color: Colors.amber,
-                          size: 3.5.w,
+                        Expanded(
+                          child: Text(
+                            restaurant.name,
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        SizedBox(width: 0.5.w),
-                        Text(
-                          restaurant.rating.toStringAsFixed(1),
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.7),
-                              ),
-                        ),
-                        SizedBox(width: 2.w),
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 1.5.w,
@@ -302,6 +278,7 @@ class _RestaurantCard extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(width: 2.w),
               Icon(
                 Icons.chevron_right,
                 color: Theme.of(

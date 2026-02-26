@@ -85,13 +85,19 @@ class _StatisticsRatingsOverviewScreenState
         totalRatings: readInt(overall, 'total_ratings'),
         averageRating: readDouble(overall, 'average_rating'),
         ratingDistribution: distribution,
-        avgFoodQuality:
-            readDouble(restaurantPerf, 'average_food_quality_rating'),
-        avgRestaurantService:
-            readDouble(restaurantPerf, 'average_restaurant_service_rating'),
+        avgFoodQuality: readDouble(
+          restaurantPerf,
+          'average_food_quality_rating',
+        ),
+        avgRestaurantService: readDouble(
+          restaurantPerf,
+          'average_restaurant_service_rating',
+        ),
         avgDriverRating: readDouble(driverPerf, 'average_driver_rating'),
-        avgDeliverySpeed:
-            readDouble(driverPerf, 'average_delivery_speed_rating'),
+        avgDeliverySpeed: readDouble(
+          driverPerf,
+          'average_delivery_speed_rating',
+        ),
         reorderRate: readDouble(satisfaction, 'reorder_rate'),
         recommendRate: readDouble(satisfaction, 'recommendation_rate'),
       );
@@ -178,8 +184,7 @@ class _StatisticsRatingsOverviewScreenState
                   if (picked != null) {
                     setState(() {
                       _selectedPeriod = 'dateRange';
-                      _dateTo =
-                          DateTime(picked.year, picked.month, picked.day);
+                      _dateTo = DateTime(picked.year, picked.month, picked.day);
                     });
                     _refreshStats();
                   }
@@ -192,8 +197,9 @@ class _StatisticsRatingsOverviewScreenState
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child:
-                          MaterialTheme.getCircularProgressIndicator(context),
+                      child: MaterialTheme.getCircularProgressIndicator(
+                        context,
+                      ),
                     );
                   }
 
@@ -207,20 +213,19 @@ class _StatisticsRatingsOverviewScreenState
                             Text(
                               l.errorLoadingStatistics,
                               textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
+                              style: Theme.of(context).textTheme.bodyLarge
                                   ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurface,
                                   ),
                             ),
                             SizedBox(height: 2.h),
                             ElevatedButton(
                               onPressed: _refreshStats,
                               style: MaterialTheme.getPrimaryButtonStyle(
-                                  context),
+                                context,
+                              ),
                               child: Text(l.tryAgain),
                             ),
                           ],
@@ -235,8 +240,7 @@ class _StatisticsRatingsOverviewScreenState
                       child: Text(
                         l.noStatisticsAvailable,
                         textAlign: TextAlign.center,
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
@@ -369,10 +373,9 @@ class _OverallRatingCard extends StatelessWidget {
             Text(
               '${stats.totalRatings} ${l.totalRatings}',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.6),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
           ],
@@ -380,22 +383,24 @@ class _OverallRatingCard extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _RatingDistributionCard extends StatelessWidget {
   final Map<int, int> distribution;
   final int total;
 
-  const _RatingDistributionCard(
-      {required this.distribution, required this.total});
+  const _RatingDistributionCard({
+    required this.distribution,
+    required this.total,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0.5,
       shape: RoundedRectangleBorder(
-          borderRadius: MaterialTheme.getBorderRadiusCard()),
+        borderRadius: MaterialTheme.getBorderRadiusCard(),
+      ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
         child: Column(
@@ -409,8 +414,7 @@ class _RatingDistributionCard extends StatelessWidget {
                 children: [
                   Icon(Icons.star_rounded, size: 4.w, color: Colors.amber),
                   SizedBox(width: 1.w),
-                  Text('$star',
-                      style: Theme.of(context).textTheme.bodySmall),
+                  Text('$star', style: Theme.of(context).textTheme.bodySmall),
                   SizedBox(width: 2.w),
                   Expanded(
                     child: ClipRRect(
@@ -418,9 +422,9 @@ class _RatingDistributionCard extends StatelessWidget {
                       child: LinearProgressIndicator(
                         value: fraction,
                         minHeight: 8,
-                        backgroundColor: Theme.of(context)
-                            .colorScheme
-                            .surfaceContainerHighest,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest,
                         valueColor: AlwaysStoppedAnimation<Color>(
                           Theme.of(context).colorScheme.primary,
                         ),
@@ -433,10 +437,9 @@ class _RatingDistributionCard extends StatelessWidget {
                     child: Text(
                       count.toString(),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.7),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.7),
                       ),
                       textAlign: TextAlign.end,
                     ),

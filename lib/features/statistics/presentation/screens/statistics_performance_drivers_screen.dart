@@ -57,8 +57,8 @@ class _StatisticsPerformanceDriversScreenState
                 name: e['name']?.toString() ?? '',
                 averageRating:
                     (ratings['average_rating'] as num?)?.toDouble() ??
-                        (perf['average_rating'] as num?)?.toDouble() ??
-                        0.0,
+                    (perf['average_rating'] as num?)?.toDouble() ??
+                    0.0,
                 totalDeliveries:
                     (perf['total_deliveries'] as num?)?.toInt() ?? 0,
                 completionRate:
@@ -220,7 +220,8 @@ class _DriverCard extends StatelessWidget {
       elevation: 0.5,
       margin: EdgeInsets.only(bottom: 1.6.h),
       shape: RoundedRectangleBorder(
-          borderRadius: MaterialTheme.getBorderRadiusCard()),
+        borderRadius: MaterialTheme.getBorderRadiusCard(),
+      ),
       child: InkWell(
         borderRadius: MaterialTheme.getBorderRadiusCard(),
         onTap: onTap,
@@ -232,10 +233,9 @@ class _DriverCard extends StatelessWidget {
                 width: 10.w,
                 height: 10.w,
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: MaterialTheme.getBorderRadiusButton(),
                 ),
                 child: Center(
@@ -262,29 +262,20 @@ class _DriverCard extends StatelessWidget {
                     SizedBox(height: 0.3.h),
                     Row(
                       children: [
-                        Icon(Icons.star_rounded,
-                            color: Colors.amber, size: 3.5.w),
+                        Icon(
+                          Icons.star_rounded,
+                          color: Colors.amber,
+                          size: 3.5.w,
+                        ),
                         SizedBox(width: 0.5.w),
                         Text(
                           driver.averageRating.toStringAsFixed(1),
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.7),
-                          ),
-                        ),
-                        SizedBox(width: 2.w),
-                        Text(
-                          '${driver.totalDeliveries} deliveries',
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.5),
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
+                              ),
                         ),
                       ],
                     ),
@@ -293,10 +284,9 @@ class _DriverCard extends StatelessWidget {
               ),
               Icon(
                 Icons.chevron_right,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.35),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.35),
                 size: 5.w,
               ),
             ],

@@ -7,19 +7,19 @@ import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 
-class StatisticsPerformanceRestaurantsScreen extends StatefulWidget {
-  static const String route = '/statistics/performance/restaurants';
+class StatisticsOrdersDriversScreen extends StatefulWidget {
+  static const String route = '/statistics/orders/drivers';
 
-  const StatisticsPerformanceRestaurantsScreen({super.key});
+  const StatisticsOrdersDriversScreen({super.key});
 
   @override
-  State<StatisticsPerformanceRestaurantsScreen> createState() =>
-      _StatisticsPerformanceRestaurantsScreenState();
+  State<StatisticsOrdersDriversScreen> createState() =>
+      _StatisticsOrdersDriversScreenState();
 }
 
-class _StatisticsPerformanceRestaurantsScreenState
-    extends State<StatisticsPerformanceRestaurantsScreen> {
-  final List<_RestaurantItem> _restaurants = [];
+class _StatisticsOrdersDriversScreenState
+    extends State<StatisticsOrdersDriversScreen> {
+  final List<_DriverItem> _drivers = [];
   int _currentPage = 0;
   int _lastPage = 1;
   bool _isLoading = false;
@@ -40,7 +40,7 @@ class _StatisticsPerformanceRestaurantsScreenState
     try {
       final dio = sl<Dio>();
       final response = await dio.get(
-        ApiConstance.managerRestaurantsPath,
+        ApiConstance.managerDriversPath,
         queryParameters: {'page': page, 'per_page': 10},
       );
       if (response.data is Map<String, dynamic> &&
@@ -48,24 +48,17 @@ class _StatisticsPerformanceRestaurantsScreenState
         final items = (response.data['data'] as List? ?? [])
             .whereType<Map<String, dynamic>>()
             .map((e) {
-              final perf =
-                  e['performance_metrics'] as Map<String, dynamic>? ?? {};
-              return _RestaurantItem(
+              return _DriverItem(
                 id: (e['id'] as num?)?.toInt() ?? 0,
                 name: e['name']?.toString() ?? '',
-                isOpen: e['is_open'] as bool? ?? false,
-                rating: (e['rating'] as num?)?.toDouble() ?? 0.0,
-                totalOrders: (perf['total_orders'] as num?)?.toInt() ?? 0,
-                completionRate:
-                    (perf['completion_rate'] as num?)?.toDouble() ?? 0.0,
               );
             })
             .toList();
         final meta = response.data['meta'] as Map<String, dynamic>? ?? {};
         final pagination = meta['pagination'] as Map<String, dynamic>? ?? {};
         setState(() {
-          if (page == 1) _restaurants.clear();
-          _restaurants.addAll(items);
+          if (page == 1) _drivers.clear();
+          _drivers.addAll(items);
           _currentPage = (pagination['current_page'] as num?)?.toInt() ?? page;
           _lastPage = (pagination['last_page'] as num?)?.toInt() ?? 1;
           _isLoading = false;
@@ -88,7 +81,7 @@ class _StatisticsPerformanceRestaurantsScreenState
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(l.restaurantsTab)),
+      appBar: AppBar(title: Text(l.driversTab)),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -99,11 +92,11 @@ class _StatisticsPerformanceRestaurantsScreenState
   }
 
   Widget _buildBody(BuildContext context, AppLocalizations l) {
-    if (_isLoading && _restaurants.isEmpty) {
+    if (_isLoading && _drivers.isEmpty) {
       return Center(child: MaterialTheme.getCircularProgressIndicator(context));
     }
 
-    if (_hasError && _restaurants.isEmpty) {
+    if (_hasError && _drivers.isEmpty) {
       return Center(
         child: Padding(
           padding: EdgeInsets.all(4.w),
@@ -129,7 +122,7 @@ class _StatisticsPerformanceRestaurantsScreenState
       );
     }
 
-    if (!_isLoading && _restaurants.isEmpty) {
+    if (!_isLoading && _drivers.isEmpty) {
       return Center(
         child: Text(
           l.noStatisticsAvailable,
@@ -145,15 +138,15 @@ class _StatisticsPerformanceRestaurantsScreenState
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.all(4.w),
-        itemCount: _restaurants.length + 1,
+        itemCount: _drivers.length + 1,
         itemBuilder: (context, index) {
-          if (index < _restaurants.length) {
-            final r = _restaurants[index];
-            return _RestaurantCard(
-              restaurant: r,
+          if (index < _drivers.length) {
+            final d = _drivers[index];
+            return _DriverOrderCard(
+              driver: d,
               onTap: () => Navigator.of(context).pushNamed(
-                AppRoutes.statisticsPerformanceRestaurantDetail,
-                arguments: {'id': r.id, 'name': r.name},
+                AppRoutes.statisticsPerformanceDriverDetail,
+                arguments: {'id': d.id, 'name': d.name},
               ),
             );
           }
@@ -185,31 +178,20 @@ class _StatisticsPerformanceRestaurantsScreenState
 
 // ─── Data model ───────────────────────────────────────────────────────────────
 
-class _RestaurantItem {
+class _DriverItem {
   final int id;
   final String name;
-  final bool isOpen;
-  final double rating;
-  final int totalOrders;
-  final double completionRate;
 
-  const _RestaurantItem({
-    required this.id,
-    required this.name,
-    required this.isOpen,
-    required this.rating,
-    required this.totalOrders,
-    required this.completionRate,
-  });
+  const _DriverItem({required this.id, required this.name});
 }
 
 // ─── Widgets ──────────────────────────────────────────────────────────────────
 
-class _RestaurantCard extends StatelessWidget {
-  final _RestaurantItem restaurant;
+class _DriverOrderCard extends StatelessWidget {
+  final _DriverItem driver;
   final VoidCallback onTap;
 
-  const _RestaurantCard({required this.restaurant, required this.onTap});
+  const _DriverOrderCard({required this.driver, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +219,7 @@ class _RestaurantCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Icon(
-                    Icons.store,
+                    Icons.delivery_dining,
                     color: Theme.of(context).colorScheme.primary,
                     size: 5.w,
                   ),
@@ -249,59 +231,17 @@ class _RestaurantCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      restaurant.name,
+                      driver.name,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SizedBox(height: 0.3.h),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.star_rounded,
-                          color: Colors.amber,
-                          size: 3.5.w,
-                        ),
-                        SizedBox(width: 0.5.w),
-                        Text(
-                          restaurant.rating.toStringAsFixed(1),
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.7),
-                              ),
-                        ),
-                        SizedBox(width: 2.w),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 1.5.w,
-                            vertical: 0.2.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: restaurant.isOpen
-                                ? Colors.green.withValues(alpha: 0.1)
-                                : Colors.red.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            restaurant.isOpen ? 'Open' : 'Closed',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: restaurant.isOpen
-                                      ? Colors.green
-                                      : Colors.red,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                          ),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
+              SizedBox(width: 2.w),
               Icon(
                 Icons.chevron_right,
                 color: Theme.of(

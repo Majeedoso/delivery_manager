@@ -38,7 +38,6 @@ import 'package:delivery_manager/features/bank/presentation/screens/bank_archive
 import 'package:delivery_manager/features/bank/presentation/controller/bank_bloc.dart';
 import 'package:delivery_manager/features/bank/presentation/screens/driver_debt_details_screen.dart';
 import 'package:delivery_manager/features/bank/domain/entities/restaurant_debt.dart';
-import 'package:delivery_manager/features/statistics/presentation/screens/statistics_delivery_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_main_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_overview_screen.dart';
@@ -47,11 +46,15 @@ import 'package:delivery_manager/features/statistics/presentation/screens/statis
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_driver_detail_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_money_drivers_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_orders_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_orders_overview_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_orders_restaurants_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_orders_drivers_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_ratings_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_ratings_overview_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_ratings_restaurants_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_ratings_drivers_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_screen.dart';
+import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_overview_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_restaurants_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_restaurant_detail_screen.dart';
 import 'package:delivery_manager/features/statistics/presentation/screens/statistics_performance_drivers_screen.dart';
@@ -276,8 +279,12 @@ class RouteGenerator {
         );
       },
       AppRoutes.statisticsOrders: (context) => const StatisticsOrdersScreen(),
-      AppRoutes.statisticsDelivery: (context) =>
-          const StatisticsDeliveryScreen(),
+      AppRoutes.statisticsOrdersOverview: (context) =>
+          const StatisticsOrdersOverviewScreen(),
+      AppRoutes.statisticsOrdersRestaurants: (context) =>
+          const StatisticsOrdersRestaurantsScreen(),
+      AppRoutes.statisticsOrdersDrivers: (context) =>
+          const StatisticsOrdersDriversScreen(),
       AppRoutes.statisticsRatings: (context) => const StatisticsRatingsScreen(),
       AppRoutes.statisticsRatingsOverview: (context) =>
           const StatisticsRatingsOverviewScreen(),
@@ -287,6 +294,8 @@ class RouteGenerator {
           const StatisticsRatingsDriversScreen(),
       AppRoutes.statisticsPerformance: (context) =>
           const StatisticsPerformanceScreen(),
+      AppRoutes.statisticsPerformanceOverview: (context) =>
+          const StatisticsPerformanceOverviewScreen(),
       AppRoutes.statisticsPerformanceRestaurants: (context) =>
           const StatisticsPerformanceRestaurantsScreen(),
       AppRoutes.statisticsPerformanceRestaurantDetail: (context) {

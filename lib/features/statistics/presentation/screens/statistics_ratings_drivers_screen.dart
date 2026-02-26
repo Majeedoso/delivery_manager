@@ -41,14 +41,12 @@ class _StatisticsRatingsDriversScreenState
       final items = response.data['data'] as List? ?? [];
       return items.whereType<Map<String, dynamic>>().map((e) {
         final perf = e['performance_metrics'] as Map<String, dynamic>? ?? {};
-        final ratingInfo =
-            perf['rating_info'] as Map<String, dynamic>? ?? {};
+        final ratingInfo = perf['rating_info'] as Map<String, dynamic>? ?? {};
         return _DriverSummary(
           id: (e['id'] as num?)?.toInt() ?? 0,
           name: e['name']?.toString() ?? '',
           avgRating:
-              (ratingInfo['average_driver_rating'] as num?)?.toDouble() ??
-                  0.0,
+              (ratingInfo['average_driver_rating'] as num?)?.toDouble() ?? 0.0,
           totalRatings:
               (ratingInfo['total_driver_ratings'] as num?)?.toInt() ?? 0,
         );
@@ -85,8 +83,7 @@ class _StatisticsRatingsDriversScreenState
                       Text(
                         l.errorLoadingStatistics,
                         textAlign: TextAlign.center,
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
@@ -94,8 +91,7 @@ class _StatisticsRatingsDriversScreenState
                       ElevatedButton(
                         onPressed: () =>
                             setState(() => _future = _fetchDrivers()),
-                        style:
-                            MaterialTheme.getPrimaryButtonStyle(context),
+                        style: MaterialTheme.getPrimaryButtonStyle(context),
                         child: Text(l.tryAgain),
                       ),
                     ],
@@ -193,18 +189,15 @@ class _DriverDetailPageState extends State<_DriverDetailPage> {
             .map(_DriverReview.fromJson)
             .toList();
         final meta = response.data['meta'] as Map<String, dynamic>? ?? {};
-        final pagination =
-            meta['pagination'] as Map<String, dynamic>? ?? {};
+        final pagination = meta['pagination'] as Map<String, dynamic>? ?? {};
         setState(() {
           if (page == 1) {
             _reviews.clear();
             _stats = meta['statistics'] as Map<String, dynamic>?;
           }
           _reviews.addAll(items);
-          _currentPage =
-              (pagination['current_page'] as num?)?.toInt() ?? page;
-          _lastPage =
-              (pagination['last_page'] as num?)?.toInt() ?? 1;
+          _currentPage = (pagination['current_page'] as num?)?.toInt() ?? page;
+          _lastPage = (pagination['last_page'] as num?)?.toInt() ?? 1;
           _isLoading = false;
         });
       }
@@ -221,10 +214,10 @@ class _DriverDetailPageState extends State<_DriverDetailPage> {
     final l = AppLocalizations.of(context)!;
     final avgRating =
         (_stats?['average_driver_rating'] as num?)?.toDouble() ??
-            widget.driver.avgRating;
+        widget.driver.avgRating;
     final totalRatings =
         (_stats?['total_driver_ratings'] as num?)?.toInt() ??
-            widget.driver.totalRatings;
+        widget.driver.totalRatings;
     final rawDist =
         _stats?['rating_distribution'] as Map<String, dynamic>? ?? {};
     final distribution = _parseDistribution(rawDist);
@@ -261,8 +254,7 @@ class _DriverDetailPageState extends State<_DriverDetailPage> {
     );
   }
 
-  List<Widget> _buildReviewsContent(
-      BuildContext context, AppLocalizations l) {
+  List<Widget> _buildReviewsContent(BuildContext context, AppLocalizations l) {
     if (_hasError && _reviews.isEmpty) {
       return [
         Center(
@@ -270,10 +262,13 @@ class _DriverDetailPageState extends State<_DriverDetailPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: 4.h),
-              Text(l.errorLoadingStatistics,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface)),
+              Text(
+                l.errorLoadingStatistics,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
               SizedBox(height: 2.h),
               ElevatedButton(
                 onPressed: () => _loadPage(1),
@@ -300,9 +295,12 @@ class _DriverDetailPageState extends State<_DriverDetailPage> {
         Center(
           child: Padding(
             padding: EdgeInsets.only(top: 4.h),
-            child: Text(l.noRatingsYet,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface)),
+            child: Text(
+              l.noRatingsYet,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
           ),
         ),
       ];
@@ -312,9 +310,7 @@ class _DriverDetailPageState extends State<_DriverDetailPage> {
       if (_currentPage < _lastPage) ...[
         SizedBox(height: 0.5.h),
         if (_isLoading)
-          Center(
-              child:
-                  MaterialTheme.getCircularProgressIndicator(context))
+          Center(child: MaterialTheme.getCircularProgressIndicator(context))
         else
           Center(
             child: TextButton(
@@ -374,8 +370,7 @@ class _DriverReview {
       customerName: customer['name']?.toString() ?? '-',
       restaurantName: restaurant['name']?.toString() ?? '-',
       driverRating: (json['driver_rating'] as num?)?.toInt(),
-      deliverySpeedRating:
-          (json['delivery_speed_rating'] as num?)?.toInt(),
+      deliverySpeedRating: (json['delivery_speed_rating'] as num?)?.toInt(),
       driverComment: json['driver_comment']?.toString(),
       comment: json['comment']?.toString(),
       ratedAt: json['rated_at']?.toString() ?? '',
@@ -453,15 +448,13 @@ class _StatsHeader extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: MaterialTheme.getBorderRadiusCard(),
             side: BorderSide(
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary
-                  .withValues(alpha: 0.3),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.3),
             ),
           ),
           child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
             child: Row(
               children: [
                 Icon(Icons.star_rounded, size: 12.w, color: color),
@@ -475,37 +468,30 @@ class _StatsHeader extends StatelessWidget {
                       children: [
                         Text(
                           avgRating.toStringAsFixed(1),
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall
+                          style: Theme.of(context).textTheme.displaySmall
                               ?.copyWith(
-                            color: color,
-                            fontWeight: FontWeight.w700,
-                          ),
+                                color: color,
+                                fontWeight: FontWeight.w700,
+                              ),
                         ),
                         SizedBox(width: 1.w),
                         Text(
                           l.outOf5,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
+                          style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.6),
-                          ),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.6),
+                              ),
                         ),
                       ],
                     ),
                     Text(
                       '$totalRatings ${l.totalRatings}',
-                      style:
-                          Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.6),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -518,26 +504,25 @@ class _StatsHeader extends StatelessWidget {
         Card(
           elevation: 0.5,
           shape: RoundedRectangleBorder(
-              borderRadius: MaterialTheme.getBorderRadiusCard()),
+            borderRadius: MaterialTheme.getBorderRadiusCard(),
+          ),
           child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
             child: Column(
               children: List.generate(5, (i) {
                 final star = 5 - i;
                 final count = distribution[star] ?? 0;
-                final fraction =
-                    totalRatings > 0 ? count / totalRatings : 0.0;
+                final fraction = totalRatings > 0 ? count / totalRatings : 0.0;
                 return Padding(
                   padding: EdgeInsets.only(bottom: 0.8.h),
                   child: Row(
                     children: [
-                      Icon(Icons.star_rounded,
-                          size: 4.w, color: Colors.amber),
+                      Icon(Icons.star_rounded, size: 4.w, color: Colors.amber),
                       SizedBox(width: 1.w),
-                      Text('$star',
-                          style:
-                              Theme.of(context).textTheme.bodySmall),
+                      Text(
+                        '$star',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
                       SizedBox(width: 2.w),
                       Expanded(
                         child: ClipRRect(
@@ -545,9 +530,9 @@ class _StatsHeader extends StatelessWidget {
                           child: LinearProgressIndicator(
                             value: fraction,
                             minHeight: 8,
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
                             valueColor: AlwaysStoppedAnimation<Color>(
                               Theme.of(context).colorScheme.primary,
                             ),
@@ -559,15 +544,12 @@ class _StatsHeader extends StatelessWidget {
                         width: 8.w,
                         child: Text(
                           count.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
+                          style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.7),
-                          ),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
+                              ),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -597,29 +579,30 @@ class _DriverCard extends StatelessWidget {
       elevation: 0.5,
       margin: EdgeInsets.only(bottom: 1.6.h),
       shape: RoundedRectangleBorder(
-          borderRadius: MaterialTheme.getBorderRadiusCard()),
+        borderRadius: MaterialTheme.getBorderRadiusCard(),
+      ),
       child: InkWell(
         borderRadius: MaterialTheme.getBorderRadiusCard(),
         onTap: onTap,
         child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.6.h),
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.6.h),
           child: Row(
             children: [
               Container(
                 width: 10.w,
                 height: 10.w,
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: MaterialTheme.getBorderRadiusButton(),
                 ),
                 child: Center(
-                  child: Icon(Icons.delivery_dining,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 5.w),
+                  child: Icon(
+                    Icons.delivery_dining,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 5.w,
+                  ),
                 ),
               ),
               SizedBox(width: 3.w),
@@ -629,12 +612,8 @@ class _DriverCard extends StatelessWidget {
                   children: [
                     Text(
                       driver.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(
-                        color:
-                            Theme.of(context).colorScheme.onSurface,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -642,14 +621,10 @@ class _DriverCard extends StatelessWidget {
                     SizedBox(height: 0.3.h),
                     Text(
                       '${driver.totalRatings} ${l.reviews}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.6),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -662,10 +637,7 @@ class _DriverCard extends StatelessWidget {
                   SizedBox(width: 1.w),
                   Text(
                     driver.avgRating.toStringAsFixed(1),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: color,
                       fontWeight: FontWeight.w700,
                     ),
@@ -675,10 +647,9 @@ class _DriverCard extends StatelessWidget {
               SizedBox(width: 1.w),
               Icon(
                 Icons.chevron_right,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.35),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.35),
                 size: 5.w,
               ),
             ],
@@ -697,18 +668,19 @@ class _DriverReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final displayComment = (review.driverComment != null &&
-            review.driverComment!.isNotEmpty)
+    final displayComment =
+        (review.driverComment != null && review.driverComment!.isNotEmpty)
         ? review.driverComment
         : (review.comment != null && review.comment!.isNotEmpty)
-            ? review.comment
-            : null;
+        ? review.comment
+        : null;
 
     return Card(
       elevation: 0.5,
       margin: EdgeInsets.only(bottom: 1.6.h),
       shape: RoundedRectangleBorder(
-          borderRadius: MaterialTheme.getBorderRadiusCard()),
+        borderRadius: MaterialTheme.getBorderRadiusCard(),
+      ),
       child: Padding(
         padding: EdgeInsets.all(3.w),
         child: Column(
@@ -723,13 +695,9 @@ class _DriverReviewCard extends StatelessWidget {
                     children: [
                       Text(
                         review.customerName,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color:
-                              Theme.of(context).colorScheme.onSurface,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       Row(
@@ -737,38 +705,31 @@ class _DriverReviewCard extends StatelessWidget {
                           Icon(
                             Icons.store,
                             size: 3.w,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.5),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.5),
                           ),
                           SizedBox(width: 1.w),
                           Expanded(
                             child: Text(
                               review.restaurantName,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
+                              style: Theme.of(context).textTheme.bodySmall
                                   ?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withValues(alpha: 0.5),
-                              ),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.5),
+                                  ),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Text(
                             ' · ${_formatDate(review.ratedAt)}',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
+                            style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withValues(alpha: 0.4),
-                            ),
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.4),
+                                ),
                           ),
                         ],
                       ),
@@ -819,8 +780,7 @@ class _Badge extends StatelessWidget {
   final String label;
   final Color color;
 
-  const _Badge(
-      {required this.icon, required this.label, required this.color});
+  const _Badge({required this.icon, required this.label, required this.color});
 
   @override
   Widget build(BuildContext context) {

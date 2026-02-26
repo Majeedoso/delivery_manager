@@ -208,6 +208,10 @@ class ApiConstance {
   static const String managerRestaurantsPath = "/manager/restaurants";
   static String managerRestaurantRatingsPath(int id) =>
       "/manager/restaurants/$id/ratings";
+  static String managerRestaurantStatisticsPath(int id) =>
+      "/manager/restaurants/$id/statistics";
+  static const String managerRestaurantStatisticsOverviewPath =
+      "/manager/restaurants/statistics/overview";
   static const String managerDriversPath = "/manager/drivers";
   static String managerDriverRatingsPath(int id) =>
       "/manager/drivers/$id/ratings";

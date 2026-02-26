@@ -17,65 +17,60 @@ class StatisticsMainScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: MaterialTheme.getGradientBackground(context),
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          padding: EdgeInsets.all(2.5.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 4.h),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: MaterialTheme.getSpacing('spacingGrid').w,
-                runSpacing: MaterialTheme.getSpacing('spacingGrid').w * 3,
-                children: [
-                  _buildIconContainer(
-                    context,
-                    title: AppLocalizations.of(context)!.statisticsMoney,
-                    icon: Icons.attach_money,
-                    onTap: () => Navigator.of(
+        child: Center(
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            padding: EdgeInsets.all(2.5.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 4.h),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: MaterialTheme.getSpacing('spacingGrid').w,
+                  runSpacing: MaterialTheme.getSpacing('spacingGrid').w * 3,
+                  children: [
+                    _buildIconContainer(
                       context,
-                    ).pushNamed(AppRoutes.statisticsMoney),
-                  ),
-                  _buildIconContainer(
-                    context,
-                    title: AppLocalizations.of(context)!.statisticsOrders,
-                    icon: Icons.receipt_long,
-                    onTap: () => Navigator.of(
+                      title: AppLocalizations.of(context)!.statisticsMoney,
+                      iconPath: 'assets/images/money.ico',
+                      onTap: () => Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.statisticsMoney),
+                    ),
+                    _buildIconContainer(
                       context,
-                    ).pushNamed(AppRoutes.statisticsOrders),
-                  ),
-                  _buildIconContainer(
-                    context,
-                    title: AppLocalizations.of(context)!.statisticsDelivery,
-                    icon: Icons.local_shipping,
-                    onTap: () => Navigator.of(
+                      title: AppLocalizations.of(context)!.statisticsOrders,
+                      iconPath: 'assets/images/orders.ico',
+                      onTap: () => Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.statisticsOrders),
+                    ),
+                    _buildIconContainer(
                       context,
-                    ).pushNamed(AppRoutes.statisticsDelivery),
-                  ),
-                  _buildIconContainer(
-                    context,
-                    title: AppLocalizations.of(context)!.statisticsRatings,
-                    icon: Icons.star_rounded,
-                    onTap: () => Navigator.of(
+                      title: AppLocalizations.of(context)!.statisticsRatings,
+                      iconPath: 'assets/images/ratings.ico',
+                      onTap: () => Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.statisticsRatings),
+                    ),
+                    _buildIconContainer(
                       context,
-                    ).pushNamed(AppRoutes.statisticsRatings),
-                  ),
-                  _buildIconContainer(
-                    context,
-                    title:
-                        AppLocalizations.of(context)!.statisticsPerformance,
-                    icon: Icons.bar_chart_rounded,
-                    onTap: () => Navigator.of(
-                      context,
-                    ).pushNamed(AppRoutes.statisticsPerformance),
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.h),
-            ],
+                      title: AppLocalizations.of(
+                        context,
+                      )!.statisticsPerformance,
+                      iconPath: 'assets/images/performance.ico',
+                      onTap: () => Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.statisticsPerformance),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 4.h),
+              ],
+            ),
           ),
         ),
       ),
@@ -85,7 +80,7 @@ class StatisticsMainScreen extends StatelessWidget {
   Widget _buildIconContainer(
     BuildContext context, {
     required String title,
-    required IconData icon,
+    required String iconPath,
     required VoidCallback onTap,
   }) {
     return SizedBox(
@@ -108,12 +103,15 @@ class StatisticsMainScreen extends StatelessWidget {
                   height:
                       MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
                   child: Center(
-                    child: Icon(
-                      icon,
-                      size:
+                    child: Image.asset(
+                      iconPath,
+                      width:
                           MaterialTheme.getSpacing('containerWidthMedium').w *
                           1.05,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      height:
+                          MaterialTheme.getSpacing('containerWidthMedium').w *
+                          1.05,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),

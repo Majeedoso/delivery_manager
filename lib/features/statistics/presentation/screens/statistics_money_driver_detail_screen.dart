@@ -74,7 +74,9 @@ class _StatisticsMoneyDriverDetailScreenState
   }
 
   Future<void> _refresh() async {
-    setState(() { _statsFuture = _fetchStats(); });
+    setState(() {
+      _statsFuture = _fetchStats();
+    });
     try {
       await _statsFuture;
     } catch (_) {}
@@ -150,8 +152,7 @@ class _StatisticsMoneyDriverDetailScreenState
                   if (picked != null) {
                     setState(() {
                       _selectedPeriod = 'dateRange';
-                      _dateTo =
-                          DateTime(picked.year, picked.month, picked.day);
+                      _dateTo = DateTime(picked.year, picked.month, picked.day);
                     });
                     _refresh();
                   }
@@ -164,8 +165,9 @@ class _StatisticsMoneyDriverDetailScreenState
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child:
-                          MaterialTheme.getCircularProgressIndicator(context),
+                      child: MaterialTheme.getCircularProgressIndicator(
+                        context,
+                      ),
                     );
                   }
                   if (snapshot.hasError) {
@@ -178,20 +180,19 @@ class _StatisticsMoneyDriverDetailScreenState
                             Text(
                               l.errorLoadingStatistics,
                               textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
+                              style: Theme.of(context).textTheme.bodyLarge
                                   ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurface,
                                   ),
                             ),
                             SizedBox(height: 2.h),
                             ElevatedButton(
                               onPressed: _refresh,
-                              style:
-                                  MaterialTheme.getPrimaryButtonStyle(context),
+                              style: MaterialTheme.getPrimaryButtonStyle(
+                                context,
+                              ),
                               child: Text(l.tryAgain),
                             ),
                           ],
@@ -342,10 +343,9 @@ class _MoneyCard extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(2.w),
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.08),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.08),
                   borderRadius: MaterialTheme.getBorderRadiusButton(),
                 ),
                 child: Icon(

@@ -18,45 +18,50 @@ class StatisticsRatingsScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: MaterialTheme.getGradientBackground(context),
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          padding: EdgeInsets.all(2.5.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 4.h),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: MaterialTheme.getSpacing('spacingGrid').w,
-                runSpacing: MaterialTheme.getSpacing('spacingGrid').w * 3,
-                children: [
-                  _buildIconContainer(
-                    context,
-                    title: l.overview,
-                    icon: Icons.bar_chart,
-                    onTap: () => Navigator.of(context)
-                        .pushNamed(AppRoutes.statisticsRatingsOverview),
-                  ),
-                  _buildIconContainer(
-                    context,
-                    title: l.restaurantsTab,
-                    icon: Icons.store,
-                    onTap: () => Navigator.of(context)
-                        .pushNamed(AppRoutes.statisticsRatingsRestaurants),
-                  ),
-                  _buildIconContainer(
-                    context,
-                    title: l.driversTab,
-                    icon: Icons.delivery_dining,
-                    onTap: () => Navigator.of(context)
-                        .pushNamed(AppRoutes.statisticsRatingsDrivers),
-                  ),
-                ],
-              ),
-              SizedBox(height: 4.h),
-            ],
+        child: Center(
+          child: SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            padding: EdgeInsets.all(2.5.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 4.h),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: MaterialTheme.getSpacing('spacingGrid').w,
+                  runSpacing: MaterialTheme.getSpacing('spacingGrid').w * 3,
+                  children: [
+                    _buildIconContainer(
+                      context,
+                      title: l.overview,
+                      iconPath: 'assets/images/overview.ico',
+                      onTap: () => Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.statisticsRatingsOverview),
+                    ),
+                    _buildIconContainer(
+                      context,
+                      title: l.restaurantsTab,
+                      iconPath: 'assets/images/restaurants.ico',
+                      onTap: () => Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.statisticsRatingsRestaurants),
+                    ),
+                    _buildIconContainer(
+                      context,
+                      title: l.driversTab,
+                      iconPath: 'assets/images/drivers.ico',
+                      onTap: () => Navigator.of(
+                        context,
+                      ).pushNamed(AppRoutes.statisticsRatingsDrivers),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 4.h),
+              ],
+            ),
           ),
         ),
       ),
@@ -66,7 +71,7 @@ class StatisticsRatingsScreen extends StatelessWidget {
   Widget _buildIconContainer(
     BuildContext context, {
     required String title,
-    required IconData icon,
+    required String iconPath,
     required VoidCallback onTap,
   }) {
     return SizedBox(
@@ -86,15 +91,18 @@ class StatisticsRatingsScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height: MaterialTheme.getSpacing('containerWidthMedium').w *
-                      1.05,
+                  height:
+                      MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
                   child: Center(
-                    child: Icon(
-                      icon,
-                      size:
+                    child: Image.asset(
+                      iconPath,
+                      width:
                           MaterialTheme.getSpacing('containerWidthMedium').w *
                           1.05,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      height:
+                          MaterialTheme.getSpacing('containerWidthMedium').w *
+                          1.05,
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
@@ -115,8 +123,7 @@ class StatisticsRatingsScreen extends StatelessWidget {
                           title,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(
-                                color:
-                                    Theme.of(context).colorScheme.onSurface,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                           textAlign: TextAlign.center,
                           maxLines: 2,

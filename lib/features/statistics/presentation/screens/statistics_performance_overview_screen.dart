@@ -1,33 +1,26 @@
-import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
-import 'package:dio/dio.dart';
-import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
+import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/utils/period_calculator.dart';
 import 'package:delivery_manager/core/widgets/period_date_selector.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
-class StatisticsPerformanceDriverDetailScreen extends StatefulWidget {
-  static const String route = '/statistics/performance/driver-detail';
+class StatisticsPerformanceOverviewScreen extends StatefulWidget {
+  static const String route = '/statistics/performance/overview';
 
-  final int driverId;
-  final String driverName;
-
-  const StatisticsPerformanceDriverDetailScreen({
-    super.key,
-    required this.driverId,
-    required this.driverName,
-  });
+  const StatisticsPerformanceOverviewScreen({super.key});
 
   @override
-  State<StatisticsPerformanceDriverDetailScreen> createState() =>
-      _StatisticsPerformanceDriverDetailScreenState();
+  State<StatisticsPerformanceOverviewScreen> createState() =>
+      _StatisticsPerformanceOverviewScreenState();
 }
 
-class _StatisticsPerformanceDriverDetailScreenState
-    extends State<StatisticsPerformanceDriverDetailScreen> {
-  late Future<_DriverStats> _statsFuture;
+class _StatisticsPerformanceOverviewScreenState
+    extends State<StatisticsPerformanceOverviewScreen> {
+  late Future<_PerformanceOverviewStats> _statsFuture;
   String _selectedPeriod = 'week';
   DateTime? _dateFrom;
   DateTime? _dateTo;
@@ -46,54 +39,89 @@ class _StatisticsPerformanceDriverDetailScreenState
       '${d.month.toString().padLeft(2, '0')}-'
       '${d.day.toString().padLeft(2, '0')}';
 
-  Future<_DriverStats> _fetchStats() async {
+  Future<_PerformanceOverviewStats> _fetchStats() async {
     final dio = sl<Dio>();
-    final q = <String, dynamic>{'driver_id': widget.driverId};
+    final backendPeriod = _selectedPeriod == 'dateRange'
+        ? 'custom'
+        : _selectedPeriod;
+    final q = <String, dynamic>{'period': backendPeriod};
     if (_dateFrom != null) q['start_date'] = _fmt(_dateFrom!);
     if (_dateTo != null) q['end_date'] = _fmt(_dateTo!);
 
-    final response = await dio.get(
-      ApiConstance.managerDeliveryAnalyticsPath,
-      queryParameters: q,
-    );
+    final responses = await Future.wait([
+      dio.get(
+        ApiConstance.managerRestaurantStatisticsOverviewPath,
+        queryParameters: q,
+      ),
+      dio.get(ApiConstance.managerDeliveryAnalyticsPath, queryParameters: q),
+    ]);
 
-    if (response.data is Map<String, dynamic> &&
-        response.data['success'] == true) {
-      final data = response.data['data'] as Map<String, dynamic>? ?? {};
-      final overview = data['overview'] as Map<String, dynamic>? ?? {};
-      final perf = data['performance_metrics'] as Map<String, dynamic>? ?? {};
-
-      double readDouble(Map<String, dynamic> map, String key) {
-        final v = map[key];
-        if (v is num) return v.toDouble();
-        return double.tryParse(v?.toString() ?? '') ?? 0.0;
+    Map<String, dynamic> asMap(dynamic value) {
+      if (value is Map<String, dynamic>) return value;
+      if (value is Map) {
+        return value.map((k, v) => MapEntry(k.toString(), v));
       }
-
-      int readInt(Map<String, dynamic> map, String key) {
-        final v = map[key];
-        if (v is int) return v;
-        if (v is num) return v.toInt();
-        return int.tryParse(v?.toString() ?? '') ?? 0;
-      }
-
-      return _DriverStats(
-        totalDeliveries: readInt(overview, 'total_deliveries'),
-        completedDeliveries: readInt(overview, 'completed_deliveries'),
-        cancelledDeliveries: readInt(overview, 'cancelled_deliveries'),
-        completionRate: readDouble(overview, 'completion_rate'),
-        averageDeliveryTime: readDouble(
-          overview,
-          'average_delivery_time_minutes',
-        ),
-        fastestDelivery: readDouble(perf, 'fastest_delivery_minutes'),
-        slowestDelivery: readDouble(perf, 'slowest_delivery_minutes'),
-        onTimeDeliveryRate: readDouble(perf, 'on_time_delivery_rate'),
-        responseSpeedMinutes: readDouble(perf, 'response_speed_minutes'),
-        pickupSpeedMinutes: readDouble(perf, 'pickup_speed_minutes'),
-        cancellationRate: readDouble(perf, 'cancellation_rate'),
-      );
+      return {};
     }
-    throw Exception('Failed to load driver performance');
+
+    int readInt(Map<String, dynamic> map, String key) {
+      final value = map[key];
+      if (value is int) return value;
+      if (value is num) return value.toInt();
+      final sanitized = (value?.toString() ?? '').replaceAll(',', '');
+      return int.tryParse(sanitized) ?? 0;
+    }
+
+    double readDouble(Map<String, dynamic> map, String key) {
+      final value = map[key];
+      if (value is num) return value.toDouble();
+      final sanitized = (value?.toString() ?? '').replaceAll(',', '');
+      return double.tryParse(sanitized) ?? 0.0;
+    }
+
+    double? readNullableDouble(Map<String, dynamic> map, String key) {
+      final value = map[key];
+      if (value == null) return null;
+      if (value is num) return value.toDouble();
+      final sanitized = value.toString().replaceAll(',', '');
+      return double.tryParse(sanitized);
+    }
+
+    final restaurantsRoot = asMap(responses[0].data);
+    final driversRoot = asMap(responses[1].data);
+    if (restaurantsRoot['success'] != true || driversRoot['success'] != true) {
+      throw Exception('Failed to load performance overview');
+    }
+
+    final restaurantData = asMap(restaurantsRoot['data']);
+    final restaurantCounts = asMap(restaurantData['order_counts']);
+    final restaurantPerf = asMap(restaurantData['performance']);
+
+    final driverData = asMap(driversRoot['data']);
+    final driverOverview = asMap(driverData['overview']);
+    final driverPerf = asMap(driverData['performance_metrics']);
+
+    return _PerformanceOverviewStats(
+      pending: readInt(restaurantCounts, 'pending'),
+      accepted: readInt(restaurantCounts, 'accepted'),
+      rejected: readInt(restaurantCounts, 'rejected'),
+      delivered: readInt(restaurantCounts, 'delivered'),
+      responseSpeed: readNullableDouble(restaurantPerf, 'response_speed'),
+      preparationSpeed: readNullableDouble(restaurantPerf, 'preparation_speed'),
+      decisionQuality: readDouble(restaurantPerf, 'decision_quality'),
+      poorDecisions: readDouble(restaurantPerf, 'poor_decisions'),
+      totalDeliveries: readInt(driverOverview, 'total_deliveries'),
+      completedDeliveries: readInt(driverOverview, 'completed_deliveries'),
+      cancelledDeliveries: readInt(driverOverview, 'cancelled_deliveries'),
+      completionRate: readDouble(driverOverview, 'completion_rate'),
+      averageDeliveryTime: readDouble(driverOverview, 'average_delivery_time_minutes'),
+      onTimeDeliveryRate: readDouble(driverPerf, 'on_time_delivery_rate'),
+      fastestDelivery: readDouble(driverPerf, 'fastest_delivery_minutes'),
+      slowestDelivery: readDouble(driverPerf, 'slowest_delivery_minutes'),
+      responseSpeedMinutes: readDouble(driverPerf, 'response_speed_minutes'),
+      pickupSpeedMinutes: readDouble(driverPerf, 'pickup_speed_minutes'),
+      cancellationRate: readDouble(driverPerf, 'cancellation_rate'),
+    );
   }
 
   Future<void> _refreshStats() async {
@@ -105,11 +133,21 @@ class _StatisticsPerformanceDriverDetailScreenState
     } catch (_) {}
   }
 
+  String _formatMinutes(double? minutes, String minutesAbbr) {
+    if (minutes == null) return 'N/A';
+    if (minutes <= 0) return '-';
+    if (minutes < 1) {
+      final secs = (minutes * 60).round();
+      return '$secs s';
+    }
+    return '${minutes.toStringAsFixed(1)} $minutesAbbr';
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(widget.driverName)),
+      appBar: AppBar(title: Text(l.overview)),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -123,12 +161,13 @@ class _StatisticsPerformanceDriverDetailScreenState
                 dateFrom: _dateFrom,
                 dateTo: _dateTo,
                 onPeriodChanged: (value) {
-                  DateTime? from, to;
+                  DateTime? from;
+                  DateTime? to;
                   if (value == 'dateRange') {
                     final r = PeriodCalculator.getDefaultDateRange();
                     from = r.startDate;
                     to = r.endDate;
-                  } else {
+                  } else if (value != 'all') {
                     final r = PeriodCalculator.calculatePeriodRange(value);
                     from = r.startDate;
                     to = r.endDate;
@@ -183,14 +222,12 @@ class _StatisticsPerformanceDriverDetailScreenState
               ),
             ),
             Expanded(
-              child: FutureBuilder<_DriverStats>(
+              child: FutureBuilder<_PerformanceOverviewStats>(
                 future: _statsFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: MaterialTheme.getCircularProgressIndicator(
-                        context,
-                      ),
+                      child: MaterialTheme.getCircularProgressIndicator(context),
                     );
                   }
 
@@ -247,10 +284,107 @@ class _StatisticsPerformanceDriverDetailScreenState
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           _SectionHeader(
-                            title: l.deliveryPerformance.toUpperCase(),
-                            icon: Icons.bar_chart_outlined,
+                            title: l.restaurantsTab.toUpperCase(),
+                            icon: Icons.store_outlined,
                           ),
                           SizedBox(height: 1.5.h),
+                          _SubHeader(title: l.overview.toUpperCase()),
+                          SizedBox(height: 1.h),
+                          GridView.count(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 4.w,
+                            mainAxisSpacing: 2.h,
+                            childAspectRatio: 1.1,
+                            children: [
+                              _MetricCard(
+                                label: l.pending.toUpperCase(),
+                                value: stats.pending.toString(),
+                                icon: Icons.hourglass_empty_outlined,
+                                iconColor: Colors.orange.shade700,
+                                circleColor: const Color(0xFFFFF3E0),
+                              ),
+                              _MetricCard(
+                                label: l.accepted.toUpperCase(),
+                                value: stats.accepted.toString(),
+                                icon: Icons.check_circle_outline,
+                                iconColor: Colors.green.shade700,
+                                circleColor: const Color(0xFFE8F5E9),
+                              ),
+                              _MetricCard(
+                                label: l.rejected.toUpperCase(),
+                                value: stats.rejected.toString(),
+                                icon: Icons.cancel_outlined,
+                                iconColor: Colors.red.shade700,
+                                circleColor: const Color(0xFFFFEBEE),
+                              ),
+                              _MetricCard(
+                                label: l.delivered.toUpperCase(),
+                                value: stats.delivered.toString(),
+                                icon: Icons.delivery_dining_outlined,
+                                iconColor: Colors.blue.shade700,
+                                circleColor: const Color(0xFFE3F2FD),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 2.h),
+                          _SubHeader(title: l.performanceMetrics.toUpperCase()),
+                          SizedBox(height: 1.h),
+                          GridView.count(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 4.w,
+                            mainAxisSpacing: 2.h,
+                            childAspectRatio: 1.1,
+                            children: [
+                              _MetricCard(
+                                label: l.responseSpeed.toUpperCase(),
+                                value: _formatMinutes(
+                                  stats.responseSpeed,
+                                  l.minutesAbbr,
+                                ),
+                                icon: Icons.access_time_outlined,
+                                iconColor: Colors.blue.shade700,
+                                circleColor: const Color(0xFFE3F2FD),
+                              ),
+                              _MetricCard(
+                                label: l.preparationSpeed.toUpperCase(),
+                                value: _formatMinutes(
+                                  stats.preparationSpeed,
+                                  l.minutesAbbr,
+                                ),
+                                icon: Icons.restaurant_outlined,
+                                iconColor: Colors.purple.shade700,
+                                circleColor: const Color(0xFFF3E5F5),
+                              ),
+                              _MetricCard(
+                                label: l.decisionQuality.toUpperCase(),
+                                value:
+                                    '${stats.decisionQuality.toStringAsFixed(1)}%',
+                                icon: Icons.check_circle_outline,
+                                iconColor: Colors.green.shade700,
+                                circleColor: const Color(0xFFE8F5E9),
+                              ),
+                              _MetricCard(
+                                label: l.poorDecisions.toUpperCase(),
+                                value:
+                                    '${stats.poorDecisions.toStringAsFixed(1)}%',
+                                icon: Icons.cancel_outlined,
+                                iconColor: Colors.red.shade700,
+                                circleColor: const Color(0xFFFFEBEE),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 3.h),
+                          _SectionHeader(
+                            title: l.driversTab.toUpperCase(),
+                            icon: Icons.delivery_dining_outlined,
+                          ),
+                          SizedBox(height: 1.5.h),
+                          _SubHeader(title: l.deliveryPerformance.toUpperCase()),
+                          SizedBox(height: 1.h),
                           GridView.count(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -265,7 +399,6 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 icon: Icons.inventory_2_outlined,
                                 iconColor: const Color(0xFFE64A19),
                                 circleColor: const Color(0xFFFFEBE3),
-                                description: l.totalDeliveriesDesc,
                               ),
                               _MetricCard(
                                 label: l.completedDeliveries
@@ -275,7 +408,6 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 icon: Icons.check_circle_outline,
                                 iconColor: Colors.green.shade700,
                                 circleColor: const Color(0xFFE8F5E9),
-                                description: l.completedDeliveriesDesc,
                               ),
                               _MetricCard(
                                 label: l.cancelledDeliveries
@@ -285,7 +417,6 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 icon: Icons.cancel_outlined,
                                 iconColor: Colors.red.shade700,
                                 circleColor: const Color(0xFFFFEBEE),
-                                description: l.cancelledDeliveriesDesc,
                               ),
                               _MetricCard(
                                 label: l.completionRate.toUpperCase(),
@@ -294,16 +425,12 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 icon: Icons.trending_up_outlined,
                                 iconColor: Colors.green.shade700,
                                 circleColor: const Color(0xFFE8F5E9),
-                                description: l.completionRateDesc,
                               ),
                             ],
                           ),
-                          SizedBox(height: 3.h),
-                          _SectionHeader(
-                            title: l.avgDeliveryTime.toUpperCase(),
-                            icon: Icons.timer_outlined,
-                          ),
-                          SizedBox(height: 1.5.h),
+                          SizedBox(height: 2.h),
+                          _SubHeader(title: l.avgDeliveryTime.toUpperCase()),
+                          SizedBox(height: 1.h),
                           GridView.count(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -321,7 +448,6 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 icon: Icons.access_time_outlined,
                                 iconColor: const Color(0xFFE64A19),
                                 circleColor: const Color(0xFFFFEBE3),
-                                description: l.avgDeliveryTimeDesc,
                               ),
                               _MetricCard(
                                 label: l.onTimeRate.toUpperCase(),
@@ -330,27 +456,18 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 icon: Icons.timer_outlined,
                                 iconColor: const Color(0xFFE64A19),
                                 circleColor: const Color(0xFFFFEBE3),
-                                description: l.onTimeRateDesc,
                               ),
                             ],
                           ),
                           SizedBox(height: 2.h),
-                          // Keep the rest of the metrics in a different style or just as they were
-                          // But the user only showed these sections in the images.
-                          // I'll keep the other metrics but maybe style them similarly or just hide if not in image?
-                          // The images only show these two sections.
-                          // I'll keep the others but style them with the same _MetricCard for consistency
-                          _SectionHeader(
-                            title: l.performance.toUpperCase(),
-                            icon: Icons.speed_outlined,
-                          ),
-                          SizedBox(height: 1.5.h),
+                          _SubHeader(title: l.performance.toUpperCase()),
+                          SizedBox(height: 1.h),
                           GridView.count(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             crossAxisCount: 2,
                             crossAxisSpacing: 4.w,
-                            mainAxisSpacing: 1.5.h,
+                            mainAxisSpacing: 2.h,
                             childAspectRatio: 1.1,
                             children: [
                               _MetricCard(
@@ -360,7 +477,6 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 icon: Icons.bolt_outlined,
                                 iconColor: Colors.green.shade700,
                                 circleColor: const Color(0xFFE8F5E9),
-                                description: l.fastestDeliveryDesc,
                               ),
                               _MetricCard(
                                 label: l.slowestDelivery.toUpperCase(),
@@ -369,33 +485,26 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 icon: Icons.hourglass_empty_outlined,
                                 iconColor: Colors.orange.shade700,
                                 circleColor: const Color(0xFFFFF3E0),
-                                description: l.slowestDeliveryDesc,
                               ),
                               _MetricCard(
                                 label: l.responseSpeed.toUpperCase(),
                                 value:
                                     '${stats.responseSpeedMinutes.toStringAsFixed(1)} ${l.minutesAbbr}',
                                 icon: Icons.alt_route_outlined,
-                                iconColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
+                                iconColor: Theme.of(context).colorScheme.primary,
                                 circleColor: Theme.of(
                                   context,
                                 ).colorScheme.primary.withValues(alpha: 0.1),
-                                description: l.responseSpeedDescription,
                               ),
                               _MetricCard(
                                 label: l.pickupSpeed.toUpperCase(),
                                 value:
                                     '${stats.pickupSpeedMinutes.toStringAsFixed(1)} ${l.minutesAbbr}',
                                 icon: Icons.directions_run_outlined,
-                                iconColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
+                                iconColor: Theme.of(context).colorScheme.primary,
                                 circleColor: Theme.of(
                                   context,
                                 ).colorScheme.primary.withValues(alpha: 0.1),
-                                description: l.pickupSpeedDescription,
                               ),
                               _MetricCard(
                                 label: l.cancellationRate.toUpperCase(),
@@ -406,7 +515,6 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 circleColor: Theme.of(
                                   context,
                                 ).colorScheme.error.withValues(alpha: 0.1),
-                                description: l.cancellationRateDescription,
                               ),
                             ],
                           ),
@@ -425,41 +533,54 @@ class _StatisticsPerformanceDriverDetailScreenState
   }
 }
 
-// ─── Data model ───────────────────────────────────────────────────────────────
-
-class _DriverStats {
+class _PerformanceOverviewStats {
+  final int pending;
+  final int accepted;
+  final int rejected;
+  final int delivered;
+  final double? responseSpeed;
+  final double? preparationSpeed;
+  final double decisionQuality;
+  final double poorDecisions;
   final int totalDeliveries;
   final int completedDeliveries;
   final int cancelledDeliveries;
   final double completionRate;
   final double averageDeliveryTime;
+  final double onTimeDeliveryRate;
   final double fastestDelivery;
   final double slowestDelivery;
-  final double onTimeDeliveryRate;
   final double responseSpeedMinutes;
   final double pickupSpeedMinutes;
   final double cancellationRate;
 
-  const _DriverStats({
+  const _PerformanceOverviewStats({
+    required this.pending,
+    required this.accepted,
+    required this.rejected,
+    required this.delivered,
+    required this.responseSpeed,
+    required this.preparationSpeed,
+    required this.decisionQuality,
+    required this.poorDecisions,
     required this.totalDeliveries,
     required this.completedDeliveries,
     required this.cancelledDeliveries,
     required this.completionRate,
     required this.averageDeliveryTime,
+    required this.onTimeDeliveryRate,
     required this.fastestDelivery,
     required this.slowestDelivery,
-    required this.onTimeDeliveryRate,
     required this.responseSpeedMinutes,
     required this.pickupSpeedMinutes,
     required this.cancellationRate,
   });
 }
 
-// ─── Widgets ──────────────────────────────────────────────────────────────────
-
 class _SectionHeader extends StatelessWidget {
   final String title;
   final IconData? icon;
+
   const _SectionHeader({required this.title, this.icon});
 
   @override
@@ -488,13 +609,29 @@ class _SectionHeader extends StatelessWidget {
   }
 }
 
+class _SubHeader extends StatelessWidget {
+  final String title;
+
+  const _SubHeader({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+        fontWeight: FontWeight.w700,
+      ),
+    );
+  }
+}
+
 class _MetricCard extends StatelessWidget {
   final String label;
   final String value;
   final IconData icon;
   final Color iconColor;
   final Color circleColor;
-  final String? description;
 
   const _MetricCard({
     required this.label,
@@ -502,25 +639,7 @@ class _MetricCard extends StatelessWidget {
     required this.icon,
     required this.iconColor,
     required this.circleColor,
-    this.description,
   });
-
-  void _showInfo(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(label),
-        content: Text(description!),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: Text(l.ok),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -537,49 +656,45 @@ class _MetricCard extends StatelessWidget {
         ),
       ),
       color: Colors.white,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(24),
-        onTap: description != null ? () => _showInfo(context) : null,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: circleColor,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, size: 20, color: iconColor),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: circleColor,
+                shape: BoxShape.circle,
               ),
-              SizedBox(height: 0.8.h),
-              Text(
-                label,
-                style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.5),
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.5,
-                  fontSize: 16.sp,
-                ),
+              child: Icon(icon, size: 20, color: iconColor),
+            ),
+            SizedBox(height: 0.8.h),
+            Text(
+              label,
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.5,
+                fontSize: 16.sp,
               ),
-              SizedBox(height: 0.2.h),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  value,
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 22.sp,
-                  ),
+            ),
+            SizedBox(height: 0.2.h),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                value,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 22.sp,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

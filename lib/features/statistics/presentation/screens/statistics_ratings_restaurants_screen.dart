@@ -79,8 +79,7 @@ class _StatisticsRatingsRestaurantsScreenState
                       Text(
                         l.errorLoadingStatistics,
                         textAlign: TextAlign.center,
-                        style:
-                            Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
@@ -88,8 +87,7 @@ class _StatisticsRatingsRestaurantsScreenState
                       ElevatedButton(
                         onPressed: () =>
                             setState(() => _future = _fetchRestaurants()),
-                        style:
-                            MaterialTheme.getPrimaryButtonStyle(context),
+                        style: MaterialTheme.getPrimaryButtonStyle(context),
                         child: Text(l.tryAgain),
                       ),
                     ],
@@ -127,8 +125,7 @@ class _StatisticsRatingsRestaurantsScreenState
                     restaurant: r,
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (_) =>
-                            _RestaurantDetailPage(restaurant: r),
+                        builder: (_) => _RestaurantDetailPage(restaurant: r),
                       ),
                     ),
                   );
@@ -152,8 +149,7 @@ class _RestaurantDetailPage extends StatefulWidget {
   const _RestaurantDetailPage({required this.restaurant});
 
   @override
-  State<_RestaurantDetailPage> createState() =>
-      _RestaurantDetailPageState();
+  State<_RestaurantDetailPage> createState() => _RestaurantDetailPageState();
 }
 
 class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
@@ -189,18 +185,15 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
             .map((e) => _Review.fromJson(e, isRestaurant: true))
             .toList();
         final meta = response.data['meta'] as Map<String, dynamic>? ?? {};
-        final pagination =
-            meta['pagination'] as Map<String, dynamic>? ?? {};
+        final pagination = meta['pagination'] as Map<String, dynamic>? ?? {};
         setState(() {
           if (page == 1) {
             _reviews.clear();
             _stats = meta['statistics'] as Map<String, dynamic>?;
           }
           _reviews.addAll(items);
-          _currentPage =
-              (pagination['current_page'] as num?)?.toInt() ?? page;
-          _lastPage =
-              (pagination['last_page'] as num?)?.toInt() ?? 1;
+          _currentPage = (pagination['current_page'] as num?)?.toInt() ?? page;
+          _lastPage = (pagination['last_page'] as num?)?.toInt() ?? 1;
           _isLoading = false;
         });
       }
@@ -215,9 +208,11 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final avgRating = (_stats?['average_rating'] as num?)?.toDouble() ??
+    final avgRating =
+        (_stats?['average_rating'] as num?)?.toDouble() ??
         widget.restaurant.rating;
-    final totalRatings = (_stats?['total_ratings'] as num?)?.toInt() ??
+    final totalRatings =
+        (_stats?['total_ratings'] as num?)?.toInt() ??
         widget.restaurant.totalReviews;
     final rawDist =
         _stats?['rating_distribution'] as Map<String, dynamic>? ?? {};
@@ -237,10 +232,11 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
             children: [
               if (_stats != null) ...[
                 _StatsHeader(
-                    avgRating: avgRating,
-                    totalRatings: totalRatings,
-                    distribution: distribution,
-                    l: l),
+                  avgRating: avgRating,
+                  totalRatings: totalRatings,
+                  distribution: distribution,
+                  l: l,
+                ),
                 SizedBox(height: 2.h),
                 _SectionHeader(title: l.reviews),
                 SizedBox(height: 1.h),
@@ -254,8 +250,7 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
     );
   }
 
-  List<Widget> _buildReviewsContent(
-      BuildContext context, AppLocalizations l) {
+  List<Widget> _buildReviewsContent(BuildContext context, AppLocalizations l) {
     if (_hasError && _reviews.isEmpty) {
       return [
         Center(
@@ -263,10 +258,13 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(height: 4.h),
-              Text(l.errorLoadingStatistics,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface)),
+              Text(
+                l.errorLoadingStatistics,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
               SizedBox(height: 2.h),
               ElevatedButton(
                 onPressed: () => _loadPage(1),
@@ -293,9 +291,12 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
         Center(
           child: Padding(
             padding: EdgeInsets.only(top: 4.h),
-            child: Text(l.noRatingsYet,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface)),
+            child: Text(
+              l.noRatingsYet,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
           ),
         ),
       ];
@@ -305,9 +306,7 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
       if (_currentPage < _lastPage) ...[
         SizedBox(height: 0.5.h),
         if (_isLoading)
-          Center(
-              child:
-                  MaterialTheme.getCircularProgressIndicator(context))
+          Center(child: MaterialTheme.getCircularProgressIndicator(context))
         else
           Center(
             child: TextButton(
@@ -365,19 +364,20 @@ class _Review {
     required this.ratedAt,
   });
 
-  factory _Review.fromJson(Map<String, dynamic> json,
-      {bool isRestaurant = true}) {
+  factory _Review.fromJson(
+    Map<String, dynamic> json, {
+    bool isRestaurant = true,
+  }) {
     final customer = json['customer'] as Map<String, dynamic>? ?? {};
     return _Review(
       id: (json['id'] as num?)?.toInt() ?? 0,
       customerName: customer['name']?.toString() ?? '-',
       overallRating: (json['overall_rating'] as num?)?.toInt() ?? 0,
       foodQualityRating: (json['food_quality_rating'] as num?)?.toInt(),
-      restaurantServiceRating:
-          (json['restaurant_service_rating'] as num?)?.toInt(),
+      restaurantServiceRating: (json['restaurant_service_rating'] as num?)
+          ?.toInt(),
       driverRating: (json['driver_rating'] as num?)?.toInt(),
-      deliverySpeedRating:
-          (json['delivery_speed_rating'] as num?)?.toInt(),
+      deliverySpeedRating: (json['delivery_speed_rating'] as num?)?.toInt(),
       comment: json['comment']?.toString(),
       wouldReorder: json['would_reorder'] as bool?,
       wouldRecommend: json['would_recommend'] as bool?,
@@ -456,15 +456,13 @@ class _StatsHeader extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: MaterialTheme.getBorderRadiusCard(),
             side: BorderSide(
-              color: Theme.of(context)
-                  .colorScheme
-                  .primary
-                  .withValues(alpha: 0.3),
+              color: Theme.of(
+                context,
+              ).colorScheme.primary.withValues(alpha: 0.3),
             ),
           ),
           child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
             child: Row(
               children: [
                 Icon(Icons.star_rounded, size: 12.w, color: color),
@@ -478,37 +476,30 @@ class _StatsHeader extends StatelessWidget {
                       children: [
                         Text(
                           avgRating.toStringAsFixed(1),
-                          style: Theme.of(context)
-                              .textTheme
-                              .displaySmall
+                          style: Theme.of(context).textTheme.displaySmall
                               ?.copyWith(
-                            color: color,
-                            fontWeight: FontWeight.w700,
-                          ),
+                                color: color,
+                                fontWeight: FontWeight.w700,
+                              ),
                         ),
                         SizedBox(width: 1.w),
                         Text(
                           l.outOf5,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
+                          style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.6),
-                          ),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.6),
+                              ),
                         ),
                       ],
                     ),
                     Text(
                       '$totalRatings ${l.totalRatings}',
-                      style:
-                          Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.6),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -521,26 +512,25 @@ class _StatsHeader extends StatelessWidget {
         Card(
           elevation: 0.5,
           shape: RoundedRectangleBorder(
-              borderRadius: MaterialTheme.getBorderRadiusCard()),
+            borderRadius: MaterialTheme.getBorderRadiusCard(),
+          ),
           child: Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
             child: Column(
               children: List.generate(5, (i) {
                 final star = 5 - i;
                 final count = distribution[star] ?? 0;
-                final fraction =
-                    totalRatings > 0 ? count / totalRatings : 0.0;
+                final fraction = totalRatings > 0 ? count / totalRatings : 0.0;
                 return Padding(
                   padding: EdgeInsets.only(bottom: 0.8.h),
                   child: Row(
                     children: [
-                      Icon(Icons.star_rounded,
-                          size: 4.w, color: Colors.amber),
+                      Icon(Icons.star_rounded, size: 4.w, color: Colors.amber),
                       SizedBox(width: 1.w),
-                      Text('$star',
-                          style:
-                              Theme.of(context).textTheme.bodySmall),
+                      Text(
+                        '$star',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
                       SizedBox(width: 2.w),
                       Expanded(
                         child: ClipRRect(
@@ -548,9 +538,9 @@ class _StatsHeader extends StatelessWidget {
                           child: LinearProgressIndicator(
                             value: fraction,
                             minHeight: 8,
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
                             valueColor: AlwaysStoppedAnimation<Color>(
                               Theme.of(context).colorScheme.primary,
                             ),
@@ -562,15 +552,12 @@ class _StatsHeader extends StatelessWidget {
                         width: 8.w,
                         child: Text(
                           count.toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
+                          style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withValues(alpha: 0.7),
-                          ),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
+                              ),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -590,8 +577,7 @@ class _RestaurantCard extends StatelessWidget {
   final _RestaurantSummary restaurant;
   final VoidCallback onTap;
 
-  const _RestaurantCard(
-      {required this.restaurant, required this.onTap});
+  const _RestaurantCard({required this.restaurant, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -601,29 +587,30 @@ class _RestaurantCard extends StatelessWidget {
       elevation: 0.5,
       margin: EdgeInsets.only(bottom: 1.6.h),
       shape: RoundedRectangleBorder(
-          borderRadius: MaterialTheme.getBorderRadiusCard()),
+        borderRadius: MaterialTheme.getBorderRadiusCard(),
+      ),
       child: InkWell(
         borderRadius: MaterialTheme.getBorderRadiusCard(),
         onTap: onTap,
         child: Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.6.h),
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.6.h),
           child: Row(
             children: [
               Container(
                 width: 10.w,
                 height: 10.w,
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: MaterialTheme.getBorderRadiusButton(),
                 ),
                 child: Center(
-                  child: Icon(Icons.store,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 5.w),
+                  child: Icon(
+                    Icons.store,
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 5.w,
+                  ),
                 ),
               ),
               SizedBox(width: 3.w),
@@ -633,12 +620,8 @@ class _RestaurantCard extends StatelessWidget {
                   children: [
                     Text(
                       restaurant.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(
-                        color:
-                            Theme.of(context).colorScheme.onSurface,
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontWeight: FontWeight.w600,
                       ),
                       overflow: TextOverflow.ellipsis,
@@ -646,14 +629,10 @@ class _RestaurantCard extends StatelessWidget {
                     SizedBox(height: 0.3.h),
                     Text(
                       '${restaurant.totalReviews} ${l.reviews}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall
-                          ?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: 0.6),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -666,10 +645,7 @@ class _RestaurantCard extends StatelessWidget {
                   SizedBox(width: 1.w),
                   Text(
                     restaurant.rating.toStringAsFixed(1),
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: color,
                       fontWeight: FontWeight.w700,
                     ),
@@ -679,10 +655,9 @@ class _RestaurantCard extends StatelessWidget {
               SizedBox(width: 1.w),
               Icon(
                 Icons.chevron_right,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.35),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.35),
                 size: 5.w,
               ),
             ],
@@ -705,7 +680,8 @@ class _ReviewCard extends StatelessWidget {
       elevation: 0.5,
       margin: EdgeInsets.only(bottom: 1.6.h),
       shape: RoundedRectangleBorder(
-          borderRadius: MaterialTheme.getBorderRadiusCard()),
+        borderRadius: MaterialTheme.getBorderRadiusCard(),
+      ),
       child: Padding(
         padding: EdgeInsets.all(3.w),
         child: Column(
@@ -720,25 +696,17 @@ class _ReviewCard extends StatelessWidget {
                     children: [
                       Text(
                         review.customerName,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color:
-                              Theme.of(context).colorScheme.onSurface,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       Text(
                         _formatDate(review.ratedAt),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSurface
-                              .withValues(alpha: 0.5),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.5),
                         ),
                       ),
                     ],
@@ -774,34 +742,40 @@ class _ReviewCard extends StatelessWidget {
               children: [
                 if (review.foodQualityRating != null)
                   _Badge(
-                      icon: Icons.restaurant,
-                      label: '${review.foodQualityRating}★',
-                      color: Colors.orange),
+                    icon: Icons.restaurant,
+                    label: '${review.foodQualityRating}★',
+                    color: Colors.orange,
+                  ),
                 if (review.restaurantServiceRating != null)
                   _Badge(
-                      icon: Icons.store,
-                      label: '${review.restaurantServiceRating}★',
-                      color: Theme.of(context).colorScheme.primary),
+                    icon: Icons.store,
+                    label: '${review.restaurantServiceRating}★',
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 if (review.driverRating != null)
                   _Badge(
-                      icon: Icons.delivery_dining,
-                      label: '${review.driverRating}★',
-                      color: Colors.blue),
+                    icon: Icons.delivery_dining,
+                    label: '${review.driverRating}★',
+                    color: Colors.blue,
+                  ),
                 if (review.deliverySpeedRating != null)
                   _Badge(
-                      icon: Icons.speed,
-                      label: '${review.deliverySpeedRating}★',
-                      color: Colors.teal),
+                    icon: Icons.speed,
+                    label: '${review.deliverySpeedRating}★',
+                    color: Colors.teal,
+                  ),
                 if (review.wouldReorder == true)
                   _Badge(
-                      icon: Icons.repeat,
-                      label: l.reorderRate.split(' ').first,
-                      color: Colors.green),
+                    icon: Icons.repeat,
+                    label: l.reorderRate.split(' ').first,
+                    color: Colors.green,
+                  ),
                 if (review.wouldRecommend == true)
                   _Badge(
-                      icon: Icons.thumb_up,
-                      label: l.recommendRate.split(' ').first,
-                      color: Colors.indigo),
+                    icon: Icons.thumb_up,
+                    label: l.recommendRate.split(' ').first,
+                    color: Colors.indigo,
+                  ),
               ],
             ),
           ],
@@ -816,8 +790,7 @@ class _Badge extends StatelessWidget {
   final String label;
   final Color color;
 
-  const _Badge(
-      {required this.icon, required this.label, required this.color});
+  const _Badge({required this.icon, required this.label, required this.color});
 
   @override
   Widget build(BuildContext context) {

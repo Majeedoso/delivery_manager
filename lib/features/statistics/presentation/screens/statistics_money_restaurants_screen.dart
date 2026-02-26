@@ -47,10 +47,12 @@ class _StatisticsMoneyRestaurantsScreenState
           response.data['success'] == true) {
         final items = (response.data['data'] as List? ?? [])
             .whereType<Map<String, dynamic>>()
-            .map((e) => _RestaurantItem(
-                  id: (e['id'] as num?)?.toInt() ?? 0,
-                  name: e['name']?.toString() ?? '',
-                ))
+            .map(
+              (e) => _RestaurantItem(
+                id: (e['id'] as num?)?.toInt() ?? 0,
+                name: e['name']?.toString() ?? '',
+              ),
+            )
             .toList();
         final meta = response.data['meta'] as Map<String, dynamic>? ?? {};
         final pagination = meta['pagination'] as Map<String, dynamic>? ?? {};
@@ -201,7 +203,8 @@ class _RestaurantCard extends StatelessWidget {
       elevation: 0.5,
       margin: EdgeInsets.only(bottom: 1.6.h),
       shape: RoundedRectangleBorder(
-          borderRadius: MaterialTheme.getBorderRadiusCard()),
+        borderRadius: MaterialTheme.getBorderRadiusCard(),
+      ),
       child: InkWell(
         borderRadius: MaterialTheme.getBorderRadiusCard(),
         onTap: onTap,
@@ -213,10 +216,9 @@ class _RestaurantCard extends StatelessWidget {
                 width: 10.w,
                 height: 10.w,
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.1),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: MaterialTheme.getBorderRadiusButton(),
                 ),
                 child: Center(
@@ -240,10 +242,9 @@ class _RestaurantCard extends StatelessWidget {
               ),
               Icon(
                 Icons.chevron_right,
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: 0.35),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.35),
                 size: 5.w,
               ),
             ],
