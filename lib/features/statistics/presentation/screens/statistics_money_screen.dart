@@ -28,10 +28,8 @@ class StatisticsMoneyScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(height: 4.h),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: MaterialTheme.getSpacing('spacingGrid').w,
-                  runSpacing: MaterialTheme.getSpacing('spacingGrid').w * 3,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     _buildIconContainer(
                       context,
@@ -41,21 +39,31 @@ class StatisticsMoneyScreen extends StatelessWidget {
                         context,
                       ).pushNamed(AppRoutes.statisticsMoneyOverview),
                     ),
-                    _buildIconContainer(
-                      context,
-                      title: l.restaurantsTab,
-                      iconPath: 'assets/images/restaurants.ico',
-                      onTap: () => Navigator.of(
-                        context,
-                      ).pushNamed(AppRoutes.statisticsMoneyRestaurants),
+                    SizedBox(
+                      height: MaterialTheme.getSpacing('spacingGrid').w * 3,
                     ),
-                    _buildIconContainer(
-                      context,
-                      title: l.driversTab,
-                      iconPath: 'assets/images/drivers.ico',
-                      onTap: () => Navigator.of(
-                        context,
-                      ).pushNamed(AppRoutes.statisticsMoneyDrivers),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: MaterialTheme.getSpacing('spacingGrid').w,
+                      runSpacing: MaterialTheme.getSpacing('spacingGrid').w * 3,
+                      children: [
+                        _buildIconContainer(
+                          context,
+                          title: l.restaurantsTab,
+                          iconPath: 'assets/images/restaurants.ico',
+                          onTap: () => Navigator.of(
+                            context,
+                          ).pushNamed(AppRoutes.statisticsMoneyRestaurants),
+                        ),
+                        _buildIconContainer(
+                          context,
+                          title: l.driversTab,
+                          iconPath: 'assets/images/drivers.ico',
+                          onTap: () => Navigator.of(
+                            context,
+                          ).pushNamed(AppRoutes.statisticsMoneyDrivers),
+                        ),
+                      ],
                     ),
                   ],
                 ),

@@ -239,7 +239,7 @@ class _MainScreenState extends State<MainScreen> {
     return _buildIconContainer(
       context,
       title: 'Coupons',
-      iconPath: 'assets/images/menu.ico',
+      iconPath: 'assets/images/coupons.ico',
       onTap: () => _navigateToCoupons(context),
     );
   }
@@ -260,7 +260,7 @@ class _MainScreenState extends State<MainScreen> {
     return _buildIconContainer(
       context,
       title: 'User Management',
-      iconPath: 'assets/images/users.ico',
+      iconPath: 'assets/images/user_management.ico',
       onTap: () => _navigateToUsers(context),
     );
   }

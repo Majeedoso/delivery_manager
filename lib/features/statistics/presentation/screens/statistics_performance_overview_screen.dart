@@ -114,7 +114,10 @@ class _StatisticsPerformanceOverviewScreenState
       completedDeliveries: readInt(driverOverview, 'completed_deliveries'),
       cancelledDeliveries: readInt(driverOverview, 'cancelled_deliveries'),
       completionRate: readDouble(driverOverview, 'completion_rate'),
-      averageDeliveryTime: readDouble(driverOverview, 'average_delivery_time_minutes'),
+      averageDeliveryTime: readDouble(
+        driverOverview,
+        'average_delivery_time_minutes',
+      ),
       onTimeDeliveryRate: readDouble(driverPerf, 'on_time_delivery_rate'),
       fastestDelivery: readDouble(driverPerf, 'fastest_delivery_minutes'),
       slowestDelivery: readDouble(driverPerf, 'slowest_delivery_minutes'),
@@ -227,7 +230,9 @@ class _StatisticsPerformanceOverviewScreenState
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: MaterialTheme.getCircularProgressIndicator(context),
+                      child: MaterialTheme.getCircularProgressIndicator(
+                        context,
+                      ),
                     );
                   }
 
@@ -383,7 +388,9 @@ class _StatisticsPerformanceOverviewScreenState
                             icon: Icons.delivery_dining_outlined,
                           ),
                           SizedBox(height: 1.5.h),
-                          _SubHeader(title: l.deliveryPerformance.toUpperCase()),
+                          _SubHeader(
+                            title: l.deliveryPerformance.toUpperCase(),
+                          ),
                           SizedBox(height: 1.h),
                           GridView.count(
                             shrinkWrap: true,
@@ -491,7 +498,9 @@ class _StatisticsPerformanceOverviewScreenState
                                 value:
                                     '${stats.responseSpeedMinutes.toStringAsFixed(1)} ${l.minutesAbbr}',
                                 icon: Icons.alt_route_outlined,
-                                iconColor: Theme.of(context).colorScheme.primary,
+                                iconColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                                 circleColor: Theme.of(
                                   context,
                                 ).colorScheme.primary.withValues(alpha: 0.1),
@@ -501,7 +510,9 @@ class _StatisticsPerformanceOverviewScreenState
                                 value:
                                     '${stats.pickupSpeedMinutes.toStringAsFixed(1)} ${l.minutesAbbr}',
                                 icon: Icons.directions_run_outlined,
-                                iconColor: Theme.of(context).colorScheme.primary,
+                                iconColor: Theme.of(
+                                  context,
+                                ).colorScheme.primary,
                                 circleColor: Theme.of(
                                   context,
                                 ).colorScheme.primary.withValues(alpha: 0.1),
