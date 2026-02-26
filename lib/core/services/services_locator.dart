@@ -5,7 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../network/api_constance.dart';
 import '../utils/app_timeouts.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'countdown_service.dart';
+import 'device_info_service.dart';
 import 'theme_service.dart';
 import 'logging_service.dart';
 import '../../features/theme/presentation/controller/theme_bloc.dart';
@@ -244,9 +246,14 @@ class ServicesLocator {
       ),
     );
 
+    // DeviceInfoService — anti-spam device fingerprint for registration/login
+    sl.registerLazySingleton<DeviceInfoService>(
+      () => DeviceInfoService(const FlutterSecureStorage()),
+    );
+
     // Data Sources
     sl.registerLazySingleton<BaseAuthRemoteDataSource>(
-      () => AuthRemoteDataSource(dio: sl()),
+      () => AuthRemoteDataSource(dio: sl(), deviceInfoService: sl()),
     );
     sl.registerLazySingleton<BaseAuthLocalDataSource>(
       () => AuthLocalDataSource(sharedPreferences: sl()),

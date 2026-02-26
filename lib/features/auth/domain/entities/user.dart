@@ -84,6 +84,9 @@ class User extends Equatable {
   /// Check if user account is rejected
   bool get isRejected => status == 'rejected';
 
+  /// Check if user account has been deleted
+  bool get isDeleted => status == 'deleted';
+
   /// Check if user's email is verified
   bool get hasVerifiedEmail => emailVerifiedAt != null;
 

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/error/exceptions.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
+import 'package:delivery_manager/core/services/device_info_service.dart';
 import 'package:delivery_manager/features/auth/data/models/auth_response_model.dart';
 import 'package:delivery_manager/features/auth/data/models/resend_verification_email_response_model.dart';
 import 'package:delivery_manager/features/auth/data/models/resend_password_reset_otp_response_model.dart';
@@ -207,8 +208,9 @@ abstract class BaseAuthRemoteDataSource {
 class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   /// Dio instance for making HTTP requests
   final Dio dio;
+  final DeviceInfoService deviceInfoService;
 
-  AuthRemoteDataSource({required this.dio}) {
+  AuthRemoteDataSource({required this.dio, required this.deviceInfoService}) {
     // Add interceptor for Bearer token
     dio.interceptors.add(
       InterceptorsWrapper(
@@ -239,6 +241,9 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
         'phone': phone,
         'app_type': 'manager', // Validate that role matches manager app
       };
+
+      final deviceId = await deviceInfoService.getDeviceId();
+      if (deviceId != null) requestData['device_id'] = deviceId;
 
       final response = await dio.post(
         ApiConstance.registerPath,
@@ -303,13 +308,17 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     required String password,
   }) async {
     try {
+      final loginData = <String, dynamic>{
+        'email': email,
+        'password': password,
+        'app_type': 'manager', // Validate that user role matches manager app
+      };
+      final loginDeviceId = await deviceInfoService.getDeviceId();
+      if (loginDeviceId != null) loginData['device_id'] = loginDeviceId;
+
       final response = await dio.post(
         ApiConstance.loginPath,
-        data: {
-          'email': email,
-          'password': password,
-          'app_type': 'manager', // Validate that user role matches manager app
-        },
+        data: loginData,
         options: Options(
           headers: {
             'Content-Type': 'application/json',

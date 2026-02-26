@@ -51,6 +51,9 @@ dependencies:
   
   # Package info for app version
   package_info_plus: ^9.0.0
+
+  # Device identification for anti-spam registration/login guard
+  device_info_plus: ^10.1.0
   
   # Logging
   logger: ^2.0.2+1
