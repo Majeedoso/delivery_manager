@@ -40,6 +40,19 @@ class CouponsHomeScreen extends StatelessWidget {
                     AppRoutes.deliveryCoupons,
                   ),
                 ),
+                _buildIconContainer(
+                  context,
+                  title: 'Global Coupons',
+                  iconPath: '',
+                  overrideIcon: Icon(
+                    Icons.stars_rounded,
+                    size: MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
+                    color: Colors.amber[700],
+                  ),
+                  onTap: () => Navigator.of(context).pushNamed(
+                    AppRoutes.globalCoupons,
+                  ),
+                ),
               ],
             ),
           ),
@@ -53,6 +66,7 @@ class CouponsHomeScreen extends StatelessWidget {
     required String title,
     required String iconPath,
     required VoidCallback onTap,
+    Widget? overrideIcon,
   }) {
     return SizedBox(
       width: MaterialTheme.getSpacing('containerWidthLarge').w,
@@ -73,7 +87,7 @@ class CouponsHomeScreen extends StatelessWidget {
                 SizedBox(
                   height:
                       MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
-                  child: Center(child: _buildIcon(context, iconPath)),
+                  child: Center(child: overrideIcon ?? _buildIcon(context, iconPath)),
                 ),
                 SizedBox(height: 0.1.h),
                 Flexible(

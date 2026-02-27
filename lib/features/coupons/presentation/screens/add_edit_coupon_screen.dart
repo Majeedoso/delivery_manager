@@ -430,27 +430,41 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                       vertical: 1.5.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: _discountTarget == 'final_total'
+                          ? Colors.amber.shade50
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey.shade300),
+                      border: Border.all(
+                        color: _discountTarget == 'final_total'
+                            ? Colors.amber.shade400
+                            : Colors.grey.shade300,
+                      ),
                     ),
                     child: Row(
                       children: [
                         Icon(
                           _discountTarget == 'delivery_fee'
                               ? Icons.local_shipping
-                              : Icons.receipt_long,
-                          color: Colors.grey.shade600,
+                              : _discountTarget == 'final_total'
+                                  ? Icons.stars_rounded
+                                  : Icons.receipt_long,
+                          color: _discountTarget == 'final_total'
+                              ? Colors.amber[700]
+                              : Colors.grey.shade600,
                         ),
                         SizedBox(width: 2.w),
                         Expanded(
                           child: Text(
                             _discountTarget == 'delivery_fee'
                                 ? localizations.deliveryFee
-                                : localizations.orderSubtotal,
+                                : _discountTarget == 'final_total'
+                                    ? 'Final Total (Global)'
+                                    : localizations.orderSubtotal,
                             style: TextStyle(
                               fontSize: 13.sp,
-                              color: Colors.grey.shade700,
+                              color: _discountTarget == 'final_total'
+                                  ? Colors.amber[800]
+                                  : Colors.grey.shade700,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

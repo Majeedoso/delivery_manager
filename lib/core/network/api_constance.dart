@@ -215,4 +215,8 @@ class ApiConstance {
   static const String managerDriversPath = "/manager/drivers";
   static String managerDriverRatingsPath(int id) =>
       "/manager/drivers/$id/ratings";
+
+  // Manager settings (dashboard) endpoints
+  static const String managerSettingsPath = "/manager/settings";
+  static String managerSettingByIdPath(int id) => "/manager/settings/$id";
 }

@@ -66,6 +66,9 @@ import 'package:delivery_manager/features/coupons/presentation/controller/coupon
 import 'package:delivery_manager/features/users/presentation/screens/users_screen.dart';
 import 'package:delivery_manager/features/users/presentation/controller/users_bloc.dart';
 import 'package:delivery_manager/features/users/presentation/controller/users_event.dart';
+import 'package:delivery_manager/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:delivery_manager/features/dashboard/presentation/screens/dashboard_category_screen.dart';
+import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_bloc.dart';
 
 /// Route generator for the application
 ///
@@ -339,6 +342,13 @@ class RouteGenerator {
           discountTarget: 'delivery_fee',
         ),
       ),
+      AppRoutes.globalCoupons: (context) => BlocProvider(
+        create: (context) => sl<CouponsBloc>(),
+        child: const CouponsListScreen(
+          title: 'Global Coupons',
+          discountTarget: 'final_total',
+        ),
+      ),
       AppRoutes.deliveryZones: (context) => BlocProvider.value(
         value: context.read<CouponsBloc>(),
         child: const DeliveryZonesScreen(),
@@ -348,6 +358,24 @@ class RouteGenerator {
         create: (context) => sl<UsersBloc>()..add(const LoadUsersEvent()),
         child: const UsersScreen(),
       ),
+      // Dashboard (settings editor) routes
+      AppRoutes.dashboard: (context) => BlocProvider(
+        create: (context) => sl<DashboardBloc>(),
+        child: const DashboardScreen(),
+      ),
+      AppRoutes.dashboardCategory: (context) {
+        final args = ModalRoute.of(context)?.settings.arguments;
+        if (args == null || args is! Map<String, dynamic>) {
+          return const Scaffold(
+            body: Center(child: Text('Invalid route arguments')),
+          );
+        }
+        final category = args['category'] as String? ?? '';
+        return BlocProvider(
+          create: (context) => sl<DashboardBloc>(),
+          child: DashboardCategoryScreen(category: category),
+        );
+      },
     };
   }
 }

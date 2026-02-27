@@ -95,6 +95,10 @@ import '../../features/users/domain/usecases/reject_user_usecase.dart';
 import '../../features/users/domain/usecases/suspend_user_usecase.dart';
 import '../../features/users/domain/usecases/activate_user_usecase.dart';
 import '../../features/users/presentation/controller/users_bloc.dart';
+import '../../features/dashboard/data/datasource/dashboard_remote_data_source.dart';
+import '../../features/dashboard/data/repository/dashboard_repository_impl.dart';
+import '../../features/dashboard/domain/repository/base_dashboard_repository.dart';
+import '../../features/dashboard/presentation/controller/dashboard_bloc.dart';
 import '../services/api_service.dart';
 import '../interceptors/retry_interceptor.dart';
 
@@ -494,6 +498,21 @@ class ServicesLocator {
         suspendUserUseCase: sl(),
         activateUserUseCase: sl(),
       ),
+    );
+
+    // Dashboard Remote Data Source
+    sl.registerLazySingleton<BaseDashboardRemoteDataSource>(
+      () => DashboardRemoteDataSource(dio: sl(), logger: sl()),
+    );
+
+    // Dashboard Repository
+    sl.registerLazySingleton<BaseDashboardRepository>(
+      () => DashboardRepositoryImpl(remoteDataSource: sl()),
+    );
+
+    // Dashboard BLoC
+    sl.registerFactory(
+      () => DashboardBloc(repository: sl<BaseDashboardRepository>()),
     );
   }
 }

@@ -75,8 +75,13 @@ class AppRoutes {
   static const String coupons = '/coupons';
   static const String restaurantCoupons = '/coupons/restaurant';
   static const String deliveryCoupons = '/coupons/delivery';
+  static const String globalCoupons = '/coupons/global';
   static const String deliveryZones = '/delivery-zones';
 
   // User management routes
   static const String users = '/users';
+
+  // Dashboard (settings editor) routes
+  static const String dashboard = '/dashboard';
+  static const String dashboardCategory = '/dashboard-category';
 }

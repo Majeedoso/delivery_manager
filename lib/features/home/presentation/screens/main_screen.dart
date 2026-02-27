@@ -95,6 +95,9 @@ class _MainScreenState extends State<MainScreen> {
                       // Users Container
                       _buildUsersContainer(context),
 
+                      // Dashboard Container
+                      _buildDashboardContainer(context),
+
                       // Profile Container
                       _buildProfileContainer(context),
 
@@ -144,7 +147,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildIconContainer(
     BuildContext context, {
     required String title,
-    required String iconPath,
+    String iconPath = '',
+    IconData? iconData,
     required VoidCallback onTap,
   }) {
     return SizedBox(
@@ -167,7 +171,7 @@ class _MainScreenState extends State<MainScreen> {
                 SizedBox(
                   height:
                       MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
-                  child: Center(child: _buildIcon(context, iconPath)),
+                  child: Center(child: _buildIcon(context, iconPath, iconData: iconData)),
                 ),
                 SizedBox(height: 0.1.h),
                 // Fixed height for text area to ensure first line alignment
@@ -269,7 +273,27 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.of(context).pushNamed(AppRoutes.users);
   }
 
-  Widget _buildIcon(BuildContext context, String iconPath) {
+  Widget _buildDashboardContainer(BuildContext context) {
+    return _buildIconContainer(
+      context,
+      title: 'Dashboard',
+      iconData: Icons.tune,
+      onTap: () => _navigateToDashboard(context),
+    );
+  }
+
+  void _navigateToDashboard(BuildContext context) {
+    Navigator.of(context).pushNamed(AppRoutes.dashboard);
+  }
+
+  Widget _buildIcon(BuildContext context, String iconPath, {IconData? iconData}) {
+    if (iconData != null) {
+      return Icon(
+        iconData,
+        size: MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
+        color: Theme.of(context).colorScheme.onSurface,
+      );
+    }
     return Image.asset(
       iconPath,
       width: MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
