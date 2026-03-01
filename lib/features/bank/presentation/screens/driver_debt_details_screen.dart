@@ -363,6 +363,15 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                     ),
                   ],
                 ),
+                SizedBox(height: 0.5.h),
+                Text(
+                  _reasonLabel(item.reason, false),
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Colors.blueGrey,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
           ),
@@ -437,7 +446,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                       ),
                     ),
                     Text(
-                      item.reason ?? (isIncoming ? 'Overpay' : 'Overcharge'),
+                      _reasonLabel(item.reason, isIncoming),
                       style: TextStyle(
                         fontSize: 16.sp,
                         color: Colors.blueGrey,
@@ -550,6 +559,27 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
         ),
       ],
     );
+  }
+
+  String _reasonLabel(String? reason, bool isIncoming) {
+    switch (reason) {
+      case 'settlement':
+        return 'Order Settlement';
+      case 'coupon_credit':
+        return 'Coupon Credit';
+      case 'global_coupon_credit':
+        return 'Global Coupon Credit';
+      case 'birthday_credit':
+        return 'Birthday Gift Credit';
+      case 'overcharge':
+        return 'Overcharge';
+      case 'overpay':
+        return 'Overpay';
+      case 'payment':
+        return isIncoming ? 'Received Payment' : 'Sent Payment';
+      default:
+        return isIncoming ? 'Overpay' : 'Overcharge';
+    }
   }
 
   String _formatDate(String dateStr) {
