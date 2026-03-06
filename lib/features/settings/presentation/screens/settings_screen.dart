@@ -206,7 +206,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   SizedBox(height: 4.h),
                   Center(
                     child: Text(
-                      "© 2024. All rights reserved.",
+                      localizations.copyright,
                       style: TextStyle(
                         color: isDark ? Colors.white : Colors.grey[500],
                         fontSize: 16.sp,
@@ -321,7 +321,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       return Text(
         state.message.isNotEmpty
             ? state.message
-            : 'Unable to check for updates. Please try again later.',
+            : localizations.unableToCheckForUpdates,
         style: const TextStyle(color: Colors.red),
       );
     }

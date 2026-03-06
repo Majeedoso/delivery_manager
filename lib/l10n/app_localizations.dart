@@ -100,7 +100,7 @@ abstract class AppLocalizations {
   /// The name of the application
   ///
   /// In en, this message translates to:
-  /// **'Delivery Driver'**
+  /// **'Delivery Manager'**
   String get appName;
 
   /// Login button text
@@ -460,7 +460,7 @@ abstract class AppLocalizations {
   /// Description of the app shown in about page
   ///
   /// In en, this message translates to:
-  /// **'This application is designed for delivery drivers to manage their deliveries efficiently. Drivers can view available orders, accept delivery requests, navigate to pickup and delivery locations, update delivery status in real-time, set their availability schedule, and track their earnings.'**
+  /// **'The Manager app gives you complete oversight of the entire delivery platform. Approve users, monitor performance, configure system settings, and manage delivery zones — all from a powerful admin dashboard.'**
   String get aboutDescription;
 
   /// Features section title
@@ -472,49 +472,49 @@ abstract class AppLocalizations {
   /// User authentication feature
   ///
   /// In en, this message translates to:
-  /// **'User Authentication'**
+  /// **'User Management'**
   String get userAuthentication;
 
   /// User authentication description
   ///
   /// In en, this message translates to:
-  /// **'Secure login and registration system'**
+  /// **'Approve drivers, restaurants, and operators, and manage account suspensions'**
   String get userAuthenticationDescription;
 
   /// Multi-language support feature
   ///
   /// In en, this message translates to:
-  /// **'Multi-Language Support'**
+  /// **'Analytics & Reports'**
   String get multiLanguageSupport;
 
   /// Multi-language support description
   ///
   /// In en, this message translates to:
-  /// **'Support for multiple languages'**
+  /// **'Monitor revenue, order trends, and platform performance through detailed dashboards'**
   String get multiLanguageSupportDescription;
 
   /// Secure storage feature
   ///
   /// In en, this message translates to:
-  /// **'Secure Storage'**
+  /// **'System Settings'**
   String get secureStorage;
 
   /// Secure storage description
   ///
   /// In en, this message translates to:
-  /// **'Secure storage for sensitive data'**
+  /// **'Configure delivery fees, commission rates, and platform-wide operational rules'**
   String get secureStorageDescription;
 
   /// Google sign-in feature
   ///
   /// In en, this message translates to:
-  /// **'Google Sign-In'**
+  /// **'Zone Management'**
   String get googleSignIn;
 
   /// Google sign-in description
   ///
   /// In en, this message translates to:
-  /// **'Quick sign-in with Google account'**
+  /// **'Define and activate delivery zones to control where orders can be placed'**
   String get googleSignInDescription;
 
   /// Contact us section title
@@ -526,7 +526,7 @@ abstract class AppLocalizations {
   /// Copyright text
   ///
   /// In en, this message translates to:
-  /// **'© 2024 Delivery Driver. All rights reserved.'**
+  /// **'© 2025 Delivery Manager. All rights reserved.'**
   String get copyright;
 
   /// Website label
@@ -5160,6 +5160,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Drivers'**
   String get driversTab;
+
+  /// No description provided for @dashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
+
+  /// No description provided for @failedToLoadSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load settings'**
+  String get failedToLoadSettings;
+
+  /// No description provided for @noSettingsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No settings found'**
+  String get noSettingsFound;
+
+  /// No description provided for @noSettingsInThisCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No settings in this category'**
+  String get noSettingsInThisCategory;
+
+  /// No description provided for @settingUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting updated successfully'**
+  String get settingUpdatedSuccessfully;
+
+  /// No description provided for @emptyInParentheses.
+  ///
+  /// In en, this message translates to:
+  /// **'(empty)'**
+  String get emptyInParentheses;
+
+  /// No description provided for @currentValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Current value'**
+  String get currentValue;
+
+  /// No description provided for @keyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Key'**
+  String get keyLabel;
+
+  /// No description provided for @editValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit value'**
+  String get editValue;
+
+  /// No description provided for @newValue.
+  ///
+  /// In en, this message translates to:
+  /// **'New value'**
+  String get newValue;
+
+  /// No description provided for @invalidRouteArguments.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid route arguments'**
+  String get invalidRouteArguments;
+
+  /// No description provided for @invalidAppVersionArgument.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid app version argument'**
+  String get invalidAppVersionArgument;
+
+  /// No description provided for @globalCoupons.
+  ///
+  /// In en, this message translates to:
+  /// **'Global Coupons'**
+  String get globalCoupons;
+
+  /// No description provided for @enterVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Verification Code'**
+  String get enterVerificationCode;
+
+  /// No description provided for @weSentVerificationCodeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a verification code to {email}'**
+  String weSentVerificationCodeTo(Object email);
+
+  /// No description provided for @confirmAccountDeletionCodeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the code to confirm account deletion. This action cannot be undone.'**
+  String get confirmAccountDeletionCodeMessage;
+
+  /// No description provided for @enableInSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable in Settings'**
+  String get enableInSettings;
+
+  /// No description provided for @notificationPermissionNeededMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This app needs notification permission to:'**
+  String get notificationPermissionNeededMessage;
+
+  /// No description provided for @notificationBenefitNewOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'• Alert you about new delivery orders'**
+  String get notificationBenefitNewOrders;
+
+  /// No description provided for @notificationBenefitStatusUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'• Notify you of order status updates'**
+  String get notificationBenefitStatusUpdates;
+
+  /// No description provided for @notificationBenefitImportantAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'• Send important delivery alerts'**
+  String get notificationBenefitImportantAlerts;
+
+  /// No description provided for @notificationPermissionWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Without notifications, you won\'t receive new orders and the app cannot function properly.'**
+  String get notificationPermissionWarning;
+
+  /// No description provided for @notificationPermissionDeniedInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission was denied. To enable it:'**
+  String get notificationPermissionDeniedInstructions;
+
+  /// No description provided for @stepTapOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Tap \"Open Settings\" below'**
+  String get stepTapOpenSettings;
+
+  /// No description provided for @stepFindNotificationsInSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Find \"Notifications\" in the app settings'**
+  String get stepFindNotificationsInSettings;
+
+  /// No description provided for @stepEnableAllowNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Enable \"Allow notifications\"'**
+  String get stepEnableAllowNotifications;
+
+  /// No description provided for @stepReturnToApp.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Return to the app'**
+  String get stepReturnToApp;
+
+  /// Title on initialization error screen
+  ///
+  /// In en, this message translates to:
+  /// **'Initialization Error'**
+  String get initializationErrorTitle;
+
+  /// Message on initialization error screen
+  ///
+  /// In en, this message translates to:
+  /// **'The app failed to initialize properly.'**
+  String get initializationErrorMessage;
+
+  /// Fallback error message when app version check fails
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to check for updates. Please try again later.'**
+  String get unableToCheckForUpdates;
+
+  /// Account status message when account is approved and app is redirecting
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been approved! Redirecting...'**
+  String get accountApprovedRedirecting;
+
+  /// Detailed account status message shown while account is pending approval
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.'**
+  String get accountPendingApprovalMessage;
+
+  /// Short account status message shown for unknown status fallback
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.'**
+  String get accountPendingApprovalMessageShort;
+
+  /// Account status message shown when account is suspended
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been suspended. Please contact support for assistance.'**
+  String get accountSuspendedMessage;
+
+  /// Account status message shown when account is rejected
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been rejected. Please contact support for more information.'**
+  String get accountRejectedMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

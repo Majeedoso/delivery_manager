@@ -7,6 +7,7 @@ import 'package:delivery_manager/features/dashboard/domain/entities/app_dashboar
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_bloc.dart';
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_event.dart';
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_state.dart';
+import 'package:delivery_manager/l10n/app_localizations.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -24,8 +25,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard')),
+      appBar: AppBar(title: Text(l10n.dashboard)),
       body: BlocBuilder<DashboardBloc, DashboardState>(
         builder: (context, state) {
           if (state.settingsStatus == DashboardSettingsStatus.loading) {
@@ -46,7 +48,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      state.errorMessage ?? 'Failed to load settings',
+                      state.errorMessage ?? l10n.failedToLoadSettings,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
@@ -56,7 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           .read<DashboardBloc>()
                           .add(const LoadSettingsEvent(refresh: true)),
                       icon: const Icon(Icons.refresh),
-                      label: const Text('Retry'),
+                      label: Text(l10n.retry),
                     ),
                   ],
                 ),
@@ -73,7 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
           if (categories.isEmpty &&
               state.settingsStatus == DashboardSettingsStatus.loaded) {
-            return const Center(child: Text('No settings found'));
+            return Center(child: Text(l10n.noSettingsFound));
           }
 
           return Container(
@@ -173,28 +175,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
     switch (category.toLowerCase()) {
       case 'delivery':
         return Icons.local_shipping;
-      case 'bank':
+      case 'financials':
         return Icons.account_balance;
-      case 'earnings':
-        return Icons.payments;
-      case 'orders':
-        return Icons.receipt_long;
-      case 'trust':
-        return Icons.verified_user;
-      case 'general':
-        return Icons.tune;
-      case 'api':
+      case 'customers_orders':
+        return Icons.people;
+      case 'loyalty_promotions':
+        return Icons.card_giftcard;
+      case 'api_integrations':
         return Icons.api;
-      case 'legal':
+      case 'legal_contact':
         return Icons.gavel;
-      case 'contact':
-        return Icons.contact_support;
       default:
         return Icons.settings;
     }
   }
 
   String _formatLabel(String raw) {
+    const labels = {
+      'customers_orders': 'Customers & Orders',
+      'loyalty_promotions': 'Loyalty & Promotions',
+      'api_integrations': 'API & Integrations',
+      'legal_contact': 'Legal & Contact',
+    };
+    if (labels.containsKey(raw.toLowerCase())) return labels[raw.toLowerCase()]!;
     return raw
         .replaceAll('_', ' ')
         .split(' ')

@@ -201,6 +201,7 @@ class _RestaurantOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Card(
       elevation: 0.5,
       margin: EdgeInsets.only(bottom: 1.6.h),
@@ -263,7 +264,7 @@ class _RestaurantOrderCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
-                            restaurant.isOpen ? 'Open' : 'Closed',
+                            restaurant.isOpen ? l.open : l.closed,
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(
                                   color: restaurant.isOpen

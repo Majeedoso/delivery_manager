@@ -26,9 +26,8 @@ class UnsavedChangesDialog {
     return await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)?.unsavedChanges ?? 'Unsaved Changes'),
-        content: Text(AppLocalizations.of(context)?.unsavedChangesMessage ?? 
-            'You have unsaved changes. Do you want to save them or discard them?'),
+        title: Text(AppLocalizations.of(context)!.unsavedChanges),
+        content: Text(AppLocalizations.of(context)!.unsavedChangesMessage),
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -44,7 +43,7 @@ class UnsavedChangesDialog {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text(AppLocalizations.of(context)?.discard ?? 'Discard'),
+                  child: Text(AppLocalizations.of(context)!.discard),
                 ),
               ),
               SizedBox(width: 2.w),
@@ -62,7 +61,7 @@ class UnsavedChangesDialog {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text(AppLocalizations.of(context)?.save ?? 'Save'),
+                  child: Text(AppLocalizations.of(context)!.save),
                 ),
               ),
             ],

@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appName => 'سائق التوصيل';
+  String get appName => 'مدير التوصيل';
 
   @override
   String get login => 'تسجيل الدخول';
@@ -193,40 +193,40 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aboutApp => 'حول التطبيق';
 
   @override
-  String get aboutDescription => 'هذا التطبيق مصمم لسائقي التوصيل لإدارة عمليات التوصيل بكفاءة. يمكن للسائقين عرض الطلبات المتاحة وقبول طلبات التوصيل والتنقل إلى مواقع الاستلام والتسليم وتحديث حالة التوصيل في الوقت الفعلي وتحديد جدول التوفر الخاص بهم وتتبع أرباحهم.';
+  String get aboutDescription => 'تطبيق المدير يمنحك إشرافاً كاملاً على منصة التوصيل بأكملها. وافق على المستخدمين، راقب الأداء، اضبط إعدادات النظام، وأدِر مناطق التوصيل — كل ذلك من لوحة تحكم إدارية متكاملة.';
 
   @override
   String get features => 'الميزات';
 
   @override
-  String get userAuthentication => 'مصادقة المستخدم';
+  String get userAuthentication => 'إدارة المستخدمين';
 
   @override
-  String get userAuthenticationDescription => 'نظام تسجيل دخول وإنشاء حساب آمن';
+  String get userAuthenticationDescription => 'الموافقة على السائقين والمطاعم والمشغلين وإدارة تعليق الحسابات';
 
   @override
-  String get multiLanguageSupport => 'دعم متعدد اللغات';
+  String get multiLanguageSupport => 'التحليلات والتقارير';
 
   @override
-  String get multiLanguageSupportDescription => 'دعم للغات متعددة';
+  String get multiLanguageSupportDescription => 'متابعة الإيرادات واتجاهات الطلبات وأداء المنصة عبر لوحات معلومات مفصلة';
 
   @override
-  String get secureStorage => 'التخزين الآمن';
+  String get secureStorage => 'إعدادات النظام';
 
   @override
-  String get secureStorageDescription => 'تخزين آمن للبيانات الحساسة';
+  String get secureStorageDescription => 'ضبط رسوم التوصيل ونسب العمولة والقواعد التشغيلية للمنصة';
 
   @override
-  String get googleSignIn => 'تسجيل الدخول بجوجل';
+  String get googleSignIn => 'إدارة المناطق';
 
   @override
-  String get googleSignInDescription => 'تسجيل دخول سريع بحساب جوجل';
+  String get googleSignInDescription => 'تحديد مناطق التوصيل وتفعيلها للتحكم في أماكن قبول الطلبات';
 
   @override
   String get contactUs => 'اتصل بنا';
 
   @override
-  String get copyright => '© 2024 سائق التوصيل. جميع الحقوق محفوظة.';
+  String get copyright => '© 2025 مدير التوصيل. جميع الحقوق محفوظة.';
 
   @override
   String get website => 'الموقع الإلكتروني';
@@ -2571,4 +2571,111 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get driversTab => 'السائقون';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get failedToLoadSettings => 'Failed to load settings';
+
+  @override
+  String get noSettingsFound => 'No settings found';
+
+  @override
+  String get noSettingsInThisCategory => 'No settings in this category';
+
+  @override
+  String get settingUpdatedSuccessfully => 'Setting updated successfully';
+
+  @override
+  String get emptyInParentheses => '(empty)';
+
+  @override
+  String get currentValue => 'Current value';
+
+  @override
+  String get keyLabel => 'Key';
+
+  @override
+  String get editValue => 'Edit value';
+
+  @override
+  String get newValue => 'New value';
+
+  @override
+  String get invalidRouteArguments => 'Invalid route arguments';
+
+  @override
+  String get invalidAppVersionArgument => 'Invalid app version argument';
+
+  @override
+  String get globalCoupons => 'Global Coupons';
+
+  @override
+  String get enterVerificationCode => 'Enter Verification Code';
+
+  @override
+  String weSentVerificationCodeTo(Object email) {
+    return 'We sent a verification code to $email';
+  }
+
+  @override
+  String get confirmAccountDeletionCodeMessage => 'Please enter the code to confirm account deletion. This action cannot be undone.';
+
+  @override
+  String get enableInSettings => 'Enable in Settings';
+
+  @override
+  String get notificationPermissionNeededMessage => 'This app needs notification permission to:';
+
+  @override
+  String get notificationBenefitNewOrders => 'Alert you about new delivery orders';
+
+  @override
+  String get notificationBenefitStatusUpdates => 'Notify you of order status updates';
+
+  @override
+  String get notificationBenefitImportantAlerts => 'Send important delivery alerts';
+
+  @override
+  String get notificationPermissionWarning => 'Without notifications, you won\'t receive new orders and the app cannot function properly.';
+
+  @override
+  String get notificationPermissionDeniedInstructions => 'Notification permission was denied. To enable it:';
+
+  @override
+  String get stepTapOpenSettings => '1. Tap \"Open Settings\" below';
+
+  @override
+  String get stepFindNotificationsInSettings => '2. Find \"Notifications\" in the app settings';
+
+  @override
+  String get stepEnableAllowNotifications => '3. Enable \"Allow notifications\"';
+
+  @override
+  String get stepReturnToApp => '4. Return to the app';
+
+  @override
+  String get initializationErrorTitle => 'Initialization Error';
+
+  @override
+  String get initializationErrorMessage => 'The app failed to initialize properly.';
+
+  @override
+  String get unableToCheckForUpdates => 'Unable to check for updates. Please try again later.';
+
+  @override
+  String get accountApprovedRedirecting => 'Your account has been approved! Redirecting...';
+
+  @override
+  String get accountPendingApprovalMessage => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.';
+
+  @override
+  String get accountPendingApprovalMessageShort => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.';
+
+  @override
+  String get accountSuspendedMessage => 'Your account has been suspended. Please contact support for assistance.';
+
+  @override
+  String get accountRejectedMessage => 'Your account has been rejected. Please contact support for more information.';
 }

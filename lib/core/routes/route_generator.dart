@@ -69,6 +69,7 @@ import 'package:delivery_manager/features/users/presentation/controller/users_ev
 import 'package:delivery_manager/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:delivery_manager/features/dashboard/presentation/screens/dashboard_category_screen.dart';
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_bloc.dart';
+import 'package:delivery_manager/l10n/app_localizations.dart';
 
 /// Route generator for the application
 ///
@@ -119,8 +120,9 @@ class RouteGenerator {
       AppRoutes.verifyEmailChangeOtp: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return BlocProvider(
@@ -150,15 +152,17 @@ class RouteGenerator {
       AppRoutes.updateRequired: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         final appVersion = args['appVersion'];
         final userCurrentVersion = args['userCurrentVersion'];
         if (appVersion == null || appVersion is! AppVersion) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid app version argument')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidAppVersionArgument)),
           );
         }
         return UpdateRequiredScreen(
@@ -170,8 +174,9 @@ class RouteGenerator {
       AppRoutes.verifyEmailOtp: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return VerifyEmailOtpScreen(email: args['email'] as String? ?? '');
@@ -180,8 +185,9 @@ class RouteGenerator {
       AppRoutes.resetPasswordUnauthenticated: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, String>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return ResetPasswordUnauthenticatedScreen(
@@ -192,8 +198,9 @@ class RouteGenerator {
       AppRoutes.mapPicker: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return MapPickerPage(
@@ -234,8 +241,9 @@ class RouteGenerator {
         }
 
         if (item == null) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return BlocProvider(
@@ -258,8 +266,9 @@ class RouteGenerator {
       AppRoutes.statisticsMoneyRestaurantDetail: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return StatisticsMoneyRestaurantDetailScreen(
@@ -272,8 +281,9 @@ class RouteGenerator {
       AppRoutes.statisticsMoneyDriverDetail: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return StatisticsMoneyDriverDetailScreen(
@@ -304,8 +314,9 @@ class RouteGenerator {
       AppRoutes.statisticsPerformanceRestaurantDetail: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return StatisticsPerformanceRestaurantDetailScreen(
@@ -318,8 +329,9 @@ class RouteGenerator {
       AppRoutes.statisticsPerformanceDriverDetail: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         return StatisticsPerformanceDriverDetailScreen(
@@ -330,22 +342,22 @@ class RouteGenerator {
       AppRoutes.coupons: (context) => const CouponsHomeScreen(),
       AppRoutes.restaurantCoupons: (context) => BlocProvider(
         create: (context) => sl<CouponsBloc>(),
-        child: const CouponsListScreen(
-          title: 'Restaurant Coupons',
+        child: CouponsListScreen(
+          title: AppLocalizations.of(context)!.restaurantCoupons,
           discountTarget: 'subtotal',
         ),
       ),
       AppRoutes.deliveryCoupons: (context) => BlocProvider(
         create: (context) => sl<CouponsBloc>(),
-        child: const CouponsListScreen(
-          title: 'Delivery Coupons',
+        child: CouponsListScreen(
+          title: AppLocalizations.of(context)!.deliveryCoupons,
           discountTarget: 'delivery_fee',
         ),
       ),
       AppRoutes.globalCoupons: (context) => BlocProvider(
         create: (context) => sl<CouponsBloc>(),
-        child: const CouponsListScreen(
-          title: 'Global Coupons',
+        child: CouponsListScreen(
+          title: AppLocalizations.of(context)!.globalCoupons,
           discountTarget: 'final_total',
         ),
       ),
@@ -366,8 +378,9 @@ class RouteGenerator {
       AppRoutes.dashboardCategory: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
-          return const Scaffold(
-            body: Center(child: Text('Invalid route arguments')),
+          final l10n = AppLocalizations.of(context)!;
+          return Scaffold(
+            body: Center(child: Text(l10n.invalidRouteArguments)),
           );
         }
         final category = args['category'] as String? ?? '';

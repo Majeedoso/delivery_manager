@@ -384,13 +384,14 @@ class _StatisticsPerformanceRestaurantDetailScreenState
   }
 
   String _formatMinutes(BuildContext context, double? minutes) {
-    if (minutes == null) return 'N/A';
+    final l = AppLocalizations.of(context)!;
+    if (minutes == null) return l.noDataAvailable;
     if (minutes <= 0) return '—';
     if (minutes < 1) {
       final secs = (minutes * 60).round();
-      return '$secs s';
+      return '$secs ${secs == 1 ? l.second : l.seconds}';
     }
-    return '${minutes.toStringAsFixed(1)} min';
+    return '${minutes.toStringAsFixed(1)} ${l.minutesAbbr}';
   }
 
   void _showInfoDialog(

@@ -29,7 +29,7 @@ class ErrorDialog {
     String? buttonText,
     VoidCallback? onPressed,
   }) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return showDialog<void>(
@@ -100,7 +100,7 @@ class ErrorDialog {
                             ),
                           ),
                           child: Text(
-                            buttonText ?? localizations?.ok ?? 'OK',
+                            buttonText ?? localizations.ok,
                             style: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
@@ -130,11 +130,11 @@ class ErrorDialog {
 
     return show(
       context,
-      title: localizations?.wrongApp ?? 'Wrong App',
+      title: localizations!.wrongApp,
       message: message,
       icon: Icons.app_blocking,
       iconColor: Colors.orange,
-      buttonText: localizations?.understood ?? 'Understood',
+      buttonText: localizations.understood,
     );
   }
 
@@ -149,14 +149,13 @@ class ErrorDialog {
 
     return show(
       context,
-      title: localizations?.accountNotFound ?? 'Account Not Found',
+      title: localizations!.accountNotFound,
       message:
           message ??
-          localizations?.accountNotFoundMessage ??
-          'No account found with this email. Please sign up first.',
+          localizations.accountNotFoundMessage,
       icon: Icons.person_off,
       iconColor: Colors.orange,
-      buttonText: localizations?.ok ?? 'OK',
+      buttonText: localizations.ok,
     );
   }
 
@@ -168,13 +167,11 @@ class ErrorDialog {
 
     return show(
       context,
-      title: localizations?.loginFailed ?? 'Login Failed',
-      message:
-          localizations?.invalidCredentialsMessage ??
-          'The email or password you entered is incorrect. Please check your credentials and try again.',
+      title: localizations!.loginFailed,
+      message: localizations.invalidCredentialsMessage,
       icon: Icons.lock_outline,
       iconColor: Colors.red,
-      buttonText: localizations?.tryAgain ?? 'Try Again',
+      buttonText: localizations.tryAgain,
     );
   }
 }

@@ -1,6 +1,6 @@
 {
   "@@locale": "fr",
-  "appName": "Chauffeur de Livraison",
+  "appName": "Gestionnaire de Livraison",
   "login": "Connexion",
   "signUp": "S'inscrire",
   "email": "E-mail",
@@ -66,18 +66,18 @@
   "version": "Version",
   "checkForUpdates": "Vérifier les mises à jour",
   "aboutApp": "À propos de l'application",
-  "aboutDescription": "Cette application est conçue pour les chauffeurs de livraison afin de gérer efficacement leurs livraisons. Les chauffeurs peuvent voir les commandes disponibles, accepter les demandes de livraison, naviguer vers les lieux de collecte et de livraison, mettre à jour le statut de livraison en temps réel, définir leur horaire de disponibilité et suivre leurs gains.",
+  "aboutDescription": "L'application Gestionnaire vous donne une supervision complète de toute la plateforme de livraison. Approuvez les utilisateurs, surveillez les performances, configurez les paramètres système et gérez les zones de livraison — le tout depuis un tableau de bord d'administration puissant.",
   "features": "Fonctionnalités",
-  "userAuthentication": "Authentification utilisateur",
-  "userAuthenticationDescription": "Système de connexion et d'inscription sécurisé",
-  "multiLanguageSupport": "Support multilingue",
-  "multiLanguageSupportDescription": "Support pour plusieurs langues",
-  "secureStorage": "Stockage sécurisé",
-  "secureStorageDescription": "Stockage sécurisé pour les données sensibles",
-  "googleSignIn": "Connexion Google",
-  "googleSignInDescription": "Connexion rapide avec un compte Google",
+  "userAuthentication": "Gestion des utilisateurs",
+  "userAuthenticationDescription": "Approuver les chauffeurs, restaurants et opérateurs, et gérer les suspensions de comptes",
+  "multiLanguageSupport": "Analyses et rapports",
+  "multiLanguageSupportDescription": "Suivre les revenus, les tendances des commandes et les performances de la plateforme via des tableaux de bord détaillés",
+  "secureStorage": "Paramètres système",
+  "secureStorageDescription": "Configurer les frais de livraison, les taux de commission et les règles opérationnelles de la plateforme",
+  "googleSignIn": "Gestion des zones",
+  "googleSignInDescription": "Définir et activer des zones de livraison pour contrôler où les commandes peuvent être passées",
   "contactUs": "Nous contacter",
-  "copyright": "© 2024 Chauffeur de Livraison. Tous droits réservés.",
+  "copyright": "© 2025 Gestionnaire de Livraison. Tous droits réservés.",
   "website": "Site web",
   "editProfile": "Modifier le profil",
   "changePassword": "Changer le mot de passe",
@@ -885,4 +885,71 @@
   "noRatingsYet": "Aucune note pour l'instant",
   "driversTab": "Chauffeurs",
   "totalCredits": "Total des Crédits"
+,
+  "dashboard": "Dashboard",
+  "failedToLoadSettings": "Failed to load settings",
+  "noSettingsFound": "No settings found",
+  "noSettingsInThisCategory": "No settings in this category",
+  "settingUpdatedSuccessfully": "Setting updated successfully",
+  "emptyInParentheses": "(empty)",
+  "currentValue": "Current value",
+  "keyLabel": "Key",
+  "editValue": "Edit value",
+  "newValue": "New value",
+  "invalidRouteArguments": "Invalid route arguments",
+  "invalidAppVersionArgument": "Invalid app version argument",
+  "globalCoupons": "Global Coupons",
+  "enterVerificationCode": "Enter Verification Code",
+  "weSentVerificationCodeTo": "We sent a verification code to {email}",
+  "@weSentVerificationCodeTo": {
+    "placeholders": {
+      "email": {}
+    }
+  },
+  "confirmAccountDeletionCodeMessage": "Please enter the code to confirm account deletion. This action cannot be undone.",
+  "enableInSettings": "Enable in Settings",
+  "notificationPermissionNeededMessage": "This app needs notification permission to:",
+  "notificationBenefitNewOrders": "Alert you about new delivery orders",
+  "notificationBenefitStatusUpdates": "Notify you of order status updates",
+  "notificationBenefitImportantAlerts": "Send important delivery alerts",
+  "notificationPermissionWarning": "Without notifications, you won't receive new orders and the app cannot function properly.",
+  "notificationPermissionDeniedInstructions": "Notification permission was denied. To enable it:",
+  "stepTapOpenSettings": "1. Tap \"Open Settings\" below",
+  "stepFindNotificationsInSettings": "2. Find \"Notifications\" in the app settings",
+  "stepEnableAllowNotifications": "3. Enable \"Allow notifications\"",
+  "stepReturnToApp": "4. Return to the app",
+  "initializationErrorTitle": "Initialization Error",
+  "@initializationErrorTitle": {
+    "description": "Title on initialization error screen"
+  },
+  "initializationErrorMessage": "The app failed to initialize properly.",
+  "@initializationErrorMessage": {
+    "description": "Message on initialization error screen"
+  },
+  "unableToCheckForUpdates": "Unable to check for updates. Please try again later.",
+  "@unableToCheckForUpdates": {
+    "description": "Fallback error message when app version check fails"
+  },
+  "accountApprovedRedirecting": "Your account has been approved! Redirecting...",
+  "@accountApprovedRedirecting": {
+    "description": "Account status message when account is approved and app is redirecting"
+  },
+  "accountPendingApprovalMessage": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.",
+  "@accountPendingApprovalMessage": {
+    "description": "Detailed account status message shown while account is pending approval"
+  },
+  "accountPendingApprovalMessageShort": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.",
+  "@accountPendingApprovalMessageShort": {
+    "description": "Short account status message shown for unknown status fallback"
+  },
+  "accountSuspendedMessage": "Your account has been suspended. Please contact support for assistance.",
+  "@accountSuspendedMessage": {
+    "description": "Account status message shown when account is suspended"
+  },
+  "accountRejectedMessage": "Your account has been rejected. Please contact support for more information.",
+  "@accountRejectedMessage": {
+    "description": "Account status message shown when account is rejected"
+  }
 }
+
+

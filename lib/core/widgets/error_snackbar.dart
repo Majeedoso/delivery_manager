@@ -33,8 +33,7 @@ class ErrorSnackBar {
     final localizations = AppLocalizations.of(context);
     if (localizations == null) {
       // Fallback if localization is not available
-      // Use the English translation for 'anErrorOccurred' key as fallback
-      final fallbackMessage = error?.toString() ?? 'An error occurred';
+      final fallbackMessage = error?.toString() ?? '';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(fallbackMessage),

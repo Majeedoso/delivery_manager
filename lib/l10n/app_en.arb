@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appName": "Delivery Driver",
+  "appName": "Delivery Manager",
   "@appName": {
     "description": "The name of the application"
   },
@@ -256,7 +256,7 @@
   "@aboutApp": {
     "description": "About app screen title"
   },
-  "aboutDescription": "This application is designed for delivery drivers to manage their deliveries efficiently. Drivers can view available orders, accept delivery requests, navigate to pickup and delivery locations, update delivery status in real-time, set their availability schedule, and track their earnings.",
+  "aboutDescription": "The Manager app gives you complete oversight of the entire delivery platform. Approve users, monitor performance, configure system settings, and manage delivery zones — all from a powerful admin dashboard.",
   "@aboutDescription": {
     "description": "Description of the app shown in about page"
   },
@@ -264,35 +264,35 @@
   "@features": {
     "description": "Features section title"
   },
-  "userAuthentication": "User Authentication",
+  "userAuthentication": "User Management",
   "@userAuthentication": {
     "description": "User authentication feature"
   },
-  "userAuthenticationDescription": "Secure login and registration system",
+  "userAuthenticationDescription": "Approve drivers, restaurants, and operators, and manage account suspensions",
   "@userAuthenticationDescription": {
     "description": "User authentication description"
   },
-  "multiLanguageSupport": "Multi-Language Support",
+  "multiLanguageSupport": "Analytics & Reports",
   "@multiLanguageSupport": {
     "description": "Multi-language support feature"
   },
-  "multiLanguageSupportDescription": "Support for multiple languages",
+  "multiLanguageSupportDescription": "Monitor revenue, order trends, and platform performance through detailed dashboards",
   "@multiLanguageSupportDescription": {
     "description": "Multi-language support description"
   },
-  "secureStorage": "Secure Storage",
+  "secureStorage": "System Settings",
   "@secureStorage": {
     "description": "Secure storage feature"
   },
-  "secureStorageDescription": "Secure storage for sensitive data",
+  "secureStorageDescription": "Configure delivery fees, commission rates, and platform-wide operational rules",
   "@secureStorageDescription": {
     "description": "Secure storage description"
   },
-  "googleSignIn": "Google Sign-In",
+  "googleSignIn": "Zone Management",
   "@googleSignIn": {
     "description": "Google sign-in feature"
   },
-  "googleSignInDescription": "Quick sign-in with Google account",
+  "googleSignInDescription": "Define and activate delivery zones to control where orders can be placed",
   "@googleSignInDescription": {
     "description": "Google sign-in description"
   },
@@ -300,7 +300,7 @@
   "@contactUs": {
     "description": "Contact us section title"
   },
-  "copyright": "© 2024 Delivery Driver. All rights reserved.",
+  "copyright": "© 2025 Delivery Manager. All rights reserved.",
   "@copyright": {
     "description": "Copyright text"
   },
@@ -3190,5 +3190,69 @@
   "driversTab": "Drivers",
   "@driversTab": {
     "description": "Drivers tab label in ratings screen"
+  },
+  "dashboard": "Dashboard",
+  "failedToLoadSettings": "Failed to load settings",
+  "noSettingsFound": "No settings found",
+  "noSettingsInThisCategory": "No settings in this category",
+  "settingUpdatedSuccessfully": "Setting updated successfully",
+  "emptyInParentheses": "(empty)",
+  "currentValue": "Current value",
+  "keyLabel": "Key",
+  "editValue": "Edit value",
+  "newValue": "New value",
+  "invalidRouteArguments": "Invalid route arguments",
+  "invalidAppVersionArgument": "Invalid app version argument",
+  "globalCoupons": "Global Coupons",
+  "enterVerificationCode": "Enter Verification Code",
+  "weSentVerificationCodeTo": "We sent a verification code to {email}",
+  "@weSentVerificationCodeTo": {
+    "placeholders": {
+      "email": {}
+    }
+  },
+  "confirmAccountDeletionCodeMessage": "Please enter the code to confirm account deletion. This action cannot be undone.",
+  "enableInSettings": "Enable in Settings",
+  "notificationPermissionNeededMessage": "This app needs notification permission to:",
+  "notificationBenefitNewOrders": "• Alert you about new delivery orders",
+  "notificationBenefitStatusUpdates": "• Notify you of order status updates",
+  "notificationBenefitImportantAlerts": "• Send important delivery alerts",
+  "notificationPermissionWarning": "Without notifications, you won't receive new orders and the app cannot function properly.",
+  "notificationPermissionDeniedInstructions": "Notification permission was denied. To enable it:",
+  "stepTapOpenSettings": "1. Tap \"Open Settings\" below",
+  "stepFindNotificationsInSettings": "2. Find \"Notifications\" in the app settings",
+  "stepEnableAllowNotifications": "3. Enable \"Allow notifications\"",
+  "stepReturnToApp": "4. Return to the app",
+  "initializationErrorTitle": "Initialization Error",
+  "@initializationErrorTitle": {
+    "description": "Title on initialization error screen"
+  },
+  "initializationErrorMessage": "The app failed to initialize properly.",
+  "@initializationErrorMessage": {
+    "description": "Message on initialization error screen"
+  },
+  "unableToCheckForUpdates": "Unable to check for updates. Please try again later.",
+  "@unableToCheckForUpdates": {
+    "description": "Fallback error message when app version check fails"
+  },
+  "accountApprovedRedirecting": "Your account has been approved! Redirecting...",
+  "@accountApprovedRedirecting": {
+    "description": "Account status message when account is approved and app is redirecting"
+  },
+  "accountPendingApprovalMessage": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.",
+  "@accountPendingApprovalMessage": {
+    "description": "Detailed account status message shown while account is pending approval"
+  },
+  "accountPendingApprovalMessageShort": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.",
+  "@accountPendingApprovalMessageShort": {
+    "description": "Short account status message shown for unknown status fallback"
+  },
+  "accountSuspendedMessage": "Your account has been suspended. Please contact support for assistance.",
+  "@accountSuspendedMessage": {
+    "description": "Account status message shown when account is suspended"
+  },
+  "accountRejectedMessage": "Your account has been rejected. Please contact support for more information.",
+  "@accountRejectedMessage": {
+    "description": "Account status message shown when account is rejected"
   }
 }

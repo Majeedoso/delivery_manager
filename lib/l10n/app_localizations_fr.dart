@@ -9,7 +9,7 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
-  String get appName => 'Chauffeur de Livraison';
+  String get appName => 'Gestionnaire de Livraison';
 
   @override
   String get login => 'Connexion';
@@ -193,40 +193,40 @@ class AppLocalizationsFr extends AppLocalizations {
   String get aboutApp => 'À propos de l\'application';
 
   @override
-  String get aboutDescription => 'Cette application est conçue pour les chauffeurs de livraison afin de gérer efficacement leurs livraisons. Les chauffeurs peuvent voir les commandes disponibles, accepter les demandes de livraison, naviguer vers les lieux de collecte et de livraison, mettre à jour le statut de livraison en temps réel, définir leur horaire de disponibilité et suivre leurs gains.';
+  String get aboutDescription => 'L\'application Gestionnaire vous donne une supervision complète de toute la plateforme de livraison. Approuvez les utilisateurs, surveillez les performances, configurez les paramètres système et gérez les zones de livraison — le tout depuis un tableau de bord d\'administration puissant.';
 
   @override
   String get features => 'Fonctionnalités';
 
   @override
-  String get userAuthentication => 'Authentification utilisateur';
+  String get userAuthentication => 'Gestion des utilisateurs';
 
   @override
-  String get userAuthenticationDescription => 'Système de connexion et d\'inscription sécurisé';
+  String get userAuthenticationDescription => 'Approuver les chauffeurs, restaurants et opérateurs, et gérer les suspensions de comptes';
 
   @override
-  String get multiLanguageSupport => 'Support multilingue';
+  String get multiLanguageSupport => 'Analyses et rapports';
 
   @override
-  String get multiLanguageSupportDescription => 'Support pour plusieurs langues';
+  String get multiLanguageSupportDescription => 'Suivre les revenus, les tendances des commandes et les performances de la plateforme via des tableaux de bord détaillés';
 
   @override
-  String get secureStorage => 'Stockage sécurisé';
+  String get secureStorage => 'Paramètres système';
 
   @override
-  String get secureStorageDescription => 'Stockage sécurisé pour les données sensibles';
+  String get secureStorageDescription => 'Configurer les frais de livraison, les taux de commission et les règles opérationnelles de la plateforme';
 
   @override
-  String get googleSignIn => 'Connexion Google';
+  String get googleSignIn => 'Gestion des zones';
 
   @override
-  String get googleSignInDescription => 'Connexion rapide avec un compte Google';
+  String get googleSignInDescription => 'Définir et activer des zones de livraison pour contrôler où les commandes peuvent être passées';
 
   @override
   String get contactUs => 'Nous contacter';
 
   @override
-  String get copyright => '© 2024 Chauffeur de Livraison. Tous droits réservés.';
+  String get copyright => '© 2025 Gestionnaire de Livraison. Tous droits réservés.';
 
   @override
   String get website => 'Site web';
@@ -2571,4 +2571,111 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get driversTab => 'Chauffeurs';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get failedToLoadSettings => 'Failed to load settings';
+
+  @override
+  String get noSettingsFound => 'No settings found';
+
+  @override
+  String get noSettingsInThisCategory => 'No settings in this category';
+
+  @override
+  String get settingUpdatedSuccessfully => 'Setting updated successfully';
+
+  @override
+  String get emptyInParentheses => '(empty)';
+
+  @override
+  String get currentValue => 'Current value';
+
+  @override
+  String get keyLabel => 'Key';
+
+  @override
+  String get editValue => 'Edit value';
+
+  @override
+  String get newValue => 'New value';
+
+  @override
+  String get invalidRouteArguments => 'Invalid route arguments';
+
+  @override
+  String get invalidAppVersionArgument => 'Invalid app version argument';
+
+  @override
+  String get globalCoupons => 'Global Coupons';
+
+  @override
+  String get enterVerificationCode => 'Enter Verification Code';
+
+  @override
+  String weSentVerificationCodeTo(Object email) {
+    return 'We sent a verification code to $email';
+  }
+
+  @override
+  String get confirmAccountDeletionCodeMessage => 'Please enter the code to confirm account deletion. This action cannot be undone.';
+
+  @override
+  String get enableInSettings => 'Enable in Settings';
+
+  @override
+  String get notificationPermissionNeededMessage => 'This app needs notification permission to:';
+
+  @override
+  String get notificationBenefitNewOrders => 'Alert you about new delivery orders';
+
+  @override
+  String get notificationBenefitStatusUpdates => 'Notify you of order status updates';
+
+  @override
+  String get notificationBenefitImportantAlerts => 'Send important delivery alerts';
+
+  @override
+  String get notificationPermissionWarning => 'Without notifications, you won\'t receive new orders and the app cannot function properly.';
+
+  @override
+  String get notificationPermissionDeniedInstructions => 'Notification permission was denied. To enable it:';
+
+  @override
+  String get stepTapOpenSettings => '1. Tap \"Open Settings\" below';
+
+  @override
+  String get stepFindNotificationsInSettings => '2. Find \"Notifications\" in the app settings';
+
+  @override
+  String get stepEnableAllowNotifications => '3. Enable \"Allow notifications\"';
+
+  @override
+  String get stepReturnToApp => '4. Return to the app';
+
+  @override
+  String get initializationErrorTitle => 'Initialization Error';
+
+  @override
+  String get initializationErrorMessage => 'The app failed to initialize properly.';
+
+  @override
+  String get unableToCheckForUpdates => 'Unable to check for updates. Please try again later.';
+
+  @override
+  String get accountApprovedRedirecting => 'Your account has been approved! Redirecting...';
+
+  @override
+  String get accountPendingApprovalMessage => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.';
+
+  @override
+  String get accountPendingApprovalMessageShort => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.';
+
+  @override
+  String get accountSuspendedMessage => 'Your account has been suspended. Please contact support for assistance.';
+
+  @override
+  String get accountRejectedMessage => 'Your account has been rejected. Please contact support for more information.';
 }

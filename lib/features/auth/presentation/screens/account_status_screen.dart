@@ -22,7 +22,7 @@ class AccountStatusScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -34,7 +34,7 @@ class AccountStatusScreen extends StatelessWidget {
               Icons.settings,
               color: Theme.of(context).colorScheme.onSurface,
             ),
-            tooltip: localizations?.settings ?? 'Settings',
+            tooltip: localizations.settings,
           ),
         ],
       ),
@@ -188,7 +188,7 @@ class AccountStatusScreen extends StatelessWidget {
                         isEmailVerificationRequired
                             ? localizations.emailVerificationRequired
                             : (user.isApproved && user.hasVerifiedEmail)
-                            ? 'Your account has been approved! Redirecting...'
+                            ? localizations.accountApprovedRedirecting
                             : _getStatusMessage(
                                 effectiveStatus,
                                 user.rejectionReason,
@@ -217,7 +217,7 @@ class AccountStatusScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                'Rejection Reason:',
+                                localizations.rejectionReason,
                                 style: Theme.of(context).textTheme.titleMedium
                                     ?.copyWith(
                                       color:
@@ -499,9 +499,11 @@ class AccountStatusScreen extends StatelessWidget {
                                       ),
                                       Expanded(
                                         flex: 8,
-                                        child: const Text(
-                                          'Logout',
-                                          style: TextStyle(color: Colors.white),
+                                        child: Text(
+                                          localizations.logout,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
                                           textAlign: TextAlign.start,
                                         ),
                                       ),
@@ -538,9 +540,11 @@ class AccountStatusScreen extends StatelessWidget {
                                       ),
                                       Expanded(
                                         flex: 8,
-                                        child: const Text(
-                                          'Logout',
-                                          style: TextStyle(color: Colors.white),
+                                        child: Text(
+                                          localizations.logout,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                          ),
                                           textAlign: TextAlign.start,
                                         ),
                                       ),
@@ -585,15 +589,16 @@ class AccountStatusScreen extends StatelessWidget {
   }
 
   String _getStatusTitle(String? status, BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     switch (status) {
       case 'pending_approval':
-        return 'Account Pending Approval';
+        return l.pendingApproval;
       case 'suspended':
-        return 'Account Suspended';
+        return l.suspended;
       case 'rejected':
-        return 'Account Rejected';
+        return l.rejectedStatus;
       default:
-        return 'Account Status';
+        return l.accountStatus;
     }
   }
 
@@ -602,19 +607,20 @@ class AccountStatusScreen extends StatelessWidget {
     String? rejectionReason,
     BuildContext context,
   ) {
+    final l = AppLocalizations.of(context)!;
     switch (status) {
       case 'pending_approval':
-        return 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.';
+        return l.accountPendingApprovalMessage;
       case 'suspended':
-        return 'Your account has been suspended. Please contact support for assistance.';
+        return l.accountSuspendedMessage;
       case 'rejected':
-        return 'Your account has been rejected. Please contact support for more information.';
+        return l.accountRejectedMessage;
       case 'active':
       case 'approved':
-        return 'Your account has been approved! Redirecting...';
+        return l.accountApprovedRedirecting;
       default:
         // For unknown statuses, default to pending approval message instead of error
-        return 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.';
+        return l.accountPendingApprovalMessageShort;
     }
   }
 }

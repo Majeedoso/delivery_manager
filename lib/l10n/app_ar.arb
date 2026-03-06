@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "appName": "سائق التوصيل",
+  "appName": "مدير التوصيل",
   "login": "تسجيل الدخول",
   "signUp": "إنشاء حساب",
   "email": "البريد الإلكتروني",
@@ -66,18 +66,18 @@
   "version": "الإصدار",
   "checkForUpdates": "التحقق من التحديثات",
   "aboutApp": "حول التطبيق",
-  "aboutDescription": "هذا التطبيق مصمم لسائقي التوصيل لإدارة عمليات التوصيل بكفاءة. يمكن للسائقين عرض الطلبات المتاحة وقبول طلبات التوصيل والتنقل إلى مواقع الاستلام والتسليم وتحديث حالة التوصيل في الوقت الفعلي وتحديد جدول التوفر الخاص بهم وتتبع أرباحهم.",
+  "aboutDescription": "تطبيق المدير يمنحك إشرافاً كاملاً على منصة التوصيل بأكملها. وافق على المستخدمين، راقب الأداء، اضبط إعدادات النظام، وأدِر مناطق التوصيل — كل ذلك من لوحة تحكم إدارية متكاملة.",
   "features": "الميزات",
-  "userAuthentication": "مصادقة المستخدم",
-  "userAuthenticationDescription": "نظام تسجيل دخول وإنشاء حساب آمن",
-  "multiLanguageSupport": "دعم متعدد اللغات",
-  "multiLanguageSupportDescription": "دعم للغات متعددة",
-  "secureStorage": "التخزين الآمن",
-  "secureStorageDescription": "تخزين آمن للبيانات الحساسة",
-  "googleSignIn": "تسجيل الدخول بجوجل",
-  "googleSignInDescription": "تسجيل دخول سريع بحساب جوجل",
+  "userAuthentication": "إدارة المستخدمين",
+  "userAuthenticationDescription": "الموافقة على السائقين والمطاعم والمشغلين وإدارة تعليق الحسابات",
+  "multiLanguageSupport": "التحليلات والتقارير",
+  "multiLanguageSupportDescription": "متابعة الإيرادات واتجاهات الطلبات وأداء المنصة عبر لوحات معلومات مفصلة",
+  "secureStorage": "إعدادات النظام",
+  "secureStorageDescription": "ضبط رسوم التوصيل ونسب العمولة والقواعد التشغيلية للمنصة",
+  "googleSignIn": "إدارة المناطق",
+  "googleSignInDescription": "تحديد مناطق التوصيل وتفعيلها للتحكم في أماكن قبول الطلبات",
   "contactUs": "اتصل بنا",
-  "copyright": "© 2024 سائق التوصيل. جميع الحقوق محفوظة.",
+  "copyright": "© 2025 مدير التوصيل. جميع الحقوق محفوظة.",
   "website": "الموقع الإلكتروني",
   "editProfile": "تعديل الملف الشخصي",
   "changePassword": "تغيير كلمة المرور",
@@ -886,4 +886,71 @@
   "noRatingsYet": "لا توجد تقييمات بعد",
   "driversTab": "السائقون",
   "totalCredits": "إجمالي الأرصدة"
+,
+  "dashboard": "Dashboard",
+  "failedToLoadSettings": "Failed to load settings",
+  "noSettingsFound": "No settings found",
+  "noSettingsInThisCategory": "No settings in this category",
+  "settingUpdatedSuccessfully": "Setting updated successfully",
+  "emptyInParentheses": "(empty)",
+  "currentValue": "Current value",
+  "keyLabel": "Key",
+  "editValue": "Edit value",
+  "newValue": "New value",
+  "invalidRouteArguments": "Invalid route arguments",
+  "invalidAppVersionArgument": "Invalid app version argument",
+  "globalCoupons": "Global Coupons",
+  "enterVerificationCode": "Enter Verification Code",
+  "weSentVerificationCodeTo": "We sent a verification code to {email}",
+  "@weSentVerificationCodeTo": {
+    "placeholders": {
+      "email": {}
+    }
+  },
+  "confirmAccountDeletionCodeMessage": "Please enter the code to confirm account deletion. This action cannot be undone.",
+  "enableInSettings": "Enable in Settings",
+  "notificationPermissionNeededMessage": "This app needs notification permission to:",
+  "notificationBenefitNewOrders": "Alert you about new delivery orders",
+  "notificationBenefitStatusUpdates": "Notify you of order status updates",
+  "notificationBenefitImportantAlerts": "Send important delivery alerts",
+  "notificationPermissionWarning": "Without notifications, you won't receive new orders and the app cannot function properly.",
+  "notificationPermissionDeniedInstructions": "Notification permission was denied. To enable it:",
+  "stepTapOpenSettings": "1. Tap \"Open Settings\" below",
+  "stepFindNotificationsInSettings": "2. Find \"Notifications\" in the app settings",
+  "stepEnableAllowNotifications": "3. Enable \"Allow notifications\"",
+  "stepReturnToApp": "4. Return to the app",
+  "initializationErrorTitle": "Initialization Error",
+  "@initializationErrorTitle": {
+    "description": "Title on initialization error screen"
+  },
+  "initializationErrorMessage": "The app failed to initialize properly.",
+  "@initializationErrorMessage": {
+    "description": "Message on initialization error screen"
+  },
+  "unableToCheckForUpdates": "Unable to check for updates. Please try again later.",
+  "@unableToCheckForUpdates": {
+    "description": "Fallback error message when app version check fails"
+  },
+  "accountApprovedRedirecting": "Your account has been approved! Redirecting...",
+  "@accountApprovedRedirecting": {
+    "description": "Account status message when account is approved and app is redirecting"
+  },
+  "accountPendingApprovalMessage": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.",
+  "@accountPendingApprovalMessage": {
+    "description": "Detailed account status message shown while account is pending approval"
+  },
+  "accountPendingApprovalMessageShort": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.",
+  "@accountPendingApprovalMessageShort": {
+    "description": "Short account status message shown for unknown status fallback"
+  },
+  "accountSuspendedMessage": "Your account has been suspended. Please contact support for assistance.",
+  "@accountSuspendedMessage": {
+    "description": "Account status message shown when account is suspended"
+  },
+  "accountRejectedMessage": "Your account has been rejected. Please contact support for more information.",
+  "@accountRejectedMessage": {
+    "description": "Account status message shown when account is rejected"
+  }
 }
+
+

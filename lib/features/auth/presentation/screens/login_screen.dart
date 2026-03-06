@@ -649,7 +649,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  "© 2024. All rights reserved.",
+                                  AppLocalizations.of(context)!.copyright,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.grey[500],

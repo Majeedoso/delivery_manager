@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'Delivery Driver';
+  String get appName => 'Delivery Manager';
 
   @override
   String get login => 'Login';
@@ -193,40 +193,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutApp => 'About App';
 
   @override
-  String get aboutDescription => 'This application is designed for delivery drivers to manage their deliveries efficiently. Drivers can view available orders, accept delivery requests, navigate to pickup and delivery locations, update delivery status in real-time, set their availability schedule, and track their earnings.';
+  String get aboutDescription => 'The Manager app gives you complete oversight of the entire delivery platform. Approve users, monitor performance, configure system settings, and manage delivery zones — all from a powerful admin dashboard.';
 
   @override
   String get features => 'Features';
 
   @override
-  String get userAuthentication => 'User Authentication';
+  String get userAuthentication => 'User Management';
 
   @override
-  String get userAuthenticationDescription => 'Secure login and registration system';
+  String get userAuthenticationDescription => 'Approve drivers, restaurants, and operators, and manage account suspensions';
 
   @override
-  String get multiLanguageSupport => 'Multi-Language Support';
+  String get multiLanguageSupport => 'Analytics & Reports';
 
   @override
-  String get multiLanguageSupportDescription => 'Support for multiple languages';
+  String get multiLanguageSupportDescription => 'Monitor revenue, order trends, and platform performance through detailed dashboards';
 
   @override
-  String get secureStorage => 'Secure Storage';
+  String get secureStorage => 'System Settings';
 
   @override
-  String get secureStorageDescription => 'Secure storage for sensitive data';
+  String get secureStorageDescription => 'Configure delivery fees, commission rates, and platform-wide operational rules';
 
   @override
-  String get googleSignIn => 'Google Sign-In';
+  String get googleSignIn => 'Zone Management';
 
   @override
-  String get googleSignInDescription => 'Quick sign-in with Google account';
+  String get googleSignInDescription => 'Define and activate delivery zones to control where orders can be placed';
 
   @override
   String get contactUs => 'Contact Us';
 
   @override
-  String get copyright => '© 2024 Delivery Driver. All rights reserved.';
+  String get copyright => '© 2025 Delivery Manager. All rights reserved.';
 
   @override
   String get website => 'Website';
@@ -2571,4 +2571,111 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get driversTab => 'Drivers';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get failedToLoadSettings => 'Failed to load settings';
+
+  @override
+  String get noSettingsFound => 'No settings found';
+
+  @override
+  String get noSettingsInThisCategory => 'No settings in this category';
+
+  @override
+  String get settingUpdatedSuccessfully => 'Setting updated successfully';
+
+  @override
+  String get emptyInParentheses => '(empty)';
+
+  @override
+  String get currentValue => 'Current value';
+
+  @override
+  String get keyLabel => 'Key';
+
+  @override
+  String get editValue => 'Edit value';
+
+  @override
+  String get newValue => 'New value';
+
+  @override
+  String get invalidRouteArguments => 'Invalid route arguments';
+
+  @override
+  String get invalidAppVersionArgument => 'Invalid app version argument';
+
+  @override
+  String get globalCoupons => 'Global Coupons';
+
+  @override
+  String get enterVerificationCode => 'Enter Verification Code';
+
+  @override
+  String weSentVerificationCodeTo(Object email) {
+    return 'We sent a verification code to $email';
+  }
+
+  @override
+  String get confirmAccountDeletionCodeMessage => 'Please enter the code to confirm account deletion. This action cannot be undone.';
+
+  @override
+  String get enableInSettings => 'Enable in Settings';
+
+  @override
+  String get notificationPermissionNeededMessage => 'This app needs notification permission to:';
+
+  @override
+  String get notificationBenefitNewOrders => '• Alert you about new delivery orders';
+
+  @override
+  String get notificationBenefitStatusUpdates => '• Notify you of order status updates';
+
+  @override
+  String get notificationBenefitImportantAlerts => '• Send important delivery alerts';
+
+  @override
+  String get notificationPermissionWarning => 'Without notifications, you won\'t receive new orders and the app cannot function properly.';
+
+  @override
+  String get notificationPermissionDeniedInstructions => 'Notification permission was denied. To enable it:';
+
+  @override
+  String get stepTapOpenSettings => '1. Tap \"Open Settings\" below';
+
+  @override
+  String get stepFindNotificationsInSettings => '2. Find \"Notifications\" in the app settings';
+
+  @override
+  String get stepEnableAllowNotifications => '3. Enable \"Allow notifications\"';
+
+  @override
+  String get stepReturnToApp => '4. Return to the app';
+
+  @override
+  String get initializationErrorTitle => 'Initialization Error';
+
+  @override
+  String get initializationErrorMessage => 'The app failed to initialize properly.';
+
+  @override
+  String get unableToCheckForUpdates => 'Unable to check for updates. Please try again later.';
+
+  @override
+  String get accountApprovedRedirecting => 'Your account has been approved! Redirecting...';
+
+  @override
+  String get accountPendingApprovalMessage => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.';
+
+  @override
+  String get accountPendingApprovalMessageShort => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.';
+
+  @override
+  String get accountSuspendedMessage => 'Your account has been suspended. Please contact support for assistance.';
+
+  @override
+  String get accountRejectedMessage => 'Your account has been rejected. Please contact support for more information.';
 }

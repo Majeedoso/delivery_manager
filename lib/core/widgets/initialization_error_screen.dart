@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
+import 'package:delivery_manager/l10n/app_localizations.dart';
 
 /// Screen displayed when app initialization fails
 /// 
@@ -21,6 +22,7 @@ class InitializationErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MaterialTheme.lightTheme(),
@@ -44,7 +46,7 @@ class InitializationErrorScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    'Initialization Error',
+                    l.initializationErrorTitle,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
@@ -53,7 +55,7 @@ class InitializationErrorScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'The app failed to initialize properly.',
+                    l.initializationErrorMessage,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
@@ -89,7 +91,7 @@ class InitializationErrorScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Retry',
+                          l.retry,
                           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),

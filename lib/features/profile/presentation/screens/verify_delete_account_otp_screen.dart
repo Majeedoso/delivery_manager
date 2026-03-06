@@ -154,6 +154,7 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authBloc = context.read<AuthBloc>();
     final userEmail = authBloc.state.user?.email ?? '';
 
@@ -240,7 +241,7 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Delete Account'),
+          title: Text(l10n.deleteAccount),
         ),
         body: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, profileState) {
@@ -265,7 +266,7 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
                           ),
                           SizedBox(height: 3.h),
                           Text(
-                            'Enter Verification Code',
+                            l10n.enterVerificationCode,
                             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Theme.of(context).colorScheme.onSurface,
@@ -274,7 +275,7 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
                           ),
                           SizedBox(height: 2.h),
                           Text(
-                            'We sent a verification code to $userEmail',
+                            l10n.weSentVerificationCodeTo(userEmail),
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
@@ -282,7 +283,7 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
                           ),
                           SizedBox(height: 1.h),
                           Text(
-                            'Please enter the code to confirm account deletion. This action cannot be undone.',
+                            l10n.confirmAccountDeletionCodeMessage,
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Colors.red.shade700,
                               fontWeight: FontWeight.w500,
@@ -326,7 +327,7 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
                                       borderRadius: BorderRadius.circular(12.0),
                                     ),
                                   ),
-                                  child: const Text('Delete Account'),
+                                  child: Text(l10n.deleteAccount),
                                 ),
                               );
                             },

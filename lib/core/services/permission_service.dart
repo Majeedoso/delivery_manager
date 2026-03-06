@@ -1,9 +1,10 @@
-import 'package:permission_handler/permission_handler.dart' as permission_handler;
+﻿import 'package:permission_handler/permission_handler.dart' as permission_handler;
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/core/services/base_permission_service.dart';
+import 'package:delivery_manager/l10n/app_localizations.dart';
 
 /// PermissionService handles notification permission requests and checks
 ///
@@ -126,6 +127,7 @@ class PermissionService implements BasePermissionService {
   /// This dialog explains why notification permission is needed
   /// and provides options to enable it or exit the app
   Future<bool> showPermissionDialog(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     return await showDialog<bool>(
       context: context,
       barrierDismissible: false, // User must make a choice
@@ -138,7 +140,7 @@ class PermissionService implements BasePermissionService {
               size: 28,
             ),
             SizedBox(width: 12),
-            Text('Notifications Required'),
+            Text(l10n.notificationsRequired),
           ],
         ),
         content: Column(
@@ -146,16 +148,16 @@ class PermissionService implements BasePermissionService {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'This app needs notification permission to:',
+              l10n.notificationPermissionNeededMessage,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Text('• Alert you about new delivery orders'),
-            Text('• Notify you of order status updates'),
-            Text('• Send important delivery alerts'),
+            Text(l10n.notificationBenefitNewOrders),
+            Text(l10n.notificationBenefitStatusUpdates),
+            Text(l10n.notificationBenefitImportantAlerts),
             SizedBox(height: 16),
             Text(
-              'Without notifications, you won\'t receive new orders and the app cannot function properly.',
+              l10n.notificationPermissionWarning,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
                 color: Colors.grey[600],
@@ -168,13 +170,13 @@ class PermissionService implements BasePermissionService {
             onPressed: () {
               Navigator.of(context).pop(false);
             },
-            child: Text('Exit App'),
+            child: Text(l10n.exitApp),
           ),
           ElevatedButton(
             onPressed: () async {
               Navigator.of(context).pop(true);
             },
-            child: Text('Enable Notifications'),
+            child: Text(l10n.enableNotifications),
           ),
         ],
       ),
@@ -186,6 +188,7 @@ class PermissionService implements BasePermissionService {
   /// This dialog appears when permission is permanently denied
   /// and guides the user to enable it in app settings
   Future<bool> showSettingsDialog(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     return await showDialog<bool>(
       context: context,
       barrierDismissible: true,
@@ -198,7 +201,7 @@ class PermissionService implements BasePermissionService {
               size: 28,
             ),
             SizedBox(width: 12),
-            Text('Enable in Settings'),
+            Text(l10n.enableInSettings),
           ],
         ),
         content: Column(
@@ -206,14 +209,14 @@ class PermissionService implements BasePermissionService {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Notification permission was denied. To enable it:',
+              l10n.notificationPermissionDeniedInstructions,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 12),
-            Text('1. Tap "Open Settings" below'),
-            Text('2. Find "Notifications" in the app settings'),
-            Text('3. Enable "Allow notifications"'),
-            Text('4. Return to the app'),
+            Text(l10n.stepTapOpenSettings),
+            Text(l10n.stepFindNotificationsInSettings),
+            Text(l10n.stepEnableAllowNotifications),
+            Text(l10n.stepReturnToApp),
             SizedBox(height: 16),
           ],
         ),
@@ -240,7 +243,7 @@ class PermissionService implements BasePermissionService {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'Open Settings',
+                    l10n.openSettings,
                     maxLines: 1,
                     softWrap: false,
                   ),

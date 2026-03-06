@@ -6,6 +6,7 @@ import 'package:delivery_manager/features/dashboard/domain/entities/app_dashboar
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_bloc.dart';
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_event.dart';
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_state.dart';
+import 'package:delivery_manager/l10n/app_localizations.dart';
 
 class DashboardCategoryScreen extends StatefulWidget {
   final String category;
@@ -21,21 +22,22 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<DashboardBloc>()
-        .add(LoadSettingsEvent(category: widget.category));
+    context.read<DashboardBloc>().add(
+      LoadSettingsEvent(category: widget.category),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(title: Text(_formatLabel(widget.category))),
       body: BlocConsumer<DashboardBloc, DashboardState>(
         listener: (context, state) {
           if (state.updateStatus == DashboardUpdateStatus.success) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Setting updated successfully'),
+              SnackBar(
+                content: Text(l10n.settingUpdatedSuccessfully),
                 backgroundColor: Colors.green,
                 duration: Duration(seconds: 2),
               ),
@@ -66,20 +68,20 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      state.errorMessage ?? 'Failed to load settings',
+                      state.errorMessage ?? l10n.failedToLoadSettings,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     SizedBox(height: 2.h),
                     ElevatedButton.icon(
                       onPressed: () => context.read<DashboardBloc>().add(
-                            LoadSettingsEvent(
-                              category: widget.category,
-                              refresh: true,
-                            ),
-                          ),
+                        LoadSettingsEvent(
+                          category: widget.category,
+                          refresh: true,
+                        ),
+                      ),
                       icon: const Icon(Icons.refresh),
-                      label: const Text('Retry'),
+                      label: Text(l10n.retry),
                     ),
                   ],
                 ),
@@ -89,17 +91,14 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
 
           if (state.settings.isEmpty &&
               state.settingsStatus == DashboardSettingsStatus.loaded) {
-            return const Center(child: Text('No settings in this category'));
+            return Center(child: Text(l10n.noSettingsInThisCategory));
           }
 
           return RefreshIndicator(
             onRefresh: () async {
               context.read<DashboardBloc>().add(
-                    LoadSettingsEvent(
-                      category: widget.category,
-                      refresh: true,
-                    ),
-                  );
+                LoadSettingsEvent(category: widget.category, refresh: true),
+              );
             },
             child: ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
@@ -119,16 +118,16 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
     AppDashboard setting,
     DashboardState state,
   ) {
-    final isUpdatingThis = state.updatingSettingId == setting.id &&
+    final l10n = AppLocalizations.of(context)!;
+    final isUpdatingThis =
+        state.updatingSettingId == setting.id &&
         state.updateStatus == DashboardUpdateStatus.loading;
 
     return Card(
       margin: EdgeInsets.symmetric(vertical: 0.4.h, horizontal: 1.w),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: isUpdatingThis
-            ? null
-            : () => _showInfoDialog(context, setting),
+        onTap: isUpdatingThis ? null : () => _showInfoDialog(context, setting),
         onLongPress: isUpdatingThis
             ? null
             : () => _showEditBottomSheet(context, setting),
@@ -144,18 +143,9 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                     Text(
                       _formatLabel(setting.key),
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                    ),
-                    if (setting.description.isNotEmpty) ...[
-                      SizedBox(height: 0.3.h),
-                      Text(
-                        setting.description,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.w600,
                       ),
-                    ],
+                    ),
                     SizedBox(height: 0.6.h),
                     Wrap(
                       spacing: 1.w,
@@ -163,7 +153,7 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                       children: [
                         _buildChip(
                           context,
-                          setting.value.isEmpty ? '(empty)' : setting.value,
+                          setting.value.isEmpty ? l10n.emptyInParentheses : setting.value,
                           Theme.of(context).colorScheme.primaryContainer,
                           Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
@@ -179,8 +169,8 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                   ],
                 ),
               ),
-              SizedBox(width: 2.w),
-              if (isUpdatingThis)
+              if (isUpdatingThis) ...[
+                SizedBox(width: 2.w),
                 SizedBox(
                   width: 20,
                   height: 20,
@@ -188,13 +178,8 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                     strokeWidth: 2,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                )
-              else
-                Icon(
-                  Icons.info_outline,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  size: 20,
                 ),
+              ],
             ],
           ),
         ),
@@ -217,9 +202,9 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
       child: Text(
         label,
         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: textColor,
-              fontWeight: FontWeight.w500,
-            ),
+          color: textColor,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }
@@ -292,6 +277,31 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
     ),
 
     // ── delivery ─────────────────────────────────────────────────────────────
+    'minimum_delivery_fee': _SettingInfo(
+      role: 'Floor cap on the delivery fee',
+      explanation:
+          'The minimum amount a customer will ever be charged for delivery, '
+          'regardless of how close the restaurant is. For example, a value of '
+          '50 means even a 300-meter order still costs 50 DZD for delivery. '
+          'Set to 0 to disable the minimum — the formula result is used as-is.',
+    ),
+    'maximum_delivery_fee': _SettingInfo(
+      role: 'Ceiling cap on the delivery fee',
+      explanation:
+          'The maximum amount a customer can be charged for delivery, regardless '
+          'of how far the restaurant is. For example, a value of 500 means a '
+          '20 km order is never more than 500 DZD. '
+          'Set to 0 to disable the cap — the formula result is used as-is.',
+    ),
+    'max_driver_concurrent_orders': _SettingInfo(
+      role: 'Maximum simultaneous orders per driver',
+      explanation:
+          'The highest number of active orders a single driver can hold at the '
+          'same time. Once a driver reaches this limit, new orders will not be '
+          'dispatched to them until they complete or hand off an existing one. '
+          'Increase this for high-demand periods; lower it to ensure drivers '
+          'stay focused and delivery times remain short.',
+    ),
     'fixed_delivery_fee': _SettingInfo(
       role: 'Base flat delivery charge',
       explanation:
@@ -443,9 +453,73 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
           'step entirely, going straight to the restaurant. '
           'Lowering this value fast-tracks trust; raising it adds more scrutiny.',
     ),
+
+    // ── loyalty & promotions ─────────────────────────────────────────────────
+    'loyalty_enabled': _SettingInfo(
+      role: 'Enable or disable the loyalty points system',
+      explanation:
+          'When true, customers earn points on every delivered order and can '
+          'redeem them for discount coupons. When false, no points are awarded '
+          'and the redemption endpoint returns an error. Use this to pause the '
+          'loyalty programme without deleting any existing point balances.',
+    ),
+    'loyalty_earn_rate': _SettingInfo(
+      role: 'Points earned per DZD spent',
+      explanation:
+          'The number of loyalty points a customer receives for each Algerian '
+          'Dinar of their order subtotal (excluding the delivery fee). '
+          'For example, a value of 0.1 means a 1000 DZD order earns 100 points. '
+          'Increasing this rate makes the programme more rewarding; '
+          'decreasing it reduces the cost to the platform.',
+    ),
+    'loyalty_redeem_rate': _SettingInfo(
+      role: 'DZD discount value per point redeemed',
+      explanation:
+          'How much one loyalty point is worth when a customer redeems it '
+          'for a coupon. For example, a value of 0.5 means 200 points '
+          'generates a 100 DZD discount coupon. This controls the real '
+          'monetary cost of the loyalty programme — lower values protect '
+          'margins; higher values attract more redemptions.',
+    ),
+    'loyalty_min_redeem_points': _SettingInfo(
+      role: 'Minimum points required to redeem',
+      explanation:
+          'Customers cannot redeem fewer than this many points in a single '
+          'transaction. Setting a floor (e.g. 100 points) prevents customers '
+          'from generating tiny, administratively costly coupons and encourages '
+          'them to accumulate a meaningful balance before redeeming.',
+    ),
+    'loyalty_tiers': _SettingInfo(
+      role: 'Point thresholds for redemption tiers',
+      explanation:
+          'A JSON array listing the exact point amounts customers can redeem '
+          'at one time (e.g. [100, 500, 1000, 2000]). When a customer opens '
+          'the redemption screen, only these tier options are shown. '
+          'Each tier must be ≥ loyalty_min_redeem_points. '
+          'Edit as a valid JSON array: [value1, value2, ...].',
+    ),
+    'max_coupons_per_category': _SettingInfo(
+      role: 'Max coupons of the same type per order',
+      explanation:
+          'The maximum number of coupons from the same category (e.g. two '
+          '"percentage off" coupons) that can be applied to a single order. '
+          'Setting this to 1 prevents customers from stacking multiple '
+          'discount codes of the same kind. Increase it if you want to allow '
+          'combining similar promotions.',
+    ),
+    'max_coupon_categories': _SettingInfo(
+      role: 'Max different coupon types per order',
+      explanation:
+          'The maximum number of different coupon categories (e.g. one '
+          'percentage coupon + one loyalty coupon) that can be active on a '
+          'single order at the same time. This is the overall coupon stack '
+          'limit. For example, a value of 2 means a customer can apply at '
+          'most 2 different types of discounts to one order.',
+    ),
   };
 
   void _showInfoDialog(BuildContext context, AppDashboard setting) {
+    final l10n = AppLocalizations.of(context)!;
     final info = _settingExplanations[setting.key];
     showDialog<void>(
       context: context,
@@ -459,8 +533,10 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
               // Role badge
               if (info != null) ...[
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.4.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 2.w,
+                    vertical: 0.4.h,
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primaryContainer,
                     borderRadius: BorderRadius.circular(6),
@@ -468,10 +544,9 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                   child: Text(
                     info.role,
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 SizedBox(height: 1.2.h),
@@ -484,19 +559,22 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                 Divider(height: 1, color: Theme.of(context).dividerColor),
                 SizedBox(height: 1.2.h),
               ],
-              _buildInfoRow(context, 'Current value',
-                  setting.value.isEmpty ? '(empty)' : setting.value),
+              _buildInfoRow(
+                context,
+                l10n.currentValue,
+                setting.value.isEmpty ? l10n.emptyInParentheses : setting.value,
+              ),
               SizedBox(height: 0.8.h),
-              _buildInfoRow(context, 'Type', setting.type),
+              _buildInfoRow(context, l10n.type, setting.type),
               SizedBox(height: 0.8.h),
-              _buildInfoRow(context, 'Key', setting.key),
+              _buildInfoRow(context, l10n.keyLabel, setting.key),
             ],
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
+            child: Text(l10n.ok),
           ),
         ],
       ),
@@ -510,15 +588,12 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
         Text(
           '$label: ',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
         Flexible(
-          child: Text(
-            value,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
+          child: Text(value, style: Theme.of(context).textTheme.bodySmall),
         ),
       ],
     );
@@ -527,6 +602,7 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
   // ── Long-tap: bottom sheet → edit dialog ──────────────────────────────────
 
   void _showEditBottomSheet(BuildContext context, AppDashboard setting) {
+    final l10n = AppLocalizations.of(context)!;
     final bloc = context.read<DashboardBloc>();
     showModalBottomSheet<void>(
       context: context,
@@ -553,8 +629,8 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                 child: Text(
                   _formatLabel(setting.key),
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                    fontWeight: FontWeight.w600,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -564,7 +640,7 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                   Icons.edit_outlined,
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: const Text('Edit value'),
+                title: Text(l10n.editValue),
                 onTap: () {
                   Navigator.of(sheetContext).pop();
                   _showEditDialog(context, setting, bloc);
@@ -594,6 +670,13 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
   }
 
   String _formatLabel(String raw) {
+    const labels = {
+      'customers_orders': 'Customers & Orders',
+      'loyalty_promotions': 'Loyalty & Promotions',
+      'api_integrations': 'API & Integrations',
+      'legal_contact': 'Legal & Contact',
+    };
+    if (labels.containsKey(raw.toLowerCase())) return labels[raw.toLowerCase()]!;
     return raw
         .replaceAll('_', ' ')
         .split(' ')
@@ -641,18 +724,18 @@ class _SettingEditDialogState extends State<_SettingEditDialog> {
             Text(
               widget.setting.description,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
             SizedBox(height: 1.h),
           ],
           Row(
             children: [
               Text(
-                'Type: ',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                '${AppLocalizations.of(context)!.type}: ',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600),
               ),
               Text(
                 widget.setting.type,
@@ -663,8 +746,8 @@ class _SettingEditDialogState extends State<_SettingEditDialog> {
           SizedBox(height: 1.5.h),
           TextField(
             controller: _controller,
-            decoration: const InputDecoration(
-              labelText: 'New value',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.newValue,
               border: OutlineInputBorder(),
             ),
             autofocus: true,
@@ -675,7 +758,7 @@ class _SettingEditDialogState extends State<_SettingEditDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         ElevatedButton(
           onPressed: () {
@@ -684,7 +767,7 @@ class _SettingEditDialogState extends State<_SettingEditDialog> {
             Navigator.of(context).pop();
             widget.onConfirm(newValue);
           },
-          child: const Text('Confirm'),
+          child: Text(AppLocalizations.of(context)!.confirm),
         ),
       ],
     );
