@@ -98,35 +98,44 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return BlocProvider(
-      create: (context) =>
-          sl<CouponsBloc>()..add(
-            LoadCouponsEvent(
-              refresh: true,
-              discountTarget: widget.discountTarget,
-            ),
+      create: (context) => sl<CouponsBloc>()
+        ..add(
+          LoadCouponsEvent(
+            refresh: true,
+            discountTarget: widget.discountTarget,
           ),
+        ),
       child: Scaffold(
         backgroundColor: Colors.grey.shade50,
         appBar: AppBar(
           title: Text(widget.title),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
+          backgroundColor: isDark ? Colors.black : Colors.white,
+          foregroundColor: isDark ? Colors.white : Colors.black,
           elevation: 0,
           actions: [
             PopupMenuButton<String?>(
               icon: Icon(
                 Icons.filter_list,
-                color: _selectedStatus != null
+                color: isDark
+                    ? Colors.white
+                    : _selectedStatus != null
                     ? const Color(0xFFFF781F)
                     : Colors.grey,
               ),
               onSelected: _onStatusFilterChanged,
               itemBuilder: (context) => [
                 PopupMenuItem(value: null, child: Text(localizations.all)),
-                PopupMenuItem(value: 'active', child: Text(localizations.active)),
+                PopupMenuItem(
+                  value: 'active',
+                  child: Text(localizations.active),
+                ),
                 PopupMenuItem(value: 'draft', child: Text(localizations.draft)),
-                PopupMenuItem(value: 'disabled', child: Text(localizations.disabled)),
+                PopupMenuItem(
+                  value: 'disabled',
+                  child: Text(localizations.disabled),
+                ),
               ],
             ),
           ],
@@ -403,11 +412,7 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
               // Targeting info
               Row(
                 children: [
-                  Icon(
-                    Icons.store,
-                    size: 14.sp,
-                    color: Colors.grey.shade500,
-                  ),
+                  Icon(Icons.store, size: 14.sp, color: Colors.grey.shade500),
                   SizedBox(width: 1.w),
                   Expanded(
                     child: Text(
@@ -461,7 +466,9 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
                   ),
                   SizedBox(width: 2.w),
                   Text(
-                    coupon.type == 'percentage' ? localizations.off : localizations.discount,
+                    coupon.type == 'percentage'
+                        ? localizations.off
+                        : localizations.discount,
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: Colors.grey.shade600,

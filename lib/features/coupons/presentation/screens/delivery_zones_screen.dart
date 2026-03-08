@@ -27,10 +27,11 @@ class _DeliveryZonesScreenState extends State<DeliveryZonesScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.couponZones),
-        backgroundColor: const Color(0xFFFF781F),
+        backgroundColor: isDark ? Colors.black : const Color(0xFFFF781F),
         foregroundColor: Colors.white,
         elevation: 0,
         actions: [
@@ -49,14 +50,18 @@ class _DeliveryZonesScreenState extends State<DeliveryZonesScreen> {
           if (state.zoneOperationStatus == ZoneOperationStatus.success) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.zoneOperationMessage ?? localizations.success),
+                content: Text(
+                  state.zoneOperationMessage ?? localizations.success,
+                ),
                 backgroundColor: Colors.green,
               ),
             );
           } else if (state.zoneOperationStatus == ZoneOperationStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.zoneOperationMessage ?? localizations.errorOccurred),
+                content: Text(
+                  state.zoneOperationMessage ?? localizations.errorOccurred,
+                ),
                 backgroundColor: Colors.red,
               ),
             );
@@ -248,7 +253,11 @@ class _DeliveryZonesScreenState extends State<DeliveryZonesScreen> {
                           value: 'delete',
                           child: Row(
                             children: [
-                              const Icon(Icons.delete, size: 20, color: Colors.red),
+                              const Icon(
+                                Icons.delete,
+                                size: 20,
+                                color: Colors.red,
+                              ),
                               const SizedBox(width: 8),
                               Text(
                                 localizations.delete,
@@ -348,149 +357,153 @@ class _DeliveryZonesScreenState extends State<DeliveryZonesScreen> {
       builder: (dialogContext) {
         final localizations = AppLocalizations.of(dialogContext)!;
         return AlertDialog(
-          title: Text(isEditing ? localizations.editZone : localizations.createZone),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: localizations.zoneNameRequired,
-                  hintText: localizations.zoneNameHint,
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 2.h),
-              TextField(
-                controller: descController,
-                decoration: InputDecoration(
-                  labelText: localizations.description,
-                  hintText: localizations.optionalDescription,
-                  border: const OutlineInputBorder(),
-                ),
-                maxLines: 2,
-              ),
-              SizedBox(height: 2.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: latController,
-                      decoration: InputDecoration(
-                        labelText: localizations.latitude,
-                        hintText: localizations.latitudeHint,
-                        border: const OutlineInputBorder(),
-                      ),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                        signed: true,
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                          RegExp(r'^-?\d*\.?\d*$'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 3.w),
-                  Expanded(
-                    child: TextField(
-                      controller: lngController,
-                      decoration: InputDecoration(
-                        labelText: localizations.longitude,
-                        hintText: localizations.longitudeHint,
-                        border: const OutlineInputBorder(),
-                      ),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                        signed: true,
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                          RegExp(r'^-?\d*\.?\d*$'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 2.h),
-              TextField(
-                controller: radiusController,
-                decoration: InputDecoration(
-                  labelText: localizations.radiusKm,
-                  hintText: localizations.radiusHint,
-                  border: const OutlineInputBorder(),
-                  suffixText: localizations.km,
-                ),
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
-                ],
-              ),
-            ],
+          title: Text(
+            isEditing ? localizations.editZone : localizations.createZone,
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(localizations.cancel),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final name = nameController.text.trim();
-              if (name.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(localizations.zoneNameIsRequired),
-                    backgroundColor: Colors.red,
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    labelText: localizations.zoneNameRequired,
+                    hintText: localizations.zoneNameHint,
+                    border: const OutlineInputBorder(),
                   ),
-                );
-                return;
-              }
-
-              final lat = double.tryParse(latController.text.trim());
-              final lng = double.tryParse(lngController.text.trim());
-              final radius = double.tryParse(radiusController.text.trim());
-
-              if (isEditing) {
-                this.context.read<CouponsBloc>().add(
-                  UpdateDeliveryZoneEvent(
-                    id: zone.id,
-                    name: name,
-                    description: descController.text.trim().isEmpty
-                        ? null
-                        : descController.text.trim(),
-                    latitude: lat,
-                    longitude: lng,
-                    radiusKm: radius,
+                ),
+                SizedBox(height: 2.h),
+                TextField(
+                  controller: descController,
+                  decoration: InputDecoration(
+                    labelText: localizations.description,
+                    hintText: localizations.optionalDescription,
+                    border: const OutlineInputBorder(),
                   ),
-                );
-              } else {
-                this.context.read<CouponsBloc>().add(
-                  CreateDeliveryZoneEvent(
-                    name: name,
-                    description: descController.text.trim().isEmpty
-                        ? null
-                        : descController.text.trim(),
-                    latitude: lat,
-                    longitude: lng,
-                    radiusKm: radius,
+                  maxLines: 2,
+                ),
+                SizedBox(height: 2.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: latController,
+                        decoration: InputDecoration(
+                          labelText: localizations.latitude,
+                          hintText: localizations.latitudeHint,
+                          border: const OutlineInputBorder(),
+                        ),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                          signed: true,
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'^-?\d*\.?\d*$'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 3.w),
+                    Expanded(
+                      child: TextField(
+                        controller: lngController,
+                        decoration: InputDecoration(
+                          labelText: localizations.longitude,
+                          hintText: localizations.longitudeHint,
+                          border: const OutlineInputBorder(),
+                        ),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                          signed: true,
+                        ),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'^-?\d*\.?\d*$'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2.h),
+                TextField(
+                  controller: radiusController,
+                  decoration: InputDecoration(
+                    labelText: localizations.radiusKm,
+                    hintText: localizations.radiusHint,
+                    border: const OutlineInputBorder(),
+                    suffixText: localizations.km,
                   ),
-                );
-              }
-
-              Navigator.of(context).pop();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFF781F),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
+                  ],
+                ),
+              ],
             ),
-            child: Text(isEditing ? localizations.update : localizations.create),
           ),
-        ],
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(localizations.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final name = nameController.text.trim();
+                if (name.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(localizations.zoneNameIsRequired),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return;
+                }
+
+                final lat = double.tryParse(latController.text.trim());
+                final lng = double.tryParse(lngController.text.trim());
+                final radius = double.tryParse(radiusController.text.trim());
+
+                if (isEditing) {
+                  this.context.read<CouponsBloc>().add(
+                    UpdateDeliveryZoneEvent(
+                      id: zone.id,
+                      name: name,
+                      description: descController.text.trim().isEmpty
+                          ? null
+                          : descController.text.trim(),
+                      latitude: lat,
+                      longitude: lng,
+                      radiusKm: radius,
+                    ),
+                  );
+                } else {
+                  this.context.read<CouponsBloc>().add(
+                    CreateDeliveryZoneEvent(
+                      name: name,
+                      description: descController.text.trim().isEmpty
+                          ? null
+                          : descController.text.trim(),
+                      latitude: lat,
+                      longitude: lng,
+                      radiusKm: radius,
+                    ),
+                  );
+                }
+
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFFF781F),
+              ),
+              child: Text(
+                isEditing ? localizations.update : localizations.create,
+              ),
+            ),
+          ],
         );
       },
     );

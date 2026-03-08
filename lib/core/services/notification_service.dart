@@ -8,7 +8,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:delivery_manager/core/services/services_locator.dart' show sl;
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/features/auth/domain/repository/base_token_repository.dart';
-import 'package:delivery_manager/main.dart' show navigatorKey;
+import 'package:delivery_manager/core/utils/app_navigator.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
 
 /// NotificationService handles both Firebase Cloud Messaging (FCM) and Local Notifications

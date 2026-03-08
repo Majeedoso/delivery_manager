@@ -305,6 +305,9 @@ class DefaultTheme {
       appBarTheme: AppBarTheme(
         backgroundColor: const Color(0xFF000000), // Pure black for dark theme
         foregroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        surfaceTintColor: Colors.black,
         elevation: 0,
         titleTextStyle: TextStyle(
           fontSize: 20.0,

@@ -347,6 +347,8 @@ class ErrorMessageMapper {
     ];
 
     String cleaned = message;
+    // Strip HTML tags to prevent injection of misleading UI strings
+    cleaned = cleaned.replaceAll(RegExp(r'<[^>]+>'), '');
     for (final prefix in technicalPrefixes) {
       if (cleaned.toLowerCase().startsWith(prefix.toLowerCase())) {
         cleaned = cleaned.substring(prefix.length);

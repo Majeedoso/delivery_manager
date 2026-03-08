@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:sizer/sizer.dart';
@@ -182,7 +182,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             } else if (state is PaymentRecorded) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.message),
+                  content: Text(state.message.replaceAll(RegExp(r'<[^>]+>'), '')),
                   backgroundColor: Colors.green,
                 ),
               );

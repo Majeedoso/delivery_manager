@@ -2,7 +2,6 @@ import 'package:delivery_manager/core/config/app_config.dart';
 
 class ApiConstance {
   static String get baseUrl => AppConfig.baseUrl;
-  //  static const String baseUrl = "http://192.168.1.38:8001/api";
 
   // Auth endpoints (relative paths - Dio has baseUrl configured)
   static const String registerPath = "/auth/register";

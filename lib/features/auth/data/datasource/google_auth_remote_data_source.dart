@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dio/dio.dart';
 import '../../../../core/network/api_constance.dart';
@@ -88,7 +89,9 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
   @override
   Future<app_user.User> signInWithGoogle() async {
     try {
-      print('🟡 [GOOGLE_AUTH] Starting Google Sign-In...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Starting Google Sign-In...');
+      }
       logger.debug('🔍 Starting Google Sign-In...');
 
       // Sign out and disconnect to force account picker to show
@@ -96,14 +99,20 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       // disconnect() revokes access tokens and clears cached account selection
       // This ensures a fresh sign-in flow every time, preventing auto-selection from other apps
       try {
-        print('🟡 [GOOGLE_AUTH] Signing out from previous Google session...');
+        if (kDebugMode) {
+          print('🟡 [GOOGLE_AUTH] Signing out from previous Google session...');
+        }
         await _googleSignIn.signOut();
-        print('🟡 [GOOGLE_AUTH] Signed out from previous Google session');
+        if (kDebugMode) {
+          print('🟡 [GOOGLE_AUTH] Signed out from previous Google session');
+        }
         logger.debug('🔍 Signed out from previous Google session');
       } catch (e) {
-        print(
-          '🟡 [GOOGLE_AUTH] No previous session to sign out (or sign out failed): $e',
-        );
+        if (kDebugMode) {
+          print(
+            '🟡 [GOOGLE_AUTH] No previous session to sign out (or sign out failed): $e',
+          );
+        }
         logger.debug(
           '🔍 No previous session to sign out (or sign out failed)',
           e,
@@ -111,15 +120,21 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       }
 
       try {
-        print('🟡 [GOOGLE_AUTH] Disconnecting from previous Google account...');
+        if (kDebugMode) {
+          print('🟡 [GOOGLE_AUTH] Disconnecting from previous Google account...');
+        }
         await _googleSignIn.disconnect();
-        print('🟡 [GOOGLE_AUTH] Disconnected from previous Google account');
+        if (kDebugMode) {
+          print('🟡 [GOOGLE_AUTH] Disconnected from previous Google account');
+        }
         logger.debug('🔍 Disconnected from previous Google account');
       } catch (e) {
         // If disconnect fails (e.g., no user signed in), continue anyway
-        print(
-          '🟡 [GOOGLE_AUTH] No previous account to disconnect (or disconnect failed): $e',
-        );
+        if (kDebugMode) {
+          print(
+            '🟡 [GOOGLE_AUTH] No previous account to disconnect (or disconnect failed): $e',
+          );
+        }
         logger.debug(
           '🔍 No previous account to disconnect (or disconnect failed)',
           e,
@@ -127,34 +142,48 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       }
 
       // Trigger the authentication flow
-      print('🟡 [GOOGLE_AUTH] Calling _googleSignIn.signIn()...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Calling _googleSignIn.signIn()...');
+      }
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      print('🟡 [GOOGLE_AUTH] Google user result: $googleUser');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Google user result: $googleUser');
+      }
       logger.debug('🔍 Google user result: $googleUser');
 
       if (googleUser == null) {
-        print('🔴 [GOOGLE_AUTH] Google sign-in was cancelled');
+        if (kDebugMode) {
+          print('🔴 [GOOGLE_AUTH] Google sign-in was cancelled');
+        }
         throw const ServerException(message: 'Google sign-in was cancelled');
       }
 
       // Obtain the auth details from the request
-      print('🟡 [GOOGLE_AUTH] Getting Google auth tokens...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Getting Google auth tokens...');
+      }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
-      print('🟡 [GOOGLE_AUTH] Google auth tokens received');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Google auth tokens received');
+      }
       logger.debug('🔍 Google auth tokens received');
 
       // Create a new credential
       // Note: In google_sign_in 7.x, accessToken and idToken are nullable strings
-      print('🟡 [GOOGLE_AUTH] Creating Firebase credential...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Creating Firebase credential...');
+      }
       final credential = firebase_auth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      print('🟡 [GOOGLE_AUTH] Signing in to Firebase (timeout: 30s)...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Signing in to Firebase (timeout: 30s)...');
+      }
       logger.debug('🔍 Signing in to Firebase...');
 
       // Sign in to Firebase with the Google credential (with timeout)
@@ -163,9 +192,11 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           .timeout(
             const Duration(seconds: 30),
             onTimeout: () {
-              print(
-                '🔴 [GOOGLE_AUTH] Firebase authentication TIMED OUT after 30 seconds',
-              );
+              if (kDebugMode) {
+                print(
+                  '🔴 [GOOGLE_AUTH] Firebase authentication TIMED OUT after 30 seconds',
+                );
+              }
               throw ServerException(
                 message: 'Firebase authentication timed out. Please try again.',
               );
@@ -173,10 +204,12 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           );
       final firebase_auth.User firebaseUser = userCredential.user!;
 
-      print('🟢 [GOOGLE_AUTH] Firebase authentication SUCCESS');
-      print('🟢 [GOOGLE_AUTH] Firebase user email: ${firebaseUser.email}');
-      print('🟢 [GOOGLE_AUTH] Firebase UID: ${firebaseUser.uid}');
-      print('🟢 [GOOGLE_AUTH] Google user ID: ${googleUser.id}');
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] Firebase authentication SUCCESS');
+        print('🟢 [GOOGLE_AUTH] Firebase user email: ${firebaseUser.email}');
+        print('🟢 [GOOGLE_AUTH] Firebase UID: ${firebaseUser.uid}');
+        print('🟢 [GOOGLE_AUTH] Google user ID: ${googleUser.id}');
+      }
       logger.debug('🔍 Firebase user: ${firebaseUser.email}');
       logger.debug('🔍 Firebase UID: ${firebaseUser.uid}');
       logger.debug('🔍 Google user ID from GoogleSignIn: ${googleUser.id}');
@@ -190,9 +223,11 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
         'app_type': 'manager', // Validate that user role matches manager app
       };
 
-      print('🟡 [GOOGLE_AUTH] Preparing backend request...');
-      print('🟡 [GOOGLE_AUTH] Request data: $requestData');
-      print('🟡 [GOOGLE_AUTH] Backend URL: ${ApiConstance.googleSignInPath}');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Preparing backend request...');
+        print('🟡 [GOOGLE_AUTH] Request data: $requestData');
+        print('🟡 [GOOGLE_AUTH] Backend URL: ${ApiConstance.googleSignInPath}');
+      }
       logger.debug('🔍 Sending to backend: $requestData');
       logger.debug('🔍 Backend URL: ${ApiConstance.googleSignInPath}');
       logger.debug('🔍 Attempting backend connection...');
@@ -200,9 +235,11 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       // Use longer timeouts for backend API call during sign-in
       // Backend might be slow, so we increase timeouts to allow more time
       DateTime startTime = DateTime.now();
-      print(
-        '🟡 [GOOGLE_AUTH] Sending POST request to backend (timeout: 90s)...',
-      );
+      if (kDebugMode) {
+        print(
+          '🟡 [GOOGLE_AUTH] Sending POST request to backend (timeout: 90s)...',
+        );
+      }
       final response = await _dio
           .post(
             ApiConstance.googleSignInPath,
@@ -220,12 +257,14 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
             const Duration(seconds: 90), // Total timeout including connection
             onTimeout: () {
               final elapsed = DateTime.now().difference(startTime).inSeconds;
-              print(
-                '🔴 [GOOGLE_AUTH] Backend request TIMED OUT after $elapsed seconds',
-              );
-              print(
-                '🔴 [GOOGLE_AUTH] Backend URL was: ${ApiConstance.googleSignInPath}',
-              );
+              if (kDebugMode) {
+                print(
+                  '🔴 [GOOGLE_AUTH] Backend request TIMED OUT after $elapsed seconds',
+                );
+                print(
+                  '🔴 [GOOGLE_AUTH] Backend URL was: ${ApiConstance.googleSignInPath}',
+                );
+              }
               logger.warning(
                 '🔍 Backend request timed out after $elapsed seconds',
               );
@@ -240,45 +279,57 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           );
 
       final elapsed = DateTime.now().difference(startTime).inSeconds;
-      print('🟢 [GOOGLE_AUTH] Backend request completed in $elapsed seconds');
-      print('🟢 [GOOGLE_AUTH] Response status: ${response.statusCode}');
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] Backend request completed in $elapsed seconds');
+        print('🟢 [GOOGLE_AUTH] Response status: ${response.statusCode}');
+      }
       logger.info('🔍 Backend request completed in $elapsed seconds');
 
-      print('🟢 [GOOGLE_AUTH] Backend response received');
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] Backend response received');
+      }
       logger.debug('🔍 Backend response received');
       logger.debug('🔍 Backend response status: ${response.statusCode}');
       logger.debug('🔍 Backend response data: ${response.data}');
 
       if (response.statusCode == 200) {
-        print(
-          '🟢 [GOOGLE_AUTH] Backend response status is 200, extracting user data...',
-        );
+        if (kDebugMode) {
+          print(
+            '🟢 [GOOGLE_AUTH] Backend response status is 200, extracting user data...',
+          );
+        }
         // Extract user data and token from response
         final userData = response.data['data']['user'] as Map<String, dynamic>;
         final token = response.data['data']['token'] as String?;
 
-        print('🟢 [GOOGLE_AUTH] Extracted token: $token');
+        if (kDebugMode) {
+          print('🟢 [GOOGLE_AUTH] Extracted token: $token');
+        }
         logger.debug('🔍 Extracted token: $token');
 
         // Add token to user data
         userData['token'] = token;
 
         final user = app_user.User.fromJson(userData);
-        print('🟢 [GOOGLE_AUTH] User created successfully: ${user.email}');
-        print('🟢 [GOOGLE_AUTH] User status: ${user.status}');
-        print('🟢 [GOOGLE_AUTH] User role: ${user.role}');
-        print(
-          '🟢 [GOOGLE_AUTH] User isPendingApproval: ${user.isPendingApproval}',
-        );
-        print('🟢 [GOOGLE_AUTH] User isApproved: ${user.isApproved}');
-        print('🟢 [GOOGLE_AUTH] Full user data: $userData');
+        if (kDebugMode) {
+          print('🟢 [GOOGLE_AUTH] User created successfully: ${user.email}');
+          print('🟢 [GOOGLE_AUTH] User status: ${user.status}');
+          print('🟢 [GOOGLE_AUTH] User role: ${user.role}');
+          print(
+            '🟢 [GOOGLE_AUTH] User isPendingApproval: ${user.isPendingApproval}',
+          );
+          print('🟢 [GOOGLE_AUTH] User isApproved: ${user.isApproved}');
+          print('🟢 [GOOGLE_AUTH] Full user data: $userData');
+        }
         logger.info('🔍 Created user with token: ${user.token}');
 
         return user;
       } else {
-        print(
-          '🔴 [GOOGLE_AUTH] Backend response status is NOT 200: ${response.statusCode}',
-        );
+        if (kDebugMode) {
+          print(
+            '🔴 [GOOGLE_AUTH] Backend response status is NOT 200: ${response.statusCode}',
+          );
+        }
         throw const ServerException(
           message: 'Failed to authenticate with backend',
         );
@@ -396,7 +447,9 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
   @override
   Future<app_user.User> signUpWithGoogle() async {
     try {
-      print('🟡 [GOOGLE_AUTH] Starting Google Sign-Up...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Starting Google Sign-Up...');
+      }
       logger.debug('🔍 Starting Google Sign-Up...');
 
       // Sign out and disconnect to force account picker to show
@@ -404,14 +457,20 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       // disconnect() revokes access tokens and clears cached account selection
       // This ensures a fresh sign-in flow every time, preventing auto-selection from other apps
       try {
-        print('🟡 [GOOGLE_AUTH] Signing out from previous Google session...');
+        if (kDebugMode) {
+          print('🟡 [GOOGLE_AUTH] Signing out from previous Google session...');
+        }
         await _googleSignIn.signOut();
-        print('🟡 [GOOGLE_AUTH] Signed out from previous Google session');
+        if (kDebugMode) {
+          print('🟡 [GOOGLE_AUTH] Signed out from previous Google session');
+        }
         logger.debug('🔍 Signed out from previous Google session');
       } catch (e) {
-        print(
-          '🟡 [GOOGLE_AUTH] No previous session to sign out (or sign out failed): $e',
-        );
+        if (kDebugMode) {
+          print(
+            '🟡 [GOOGLE_AUTH] No previous session to sign out (or sign out failed): $e',
+          );
+        }
         logger.debug(
           '🔍 No previous session to sign out (or sign out failed)',
           e,
@@ -419,15 +478,21 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       }
 
       try {
-        print('🟡 [GOOGLE_AUTH] Disconnecting from previous Google account...');
+        if (kDebugMode) {
+          print('🟡 [GOOGLE_AUTH] Disconnecting from previous Google account...');
+        }
         await _googleSignIn.disconnect();
-        print('🟡 [GOOGLE_AUTH] Disconnected from previous Google account');
+        if (kDebugMode) {
+          print('🟡 [GOOGLE_AUTH] Disconnected from previous Google account');
+        }
         logger.debug('🔍 Disconnected from previous Google account');
       } catch (e) {
         // If disconnect fails (e.g., no user signed in), continue anyway
-        print(
-          '🟡 [GOOGLE_AUTH] No previous account to disconnect (or disconnect failed): $e',
-        );
+        if (kDebugMode) {
+          print(
+            '🟡 [GOOGLE_AUTH] No previous account to disconnect (or disconnect failed): $e',
+          );
+        }
         logger.debug(
           '🔍 No previous account to disconnect (or disconnect failed)',
           e,
@@ -435,34 +500,48 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       }
 
       // Trigger the authentication flow
-      print('🟡 [GOOGLE_AUTH] Calling _googleSignIn.signIn()...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Calling _googleSignIn.signIn()...');
+      }
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
-      print('🟡 [GOOGLE_AUTH] Google user result: $googleUser');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Google user result: $googleUser');
+      }
       logger.debug('🔍 Google user result: $googleUser');
 
       if (googleUser == null) {
-        print('🔴 [GOOGLE_AUTH] Google sign-in was cancelled');
+        if (kDebugMode) {
+          print('🔴 [GOOGLE_AUTH] Google sign-in was cancelled');
+        }
         throw const ServerException(message: 'Google sign-in was cancelled');
       }
 
       // Obtain the auth details from the request
-      print('🟡 [GOOGLE_AUTH] Getting Google auth tokens...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Getting Google auth tokens...');
+      }
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
-      print('🟡 [GOOGLE_AUTH] Google auth tokens received');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Google auth tokens received');
+      }
       logger.debug('🔍 Google auth tokens received');
 
       // Create a new credential
       // Note: In google_sign_in 7.x, accessToken and idToken are nullable strings
-      print('🟡 [GOOGLE_AUTH] Creating Firebase credential...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Creating Firebase credential...');
+      }
       final credential = firebase_auth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
-      print('🟡 [GOOGLE_AUTH] Signing in to Firebase (timeout: 30s)...');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Signing in to Firebase (timeout: 30s)...');
+      }
       logger.debug('🔍 Signing in to Firebase...');
 
       // Sign in to Firebase with the Google credential (with timeout)
@@ -471,9 +550,11 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           .timeout(
             const Duration(seconds: 30),
             onTimeout: () {
-              print(
-                '🔴 [GOOGLE_AUTH] Firebase authentication TIMED OUT after 30 seconds',
-              );
+              if (kDebugMode) {
+                print(
+                  '🔴 [GOOGLE_AUTH] Firebase authentication TIMED OUT after 30 seconds',
+                );
+              }
               throw ServerException(
                 message: 'Firebase authentication timed out. Please try again.',
               );
@@ -481,10 +562,12 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           );
       final firebase_auth.User firebaseUser = userCredential.user!;
 
-      print('🟢 [GOOGLE_AUTH] Firebase authentication SUCCESS');
-      print('🟢 [GOOGLE_AUTH] Firebase user email: ${firebaseUser.email}');
-      print('🟢 [GOOGLE_AUTH] Firebase UID: ${firebaseUser.uid}');
-      print('🟢 [GOOGLE_AUTH] Google user ID: ${googleUser.id}');
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] Firebase authentication SUCCESS');
+        print('🟢 [GOOGLE_AUTH] Firebase user email: ${firebaseUser.email}');
+        print('🟢 [GOOGLE_AUTH] Firebase UID: ${firebaseUser.uid}');
+        print('🟢 [GOOGLE_AUTH] Google user ID: ${googleUser.id}');
+      }
       logger.debug('🔍 Firebase user: ${firebaseUser.email}');
       logger.debug('🔍 Firebase UID: ${firebaseUser.uid}');
       logger.debug('🔍 Google user ID from GoogleSignIn: ${googleUser.id}');
@@ -500,18 +583,22 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
             'manager', // Validate that user role matches manager app (for login if user exists)
       };
 
-      print('🟡 [GOOGLE_AUTH] Preparing backend request for SIGN-UP...');
-      print('🟡 [GOOGLE_AUTH] Request data: $requestData');
-      print('🟡 [GOOGLE_AUTH] Backend URL: ${ApiConstance.googleSignUpPath}');
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Preparing backend request for SIGN-UP...');
+        print('🟡 [GOOGLE_AUTH] Request data: $requestData');
+        print('🟡 [GOOGLE_AUTH] Backend URL: ${ApiConstance.googleSignUpPath}');
+      }
       logger.debug('🔍 Sending to backend: $requestData');
       logger.debug('🔍 Backend URL: ${ApiConstance.googleSignUpPath}');
       logger.debug('🔍 Attempting backend connection...');
 
       // Use longer timeouts for backend API call during sign-up
       DateTime startTime = DateTime.now();
-      print(
-        '🟡 [GOOGLE_AUTH] Sending POST request to backend (timeout: 90s)...',
-      );
+      if (kDebugMode) {
+        print(
+          '🟡 [GOOGLE_AUTH] Sending POST request to backend (timeout: 90s)...',
+        );
+      }
       final response = await _dio
           .post(
             ApiConstance.googleSignUpPath,
@@ -529,12 +616,14 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
             const Duration(seconds: 90), // Total timeout including connection
             onTimeout: () {
               final elapsed = DateTime.now().difference(startTime).inSeconds;
-              print(
-                '🔴 [GOOGLE_AUTH] Backend request TIMED OUT after $elapsed seconds',
-              );
-              print(
-                '🔴 [GOOGLE_AUTH] Backend URL was: ${ApiConstance.googleSignUpPath}',
-              );
+              if (kDebugMode) {
+                print(
+                  '🔴 [GOOGLE_AUTH] Backend request TIMED OUT after $elapsed seconds',
+                );
+                print(
+                  '🔴 [GOOGLE_AUTH] Backend URL was: ${ApiConstance.googleSignUpPath}',
+                );
+              }
               logger.warning(
                 '🔍 Backend request timed out after $elapsed seconds',
               );
@@ -549,59 +638,75 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           );
 
       final elapsed = DateTime.now().difference(startTime).inSeconds;
-      print('🟢 [GOOGLE_AUTH] Backend request completed in $elapsed seconds');
-      print('🟢 [GOOGLE_AUTH] Response status: ${response.statusCode}');
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] Backend request completed in $elapsed seconds');
+        print('🟢 [GOOGLE_AUTH] Response status: ${response.statusCode}');
+      }
       logger.info('🔍 Backend request completed in $elapsed seconds');
 
-      print('🟢 [GOOGLE_AUTH] Backend response received');
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] Backend response received');
+      }
       logger.debug('🔍 Backend response received');
       logger.debug('🔍 Backend response status: ${response.statusCode}');
       logger.debug('🔍 Backend response data: ${response.data}');
 
       if (response.statusCode == 200) {
-        print(
-          '🟢 [GOOGLE_AUTH] Backend response status is 200, extracting user data...',
-        );
+        if (kDebugMode) {
+          print(
+            '🟢 [GOOGLE_AUTH] Backend response status is 200, extracting user data...',
+          );
+        }
         // Extract user data and token from response
         final userData = response.data['data']['user'] as Map<String, dynamic>;
         final token = response.data['data']['token'] as String?;
 
-        print('🟢 [GOOGLE_AUTH] Extracted token: $token');
+        if (kDebugMode) {
+          print('🟢 [GOOGLE_AUTH] Extracted token: $token');
+        }
         logger.debug('🔍 Extracted token: $token');
 
         // Add token to user data
         userData['token'] = token;
 
         final user = app_user.User.fromJson(userData);
-        print('🟢 [GOOGLE_AUTH] User created successfully: ${user.email}');
-        print('🟢 [GOOGLE_AUTH] User status: ${user.status}');
-        print('🟢 [GOOGLE_AUTH] User role: ${user.role}');
-        print(
-          '🟢 [GOOGLE_AUTH] User isPendingApproval: ${user.isPendingApproval}',
-        );
-        print('🟢 [GOOGLE_AUTH] User isApproved: ${user.isApproved}');
-        print('🟢 [GOOGLE_AUTH] Full user data: $userData');
+        if (kDebugMode) {
+          print('🟢 [GOOGLE_AUTH] User created successfully: ${user.email}');
+          print('🟢 [GOOGLE_AUTH] User status: ${user.status}');
+          print('🟢 [GOOGLE_AUTH] User role: ${user.role}');
+          print(
+            '🟢 [GOOGLE_AUTH] User isPendingApproval: ${user.isPendingApproval}',
+          );
+          print('🟢 [GOOGLE_AUTH] User isApproved: ${user.isApproved}');
+          print('🟢 [GOOGLE_AUTH] Full user data: $userData');
+        }
         logger.info('🔍 Created user with token: ${user.token}');
 
         return user;
       } else {
-        print(
-          '🔴 [GOOGLE_AUTH] Backend response status is NOT 200: ${response.statusCode}',
-        );
+        if (kDebugMode) {
+          print(
+            '🔴 [GOOGLE_AUTH] Backend response status is NOT 200: ${response.statusCode}',
+          );
+        }
         throw const ServerException(message: 'Failed to register with backend');
       }
     } on firebase_auth.FirebaseAuthException catch (e) {
-      print('🔴 [GOOGLE_AUTH] FirebaseAuthException: ${e.message}');
+      if (kDebugMode) {
+        print('🔴 [GOOGLE_AUTH] FirebaseAuthException: ${e.message}');
+      }
       throw ServerException(
         message: 'Firebase authentication failed: ${e.message}',
       );
     } on DioException catch (e) {
-      print('🔴 [GOOGLE_AUTH] DioException caught: ${e.type}');
-      print('🔴 [GOOGLE_AUTH] DioException message: ${e.message}');
-      print('🔴 [GOOGLE_AUTH] DioException response: ${e.response?.data}');
-      print(
-        '🔴 [GOOGLE_AUTH] DioException status code: ${e.response?.statusCode}',
-      );
+      if (kDebugMode) {
+        print('🔴 [GOOGLE_AUTH] DioException caught: ${e.type}');
+        print('🔴 [GOOGLE_AUTH] DioException message: ${e.message}');
+        print('🔴 [GOOGLE_AUTH] DioException response: ${e.response?.data}');
+        print(
+          '🔴 [GOOGLE_AUTH] DioException status code: ${e.response?.statusCode}',
+        );
+      }
       logger.error(
         '🔍 DioException during Google Sign-Up: ${e.type}',
         error: e,
@@ -633,7 +738,9 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
         }
         errorMessage ??= e.message;
 
-        print('🔴 [GOOGLE_AUTH] Backend error (${statusCode}): $errorMessage');
+        if (kDebugMode) {
+          print('🔴 [GOOGLE_AUTH] Backend error ($statusCode): $errorMessage');
+        }
 
         // Handle specific HTTP status codes with user-friendly messages
         if (statusCode == 403) {
@@ -659,12 +766,14 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       } else {
         // Handle timeout and connection errors
         if (e.type == DioExceptionType.connectionTimeout) {
-          print(
-            '🔴 [GOOGLE_AUTH] Connection timeout: Cannot establish connection to server',
-          );
-          print(
-            '🔴 [GOOGLE_AUTH] Server URL: ${ApiConstance.googleSignUpPath}',
-          );
+          if (kDebugMode) {
+            print(
+              '🔴 [GOOGLE_AUTH] Connection timeout: Cannot establish connection to server',
+            );
+            print(
+              '🔴 [GOOGLE_AUTH] Server URL: ${ApiConstance.googleSignUpPath}',
+            );
+          }
           logger.warning(
             '🔍 Connection timeout: Cannot establish connection to server',
           );
@@ -682,17 +791,21 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           );
         } else if (e.type == DioExceptionType.receiveTimeout ||
             e.type == DioExceptionType.sendTimeout) {
-          print('🔴 [GOOGLE_AUTH] Timeout error: ${e.type}');
+          if (kDebugMode) {
+            print('🔴 [GOOGLE_AUTH] Timeout error: ${e.type}');
+          }
           logger.warning('🔍 Timeout error: ${e.type}');
           throw NetworkException(
             message:
                 'Request timeout. Please check your internet connection and try again.',
           );
         } else if (e.type == DioExceptionType.connectionError) {
-          print(
-            '🔴 [GOOGLE_AUTH] Connection error: Cannot reach server at ${ApiConstance.googleSignUpPath}',
-          );
-          print('🔴 [GOOGLE_AUTH] Server URL: ${ApiConstance.baseUrl}');
+          if (kDebugMode) {
+            print(
+              '🔴 [GOOGLE_AUTH] Connection error: Cannot reach server at ${ApiConstance.googleSignUpPath}',
+            );
+            print('🔴 [GOOGLE_AUTH] Server URL: ${ApiConstance.baseUrl}');
+          }
           logger.warning(
             '🔍 Connection error: Cannot reach server at ${ApiConstance.googleSignUpPath}',
           );
@@ -702,9 +815,11 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
                 'Cannot connect to server at ${ApiConstance.baseUrl}. Please check your internet connection and that the backend server is running.',
           );
         } else {
-          print(
-            '🔴 [GOOGLE_AUTH] Other DioException: ${e.type} - ${e.message}',
-          );
+          if (kDebugMode) {
+            print(
+              '🔴 [GOOGLE_AUTH] Other DioException: ${e.type} - ${e.message}',
+            );
+          }
           logger.error(
             '🔍 Other DioException: ${e.type} - ${e.message}',
             error: e,
@@ -713,7 +828,9 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
         }
       }
     } catch (e) {
-      print('🔴 [GOOGLE_AUTH] Unexpected error caught: $e');
+      if (kDebugMode) {
+        print('🔴 [GOOGLE_AUTH] Unexpected error caught: $e');
+      }
       // Extract proper error message
       String errorMessage = 'Unexpected error occurred';
       if (e is ServerException) {
@@ -725,9 +842,11 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       } else {
         errorMessage = e.toString();
       }
-      print(
-        '🔴 [GOOGLE_AUTH] Throwing ServerException with message: $errorMessage',
-      );
+      if (kDebugMode) {
+        print(
+          '🔴 [GOOGLE_AUTH] Throwing ServerException with message: $errorMessage',
+        );
+      }
       throw ServerException(message: errorMessage);
     }
   }

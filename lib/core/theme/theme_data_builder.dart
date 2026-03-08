@@ -240,6 +240,9 @@ class ThemeDataBuilder {
       appBarTheme: AppBarTheme(
         backgroundColor: const Color(0xFF000000), // Pure black for dark theme
         foregroundColor: Colors.white, // White text and icons
+        iconTheme: const IconThemeData(color: Colors.white),
+        actionsIconTheme: const IconThemeData(color: Colors.white),
+        surfaceTintColor: Colors.black,
         elevation: 0, // Remove shadow
         titleTextStyle: TextStyle(
           fontSize: ThemeConstants.defaultSizes['appBarTitle']!.sp,
@@ -395,7 +398,9 @@ class ThemeDataBuilder {
         backgroundColor: colorScheme.brightness == Brightness.dark
             ? const Color(0xFF000000) // Pure black for dark theme
             : const Color(0xFFFEF8F1), // Warm cream for light theme
-        foregroundColor: Colors.white, // White text/icons
+        foregroundColor: colorScheme.brightness == Brightness.dark
+            ? Colors.white
+            : Colors.black,
         elevation: 0, // Remove shadow
       ),
     );

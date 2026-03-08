@@ -86,7 +86,7 @@ class AccountStatusScreen extends StatelessWidget {
               if (localizations != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(state.message),
+                    content: Text(state.message.replaceAll(RegExp(r'<[^>]+>'), '')),
                     backgroundColor: Colors.red,
                   ),
                 );

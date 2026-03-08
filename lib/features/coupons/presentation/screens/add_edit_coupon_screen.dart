@@ -265,6 +265,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return PopScope(
       canPop: !_hasChanges,
       onPopInvokedWithResult: (didPop, result) async {
@@ -292,9 +293,13 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
         child: Scaffold(
           backgroundColor: Colors.grey.shade50,
           appBar: AppBar(
-            title: Text(widget.isEditing ? localizations.editCoupon : localizations.newCoupon),
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black,
+            title: Text(
+              widget.isEditing
+                  ? localizations.editCoupon
+                  : localizations.newCoupon,
+            ),
+            backgroundColor: isDark ? Colors.black : Colors.white,
+            foregroundColor: isDark ? Colors.white : Colors.black,
             elevation: 0,
             actions: [
               BlocBuilder<CouponsBloc, CouponsState>(
@@ -313,9 +318,13 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                             ),
                           )
                         : Text(
-                            widget.isEditing ? localizations.update : localizations.create,
+                            widget.isEditing
+                                ? localizations.update
+                                : localizations.create,
                             style: TextStyle(
-                              color: const Color(0xFFFF781F),
+                              color: isDark
+                                  ? Colors.white
+                                  : const Color(0xFFFF781F),
                               fontSize: 15.sp,
                               fontWeight: FontWeight.bold,
                             ),
@@ -397,7 +406,9 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                           keyboardType: TextInputType.number,
                           decoration: _inputDecoration(
                             hint: localizations.value,
-                            suffix: _selectedType == 'percentage' ? '%' : localizations.dzd,
+                            suffix: _selectedType == 'percentage'
+                                ? '%'
+                                : localizations.dzd,
                           ),
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
@@ -446,8 +457,8 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                           _discountTarget == 'delivery_fee'
                               ? Icons.local_shipping
                               : _discountTarget == 'final_total'
-                                  ? Icons.stars_rounded
-                                  : Icons.receipt_long,
+                              ? Icons.stars_rounded
+                              : Icons.receipt_long,
                           color: _discountTarget == 'final_total'
                               ? Colors.amber[700]
                               : Colors.grey.shade600,
@@ -458,8 +469,8 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                             _discountTarget == 'delivery_fee'
                                 ? localizations.deliveryFee
                                 : _discountTarget == 'final_total'
-                                    ? 'Final Total (Global)'
-                                    : localizations.orderSubtotal,
+                                ? 'Final Total (Global)'
+                                : localizations.orderSubtotal,
                             style: TextStyle(
                               fontSize: 13.sp,
                               color: _discountTarget == 'final_total'
@@ -917,23 +928,24 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                   : int.tryParse(idRaw?.toString() ?? '');
               if (id == null) return null;
               final name = restaurant['name']?.toString() ?? 'Unknown';
-              return DropdownMenuItem<int?>(
-                value: id,
-                child: Text(name),
-              );
+              return DropdownMenuItem<int?>(value: id, child: Text(name));
             })
             .whereType<DropdownMenuItem<int?>>()
             .toList();
 
         final selectedId = _selectedRestaurantId;
-        final hasSelected = selectedId != null &&
+        final hasSelected =
+            selectedId != null &&
             restaurantItems.any((item) => item.value == selectedId);
         if (selectedId != null && !hasSelected) {
           restaurantItems.insert(
             0,
             DropdownMenuItem<int?>(
               value: selectedId,
-              child: Text(widget.coupon?.restaurantName ?? localizations.selectedRestaurant),
+              child: Text(
+                widget.coupon?.restaurantName ??
+                    localizations.selectedRestaurant,
+              ),
             ),
           );
         }

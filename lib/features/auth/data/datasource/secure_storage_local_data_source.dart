@@ -55,7 +55,6 @@ class SecureStorageLocalDataSource implements BaseSecureStorageLocalDataSource {
 
   /// Storage keys for credentials
   static const String _emailKey = 'saved_email';
-  static const String _passwordKey = 'saved_password';
   static const String _rememberMeKey = 'remember_me';
 
   @override
@@ -66,7 +65,6 @@ class SecureStorageLocalDataSource implements BaseSecureStorageLocalDataSource {
   }) async {
     if (rememberMe) {
       await _storage.write(key: _emailKey, value: email);
-      await _storage.write(key: _passwordKey, value: password);
       await _storage.write(key: _rememberMeKey, value: 'true');
     } else {
       await clearCredentials();
@@ -76,12 +74,10 @@ class SecureStorageLocalDataSource implements BaseSecureStorageLocalDataSource {
   @override
   Future<Map<String, String?>> loadCredentials() async {
     final email = await _storage.read(key: _emailKey);
-    final password = await _storage.read(key: _passwordKey);
     final rememberMe = await _storage.read(key: _rememberMeKey);
 
     return {
       'email': email,
-      'password': password,
       'rememberMe': rememberMe == 'true' ? 'true' : null,
     };
   }
@@ -89,7 +85,6 @@ class SecureStorageLocalDataSource implements BaseSecureStorageLocalDataSource {
   @override
   Future<void> clearCredentials() async {
     await _storage.delete(key: _emailKey);
-    await _storage.delete(key: _passwordKey);
     await _storage.delete(key: _rememberMeKey);
   }
 

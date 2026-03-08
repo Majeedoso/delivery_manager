@@ -17,6 +17,7 @@ import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/core/widgets/error_dialog.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
+import 'package:flutter/foundation.dart';
 
 /// Login screen for user authentication
 ///
@@ -74,7 +75,6 @@ class _LoginScreenState extends State<LoginScreen> {
         if (credentials['rememberMe'] == 'true') {
           setState(() {
             _emailController.text = credentials['email'] ?? '';
-            _passwordController.text = credentials['password'] ?? '';
             _rememberMe = true;
           });
         }
@@ -87,30 +87,38 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         final logger = sl<LoggingService>();
-        print(
-          '🔵 [LOGIN_SCREEN] Received state - requestState: ${state.requestState}, isAuthenticated: ${state.isAuthenticated}',
-        );
-        print(
-          '🔵 [LOGIN_SCREEN] User: ${state.user?.email}, status: ${state.user?.status}, role: ${state.user?.role}',
-        );
+        if (kDebugMode) {
+          print(
+            '🔵 [LOGIN_SCREEN] Received state - requestState: ${state.requestState}, isAuthenticated: ${state.isAuthenticated}',
+          );
+          print(
+            '🔵 [LOGIN_SCREEN] User: ${state.user?.email}, status: ${state.user?.status}, role: ${state.user?.role}',
+          );
+        }
         logger.debug(
           'LoginScreen: Received state - requestState: ${state.requestState}, isAuthenticated: ${state.isAuthenticated}',
         );
         if (state.requestState == RequestState.loaded &&
             state.isAuthenticated) {
-          print(
-            '🔵 [LOGIN_SCREEN] Authentication successful, navigating based on user status...',
-          );
-          print(
-            '🔵 [LOGIN_SCREEN] User isPendingApproval: ${state.user?.isPendingApproval}',
-          );
-          print('🔵 [LOGIN_SCREEN] User isApproved: ${state.user?.isApproved}');
+          if (kDebugMode) {
+            print(
+              '🔵 [LOGIN_SCREEN] Authentication successful, navigating based on user status...',
+            );
+            print(
+              '🔵 [LOGIN_SCREEN] User isPendingApproval: ${state.user?.isPendingApproval}',
+            );
+            print(
+              '🔵 [LOGIN_SCREEN] User isApproved: ${state.user?.isApproved}',
+            );
+          }
           logger.info(
             'LoginScreen: Authentication successful, navigating based on user status...',
           );
           AuthNavigationHelper.navigateBasedOnUserStatus(context, state.user);
         } else if (state.requestState == RequestState.error) {
-          print('🔴 [LOGIN_SCREEN] Error: ${state.message}');
+          if (kDebugMode) {
+            print('🔴 [LOGIN_SCREEN] Error: ${state.message}');
+          }
           // Check for actionable errors that should show a dialog
           final errorMessage = state.message.toLowerCase();
 
@@ -141,6 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       builder: (context, state) {
         final isLoading = state.requestState == RequestState.loading;
+        final isDark = Theme.of(context).brightness == Brightness.dark;
 
         final List<Widget> stackChildren = <Widget>[
           Container(
@@ -680,25 +689,21 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         return Scaffold(
-          backgroundColor: const Color(0xFFFEF8F1),
+          backgroundColor: Theme.of(context).colorScheme.surface,
           appBar: AppBar(
-            backgroundColor: const Color(0xFFFEF8F1),
+            backgroundColor: isDark ? Colors.black : const Color(0xFFFEF8F1),
             elevation: 0,
             centerTitle: false,
             automaticallyImplyLeading: false,
             title: Text(
               AppLocalizations.of(context)!.login,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
             ),
             actions: [
               IconButton(
                 icon: Icon(
                   Icons.settings_outlined,
-                  color: Colors.grey[700],
+                  color: isDark ? Colors.white : Colors.grey[700],
                   size: 24.sp,
                 ),
                 onPressed: () =>

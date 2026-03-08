@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/features/auth/domain/entities/user.dart';
@@ -48,17 +49,23 @@ class AuthNavigationHelper {
   ///
   /// Removes all previous routes from the navigation stack
   static void navigateBasedOnUserStatus(BuildContext context, User? user) {
-    print('🔵 [NAV_HELPER] Navigating based on user status...');
-    print(
-      '🔵 [NAV_HELPER] User: ${user?.email}, status: ${user?.status}, role: ${user?.role}',
-    );
-    print(
-      '🔵 [NAV_HELPER] isPendingApproval: ${user?.isPendingApproval}, isApproved: ${user?.isApproved}',
-    );
-    print('🔵 [NAV_HELPER] hasVerifiedEmail: ${user?.hasVerifiedEmail}');
+    if (kDebugMode) {
+      print('🔵 [NAV_HELPER] Navigating based on user status...');
+      print(
+        '🔵 [NAV_HELPER] User: ${user?.email}, status: ${user?.status}, role: ${user?.role}',
+      );
+      print(
+        '🔵 [NAV_HELPER] isPendingApproval: ${user?.isPendingApproval}, isApproved: ${user?.isApproved}',
+      );
+      print('🔵 [NAV_HELPER] hasVerifiedEmail: ${user?.hasVerifiedEmail}');
+    }
     final route = getRouteForUser(user);
-    print('🔵 [NAV_HELPER] Selected route: $route');
+    if (kDebugMode) {
+      print('🔵 [NAV_HELPER] Selected route: $route');
+    }
     Navigator.of(context).pushNamedAndRemoveUntil(route, (route) => false);
-    print('🔵 [NAV_HELPER] Navigation completed');
+    if (kDebugMode) {
+      print('🔵 [NAV_HELPER] Navigation completed');
+    }
   }
 }

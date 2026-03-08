@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
@@ -46,7 +46,7 @@ class _BankScreenState extends State<BankScreen> {
             } else if (state is PaymentRecorded) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(state.message),
+                  content: Text(state.message.replaceAll(RegExp(r'<[^>]+>'), '')),
                   backgroundColor: Colors.green,
                 ),
               );

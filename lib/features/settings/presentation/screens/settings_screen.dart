@@ -98,6 +98,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     try {
       final uri = Uri.parse(url);
+      // Only allow http/https to prevent javascript:, file://, etc.
+      if (uri.scheme != 'https' && uri.scheme != 'http') {
+        if (mounted) {
+          ErrorSnackBar.show(
+            context,
+            AppLocalizations.of(context)!.urlNotAvailable,
+          );
+        }
+        return;
+      }
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (e) {
       if (mounted) {

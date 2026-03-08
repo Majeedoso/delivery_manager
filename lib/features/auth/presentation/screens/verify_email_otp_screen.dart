@@ -40,6 +40,8 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
   bool _isProcessing = false; // Guard to prevent multiple simultaneous calls
   String? _lastDetectedOtp;
   String? _initialClipboardOtp;
+  int _failedAttempts = 0;
+  static const int _maxAttempts = 5;
 
   @override
   void initState() {
@@ -421,17 +423,31 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
     } on DioException catch (e) {
       final localizations = AppLocalizations.of(context)!;
       String errorMessage = localizations.failedToVerifyEmailOtp;
+      bool isNetworkError = false;
       if (e.response != null) {
         errorMessage = e.response?.data['message'] ?? errorMessage;
       } else if (e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.sendTimeout) {
         errorMessage = localizations.requestTimeoutCheckConnection;
+        isNetworkError = true;
       } else if (e.type == DioExceptionType.connectionError) {
         errorMessage = localizations.cannotConnectToServer;
+        isNetworkError = true;
       }
 
       if (mounted) {
+        if (!isNetworkError) {
+          _failedAttempts++;
+          if (_failedAttempts >= _maxAttempts) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              AppRoutes.login,
+              (route) => false,
+            );
+            return;
+          }
+        }
         ErrorSnackBar.show(context, errorMessage);
       }
     } catch (e) {

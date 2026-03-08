@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/core/interceptors/retry_interceptor.dart';
+import 'package:delivery_manager/core/routes/app_routes.dart';
+import 'package:delivery_manager/core/utils/app_navigator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -41,6 +43,22 @@ class ApiService {
             options.headers['Accept-Language'] = 'ar';
           }
           handler.next(options);
+        },
+      ),
+    );
+
+    // 401 interceptor — clear token and redirect to login
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onError: (DioException error, ErrorInterceptorHandler handler) {
+          if (error.response?.statusCode == 401) {
+            clearAuthToken();
+            navigatorKey.currentState?.pushNamedAndRemoveUntil(
+              AppRoutes.login,
+              (route) => false,
+            );
+          }
+          handler.next(error);
         },
       ),
     );

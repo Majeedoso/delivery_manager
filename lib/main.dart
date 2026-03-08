@@ -10,7 +10,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:sizer/sizer.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/foundation.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/features/theme/presentation/controller/theme_bloc.dart';
 import 'package:delivery_manager/features/theme/presentation/controller/theme_event.dart';
@@ -22,6 +21,7 @@ import 'package:delivery_manager/core/widgets/initialization_error_screen.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/core/routes/route_generator.dart';
 import 'package:delivery_manager/core/utils/app_timeouts.dart';
+import 'package:delivery_manager/core/utils/app_navigator.dart';
 import 'package:delivery_manager/features/localization/presentation/controller/localization_bloc.dart';
 import 'package:delivery_manager/features/localization/presentation/controller/localization_event.dart';
 import 'package:delivery_manager/features/localization/presentation/controller/localization_state.dart';
@@ -41,9 +41,6 @@ final _initLogger = Logger(
     dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart,
   ),
 );
-
-// Global navigator key for notifications
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -233,13 +230,7 @@ void main() async {
   }
 
   // All critical initialization completed successfully
-  // Enable device preview only in debug mode
-  runApp(
-    DevicePreview(
-      enabled: false, // kDebugMode,
-      builder: (context) => const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 /// Shows error screen when initialization fails
@@ -341,11 +332,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                               : AppRoutes.splash;
 
                           return MaterialApp(
-                            // Use DevicePreview locale if enabled, otherwise use app locale
-                            locale:
-                                DevicePreview.locale(context) ??
-                                Locale(state.currentLanguage.code),
-                            builder: DevicePreview.appBuilder,
+                            locale: Locale(state.currentLanguage.code),
                             navigatorKey: navigatorKey,
                             debugShowCheckedModeBanner: false,
                             // Localization configuration

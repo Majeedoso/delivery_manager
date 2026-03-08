@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Network Security Configuration
+  ================================
+  - Cleartext (HTTP) is only permitted for localhost and the Android emulator
+    host (10.0.2.2) during local development.
+  - All other traffic must use HTTPS (enforced by Android 9+ by default, but
+    this config makes it explicit for older API levels as well).
+
+  PRODUCTION TODO — Certificate Pinning:
+  When deploying to production with a real HTTPS server, add a <pin-set> to
+  lock the app to your server's certificate. Example:
+
+      <domain-config>
+          <domain includeSubdomains="true">your-production-domain.com</domain>
+          <pin-set expiration="2027-01-01">
+              <pin digest="SHA-256">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</pin>
+              <pin digest="SHA-256">BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=</pin>
+          </pin-set>
+          <trustAnchors>
+              <certificates src="system"/>
+          </trustAnchors>
+      </domain-config>
+
+  To get your certificate's SHA-256 pin:
+      openssl s_client -connect your-domain.com:443 | openssl x509 -pubkey -noout | \
+        openssl pkey -pubin -outform DER | openssl dgst -sha256 -binary | base64
+-->
+<network-security-config>
+    <!-- Default: require HTTPS for all connections -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </base-config>
+
+    <!-- Allow HTTP only for local development targets -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>

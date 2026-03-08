@@ -102,7 +102,7 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                                 if (value == null || value.isEmpty) {
                                   return AppLocalizations.of(context)!.pleaseEnterEmail;
                                 }
-                                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                                if (!RegExp(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$').hasMatch(value)) {
                                   return AppLocalizations.of(context)!.pleaseEnterValidEmail;
                                 }
                                 if (state.profile != null && value == state.profile!.email) {

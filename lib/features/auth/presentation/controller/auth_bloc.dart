@@ -587,19 +587,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     GoogleSignInEvent event,
     Emitter<AuthState> emit,
   ) async {
-    print('🔵 [AUTH_BLOC] Starting Google Sign-In process...');
     _logger.debug('AuthBloc: Starting Google Sign-In process...');
     emit(state.copyWith(requestState: RequestState.loading));
 
-    print('🔵 [AUTH_BLOC] Calling googleSignInUseCase...');
     _logger.debug('AuthBloc: Calling googleSignInUseCase...');
     final result = await googleSignInUseCase(const NoParameters());
-    print('🔵 [AUTH_BLOC] googleSignInUseCase completed');
     _logger.debug('AuthBloc: googleSignInUseCase completed');
 
     await result.fold(
       (failure) async {
-        print('🔴 [AUTH_BLOC] Google Sign-In FAILED: ${failure.message}');
         _logger.error('AuthBloc: Google Sign-In failed: ${failure.message}');
         emit(
           state.copyWith(
@@ -610,7 +606,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
       (user) async {
-        print('🟢 [AUTH_BLOC] Google Sign-In SUCCESS for user: ${user.email}');
         _logger.info(
           'AuthBloc: Google Sign-In successful for user: ${user.email}',
         );
@@ -659,19 +654,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     GoogleSignUpEvent event,
     Emitter<AuthState> emit,
   ) async {
-    print('🔵 [AUTH_BLOC] Starting Google Sign-Up process...');
     _logger.debug('AuthBloc: Starting Google Sign-Up process...');
     emit(state.copyWith(requestState: RequestState.loading));
 
-    print('🔵 [AUTH_BLOC] Calling googleSignUpUseCase...');
     _logger.debug('AuthBloc: Calling googleSignUpUseCase...');
     final result = await googleSignUpUseCase(const NoParameters());
-    print('🔵 [AUTH_BLOC] googleSignUpUseCase completed');
     _logger.debug('AuthBloc: googleSignUpUseCase completed');
 
     await result.fold(
       (failure) async {
-        print('🔴 [AUTH_BLOC] Google Sign-Up FAILED: ${failure.message}');
         _logger.error('AuthBloc: Google Sign-Up failed: ${failure.message}');
         emit(
           state.copyWith(
@@ -682,13 +673,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       },
       (user) async {
-        print('🟢 [AUTH_BLOC] Google Sign-Up SUCCESS for user: ${user.email}');
-        print('🟢 [AUTH_BLOC] User status: ${user.status}');
-        print('🟢 [AUTH_BLOC] User role: ${user.role}');
-        print(
-          '🟢 [AUTH_BLOC] User isPendingApproval: ${user.isPendingApproval}',
-        );
-        print('🟢 [AUTH_BLOC] User isApproved: ${user.isApproved}');
         _logger.info(
           'AuthBloc: Google Sign-Up successful for user: ${user.email}',
         );
@@ -701,7 +685,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               isAuthenticated: true,
             ),
           );
-          print('🟢 [AUTH_BLOC] State emitted with isAuthenticated: true');
         }
       },
     );

@@ -46,6 +46,8 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
   bool _obscureConfirmPassword = true;
   String? _lastDetectedOtp;
   String? _initialClipboardOtp;
+  int _failedOtpAttempts = 0;
+  static const int _maxOtpAttempts = 5;
 
   @override
   void initState() {
@@ -209,9 +211,20 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
           }
         }
         
-        // Handle errors
+        // Handle errors — track OTP failures to limit brute-force attempts
         if (state.requestState == RequestState.error && state.message.isNotEmpty) {
           if (mounted) {
+            if (!_otpVerified) {
+              _failedOtpAttempts++;
+              if (_failedOtpAttempts >= _maxOtpAttempts) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.forgotPassword,
+                  (route) => false,
+                );
+                return;
+              }
+            }
             ErrorSnackBar.show(context, state.message);
           }
         }
