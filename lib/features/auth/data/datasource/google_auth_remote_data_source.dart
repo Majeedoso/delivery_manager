@@ -182,21 +182,17 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       );
 
       if (kDebugMode) {
-        print('🟡 [GOOGLE_AUTH] Signing in to Firebase (timeout: 30s)...');
+        print('🟡 [GOOGLE_AUTH] Signing in to Firebase (timeout: 60s)...');
       }
       logger.debug('🔍 Signing in to Firebase...');
 
-      // Sign in to Firebase with the Google credential (with timeout)
+      // Sign in to Firebase with the Google credential
+      // 60s timeout: release builds need more time than debug for first Firebase call
       final firebase_auth.UserCredential userCredential = await _firebaseAuth
           .signInWithCredential(credential)
           .timeout(
-            const Duration(seconds: 30),
+            const Duration(seconds: 60),
             onTimeout: () {
-              if (kDebugMode) {
-                print(
-                  '🔴 [GOOGLE_AUTH] Firebase authentication TIMED OUT after 30 seconds',
-                );
-              }
               throw ServerException(
                 message: 'Firebase authentication timed out. Please try again.',
               );
@@ -265,7 +261,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
                   '🔴 [GOOGLE_AUTH] Backend URL was: ${ApiConstance.googleSignInPath}',
                 );
               }
-              logger.warning(
+              logger.debug(
                 '🔍 Backend request timed out after $elapsed seconds',
               );
               logger.debug(
@@ -389,7 +385,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       } else {
         // Handle timeout and connection errors
         if (e.type == DioExceptionType.connectionTimeout) {
-          logger.warning(
+          logger.debug(
             '🔍 Connection timeout: Cannot establish connection to server',
           );
           logger.debug('🔍 Server URL: ${ApiConstance.googleSignInPath}');
@@ -406,13 +402,13 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           );
         } else if (e.type == DioExceptionType.receiveTimeout ||
             e.type == DioExceptionType.sendTimeout) {
-          logger.warning('🔍 Timeout error: ${e.type}');
+          logger.debug('🔍 Timeout error: ${e.type}');
           throw NetworkException(
             message:
                 'Request timeout. Please check your internet connection and try again.',
           );
         } else if (e.type == DioExceptionType.connectionError) {
-          logger.warning(
+          logger.debug(
             '🔍 Connection error: Cannot reach server at ${ApiConstance.googleSignInPath}',
           );
           logger.debug('🔍 Server URL: ${ApiConstance.baseUrl}');
@@ -540,21 +536,17 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       );
 
       if (kDebugMode) {
-        print('🟡 [GOOGLE_AUTH] Signing in to Firebase (timeout: 30s)...');
+        print('🟡 [GOOGLE_AUTH] Signing in to Firebase (timeout: 60s)...');
       }
       logger.debug('🔍 Signing in to Firebase...');
 
-      // Sign in to Firebase with the Google credential (with timeout)
+      // Sign in to Firebase with the Google credential
+      // 60s timeout: release builds need more time than debug for first Firebase call
       final firebase_auth.UserCredential userCredential = await _firebaseAuth
           .signInWithCredential(credential)
           .timeout(
-            const Duration(seconds: 30),
+            const Duration(seconds: 60),
             onTimeout: () {
-              if (kDebugMode) {
-                print(
-                  '🔴 [GOOGLE_AUTH] Firebase authentication TIMED OUT after 30 seconds',
-                );
-              }
               throw ServerException(
                 message: 'Firebase authentication timed out. Please try again.',
               );
@@ -624,7 +616,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
                   '🔴 [GOOGLE_AUTH] Backend URL was: ${ApiConstance.googleSignUpPath}',
                 );
               }
-              logger.warning(
+              logger.debug(
                 '🔍 Backend request timed out after $elapsed seconds',
               );
               logger.debug(
@@ -774,7 +766,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
               '🔴 [GOOGLE_AUTH] Server URL: ${ApiConstance.googleSignUpPath}',
             );
           }
-          logger.warning(
+          logger.debug(
             '🔍 Connection timeout: Cannot establish connection to server',
           );
           logger.debug('🔍 Server URL: ${ApiConstance.googleSignUpPath}');
@@ -794,7 +786,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           if (kDebugMode) {
             print('🔴 [GOOGLE_AUTH] Timeout error: ${e.type}');
           }
-          logger.warning('🔍 Timeout error: ${e.type}');
+          logger.debug('🔍 Timeout error: ${e.type}');
           throw NetworkException(
             message:
                 'Request timeout. Please check your internet connection and try again.',
@@ -806,7 +798,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
             );
             print('🔴 [GOOGLE_AUTH] Server URL: ${ApiConstance.baseUrl}');
           }
-          logger.warning(
+          logger.debug(
             '🔍 Connection error: Cannot reach server at ${ApiConstance.googleSignUpPath}',
           );
           logger.debug('🔍 Server URL: ${ApiConstance.baseUrl}');

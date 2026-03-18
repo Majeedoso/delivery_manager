@@ -201,7 +201,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
             .timeout(
               AppTimeouts.versionCheck,
               onTimeout: () {
-                _logger.warning(
+                _logger.debug(
                   'SplashBloc: Version check timed out after ${AppTimeouts.versionCheck.inSeconds} seconds, current state: ${appVersionBloc!.state.requestState}',
                 );
                 // If timeout, check if we have any state
@@ -240,7 +240,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         // Version is supported, continue with notification permission check
         await _checkNotificationPermission(emit);
       } catch (e) {
-        _logger.error('SplashBloc: Error checking version', error: e);
+        _logger.debug('SplashBloc: Error checking version', e);
         // On error, allow app to continue (don't block on version check failures)
         emit(
           state.copyWith(
@@ -251,7 +251,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         await _checkNotificationPermission(emit);
       }
     } else {
-      _logger.warning(
+      _logger.debug(
         'SplashBloc: AppVersionBloc is null, skipping version check',
       );
       // If AppVersionBloc not available, continue without version check
@@ -293,7 +293,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
           .timeout(
             AppTimeouts.internetCheck,
             onTimeout: () {
-              _logger.warning(
+              _logger.debug(
                 'SplashBloc: Internet check timed out after ${AppTimeouts.internetCheck.inSeconds} seconds',
               );
               return false;
@@ -303,7 +303,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         'SplashBloc: Internet connection check completed. Result: $internetCheckResult',
       );
     } catch (e) {
-      _logger.error('SplashBloc: Error checking internet connection', error: e);
+      _logger.debug('SplashBloc: Error checking internet connection', e);
       internetCheckResult = false;
     } finally {
       // Always mark as completed, even if there was an error or timeout
@@ -408,12 +408,12 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         if (isReady) {
           _logger.info('SplashBloc: Notification service is ready');
         } else {
-          _logger.warning(
+          _logger.debug(
             'SplashBloc: Notification service not ready, but continuing...',
           );
         }
       } on TimeoutException {
-        _logger.warning(
+        _logger.debug(
           'SplashBloc: Notification check timed out, continuing anyway...',
         );
         // Continue even if check times out - not critical for app start
@@ -422,9 +422,9 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       // Step 3: Check authentication status
       await _checkAuthentication(emit);
     } catch (e) {
-      _logger.error(
+      _logger.debug(
         'SplashBloc: Error checking notification service',
-        error: e,
+        e,
       );
       // Don't block app startup if notification check fails - continue to auth check
       _logger.info(

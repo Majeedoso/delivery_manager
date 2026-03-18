@@ -140,7 +140,7 @@ class NotificationService {
         // Check if app was launched from a notification
         _checkNotificationAppLaunch();
       } else {
-        _logger.warning(
+        _logger.info(
           'NotificationService: Permissions not granted: $permissionStatus',
         );
         // Don't throw exception - just log and return
@@ -633,7 +633,7 @@ class NotificationService {
         await _localNotifications.getNotificationAppLaunchDetails();
         _logger.debug('NotificationService: Local notifications are available');
       } catch (e) {
-        _logger.warning(
+        _logger.debug(
           'NotificationService: Local notifications not available',
           e,
         );
@@ -980,7 +980,7 @@ class NotificationService {
       }
 
       if (_fcmToken == null) {
-        _logger.warning('NotificationService: No FCM token available to send');
+        _logger.debug('NotificationService: No FCM token available to send');
         return;
       }
 
@@ -1005,7 +1005,7 @@ class NotificationService {
             final delay = Duration(
               seconds: attempts * 2,
             ); // Exponential backoff: 2s, 4s
-            _logger.warning(
+            _logger.debug(
               'NotificationService: Failed to send token (attempt $attempts/$maxAttempts), retrying in ${delay.inSeconds}s...',
               e,
             );
@@ -1171,7 +1171,7 @@ class NotificationService {
         );
       }
     } catch (e) {
-      _logger.error('NotificationService: Navigation error', error: e);
+      _logger.debug('NotificationService: Navigation error', e);
     }
   }
 }

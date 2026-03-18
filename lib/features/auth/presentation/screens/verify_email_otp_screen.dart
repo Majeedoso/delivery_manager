@@ -15,7 +15,8 @@ import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
-import 'package:delivery_manager/features/home/presentation/screens/main_screen.dart';
+import 'package:delivery_manager/features/auth/presentation/helpers/auth_navigation_helper.dart';
+import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_event.dart';
 import 'package:delivery_manager/features/auth/data/models/user_model.dart';
@@ -396,8 +397,9 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
         // Save updated user
         await sl<BaseAuthLocalDataSource>().saveUser(user);
 
-        // Update AuthBloc state
-        context.read<AuthBloc>().add(CheckAuthStatusEvent());
+        // Update AuthBloc state - this will refresh user from server
+        final authBloc = context.read<AuthBloc>();
+        authBloc.add(CheckAuthStatusEvent());
 
         // Stop countdown
         context.read<CountdownBloc>().add(const StopCountdownEvent());
@@ -409,10 +411,24 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
             response.data['message'] ?? localizations.emailVerifiedSuccessfully,
           );
 
-          // Navigate to main screen
-          Navigator.of(
-            context,
-          ).pushNamedAndRemoveUntil(MainScreen.route, (route) => false);
+          // Wait for CheckAuthStatusEvent to complete with refreshed user data,
+          // then navigate based on the user's actual status (approved vs pending_approval)
+          final authState = await authBloc.stream.firstWhere(
+            (state) =>
+                state.requestState == RequestState.loaded ||
+                state.requestState == RequestState.error,
+          );
+
+          if (mounted) {
+            if (authState.isAuthenticated && authState.user != null) {
+              AuthNavigationHelper.navigateBasedOnUserStatus(
+                context,
+                authState.user,
+              );
+            } else {
+              AuthNavigationHelper.navigateBasedOnUserStatus(context, null);
+            }
+          }
         }
       } else {
         final localizations = AppLocalizations.of(context)!;

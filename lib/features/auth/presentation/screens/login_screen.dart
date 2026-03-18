@@ -203,69 +203,29 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(height: 2.h),
 
                             // Email Field
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.w),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.orange.shade200.withValues(
-                                      alpha: 0.15,
-                                    ),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 8),
-                                  ),
-                                ],
-                              ),
-                              child: TextFormField(
-                                controller: _emailController,
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(
-                                  hintText: AppLocalizations.of(context)!.email,
-                                  prefixIcon: Icon(
-                                    Icons.email_outlined,
-                                    color: Colors.grey[400],
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.w),
-                                    borderSide: BorderSide(
-                                      color: Colors.orange.shade200,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.w),
-                                    borderSide: BorderSide(
-                                      color: Colors.orange.shade200,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.w),
-                                    borderSide: BorderSide(
-                                      color: Colors.orange.shade300,
-                                      width: 1.5,
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.symmetric(
-                                    vertical: 2.h,
-                                  ),
+                            TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!.email,
+                                prefixIcon: const Icon(Icons.email),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return AppLocalizations.of(
-                                      context,
-                                    )!.pleaseEnterEmail;
-                                  }
-                                  if (!value.contains('@')) {
-                                    return AppLocalizations.of(
-                                      context,
-                                    )!.pleaseEnterValidEmail;
-                                  }
-                                  return null;
-                                },
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return AppLocalizations.of(
+                                    context,
+                                  )!.pleaseEnterEmail;
+                                }
+                                if (!value.contains('@')) {
+                                  return AppLocalizations.of(
+                                    context,
+                                  )!.pleaseEnterValidEmail;
+                                }
+                                return null;
+                              },
                             ),
                             MaterialTheme.getSpacingVertical(
                               vertical: MaterialTheme.getSpacing(
@@ -274,84 +234,43 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             // Password Field
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.w),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.orange.shade200.withValues(
-                                      alpha: 0.15,
-                                    ),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 8),
+                            TextFormField(
+                              controller: _passwordController,
+                              obscureText: _obscurePassword,
+                              decoration: InputDecoration(
+                                labelText: AppLocalizations.of(
+                                  context,
+                                )!.password,
+                                prefixIcon: const Icon(Icons.lock),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _obscurePassword
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
                                   ),
-                                ],
-                              ),
-                              child: TextFormField(
-                                controller: _passwordController,
-                                obscureText: _obscurePassword,
-                                decoration: InputDecoration(
-                                  hintText: AppLocalizations.of(
-                                    context,
-                                  )!.password,
-                                  prefixIcon: Icon(
-                                    Icons.lock_outline,
-                                    color: Colors.grey[400],
-                                  ),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _obscurePassword
-                                          ? Icons.visibility_outlined
-                                          : Icons.visibility_off_outlined,
-                                      color: Colors.grey[400],
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _obscurePassword = !_obscurePassword;
-                                      });
-                                    },
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.w),
-                                    borderSide: BorderSide(
-                                      color: Colors.orange.shade200,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.w),
-                                    borderSide: BorderSide(
-                                      color: Colors.orange.shade200,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(4.w),
-                                    borderSide: BorderSide(
-                                      color: Colors.orange.shade300,
-                                      width: 1.5,
-                                    ),
-                                  ),
-                                  contentPadding: EdgeInsets.symmetric(
-                                    vertical: 2.h,
-                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscurePassword = !_obscurePassword;
+                                    });
+                                  },
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return AppLocalizations.of(
-                                      context,
-                                    )!.pleaseEnterPassword;
-                                  }
-                                  if (value.length < 6) {
-                                    return AppLocalizations.of(
-                                      context,
-                                    )!.passwordMinLength;
-                                  }
-                                  return null;
-                                },
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
                               ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return AppLocalizations.of(
+                                    context,
+                                  )!.pleaseEnterPassword;
+                                }
+                                if (value.length < 6) {
+                                  return AppLocalizations.of(
+                                    context,
+                                  )!.passwordMinLength;
+                                }
+                                return null;
+                              },
                             ),
                             MaterialTheme.getSpacingVertical(
                               vertical: MaterialTheme.getSpacing(
@@ -402,7 +321,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                       AppLocalizations.of(context)!.rememberMe,
                                       style: TextStyle(
                                         fontSize: 18.sp,
-                                        color: Colors.grey[700],
+                                        color:
+                                            Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.grey[700],
                                       ),
                                     ),
                                   ],
@@ -633,7 +556,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                         context,
                                       )!.dontHaveAccount,
                                       style: TextStyle(
-                                        color: Colors.grey[600],
+                                        color:
+                                            Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.grey[600],
                                         fontSize: 18.sp,
                                       ),
                                     ),

@@ -146,7 +146,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             
             saveResult.fold(
               (failure) {
-                _logger.error('ProfileBloc: Failed to save credentials: ${failure.message}');
+                _logger.warning('ProfileBloc: Failed to save credentials: ${failure.message}');
               },
               (success) {
                 if (success) {
@@ -161,7 +161,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
     } catch (e) {
       // Log error but don't fail the password change operation
-      _logger.error('ProfileBloc: Error updating saved credentials', error: e);
+      _logger.warning('ProfileBloc: Error updating saved credentials', e);
     }
   }
 
@@ -260,7 +260,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             
             saveResult.fold(
               (failure) {
-                _logger.error('ProfileBloc: Failed to save credentials: ${failure.message}');
+                _logger.warning('ProfileBloc: Failed to save credentials: ${failure.message}');
               },
               (success) {
                 if (success) {
@@ -278,7 +278,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
     } catch (e, stackTrace) {
       // Log error but don't fail the email change operation
-      _logger.error('ProfileBloc: Error updating saved credentials email', error: e);
+      _logger.warning('ProfileBloc: Error updating saved credentials email', e);
       _logger.debug('ProfileBloc: Stack trace: $stackTrace');
     }
   }

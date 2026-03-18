@@ -48,7 +48,7 @@ class PermissionService implements BasePermissionService {
       _logger.debug('PermissionService: Notification permission status: $status');
       return status.isGranted;
     } catch (e) {
-      _logger.error('PermissionService: Error checking notification permission', error: e);
+      _logger.info('PermissionService: Error checking notification permission');
       return false;
     }
   }
@@ -65,7 +65,7 @@ class PermissionService implements BasePermissionService {
       _logger.info('PermissionService: Permission request result: $status');
       return status.isGranted;
     } catch (e) {
-      _logger.error('PermissionService: Error requesting notification permission', error: e);
+      _logger.info('PermissionService: Error requesting notification permission');
       return false;
     }
   }
@@ -80,7 +80,7 @@ class PermissionService implements BasePermissionService {
       final status = await permission_handler.Permission.notification.status;
       return status.isPermanentlyDenied;
     } catch (e) {
-      _logger.error('PermissionService: Error checking if permission is permanently denied', error: e);
+      _logger.info('PermissionService: Error checking if permission is permanently denied');
       return false;
     }
   }
@@ -112,7 +112,7 @@ class PermissionService implements BasePermissionService {
       _logger.info('PermissionService: App settings opened: $result');
       return result;
     } catch (e) {
-      _logger.error('PermissionService: Error opening app settings', error: e);
+      _logger.info('PermissionService: Error opening app settings');
       return false;
     }
   }

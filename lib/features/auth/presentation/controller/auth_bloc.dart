@@ -196,7 +196,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await NotificationService.sendTokenToServer();
           _logger.info('AuthBloc: FCM token sent successfully');
         } catch (e) {
-          _logger.error('AuthBloc: Error sending FCM token', error: e);
+          _logger.debug('AuthBloc: Error sending FCM token', e);
           // Don't fail login if FCM token sending fails
         }
 
@@ -340,7 +340,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
       }
     } catch (e) {
-      _logger.error('AuthBloc: Logout error, clearing local data...', error: e);
+      _logger.warning('AuthBloc: Logout error, clearing local data...', e);
       // If any other error occurs, still complete logout
       await clearTokenUseCase(const NoParameters());
 
@@ -456,7 +456,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 await NotificationService.sendTokenToServer();
                 _logger.info('AuthBloc: FCM token synced successfully');
               } catch (e) {
-                _logger.error('AuthBloc: Error syncing FCM token', error: e);
+                _logger.debug('AuthBloc: Error syncing FCM token', e);
                 // Don't fail auth check if FCM token sync fails
               }
 
@@ -528,7 +528,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           await NotificationService.sendTokenToServer();
           _logger.info('AuthBloc: FCM token synced successfully');
         } catch (e) {
-          _logger.error('AuthBloc: Error syncing FCM token', error: e);
+          _logger.debug('AuthBloc: Error syncing FCM token', e);
         }
 
         if (!emit.isDone) {
@@ -596,14 +596,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     await result.fold(
       (failure) async {
-        _logger.error('AuthBloc: Google Sign-In failed: ${failure.message}');
-        emit(
-          state.copyWith(
-            requestState: RequestState.error,
-            message: failure.message,
-            isAuthenticated: false,
-          ),
-        );
+        final isCancelled = failure.message.toLowerCase().contains('cancel');
+        if (isCancelled) {
+          _logger.debug('AuthBloc: Google Sign-In cancelled by user');
+          emit(state.copyWith(requestState: RequestState.loaded, message: ''));
+        } else {
+          _logger.error('AuthBloc: Google Sign-In failed: ${failure.message}');
+          emit(
+            state.copyWith(
+              requestState: RequestState.error,
+              message: failure.message,
+              isAuthenticated: false,
+            ),
+          );
+        }
       },
       (user) async {
         _logger.info(
@@ -622,9 +628,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             'AuthBloc: FCM token sent successfully after Google Sign-In',
           );
         } catch (e) {
-          _logger.error(
+          _logger.debug(
             'AuthBloc: Error sending FCM token after Google Sign-In',
-            error: e,
+            e,
           );
           // Don't fail login if FCM token sending fails
         }
@@ -663,14 +669,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     await result.fold(
       (failure) async {
-        _logger.error('AuthBloc: Google Sign-Up failed: ${failure.message}');
-        emit(
-          state.copyWith(
-            requestState: RequestState.error,
-            message: failure.message,
-            isAuthenticated: false,
-          ),
-        );
+        final isCancelled = failure.message.toLowerCase().contains('cancel');
+        if (isCancelled) {
+          _logger.debug('AuthBloc: Google Sign-Up cancelled by user');
+          emit(state.copyWith(requestState: RequestState.loaded, message: ''));
+        } else {
+          _logger.error('AuthBloc: Google Sign-Up failed: ${failure.message}');
+          emit(
+            state.copyWith(
+              requestState: RequestState.error,
+              message: failure.message,
+              isAuthenticated: false,
+            ),
+          );
+        }
       },
       (user) async {
         _logger.info(
@@ -1063,7 +1075,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
             saveResult.fold(
               (failure) {
-                _logger.error(
+                _logger.warning(
                   'AuthBloc: Failed to save credentials: ${failure.message}',
                 );
               },
@@ -1088,7 +1100,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     } catch (e) {
       // Log error but don't fail the password reset operation
-      _logger.error('AuthBloc: Error updating saved credentials', error: e);
+      _logger.warning('AuthBloc: Error updating saved credentials', e);
     }
   }
 
@@ -1144,7 +1156,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
             saveResult.fold(
               (failure) {
-                _logger.error(
+                _logger.warning(
                   'AuthBloc: Failed to save credentials: ${failure.message}',
                 );
               },
@@ -1172,7 +1184,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     } catch (e, stackTrace) {
       // Log error but don't fail the password reset operation
-      _logger.error('AuthBloc: Error updating saved credentials', error: e);
+      _logger.warning('AuthBloc: Error updating saved credentials', e);
       _logger.debug('AuthBloc: Stack trace: $stackTrace');
     }
   }
