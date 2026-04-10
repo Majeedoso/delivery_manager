@@ -236,99 +236,66 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
           '🟡 [GOOGLE_AUTH] Sending POST request to backend (timeout: 90s)...',
         );
       }
-      final response = await _dio
-          .post(
-            ApiConstance.googleSignInPath,
-            data: requestData,
-            options: Options(
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
+
+      try {
+        final response = await _dio
+            .post(
+              ApiConstance.googleSignInPath,
+              data: requestData,
+              options: Options(
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                },
+                sendTimeout: const Duration(seconds: 30),
+                receiveTimeout: const Duration(seconds: 45),
+              ),
+            )
+            .timeout(
+              const Duration(seconds: 90),
+              onTimeout: () {
+                final elapsed = DateTime.now().difference(startTime).inSeconds;
+                if (kDebugMode) {
+                  print(
+                    '🔴 [GOOGLE_AUTH] Backend request TIMED OUT after $elapsed seconds',
+                  );
+                  print(
+                    '🔴 [GOOGLE_AUTH] Backend URL was: ${ApiConstance.googleSignInPath}',
+                  );
+                }
+                logger.debug(
+                  '🔍 Backend request timed out after $elapsed seconds',
+                );
+                logger.debug(
+                  '🔍 Backend URL was: ${ApiConstance.googleSignInPath}',
+                );
+                throw NetworkException(
+                  message:
+                      'Backend request timed out. Please check your internet connection and try again.',
+                );
               },
-              sendTimeout: const Duration(seconds: 30),
-              receiveTimeout: const Duration(seconds: 45),
-            ),
-          )
-          .timeout(
-            const Duration(seconds: 90), // Total timeout including connection
-            onTimeout: () {
-              final elapsed = DateTime.now().difference(startTime).inSeconds;
-              if (kDebugMode) {
-                print(
-                  '🔴 [GOOGLE_AUTH] Backend request TIMED OUT after $elapsed seconds',
-                );
-                print(
-                  '🔴 [GOOGLE_AUTH] Backend URL was: ${ApiConstance.googleSignInPath}',
-                );
-              }
-              logger.debug(
-                '🔍 Backend request timed out after $elapsed seconds',
-              );
-              logger.debug(
-                '🔍 Backend URL was: ${ApiConstance.googleSignInPath}',
-              );
-              throw NetworkException(
-                message:
-                    'Backend request timed out. Please check your internet connection and try again.',
-              );
-            },
-          );
+            );
 
-      final elapsed = DateTime.now().difference(startTime).inSeconds;
-      if (kDebugMode) {
-        print('🟢 [GOOGLE_AUTH] Backend request completed in $elapsed seconds');
-        print('🟢 [GOOGLE_AUTH] Response status: ${response.statusCode}');
-      }
-      logger.info('🔍 Backend request completed in $elapsed seconds');
-
-      if (kDebugMode) {
-        print('🟢 [GOOGLE_AUTH] Backend response received');
-      }
-      logger.debug('🔍 Backend response received');
-      logger.debug('🔍 Backend response status: ${response.statusCode}');
-      logger.debug('🔍 Backend response data: ${response.data}');
-
-      if (response.statusCode == 200) {
+        final elapsed = DateTime.now().difference(startTime).inSeconds;
         if (kDebugMode) {
-          print(
-            '🟢 [GOOGLE_AUTH] Backend response status is 200, extracting user data...',
-          );
+          print('🟢 [GOOGLE_AUTH] Backend request completed in $elapsed seconds');
+          print('🟢 [GOOGLE_AUTH] Response status: ${response.statusCode}');
         }
-        // Extract user data and token from response
-        final userData = response.data['data']['user'] as Map<String, dynamic>;
-        final token = response.data['data']['token'] as String?;
+        logger.info('🔍 Backend request completed in $elapsed seconds');
 
-        if (kDebugMode) {
-          print('🟢 [GOOGLE_AUTH] Extracted token: $token');
+        return _extractUserFromResponse(response);
+      } on DioException catch (e) {
+        // If user not found (404), automatically create the account via signup endpoint
+        if (e.response?.statusCode == 404) {
+          if (kDebugMode) {
+            print('🟡 [GOOGLE_AUTH] User not found (404), auto-creating account via signup...');
+          }
+          logger.info('🔍 User not found during sign-in, auto-creating account via signup endpoint...');
+
+          return await _autoSignUpWithGoogle(requestData);
         }
-        logger.debug('🔍 Extracted token: $token');
-
-        // Add token to user data
-        userData['token'] = token;
-
-        final user = app_user.User.fromJson(userData);
-        if (kDebugMode) {
-          print('🟢 [GOOGLE_AUTH] User created successfully: ${user.email}');
-          print('🟢 [GOOGLE_AUTH] User status: ${user.status}');
-          print('🟢 [GOOGLE_AUTH] User role: ${user.role}');
-          print(
-            '🟢 [GOOGLE_AUTH] User isPendingApproval: ${user.isPendingApproval}',
-          );
-          print('🟢 [GOOGLE_AUTH] User isApproved: ${user.isApproved}');
-          print('🟢 [GOOGLE_AUTH] Full user data: $userData');
-        }
-        logger.info('🔍 Created user with token: ${user.token}');
-
-        return user;
-      } else {
-        if (kDebugMode) {
-          print(
-            '🔴 [GOOGLE_AUTH] Backend response status is NOT 200: ${response.statusCode}',
-          );
-        }
-        throw const ServerException(
-          message: 'Failed to authenticate with backend',
-        );
+        // Re-throw for other DioExceptions to be handled below
+        rethrow;
       }
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw ServerException(
@@ -370,11 +337,6 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
             message:
                 errorMessage ??
                 'Access denied. This account is not authorized for the driver app. Please use the correct app for your account type.',
-          );
-        } else if (statusCode == 404) {
-          // User not found
-          throw ServerException(
-            message: errorMessage ?? 'Account not found. Please sign up first.',
           );
         } else {
           // Other backend errors - show the message directly without "Backend error:" prefix
@@ -440,6 +402,128 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
     }
   }
 
+  /// Extracts user data from a successful backend response
+  app_user.User _extractUserFromResponse(Response response) {
+    if (response.statusCode == 200) {
+      if (kDebugMode) {
+        print(
+          '🟢 [GOOGLE_AUTH] Backend response status is 200, extracting user data...',
+        );
+      }
+      final userData = response.data['data']['user'] as Map<String, dynamic>;
+      final token = response.data['data']['token'] as String?;
+
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] Extracted token: $token');
+      }
+      logger.debug('🔍 Extracted token: $token');
+
+      userData['token'] = token;
+
+      final user = app_user.User.fromJson(userData);
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] User created successfully: ${user.email}');
+        print('🟢 [GOOGLE_AUTH] User status: ${user.status}');
+        print('🟢 [GOOGLE_AUTH] User role: ${user.role}');
+        print(
+          '🟢 [GOOGLE_AUTH] User isPendingApproval: ${user.isPendingApproval}',
+        );
+        print('🟢 [GOOGLE_AUTH] User isApproved: ${user.isApproved}');
+        print('🟢 [GOOGLE_AUTH] Full user data: $userData');
+      }
+      logger.info('🔍 Created user with token: ${user.token}');
+
+      return user;
+    } else {
+      if (kDebugMode) {
+        print(
+          '🔴 [GOOGLE_AUTH] Backend response status is NOT 200: ${response.statusCode}',
+        );
+      }
+      throw const ServerException(
+        message: 'Failed to authenticate with backend',
+      );
+    }
+  }
+
+  /// Automatically creates a manager account via the signup endpoint
+  /// when sign-in fails with 404 (user not found).
+  Future<app_user.User> _autoSignUpWithGoogle(Map<String, dynamic> requestData) async {
+    try {
+      final signUpData = {
+        ...requestData,
+        'role': 'manager',
+      };
+
+      if (kDebugMode) {
+        print('🟡 [GOOGLE_AUTH] Auto-signup request data: $signUpData');
+        print('🟡 [GOOGLE_AUTH] Auto-signup URL: ${ApiConstance.googleSignUpPath}');
+      }
+      logger.debug('🔍 Auto-signup sending to backend: $signUpData');
+
+      final startTime = DateTime.now();
+      final response = await _dio
+          .post(
+            ApiConstance.googleSignUpPath,
+            data: signUpData,
+            options: Options(
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+              },
+              sendTimeout: const Duration(seconds: 30),
+              receiveTimeout: const Duration(seconds: 45),
+            ),
+          )
+          .timeout(
+            const Duration(seconds: 90),
+            onTimeout: () {
+              throw NetworkException(
+                message:
+                    'Backend request timed out. Please check your internet connection and try again.',
+              );
+            },
+          );
+
+      final elapsed = DateTime.now().difference(startTime).inSeconds;
+      if (kDebugMode) {
+        print('🟢 [GOOGLE_AUTH] Auto-signup completed in $elapsed seconds');
+      }
+      logger.info('🔍 Auto-signup completed in $elapsed seconds');
+
+      return _extractUserFromResponse(response);
+    } on DioException catch (e) {
+      logger.error('🔍 Auto-signup DioException: ${e.type}', error: e);
+
+      if (e.response != null) {
+        String? errorMessage;
+        final responseData = e.response?.data;
+        if (responseData is Map<String, dynamic>) {
+          errorMessage = responseData['message']?.toString();
+        } else if (responseData is String) {
+          try {
+            final parsed = jsonDecode(responseData);
+            if (parsed is Map<String, dynamic>) {
+              errorMessage = parsed['message']?.toString();
+            }
+          } catch (_) {
+            if (responseData.isNotEmpty && !responseData.startsWith('<')) {
+              errorMessage = responseData;
+            }
+          }
+        }
+        errorMessage ??= e.message;
+
+        throw ServerException(
+          message: errorMessage ?? 'Account creation failed. Please try again.',
+        );
+      } else {
+        throw NetworkException(
+          message: 'Cannot connect to server. Please check your internet connection.',
+        );
+      }
+    }
+  }
   @override
   Future<app_user.User> signUpWithGoogle() async {
     try {

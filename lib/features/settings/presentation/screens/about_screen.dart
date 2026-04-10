@@ -100,7 +100,9 @@ class _AboutScreenState extends State<AboutScreen> {
                       borderRadius: BorderRadius.circular(5.w),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFFF892D).withValues(alpha: 0.35),
+                          color: const Color(
+                            0xFFFF892D,
+                          ).withValues(alpha: 0.35),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
@@ -125,8 +127,9 @@ class _AboutScreenState extends State<AboutScreen> {
                   FutureBuilder<PackageInfo>(
                     future: PackageInfo.fromPlatform(),
                     builder: (context, snapshot) {
-                      final version =
-                          snapshot.hasData ? snapshot.data!.version : '1.0.0';
+                      final version = snapshot.hasData
+                          ? snapshot.data!.version
+                          : '1.0.0';
                       return Text(
                         'v$version',
                         style: TextStyle(
@@ -191,7 +194,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 padding: EdgeInsets.symmetric(vertical: 2.h),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: const Color(0xFFFF892D),
+                    color: isDark ? Colors.white : const Color(0xFFFF8A32),
                     strokeWidth: 2,
                   ),
                 ),
@@ -305,8 +308,9 @@ class _InfoCard extends StatelessWidget {
                   offset: const Offset(0, 5),
                 ),
               ],
-        border:
-            isDark ? Border.all(color: Colors.white.withValues(alpha: 0.1)) : null,
+        border: isDark
+            ? Border.all(color: Colors.white.withValues(alpha: 0.1))
+            : null,
       ),
       child: child,
     );
@@ -344,8 +348,9 @@ class _FeatureTile extends StatelessWidget {
                   offset: const Offset(0, 5),
                 ),
               ],
-        border:
-            isDark ? Border.all(color: Colors.white.withValues(alpha: 0.1)) : null,
+        border: isDark
+            ? Border.all(color: Colors.white.withValues(alpha: 0.1))
+            : null,
       ),
       child: Row(
         children: [
@@ -418,14 +423,12 @@ class _ContactTile extends StatelessWidget {
                   offset: const Offset(0, 5),
                 ),
               ],
-        border:
-            isDark ? Border.all(color: Colors.white.withValues(alpha: 0.1)) : null,
+        border: isDark
+            ? Border.all(color: Colors.white.withValues(alpha: 0.1))
+            : null,
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: 4.w,
-          vertical: 0.8.h,
-        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.8.h),
         leading: Container(
           padding: EdgeInsets.all(2.5.w),
           decoration: BoxDecoration(

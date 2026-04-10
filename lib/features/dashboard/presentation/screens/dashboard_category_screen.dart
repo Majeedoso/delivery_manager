@@ -153,7 +153,9 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                       children: [
                         _buildChip(
                           context,
-                          setting.value.isEmpty ? l10n.emptyInParentheses : setting.value,
+                          setting.value.isEmpty
+                              ? l10n.emptyInParentheses
+                              : setting.value,
                           Theme.of(context).colorScheme.primaryContainer,
                           Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
@@ -176,7 +178,9 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : const Color(0xFFFF8A32),
                   ),
                 ),
               ],
@@ -676,7 +680,8 @@ class _DashboardCategoryScreenState extends State<DashboardCategoryScreen> {
       'api_integrations': 'API & Integrations',
       'legal_contact': 'Legal & Contact',
     };
-    if (labels.containsKey(raw.toLowerCase())) return labels[raw.toLowerCase()]!;
+    if (labels.containsKey(raw.toLowerCase()))
+      return labels[raw.toLowerCase()]!;
     return raw
         .replaceAll('_', ' ')
         .split(' ')

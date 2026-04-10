@@ -87,6 +87,9 @@ class ThemeDataBuilder {
         bodyColor: colorScheme.onSurface,
         displayColor: colorScheme.onSurface,
       ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: Color(0xFFFF8A32),
+      ),
       scaffoldBackgroundColor: colorScheme.surface,
       canvasColor: colorScheme.surface,
       appBarTheme: AppBarTheme(
@@ -234,6 +237,9 @@ class ThemeDataBuilder {
       textTheme: textTheme.apply(
         bodyColor: Colors.white,
         displayColor: Colors.white,
+      ),
+      progressIndicatorTheme: const ProgressIndicatorThemeData(
+        color: Colors.white,
       ),
       scaffoldBackgroundColor: colorScheme.surface,
       canvasColor: colorScheme.surface,
@@ -390,6 +396,11 @@ class ThemeDataBuilder {
       textTheme: textTheme.apply(
         bodyColor: colorScheme.onSurface,
         displayColor: colorScheme.onSurface,
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: colorScheme.brightness == Brightness.dark
+            ? Colors.white
+            : const Color(0xFFFF8A32),
       ),
       scaffoldBackgroundColor: colorScheme.surface,
       canvasColor: colorScheme.surface,

@@ -202,6 +202,104 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             SizedBox(height: 2.h),
 
+                            // Google Sign-In Button
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4.w),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.orange.shade200.withValues(
+                                      alpha: 0.15,
+                                    ),
+                                    blurRadius: 15,
+                                    offset: const Offset(0, 8),
+                                  ),
+                                ],
+                              ),
+                              child: SizedBox(
+                                width: double.infinity,
+                                height: 7.h,
+                                child: OutlinedButton(
+                                  onPressed:
+                                      state.requestState == RequestState.loading
+                                      ? null
+                                      : () => context.read<AuthBloc>().add(
+                                          GoogleSignInEvent(),
+                                        ),
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide(
+                                      color: Colors.orange.shade200,
+                                      width: 2,
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4.w),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/images/google_logo.png',
+                                        width: 6.w,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                const Icon(Icons.g_mobiledata),
+                                      ),
+                                      SizedBox(width: 3.w),
+                                      Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.signInWithGoogle,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            MaterialTheme.getSpacingVertical(
+                              vertical: MaterialTheme.getSpacing(
+                                'spacingVerticalSmall',
+                              ),
+                            ),
+
+                            // Divider
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(color: Colors.grey[300]),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 4.w,
+                                  ),
+                                  child: Text(
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.or.toUpperCase(),
+                                    style: TextStyle(
+                                      color: Colors.grey[400],
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Divider(color: Colors.grey[300]),
+                                ),
+                              ],
+                            ),
+                            MaterialTheme.getSpacingVertical(
+                              vertical: MaterialTheme.getSpacing(
+                                'spacingVerticalSmall',
+                              ),
+                            ),
+
                             // Email Field
                             TextFormField(
                               controller: _emailController,
@@ -438,104 +536,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     ),
                                   ],
-                                ),
-                              ),
-                            ),
-                            MaterialTheme.getSpacingVertical(
-                              vertical: MaterialTheme.getSpacing(
-                                'spacingVerticalSmall',
-                              ),
-                            ),
-
-                            // Divider
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Divider(color: Colors.grey[300]),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 4.w,
-                                  ),
-                                  child: Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.or.toUpperCase(),
-                                    style: TextStyle(
-                                      color: Colors.grey[400],
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Divider(color: Colors.grey[300]),
-                                ),
-                              ],
-                            ),
-                            MaterialTheme.getSpacingVertical(
-                              vertical: MaterialTheme.getSpacing(
-                                'spacingVerticalSmall',
-                              ),
-                            ),
-
-                            // Google Sign-In Button
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.w),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.orange.shade200.withValues(
-                                      alpha: 0.15,
-                                    ),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 8),
-                                  ),
-                                ],
-                              ),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: 7.h,
-                                child: OutlinedButton(
-                                  onPressed:
-                                      state.requestState == RequestState.loading
-                                      ? null
-                                      : () => context.read<AuthBloc>().add(
-                                          GoogleSignInEvent(),
-                                        ),
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide(
-                                      color: Colors.orange.shade200,
-                                      width: 2,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4.w),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/google_logo.png',
-                                        width: 6.w,
-                                        errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                const Icon(Icons.g_mobiledata),
-                                      ),
-                                      SizedBox(width: 3.w),
-                                      Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.signInWithGoogle,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
                               ),
                             ),

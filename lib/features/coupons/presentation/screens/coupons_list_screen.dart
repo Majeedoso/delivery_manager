@@ -197,8 +197,12 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
           },
           builder: (context, state) {
             if (state.isLoading && state.coupons.isEmpty) {
-              return const Center(
-                child: CircularProgressIndicator(color: Color(0xFFFF781F)),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : const Color(0xFFFF8A32),
+                ),
               );
             }
 
@@ -286,11 +290,13 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
                 itemCount: state.coupons.length + (state.isLoadingMore ? 1 : 0),
                 itemBuilder: (context, index) {
                   if (index == state.coupons.length) {
-                    return const Center(
+                    return Center(
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child: CircularProgressIndicator(
-                          color: Color(0xFFFF781F),
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : const Color(0xFFFF8A32),
                         ),
                       ),
                     );

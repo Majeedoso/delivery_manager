@@ -86,7 +86,9 @@ class AccountStatusScreen extends StatelessWidget {
               if (localizations != null) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(state.message.replaceAll(RegExp(r'<[^>]+>'), '')),
+                    content: Text(
+                      state.message.replaceAll(RegExp(r'<[^>]+>'), ''),
+                    ),
                     backgroundColor: Colors.red,
                   ),
                 );
@@ -116,7 +118,13 @@ class AccountStatusScreen extends StatelessWidget {
             final user = state.user;
             if (user == null) {
               // During loading with no user, show loading overlay
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : const Color(0xFFFF8A32),
+                ),
+              );
             }
 
             final localizations = AppLocalizations.of(context)!;

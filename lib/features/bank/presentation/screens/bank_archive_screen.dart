@@ -153,7 +153,10 @@ class _BankArchiveScreenState extends State<BankArchiveScreen> {
                         padding: EdgeInsets.symmetric(vertical: 2.h),
                         child: Center(
                           child: CircularProgressIndicator(
-                            color: Theme.of(context).colorScheme.primary,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white
+                                : const Color(0xFFFF8A32),
                           ),
                         ),
                       );

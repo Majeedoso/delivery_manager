@@ -305,7 +305,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               debugShowCheckedModeBanner: false,
               home: Scaffold(
                 body: Center(
-                  child: CircularProgressIndicator(color: Colors.orange),
+                  child: CircularProgressIndicator(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : const Color(0xFFFF8A32),
+                  ),
                 ),
               ),
             );

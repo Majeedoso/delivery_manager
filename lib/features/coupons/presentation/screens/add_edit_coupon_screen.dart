@@ -309,12 +309,16 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                   return TextButton(
                     onPressed: isLoading ? null : _onSave,
                     child: isLoading
-                        ? const SizedBox(
+                        ? SizedBox(
                             width: 20,
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: Color(0xFFFF781F),
+                              color:
+                                  Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white
+                                  : const Color(0xFFFF8A32),
                             ),
                           )
                         : Text(
@@ -714,13 +718,15 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.shade300),
             ),
-            child: const Center(
+            child: Center(
               child: SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Color(0xFFFF781F),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : const Color(0xFFFF8A32),
                 ),
               ),
             ),
@@ -850,13 +856,15 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.shade300),
             ),
-            child: const Center(
+            child: Center(
               child: SizedBox(
                 width: 24,
                 height: 24,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Color(0xFFFF781F),
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Colors.white
+                      : const Color(0xFFFF8A32),
                 ),
               ),
             ),

@@ -69,8 +69,12 @@ class _DeliveryZonesScreenState extends State<DeliveryZonesScreen> {
         },
         builder: (context, state) {
           if (state.isLoadingZones) {
-            return const Center(
-              child: CircularProgressIndicator(color: Color(0xFFFF781F)),
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : const Color(0xFFFF8A32),
+              ),
             );
           }
 

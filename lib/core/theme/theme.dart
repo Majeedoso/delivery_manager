@@ -111,7 +111,7 @@ class MaterialTheme {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return CircularProgressIndicator(
       valueColor: AlwaysStoppedAnimation<Color>(
-        isDark ? Colors.white : Colors.white,
+        isDark ? Colors.white : const Color(0xFFFF8A32),
       ),
     );
   }
