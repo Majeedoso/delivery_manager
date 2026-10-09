@@ -3,6 +3,7 @@ import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
 import 'package:delivery_manager/features/bank/domain/entities/restaurant_debt.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
+import 'package:delivery_manager/core/utils/currency.dart';
 
 class RestaurantDebtCard extends StatelessWidget {
   final RestaurantDebt restaurantDebt;
@@ -27,27 +28,8 @@ class RestaurantDebtCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Overpay label at the top (only for credits)
-              if (restaurantDebt.isCredit) ...[
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 2.w,
-                    vertical: 0.5.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    AppLocalizations.of(context)!.overpay,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 1.5.h),
-              ],
+              // No "Overpay" badge: what a restaurant or a driver owes the
+              // platform is its share of orders, not money paid too much
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -56,7 +38,10 @@ class RestaurantDebtCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          restaurantDebt.restaurantName,
+                          // "System" was English in every language
+                          restaurantDebt.counterpartyType == 'system'
+                              ? AppLocalizations.of(context)!.system
+                              : restaurantDebt.restaurantName,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
@@ -67,7 +52,9 @@ class RestaurantDebtCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        restaurantDebt.formattedAmount,
+                        AppLocalizations.of(
+                          context,
+                        )!.dinars(restaurantDebt.formattedAmount),
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           // If it's credit, show GREEN, otherwise RED for debt
@@ -104,7 +91,7 @@ class RestaurantDebtCard extends StatelessWidget {
                 child: Text(
                   restaurantDebt.confirmedAt != null
                       ? _formatDateTime(restaurantDebt.confirmedAt!)
-                      : 'N/A', // or a localized string if available
+                      : '', // it read "N/A", in English
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: Theme.of(
                       context,

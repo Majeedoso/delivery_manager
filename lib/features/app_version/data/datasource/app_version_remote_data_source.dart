@@ -45,8 +45,8 @@ class AppVersionRemoteDataSource implements BaseAppVersionRemoteDataSource {
   @override
   Future<AppVersion> checkAppVersion() async {
     try {
-      // App type for restaurant app
-      const appType = 'restaurant';
+      // This app's own version rules (it used to ask for the restaurant app's)
+      const appType = 'manager';
       
       final response = await dio.get(
         ApiConstance.appVersionPath,
@@ -114,7 +114,9 @@ class AppVersionRemoteDataSource implements BaseAppVersionRemoteDataSource {
       } else {
         logger.error('AppVersionDataSource: Non-200 status code: ${response.statusCode}, Response: ${response.data}');
         throw ServerException(
-          message: response.data?['message']?.toString() ?? 'Failed to check app version (Status: ${response.statusCode})',
+          message: response.data is Map && response.data['message'] != null
+              ? response.data['message'].toString()
+              : 'Failed to check app version (Status: ${response.statusCode})',
         );
       }
     } on DioException catch (e) {
@@ -136,9 +138,12 @@ class AppVersionRemoteDataSource implements BaseAppVersionRemoteDataSource {
           message: 'Network error. Please check your internet connection.',
         );
       } else if (e.type == DioExceptionType.badResponse) {
-        final errorMessage = e.response?.data?['message']?.toString() ?? 
-                            e.response?.data?.toString() ?? 
-                            'Server error occurred (Status: ${e.response?.statusCode})';
+        // Only a JSON body has a message (an HTML error page raised a
+        // TypeError here)
+        final body = e.response?.data;
+        final errorMessage = body is Map && body['message'] != null
+            ? body['message'].toString()
+            : 'Server error occurred (Status: ${e.response?.statusCode})';
         logger.error('AppVersionDataSource: Bad response - $errorMessage');
         throw ServerException(
           message: errorMessage,

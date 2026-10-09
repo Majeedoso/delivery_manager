@@ -29,9 +29,6 @@ abstract class BaseUsersRepository {
     String? search,
   });
 
-  /// Get single user by ID
-  Future<Either<Failure, ManagedUser>> getUserById(int id);
-
   /// Approve a pending user
   Future<Either<Failure, void>> approveUser(int userId);
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
 /// Global navigator key used outside of BuildContext.
-/// Imported by ApiService to redirect to login on 401 Unauthorized.
+/// Used to navigate from outside the widget tree (notifications, the
+/// account-suspended redirect).
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

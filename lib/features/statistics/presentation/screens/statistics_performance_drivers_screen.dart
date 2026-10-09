@@ -50,14 +50,16 @@ class _StatisticsPerformanceDriversScreenState
             .map((e) {
               final perf =
                   e['performance_metrics'] as Map<String, dynamic>? ?? {};
+              // The customers' ratings of the driver (order_ratings), as the
+              // ratings pages show them: the deliveries' customer_rating,
+              // which nothing fills, read 0.0 for everyone
               final ratings =
-                  perf['customer_ratings'] as Map<String, dynamic>? ?? {};
+                  perf['rating_info'] as Map<String, dynamic>? ?? {};
               return _DriverItem(
                 id: (e['id'] as num?)?.toInt() ?? 0,
                 name: e['name']?.toString() ?? '',
                 averageRating:
-                    (ratings['average_rating'] as num?)?.toDouble() ??
-                    (perf['average_rating'] as num?)?.toDouble() ??
+                    (ratings['average_driver_rating'] as num?)?.toDouble() ??
                     0.0,
                 totalDeliveries:
                     (perf['total_deliveries'] as num?)?.toInt() ?? 0,
@@ -66,8 +68,10 @@ class _StatisticsPerformanceDriversScreenState
               );
             })
             .toList();
-        final meta = response.data['meta'] as Map<String, dynamic>? ?? {};
-        final pagination = meta['pagination'] as Map<String, dynamic>? ?? {};
+        // The server sends its pages beside the list (`pagination`):
+        // read from `meta`, the list stopped at its first page
+        final pagination =
+            response.data['pagination'] as Map<String, dynamic>? ?? {};
         setState(() {
           if (page == 1) _drivers.clear();
           _drivers.addAll(items);

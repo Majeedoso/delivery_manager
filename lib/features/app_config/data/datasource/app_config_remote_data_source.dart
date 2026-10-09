@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/error/exceptions.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
-import 'package:delivery_manager/core/services/api_service.dart';
 import 'package:delivery_manager/features/app_config/data/models/legal_urls_model.dart';
 import 'package:delivery_manager/features/app_config/data/models/contact_info_model.dart';
 
@@ -27,9 +26,15 @@ abstract class BaseAppConfigRemoteDataSource {
 /// 
 /// This class handles API calls to fetch app configuration data.
 class AppConfigRemoteDataSourceImpl implements BaseAppConfigRemoteDataSource {
-  final ApiService apiService;
+  /// The app's shared Dio (base URL, language, token, retries). A separate
+  /// ApiService used to turn every DioException into a plain Exception, so
+  /// being offline was reported as "An unexpected error occurred".
+  final Dio dio;
 
-  AppConfigRemoteDataSourceImpl({required this.apiService});
+  AppConfigRemoteDataSourceImpl({required this.dio});
+
+  static String? _messageOf(Object? body) =>
+      body is Map && body['message'] is String ? body['message'] as String : null;
 
   @override
   Future<LegalUrlsModel> getLegalUrls({String? languageCode}) async {
@@ -38,7 +43,7 @@ class AppConfigRemoteDataSourceImpl implements BaseAppConfigRemoteDataSource {
           ? {'lang': languageCode}
           : null;
       
-      final response = await apiService.get(
+      final response = await dio.get(
         ApiConstance.legalUrlsPath,
         queryParameters: queryParameters,
       );
@@ -60,7 +65,7 @@ class AppConfigRemoteDataSourceImpl implements BaseAppConfigRemoteDataSource {
         );
       } else if (e.type == DioExceptionType.badResponse) {
         throw ServerException(
-          message: e.response?.data?['message']?.toString() ?? 'Server error occurred',
+          message: _messageOf(e.response?.data) ?? 'Server error occurred',
         );
       } else {
         throw ServerException(
@@ -80,7 +85,7 @@ class AppConfigRemoteDataSourceImpl implements BaseAppConfigRemoteDataSource {
   @override
   Future<ContactInfoModel> getContactInfo() async {
     try {
-      final response = await apiService.get(
+      final response = await dio.get(
         ApiConstance.contactInfoPath,
       );
 
@@ -101,7 +106,7 @@ class AppConfigRemoteDataSourceImpl implements BaseAppConfigRemoteDataSource {
         );
       } else if (e.type == DioExceptionType.badResponse) {
         throw ServerException(
-          message: e.response?.data?['message']?.toString() ?? 'Server error occurred',
+          message: _messageOf(e.response?.data) ?? 'Server error occurred',
         );
       } else {
         throw ServerException(

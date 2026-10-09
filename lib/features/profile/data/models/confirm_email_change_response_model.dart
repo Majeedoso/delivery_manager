@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:delivery_manager/features/profile/domain/entities/confirm_email_change_response.dart';
 import 'package:delivery_manager/features/profile/data/models/profile_model.dart';
 
@@ -20,8 +21,8 @@ class ConfirmEmailChangeResponseModel extends ConfirmEmailChangeResponse {
       'phone': '',
       'role': '',
       'email_verified_at': data['email_verified_at'],
-      'created_at': DateTime.now().toIso8601String(),
-      'updated_at': data['updated_at']?.toString() ?? DateTime.now().toIso8601String(),
+      'created_at': clock.now().toIso8601String(),
+      'updated_at': data['updated_at']?.toString() ?? clock.now().toIso8601String(),
     };
     
     return ConfirmEmailChangeResponseModel(

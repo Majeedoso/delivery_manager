@@ -20,6 +20,7 @@ import 'package:delivery_manager/features/profile/presentation/controller/profil
 import 'package:delivery_manager/features/profile/presentation/controller/profile_event.dart';
 import 'package:delivery_manager/features/profile/presentation/controller/profile_state.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
+import 'package:delivery_manager/core/services/public_settings_service.dart';
 
 class VerifyDeleteAccountOtpScreen extends StatefulWidget {
   static const String route = '/verify-delete-account-otp';
@@ -37,6 +38,8 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
   bool _isProcessing = false;
   String? _lastDetectedOtp;
   String? _initialClipboardOtp;
+
+  Timer? _clipboardTimer; // looks for a pasted code every second
 
   @override
   void initState() {
@@ -58,6 +61,7 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
 
   @override
   void dispose() {
+    _clipboardTimer?.cancel();
     _otpController.dispose();
     super.dispose();
   }
@@ -94,11 +98,8 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
         if (code != null && code.length == 6) {
           _otpController.text = code;
           logger.info('✅ Smart Auth: OTP auto-filled: $code');
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            if (mounted && !_isProcessing) {
-              _verifyAndDelete();
-            }
-          });
+          // Filling the Pinput completes it, and its onCompleted sends the code
+          // (a delayed second send went out too)
         }
       } else {
         logger.debug('❌ Smart Auth: No SMS detected');
@@ -109,7 +110,7 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
   }
 
   Future<void> _checkClipboardPeriodically() async {
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
+    _clipboardTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (!mounted) {
         timer.cancel();
         return;
@@ -137,11 +138,8 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
               final logger = sl<LoggingService>();
               logger.info('✅ Auto-detected NEW OTP: $otp');
               _otpController.text = otp;
-              Future.delayed(const Duration(milliseconds: 500), () {
-                if (mounted && !_isProcessing) {
-                  _verifyAndDelete();
-                }
-              });
+              // Filling the Pinput completes it, and its onCompleted sends the code
+              // (a delayed second send went out too)
             }
           }
         }
@@ -215,7 +213,9 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
             state.message.contains('Account deletion OTP sent') &&
             state.resendCountdown != null) {
           final countdownBloc = context.read<CountdownBloc>();
-          final countdownValue = state.resendCountdown ?? 120;
+          final countdownValue =
+              state.resendCountdown ??
+              sl<PublicSettingsService>().otpResendWaitSeconds;
           if (!countdownBloc.state.isActive) {
             countdownBloc.add(StartCountdownEvent(countdownValue));
           }
@@ -293,19 +293,23 @@ class _VerifyDeleteAccountOtpScreenState extends State<VerifyDeleteAccountOtpScr
                           SizedBox(height: 6.h),
                           Directionality(
                             textDirection: TextDirection.ltr,
-                            child: Pinput(
-                              length: 6,
-                              controller: _otpController,
-                              defaultPinTheme: defaultPinTheme,
-                              focusedPinTheme: focusedPinTheme,
-                              submittedPinTheme: submittedPinTheme,
-                              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                              showCursor: true,
-                              onCompleted: (pin) {
-                                if (!_isProcessing) {
-                                  _verifyAndDelete();
-                                }
-                              },
+                            child: Semantics(
+                              identifier: 'otp.code',
+                              container: true,
+                              child: Pinput(
+                                length: 6,
+                                controller: _otpController,
+                                defaultPinTheme: defaultPinTheme,
+                                focusedPinTheme: focusedPinTheme,
+                                submittedPinTheme: submittedPinTheme,
+                                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                                showCursor: true,
+                                onCompleted: (pin) {
+                                  if (!_isProcessing) {
+                                    _verifyAndDelete();
+                                  }
+                                },
+                              ),
                             ),
                           ),
                           SizedBox(height: 4.h),

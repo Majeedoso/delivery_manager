@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dio/dio.dart';
@@ -152,9 +153,9 @@ class _StatisticsRatingsOverviewScreenState
                 onDateFromSelected: (current) async {
                   final picked = await showDatePicker(
                     context: context,
-                    initialDate: current ?? DateTime.now(),
+                    initialDate: current ?? clock.now(),
                     firstDate: DateTime(2020),
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     final d = DateTime(picked.year, picked.month, picked.day);
@@ -172,14 +173,14 @@ class _StatisticsRatingsOverviewScreenState
                 },
                 onDateToSelected: (current) async {
                   final first = _dateFrom ?? DateTime(2020);
-                  final init = (current ?? DateTime.now()).isBefore(first)
+                  final init = (current ?? clock.now()).isBefore(first)
                       ? first
-                      : (current ?? DateTime.now());
+                      : (current ?? clock.now());
                   final picked = await showDatePicker(
                     context: context,
                     initialDate: init,
                     firstDate: first,
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     setState(() {

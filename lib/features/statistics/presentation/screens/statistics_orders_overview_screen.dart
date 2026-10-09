@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dio/dio.dart';
@@ -135,9 +136,9 @@ class _StatisticsOrdersOverviewScreenState
                 onDateFromSelected: (currentDate) async {
                   final picked = await showDatePicker(
                     context: context,
-                    initialDate: currentDate ?? DateTime.now(),
+                    initialDate: currentDate ?? clock.now(),
                     firstDate: DateTime(2020),
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     final pickedDate = DateTime(
@@ -159,7 +160,7 @@ class _StatisticsOrdersOverviewScreenState
                 },
                 onDateToSelected: (currentDate) async {
                   final firstDate = _dateFrom ?? DateTime(2020);
-                  final lastDate = DateTime.now();
+                  final lastDate = clock.now();
                   final initialDate = currentDate ?? lastDate;
                   final adjustedInitialDate = initialDate.isBefore(firstDate)
                       ? firstDate

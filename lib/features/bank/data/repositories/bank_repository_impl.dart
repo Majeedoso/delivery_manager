@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:delivery_manager/core/error/exceptions.dart';
 import 'package:delivery_manager/core/error/failure.dart';
 import 'package:delivery_manager/features/bank/data/datasource/bank_remote_data_source.dart';
 import 'package:delivery_manager/features/bank/domain/entities/driver_balance.dart';
@@ -9,6 +10,17 @@ class BankRepositoryImpl implements BaseBankRepository {
   final BankRemoteDataSource remoteDataSource;
 
   BankRepositoryImpl({required this.remoteDataSource});
+
+  /// The reason a request failed, as the data source gives it: the server's,
+  /// or the network's ("Exception: " stood before it on the pages).
+  static Failure _failureOf(Object error) => switch (error) {
+    ServerException(:final message, :final errorCode) => ServerFailure(
+      message,
+      errorCode: errorCode,
+    ),
+    NetworkException(:final message) => NetworkFailure(message),
+    _ => ServerFailure(error.toString()),
+  };
 
   @override
   Future<Either<Failure, DriverBalance>> getDriverBalance({
@@ -22,7 +34,7 @@ class BankRepositoryImpl implements BaseBankRepository {
       );
       return Right(balance);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(_failureOf(e));
     }
   }
 
@@ -46,7 +58,28 @@ class BankRepositoryImpl implements BaseBankRepository {
       );
       return Right(transaction);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(_failureOf(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Transaction>> recordPlatformPayment({
+    int? restaurantId,
+    int? driverId,
+    required double amount,
+    String? notes,
+  }) async {
+    try {
+      return Right(
+        await remoteDataSource.recordPlatformPayment(
+          restaurantId: restaurantId,
+          driverId: driverId,
+          amount: amount,
+          notes: notes,
+        ),
+      );
+    } catch (e) {
+      return Left(_failureOf(e));
     }
   }
 
@@ -64,7 +97,25 @@ class BankRepositoryImpl implements BaseBankRepository {
       );
       return Right(transaction);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(_failureOf(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> answerPayment({
+    required int transactionId,
+    required bool confirm,
+    String? notes,
+  }) async {
+    try {
+      await remoteDataSource.answerPayment(
+        transactionId: transactionId,
+        confirm: confirm,
+        notes: notes,
+      );
+      return const Right(unit);
+    } catch (e) {
+      return Left(_failureOf(e));
     }
   }
 
@@ -91,7 +142,7 @@ class BankRepositoryImpl implements BaseBankRepository {
         ),
       );
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(_failureOf(e));
     }
   }
 
@@ -112,7 +163,7 @@ class BankRepositoryImpl implements BaseBankRepository {
       );
       return Right(result);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(_failureOf(e));
     }
   }
 
@@ -132,7 +183,7 @@ class BankRepositoryImpl implements BaseBankRepository {
       );
       return Right(result);
     } catch (e) {
-      return Left(ServerFailure(e.toString()));
+      return Left(_failureOf(e));
     }
   }
 }

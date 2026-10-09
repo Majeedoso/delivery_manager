@@ -16,8 +16,10 @@ import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc
 import 'package:delivery_manager/features/auth/presentation/controller/auth_event.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_state.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
+import 'package:delivery_manager/core/utils/password_rules.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:sizer/sizer.dart';
+import 'package:delivery_manager/core/services/public_settings_service.dart';
 
 class ResetPasswordUnauthenticatedScreen extends StatefulWidget {
   static const String route = '/reset-password-unauthenticated';
@@ -48,6 +50,8 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
   String? _initialClipboardOtp;
   int _failedOtpAttempts = 0;
   static const int _maxOtpAttempts = 5;
+
+  Timer? _clipboardTimer; // looks for a pasted code every second
 
   @override
   void initState() {
@@ -89,13 +93,10 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
         final code = res.requireData.code;
         logger.debug('🔍 Smart Auth: Detected code: $code');
         if (code != null && code.length == 6) {
-          // Set the OTP in Pinput controller
+          // Filling the Pinput completes it, and its onCompleted verifies
+          // the code (a second, delayed verify used to send it twice)
           _otpController.text = code;
           logger.info('✅ Smart Auth: OTP auto-filled: $code');
-          // Auto-verify OTP when detected
-          Future.delayed(const Duration(milliseconds: 500), () {
-            _verifyOtp();
-          });
         }
       } else {
         logger.debug('❌ Smart Auth: No SMS detected');
@@ -109,7 +110,7 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
 
   Future<void> _checkClipboardPeriodically() async {
     // Check clipboard every 1 second for OTP
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
+    _clipboardTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (!mounted || _otpVerified) {
         timer.cancel();
         return;
@@ -144,13 +145,9 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
               _lastDetectedOtp = otp;
               final logger = sl<LoggingService>();
               logger.info('✅ Auto-detected NEW OTP: $otp');
+              // Filling the Pinput completes it, and its onCompleted
+              // verifies the code (a second, delayed verify sent it twice)
               _otpController.text = otp;
-              // Don't show message, just auto-verify silently
-              Future.delayed(const Duration(milliseconds: 500), () {
-                if (mounted) {
-                  _verifyOtp();
-                }
-              });
             } else if (isNewOtp && isNotInField && !isNotInitialOtp) {
               final logger = sl<LoggingService>();
               logger.debug('⚠️ Ignoring initial clipboard OTP: $otp');
@@ -165,6 +162,7 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
 
   @override
   void dispose() {
+    _clipboardTimer?.cancel();
     _otpController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
@@ -177,6 +175,9 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
+      // Only the screen on top answers: the auth screens under it share
+      // this bloc and would repeat its errors or navigate a second time.
+      listenWhen: (previous, current) => ModalRoute.isCurrentOf(context) ?? true,
       listener: (context, state) {
         // Handle OTP verification success
         if (state.requestState == RequestState.loaded && 
@@ -202,7 +203,9 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
             state.resendCountdown != null) {
           // Start countdown
           final countdownBloc = context.read<CountdownBloc>();
-          final countdownValue = state.resendCountdown ?? 120;
+          final countdownValue =
+              state.resendCountdown ??
+              sl<PublicSettingsService>().otpResendWaitSeconds;
           if (!countdownBloc.state.isActive) {
             countdownBloc.add(StartCountdownEvent(countdownValue));
           }
@@ -214,18 +217,20 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
         // Handle errors — track OTP failures to limit brute-force attempts
         if (state.requestState == RequestState.error && state.message.isNotEmpty) {
           if (mounted) {
+            ErrorSnackBar.show(context, state.message);
             if (!_otpVerified) {
               _failedOtpAttempts++;
               if (_failedOtpAttempts >= _maxOtpAttempts) {
+                // Start over with a new code, keeping login below so the
+                // back button still leads there
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   AppRoutes.forgotPassword,
-                  (route) => false,
+                  ModalRoute.withName(AppRoutes.login),
                 );
                 return;
               }
             }
-            ErrorSnackBar.show(context, state.message);
           }
         }
         
@@ -322,18 +327,22 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
                         ),
                       );
 
-                      return Pinput(
-                        length: 6,
-                        controller: _otpController,
-                        defaultPinTheme: defaultPinTheme,
-                        focusedPinTheme: focusedPinTheme,
-                        submittedPinTheme: submittedPinTheme,
-                        pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                        showCursor: true,
-                        onCompleted: (pin) {
-                          // Auto-verify OTP when completed
-                          _verifyOtp();
-                        },
+                      return Semantics(
+                        identifier: 'otp.code',
+                        container: true,
+                        child: Pinput(
+                          length: 6,
+                          controller: _otpController,
+                          defaultPinTheme: defaultPinTheme,
+                          focusedPinTheme: focusedPinTheme,
+                          submittedPinTheme: submittedPinTheme,
+                          pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                          showCursor: true,
+                          onCompleted: (pin) {
+                            // Auto-verify OTP when completed
+                            _verifyOtp();
+                          },
+                        ),
                       );
                     },
                   ),
@@ -381,10 +390,14 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
+                      return AppLocalizations.of(context)!.pleaseEnterPassword;
                     }
-                    if (value.length < 8) {
-                      return 'Password must be at least 8 characters';
+                    if (!PasswordRules.isLongEnough(value)) {
+                      return AppLocalizations.of(context)!.passwordMinLength8;
+                    }
+                    // The same rule as sign-up and change password
+                    if (!PasswordRules.isComplex(value)) {
+                      return AppLocalizations.of(context)!.passwordComplexity;
                     }
                     return null;
                   },
@@ -404,10 +417,10 @@ class _ResetPasswordUnauthenticatedScreenState extends State<ResetPasswordUnauth
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
+                      return AppLocalizations.of(context)!.pleaseConfirmYourPassword;
                     }
                     if (value != _passwordController.text) {
-                      return 'Passwords do not match';
+                      return AppLocalizations.of(context)!.passwordsDoNotMatch;
                     }
                     return null;
                   },

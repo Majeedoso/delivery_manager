@@ -10,8 +10,6 @@ class AppRoutes {
   static const String firstRunLanguage = '/first-run-language';
   static const String splash = '/splash';
   static const String login = '/login';
-  static const String signupChoice = '/signup-choice';
-  static const String signup = '/signup';
   static const String forgotPassword = '/forgot-password';
   static const String resetPasswordUnauthenticated =
       '/reset-password-unauthenticated';
@@ -34,11 +32,7 @@ class AppRoutes {
   // Settings routes
   static const String settings = '/settings';
   static const String about = '/about';
-  static const String languageSelection = '/language-selection';
   static const String updateRequired = '/update-required';
-
-  // Map picker route
-  static const String mapPicker = '/map-picker';
 
   // Bank routes
   static const String bank = '/bank';
@@ -77,6 +71,10 @@ class AppRoutes {
   static const String deliveryCoupons = '/coupons/delivery';
   static const String globalCoupons = '/coupons/global';
   static const String deliveryZones = '/delivery-zones';
+
+  // Where customers can order (the delivery zones; deliveryZones above are
+  // the coupons')
+  static const String deliveryAreas = '/delivery-areas';
 
   // User management routes
   static const String users = '/users';

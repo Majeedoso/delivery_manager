@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
+import 'package:delivery_manager/core/utils/error_message_mapper.dart';
+import 'package:delivery_manager/features/dashboard/presentation/setting_texts.dart';
 import 'package:delivery_manager/features/dashboard/domain/entities/app_dashboard.dart';
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_bloc.dart';
 import 'package:delivery_manager/features/dashboard/presentation/controller/dashboard_event.dart';
@@ -48,7 +50,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      state.errorMessage ?? l10n.failedToLoadSettings,
+                      state.errorMessage == null
+                          ? l10n.failedToLoadSettings
+                          : ErrorMessageMapper.getUserFriendlyMessage(
+                              state.errorMessage,
+                              l10n,
+                            ),
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
@@ -149,7 +156,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 1.w),
                         child: Text(
-                          _formatLabel(category),
+                          settingCategoryName(
+                            AppLocalizations.of(context)!,
+                            category,
+                          ),
                           style: Theme.of(
                             context,
                           ).textTheme.titleMedium?.copyWith(
@@ -181,6 +191,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return Icons.people;
       case 'loyalty_promotions':
         return Icons.card_giftcard;
+      case 'accounts_security':
+        return Icons.security;
       case 'api_integrations':
         return Icons.api;
       case 'legal_contact':
@@ -188,20 +200,5 @@ class _DashboardScreenState extends State<DashboardScreen> {
       default:
         return Icons.settings;
     }
-  }
-
-  String _formatLabel(String raw) {
-    const labels = {
-      'customers_orders': 'Customers & Orders',
-      'loyalty_promotions': 'Loyalty & Promotions',
-      'api_integrations': 'API & Integrations',
-      'legal_contact': 'Legal & Contact',
-    };
-    if (labels.containsKey(raw.toLowerCase())) return labels[raw.toLowerCase()]!;
-    return raw
-        .replaceAll('_', ' ')
-        .split(' ')
-        .map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1)}')
-        .join(' ');
   }
 }

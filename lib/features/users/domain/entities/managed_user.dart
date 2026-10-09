@@ -21,34 +21,6 @@ extension UserStatusExtension on UserStatus {
         return 'rejected';
     }
   }
-
-  String get displayName {
-    switch (this) {
-      case UserStatus.pendingApproval:
-        return 'Pending Approval';
-      case UserStatus.active:
-        return 'Active';
-      case UserStatus.suspended:
-        return 'Suspended';
-      case UserStatus.rejected:
-        return 'Rejected';
-    }
-  }
-
-  static UserStatus fromString(String status) {
-    switch (status.toLowerCase()) {
-      case 'pending_approval':
-        return UserStatus.pendingApproval;
-      case 'active':
-        return UserStatus.active;
-      case 'suspended':
-        return UserStatus.suspended;
-      case 'rejected':
-        return UserStatus.rejected;
-      default:
-        return UserStatus.pendingApproval;
-    }
-  }
 }
 
 class ManagedUser extends Equatable {

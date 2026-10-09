@@ -1,9 +1,12 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
+import 'package:delivery_manager/core/utils/error_message_mapper.dart';
+import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/features/coupons/domain/entities/coupon.dart';
 import 'package:delivery_manager/features/coupons/domain/entities/delivery_zone.dart';
 import 'package:delivery_manager/features/coupons/presentation/controller/coupons_bloc.dart';
@@ -41,8 +44,8 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
 
   String _selectedType = 'percentage';
   String _selectedStatus = 'draft';
-  DateTime _startDate = DateTime.now();
-  DateTime _endDate = DateTime.now().add(const Duration(days: 30));
+  DateTime _startDate = clock.now();
+  DateTime _endDate = clock.now().add(const Duration(days: 30));
   late String _discountTarget;
 
   int? _selectedRestaurantId;
@@ -51,6 +54,10 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
   Set<int> _selectedDeliveryZoneIds = {};
 
   bool _hasChanges = false;
+
+  /// The colour of the form's boxes: white in light mode, dark mode's own
+  /// in dark mode (white boxes showed its light text white on white).
+  Color get _boxColour => Theme.of(context).colorScheme.surfaceContainerLowest;
 
   @override
   void initState() {
@@ -148,8 +155,16 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final initialDate = isStartDate ? _startDate : _endDate;
-    final firstDate = isStartDate ? DateTime.now() : _startDate;
-    final lastDate = DateTime.now().add(const Duration(days: 365 * 2));
+    // A coupon that has started keeps its day: the calendar refused a
+    // start before today
+    final today = clock.now();
+    final firstDate = !isStartDate
+        ? _startDate
+        : initialDate.isBefore(today)
+        ? initialDate
+        : today;
+    final latest = today.add(const Duration(days: 365 * 2));
+    final lastDate = initialDate.isAfter(latest) ? initialDate : latest;
 
     final picked = await showDatePicker(
       context: context,
@@ -251,6 +266,14 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
     }
   }
 
+  /// The zones page has its own bloc: back from it, the zones are asked for
+  /// again. It looked for this page's bloc and found none (an error page).
+  Future<void> _manageZones() async {
+    final bloc = context.read<CouponsBloc>();
+    await Navigator.of(context).pushNamed(AppRoutes.deliveryZones);
+    if (mounted) bloc.add(const LoadDeliveryZonesEvent());
+  }
+
   void _toggleZone(int zoneId) {
     setState(() {
       if (_selectedDeliveryZoneIds.contains(zoneId)) {
@@ -282,16 +305,12 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
             Navigator.pop(context, true);
           } else if (state.operationStatus == CouponOperationStatus.failure &&
               state.operationMessage != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.operationMessage!),
-                backgroundColor: Colors.red,
-              ),
-            );
+            // In the manager's language (the network's failures were English)
+            ErrorSnackBar.show(context, state.operationMessage!);
           }
         },
         child: Scaffold(
-          backgroundColor: Colors.grey.shade50,
+          backgroundColor: isDark ? null : Colors.grey.shade50,
           appBar: AppBar(
             title: Text(
               widget.isEditing
@@ -447,7 +466,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                     decoration: BoxDecoration(
                       color: _discountTarget == 'final_total'
                           ? Colors.amber.shade50
-                          : Colors.white,
+                          : _boxColour,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: _discountTarget == 'final_total'
@@ -473,7 +492,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                             _discountTarget == 'delivery_fee'
                                 ? localizations.deliveryFee
                                 : _discountTarget == 'final_total'
-                                ? 'Final Total (Global)'
+                                ? localizations.finalTotalGlobal
                                 : localizations.orderSubtotal,
                             style: TextStyle(
                               fontSize: 13.sp,
@@ -589,9 +608,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                         Icons.add_circle,
                         color: Color(0xFFFF781F),
                       ),
-                      onPressed: () => Navigator.of(
-                        context,
-                      ).pushNamed(AppRoutes.deliveryZones),
+                      onPressed: _manageZones,
                       tooltip: localizations.manageZones,
                     ),
                   ),
@@ -714,7 +731,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
           return Container(
             padding: EdgeInsets.all(4.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: _boxColour,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.shade300),
             ),
@@ -737,7 +754,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
           return Container(
             padding: EdgeInsets.all(4.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: _boxColour,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.red.shade300),
             ),
@@ -747,7 +764,10 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                 SizedBox(width: 2.w),
                 Expanded(
                   child: Text(
-                    state.zonesErrorMessage!,
+                    ErrorMessageMapper.getUserFriendlyMessage(
+                      state.zonesErrorMessage!,
+                      localizations,
+                    ),
                     style: TextStyle(color: Colors.red.shade600),
                   ),
                 ),
@@ -790,9 +810,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                 ),
                 SizedBox(height: 2.h),
                 TextButton.icon(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(AppRoutes.deliveryZones);
-                  },
+                  onPressed: _manageZones,
                   icon: const Icon(Icons.add_location_alt),
                   label: Text(localizations.manageZones),
                   style: TextButton.styleFrom(
@@ -806,7 +824,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
 
         return Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: _boxColour,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.grey.shade300),
           ),
@@ -826,7 +844,9 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                     Text(
                       _selectedDeliveryZoneIds.isEmpty
                           ? localizations.selectZonesInfo
-                          : '${_selectedDeliveryZoneIds.length} ${_selectedDeliveryZoneIds.length != 1 ? localizations.zones : localizations.zone} selected',
+                          : localizations.zonesSelected(
+                              _selectedDeliveryZoneIds.length,
+                            ),
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 13.sp,
@@ -852,7 +872,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
           return Container(
             padding: EdgeInsets.all(4.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: _boxColour,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.shade300),
             ),
@@ -876,7 +896,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
           return Container(
             padding: EdgeInsets.all(4.w),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: _boxColour,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.red.shade300),
             ),
@@ -886,7 +906,10 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                 SizedBox(width: 2.w),
                 Expanded(
                   child: Text(
-                    state.restaurantsErrorMessage!,
+                    ErrorMessageMapper.getUserFriendlyMessage(
+                      state.restaurantsErrorMessage!,
+                      localizations,
+                    ),
                     style: TextStyle(color: Colors.red.shade600),
                   ),
                 ),
@@ -935,7 +958,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                   ? idRaw
                   : int.tryParse(idRaw?.toString() ?? '');
               if (id == null) return null;
-              final name = restaurant['name']?.toString() ?? 'Unknown';
+              final name = restaurant['name']?.toString() ?? '#$id';
               return DropdownMenuItem<int?>(value: id, child: Text(name));
             })
             .whereType<DropdownMenuItem<int?>>()
@@ -1016,6 +1039,9 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
                             fontWeight: FontWeight.w500,
                             color: isSelected
                                 ? const Color(0xFFFF781F)
+                                : Theme.of(context).brightness ==
+                                      Brightness.dark
+                                ? Colors.white
                                 : Colors.black87,
                           ),
                         ),
@@ -1082,7 +1108,7 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
           : null,
       suffixText: suffix,
       filled: true,
-      fillColor: Colors.white,
+      fillColor: _boxColour,
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide(color: Colors.grey.shade300),
@@ -1108,14 +1134,17 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
     required DateTime date,
     required VoidCallback onTap,
   }) {
-    final dateFormat = DateFormat('MMM d, yyyy');
+    // In the manager's language ("12 sept. 2026", not "Sep 12, 2026")
+    final dateFormat = DateFormat.yMMMd(
+      Localizations.localeOf(context).toString(),
+    );
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.5.h),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: _boxColour,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey.shade300),
         ),

@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
@@ -41,10 +42,13 @@ class _StatisticsPerformanceOverviewScreenState
 
   Future<_PerformanceOverviewStats> _fetchStats() async {
     final dio = sl<Dio>();
-    final backendPeriod = _selectedPeriod == 'dateRange'
-        ? 'custom'
-        : _selectedPeriod;
-    final q = <String, dynamic>{'period': backendPeriod};
+    // The days the filter names (this week since Sunday, this month, this
+    // year: `PeriodCalculator`) are sent as they are. Sent by name, the server
+    // counted its own: a "week" was the last seven days for the restaurants
+    // and the week since Sunday for the deliveries, and "day" was refused
+    final q = <String, dynamic>{
+      'period': _selectedPeriod == 'all' ? 'all' : 'custom',
+    };
     if (_dateFrom != null) q['start_date'] = _fmt(_dateFrom!);
     if (_dateTo != null) q['end_date'] = _fmt(_dateTo!);
 
@@ -136,14 +140,15 @@ class _StatisticsPerformanceOverviewScreenState
     } catch (_) {}
   }
 
-  String _formatMinutes(double? minutes, String minutesAbbr) {
-    if (minutes == null) return 'N/A';
-    if (minutes <= 0) return '-';
+  /// A time in the app's language ("N/A" and "s" were English): none
+  /// known yet, a dash, as for none at all.
+  String _formatMinutes(double? minutes, AppLocalizations l) {
+    if (minutes == null || minutes <= 0) return '-';
     if (minutes < 1) {
       final secs = (minutes * 60).round();
-      return '$secs s';
+      return '$secs ${secs == 1 ? l.second : l.seconds}';
     }
-    return '${minutes.toStringAsFixed(1)} $minutesAbbr';
+    return '${minutes.toStringAsFixed(1)} ${l.minutesAbbr}';
   }
 
   @override
@@ -185,9 +190,9 @@ class _StatisticsPerformanceOverviewScreenState
                 onDateFromSelected: (current) async {
                   final picked = await showDatePicker(
                     context: context,
-                    initialDate: current ?? DateTime.now(),
+                    initialDate: current ?? clock.now(),
                     firstDate: DateTime(2020),
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     final d = DateTime(picked.year, picked.month, picked.day);
@@ -205,14 +210,14 @@ class _StatisticsPerformanceOverviewScreenState
                 },
                 onDateToSelected: (current) async {
                   final first = _dateFrom ?? DateTime(2020);
-                  final init = (current ?? DateTime.now()).isBefore(first)
+                  final init = (current ?? clock.now()).isBefore(first)
                       ? first
-                      : (current ?? DateTime.now());
+                      : (current ?? clock.now());
                   final picked = await showDatePicker(
                     context: context,
                     initialDate: init,
                     firstDate: first,
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     setState(() {
@@ -346,10 +351,7 @@ class _StatisticsPerformanceOverviewScreenState
                             children: [
                               _MetricCard(
                                 label: l.responseSpeed.toUpperCase(),
-                                value: _formatMinutes(
-                                  stats.responseSpeed,
-                                  l.minutesAbbr,
-                                ),
+                                value: _formatMinutes(stats.responseSpeed, l),
                                 icon: Icons.access_time_outlined,
                                 iconColor: Colors.blue.shade700,
                                 circleColor: const Color(0xFFE3F2FD),
@@ -358,7 +360,7 @@ class _StatisticsPerformanceOverviewScreenState
                                 label: l.preparationSpeed.toUpperCase(),
                                 value: _formatMinutes(
                                   stats.preparationSpeed,
-                                  l.minutesAbbr,
+                                  l,
                                 ),
                                 icon: Icons.restaurant_outlined,
                                 iconColor: Colors.purple.shade700,
@@ -498,24 +500,16 @@ class _StatisticsPerformanceOverviewScreenState
                                 value:
                                     '${stats.responseSpeedMinutes.toStringAsFixed(1)} ${l.minutesAbbr}',
                                 icon: Icons.alt_route_outlined,
-                                iconColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-                                circleColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withValues(alpha: 0.1),
+                                iconColor: const Color(0xFFE64A19),
+                                circleColor: const Color(0xFFFFEBE3),
                               ),
                               _MetricCard(
                                 label: l.pickupSpeed.toUpperCase(),
                                 value:
                                     '${stats.pickupSpeedMinutes.toStringAsFixed(1)} ${l.minutesAbbr}',
                                 icon: Icons.directions_run_outlined,
-                                iconColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-                                circleColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withValues(alpha: 0.1),
+                                iconColor: const Color(0xFFE64A19),
+                                circleColor: const Color(0xFFFFEBE3),
                               ),
                               _MetricCard(
                                 label: l.cancellationRate.toUpperCase(),
@@ -685,9 +679,9 @@ class _MetricCard extends StatelessWidget {
             Text(
               label,
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.5),
+                // The card is white in both modes: the theme's text
+                // colour, white in dark mode, could not be read on it
+                color: Colors.black.withValues(alpha: 0.5),
                 fontWeight: FontWeight.w700,
                 letterSpacing: 0.5,
                 fontSize: 16.sp,

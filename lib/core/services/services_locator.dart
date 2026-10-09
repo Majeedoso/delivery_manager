@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
@@ -6,10 +8,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../network/api_constance.dart';
 import '../utils/app_timeouts.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'countdown_service.dart';
 import 'device_info_service.dart';
-import 'theme_service.dart';
 import 'logging_service.dart';
+import 'public_settings_service.dart';
 import '../../features/theme/presentation/controller/theme_bloc.dart';
 import '../../features/countdown/presentation/controller/countdown_bloc.dart';
 import '../../features/auth/data/datasource/auth_local_data_source.dart';
@@ -27,9 +28,7 @@ import '../../features/auth/domain/repository/base_token_repository.dart';
 import '../../features/auth/domain/usecases/get_current_user_usecase.dart';
 import '../../features/auth/domain/usecases/login_usecase.dart';
 import '../../features/auth/domain/usecases/logout_usecase.dart';
-import '../../features/auth/domain/usecases/register_usecase.dart';
 import '../../features/auth/domain/usecases/google_sign_in_usecase.dart';
-import '../../features/auth/domain/usecases/google_sign_up_usecase.dart';
 import '../../features/auth/domain/usecases/google_sign_out_usecase.dart';
 import '../../features/auth/domain/usecases/save_credentials_usecase.dart';
 import '../../features/auth/domain/usecases/load_credentials_usecase.dart';
@@ -52,7 +51,6 @@ import '../../features/localization/data/datasource/localization_local_data_sour
 import '../../features/localization/data/repository/localization_repository.dart';
 import '../../features/localization/domain/repository/base_localization_repository.dart';
 import '../../features/localization/presentation/controller/localization_bloc.dart';
-import '../../features/profile/data/datasource/profile_local_data_source.dart';
 import '../../features/profile/data/datasource/profile_remote_data_source.dart';
 import '../../features/profile/data/repository/profile_repository.dart';
 import '../../features/profile/domain/repository/base_profile_repository.dart';
@@ -80,7 +78,9 @@ import '../../features/bank/domain/repositories/base_bank_repository.dart';
 import '../../features/bank/domain/usecases/get_driver_balance_usecase.dart';
 import '../../features/bank/domain/usecases/record_restaurant_payment_usecase.dart';
 import '../../features/bank/domain/usecases/record_system_payment_usecase.dart';
+import '../../features/bank/domain/usecases/record_platform_payment_usecase.dart';
 import '../../features/bank/domain/usecases/get_transactions_usecase.dart';
+import '../../features/bank/domain/usecases/answer_payment_usecase.dart';
 import '../../features/bank/presentation/controller/bank_bloc.dart';
 import '../../features/coupons/data/datasource/coupons_remote_data_source.dart';
 import '../../features/coupons/data/repository/coupons_repository.dart';
@@ -95,12 +95,21 @@ import '../../features/users/domain/usecases/reject_user_usecase.dart';
 import '../../features/users/domain/usecases/suspend_user_usecase.dart';
 import '../../features/users/domain/usecases/activate_user_usecase.dart';
 import '../../features/users/presentation/controller/users_bloc.dart';
+import '../../features/delivery_areas/data/datasource/delivery_areas_remote_data_source.dart';
+import '../../features/delivery_areas/data/repository/delivery_areas_repository_impl.dart';
+import '../../features/delivery_areas/domain/repository/base_delivery_areas_repository.dart';
+import '../../features/delivery_areas/domain/usecases/delivery_areas_usecases.dart';
+import '../../features/delivery_areas/presentation/controller/delivery_areas_bloc.dart';
 import '../../features/dashboard/data/datasource/dashboard_remote_data_source.dart';
 import '../../features/dashboard/data/repository/dashboard_repository_impl.dart';
 import '../../features/dashboard/domain/repository/base_dashboard_repository.dart';
 import '../../features/dashboard/presentation/controller/dashboard_bloc.dart';
-import '../services/api_service.dart';
 import '../interceptors/retry_interceptor.dart';
+
+/// Fires when the backend returns 403 ACCOUNT_NOT_APPROVED mid-session (the
+/// manager's account was suspended). The main app widget listens to this to
+/// send the manager back to sign in.
+final accountSuspendedEvents = StreamController<void>.broadcast();
 
 final sl = GetIt.instance;
 
@@ -202,6 +211,13 @@ class ServicesLocator {
             handler.next(options);
           },
           onError: (error, handler) {
+            // Detect mid-session account suspension
+            if (error.response?.statusCode == 403) {
+              final data = error.response?.data;
+              if (data is Map && data['error_code'] == 'ACCOUNT_NOT_APPROVED') {
+                accountSuspendedEvents.add(null);
+              }
+            }
             handler.next(error);
           },
         ),
@@ -236,17 +252,12 @@ class ServicesLocator {
     // Logging Service - should be registered early for use throughout the app
     _safeRegister<LoggingService>(() => LoggingService());
 
-    // Countdown Service
-    _safeRegister<CountdownService>(() => CountdownService());
-
-    // Theme Service - uses same SharedPreferences instance as language (same pattern)
-    _safeRegister<ThemeService>(() => ThemeService(sl<SharedPreferences>()));
-
-    // ApiService - wrapper around Dio for API calls
-    _safeRegister<ApiService>(
-      () => ApiService(
-        baseUrl: ApiConstance.baseUrl,
-        logger: sl<LoggingService>(),
+    // What the manager sets on the server and the app needs (map token,
+    // timers): read from the backend's settings table, never from .env
+    _safeRegister<PublicSettingsService>(
+      () => PublicSettingsService(
+        dio: sl<Dio>(),
+        preferences: sl<SharedPreferences>(),
       ),
     );
 
@@ -262,11 +273,20 @@ class ServicesLocator {
     sl.registerLazySingleton<BaseAuthLocalDataSource>(
       () => AuthLocalDataSource(sharedPreferences: sl()),
     );
+    // An earlier version also kept the sign-in token in these plain
+    // preferences, which Android backs up: those copies are removed at start
+    // (the token stays in the encrypted storage, nobody is signed out)
+    try {
+      await sl<BaseAuthLocalDataSource>().clearToken();
+    } catch (_) {
+      // Never stops the start
+    }
     sl.registerLazySingleton<BaseGoogleAuthRemoteDataSource>(
       () => GoogleAuthRemoteDataSource(
         firebaseAuth: sl(),
         googleSignIn: sl(),
         dio: sl(),
+        deviceInfoService: sl(),
       ),
     );
     sl.registerLazySingleton<BaseSecureStorageLocalDataSource>(
@@ -283,9 +303,6 @@ class ServicesLocator {
     );
     sl.registerLazySingleton<BaseProfileRemoteDataSource>(
       () => ProfileRemoteDataSource(dio: sl(), tokenRepository: sl()),
-    );
-    sl.registerLazySingleton<BaseProfileLocalDataSource>(
-      () => ProfileLocalDataSource(sharedPreferences: sl()),
     );
     sl.registerLazySingleton<BaseCouponsRemoteDataSource>(
       () => CouponsRemoteDataSource(dio: sl(), logger: sl()),
@@ -317,7 +334,6 @@ class ServicesLocator {
     sl.registerLazySingleton<BaseProfileRepository>(
       () => ProfileRepository(
         baseProfileRemoteDataSource: sl(),
-        baseProfileLocalDataSource: sl(),
       ),
     );
     sl.registerLazySingleton<BaseCouponsRepository>(
@@ -331,7 +347,7 @@ class ServicesLocator {
 
     // App Config Data Source
     sl.registerLazySingleton<BaseAppConfigRemoteDataSource>(
-      () => AppConfigRemoteDataSourceImpl(apiService: sl()),
+      () => AppConfigRemoteDataSourceImpl(dio: sl()),
     );
 
     // App Config Repository
@@ -341,11 +357,9 @@ class ServicesLocator {
 
     // Use Cases
     sl.registerLazySingleton(() => LoginUseCase(sl()));
-    sl.registerLazySingleton(() => RegisterUseCase(sl()));
     sl.registerLazySingleton(() => LogoutUseCase(sl()));
     sl.registerLazySingleton(() => GetCurrentUserUseCase(sl()));
     sl.registerLazySingleton(() => GoogleSignInUseCase(sl()));
-    sl.registerLazySingleton(() => GoogleSignUpUseCase(sl()));
     sl.registerLazySingleton(() => GoogleSignOutUseCase(sl()));
     sl.registerLazySingleton(() => SaveCredentialsUseCase(sl()));
     sl.registerLazySingleton(() => LoadCredentialsUseCase(sl()));
@@ -383,11 +397,9 @@ class ServicesLocator {
     sl.registerFactory(
       () => AuthBloc(
         loginUseCase: sl(),
-        registerUseCase: sl(),
         logoutUseCase: sl(),
         getCurrentUserUseCase: sl(),
         googleSignInUseCase: sl(),
-        googleSignUpUseCase: sl(),
         googleSignOutUseCase: sl(),
         saveTokenUseCase: sl(),
         checkAuthStatusUseCase: sl(),
@@ -454,7 +466,9 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetDriverBalanceUseCase(sl()));
     sl.registerLazySingleton(() => RecordRestaurantPaymentUseCase(sl()));
     sl.registerLazySingleton(() => RecordSystemPaymentUseCase(sl()));
+    sl.registerLazySingleton(() => RecordPlatformPaymentUseCase(sl()));
     sl.registerLazySingleton(() => GetTransactionsUseCase(sl()));
+    sl.registerLazySingleton(() => AnswerPaymentUseCase(sl()));
 
     // Bank BLoC
     sl.registerFactory(
@@ -463,6 +477,8 @@ class ServicesLocator {
         recordRestaurantPaymentUseCase: sl(),
         recordSystemPaymentUseCase: sl(),
         getTransactionsUseCase: sl(),
+        answerPaymentUseCase: sl(),
+        recordPlatformPaymentUseCase: sl(),
         bankRepository: sl<BaseBankRepository>(),
       ),
     );
@@ -497,6 +513,26 @@ class ServicesLocator {
         rejectUserUseCase: sl(),
         suspendUserUseCase: sl(),
         activateUserUseCase: sl(),
+      ),
+    );
+
+    // Delivery zones: where customers can order
+    sl.registerLazySingleton<BaseDeliveryAreasRemoteDataSource>(
+      () => DeliveryAreasRemoteDataSource(dio: sl(), logger: sl()),
+    );
+    sl.registerLazySingleton<BaseDeliveryAreasRepository>(
+      () => DeliveryAreasRepositoryImpl(remoteDataSource: sl()),
+    );
+    sl.registerLazySingleton(() => GetDeliveryAreasUseCase(sl()));
+    sl.registerLazySingleton(() => SaveDeliveryAreaUseCase(sl()));
+    sl.registerLazySingleton(() => SwitchDeliveryAreaUseCase(sl()));
+    sl.registerLazySingleton(() => DeleteDeliveryAreaUseCase(sl()));
+    sl.registerFactory(
+      () => DeliveryAreasBloc(
+        getAreas: sl(),
+        saveArea: sl(),
+        switchArea: sl(),
+        deleteArea: sl(),
       ),
     );
 

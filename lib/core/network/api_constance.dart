@@ -4,12 +4,10 @@ class ApiConstance {
   static String get baseUrl => AppConfig.baseUrl;
 
   // Auth endpoints (relative paths - Dio has baseUrl configured)
-  static const String registerPath = "/auth/register";
   static const String loginPath = "/auth/login";
   static const String logoutPath = "/auth/logout";
   static const String userPath = "/auth/user";
   static const String googleSignInPath = "/auth/google/login";
-  static const String googleSignUpPath = "/auth/google/signup";
   static const String changePasswordPath = "/auth/change-password";
   static const String changeEmailPath = "/auth/change-email";
   static const String updateFcmTokenEndpoint = "/auth/update-fcm-token";
@@ -58,97 +56,9 @@ class ApiConstance {
 
   // Profile endpoints (User profile - for editing name, phone)
   static const String getProfilePath = "/auth/user";
-  static const String updateProfilePath =
-      "/auth/user"; // User profile update endpoint
+  // The manager's own route: /auth/user can only be read
+  static const String updateProfilePath = "/manager/profile";
 
-  // Restaurant Profile endpoints
-  static const String getRestaurantProfilePath = "/restaurant/profile";
-  static const String updateRestaurantProfilePath = "/restaurant/profile";
-
-  // Order endpoints
-  static const String ordersPath = "/restaurant/orders";
-  static const String pendingOrdersCountPath =
-      "/restaurant/orders/pending/count";
-  static const String ongoingOrdersCountPath =
-      "/restaurant/orders/ongoing/count";
-  static const String acceptedOrdersPath = "/restaurant/orders/accepted";
-  static const String rejectedOrdersPath = "/restaurant/orders/rejected";
-  static String orderByIdPath(int id) => "/restaurant/orders/$id";
-  static String updateOrderStatusPath(int orderId) =>
-      "/restaurant/orders/$orderId/status";
-
-  // Menu endpoints
-  static const String categoriesPath = "/restaurant/categories";
-  static String categoryByIdPath(int id) => "/restaurant/categories/$id";
-  static const String menuItemsPath = "/restaurant/menu-items";
-  static String menuItemByIdPath(int id) => "/restaurant/menu-items/$id";
-
-  // Driver endpoints
-  static const String restaurantDriversPath = "/restaurant/drivers";
-  static String restaurantDriverByIdPath(int driverId) =>
-      "/restaurant/drivers/$driverId";
-  static const String restaurantDriversAllPath = "/restaurant/drivers/all";
-  static const String restaurantDriversLinkByIdPath =
-      "/restaurant/drivers/link-by-id";
-
-  // Bank endpoints
-  static const String restaurantBalancePath = "/restaurant/balance";
-  static String confirmPaymentPath(int transactionId) =>
-      "/restaurant/payments/$transactionId/confirm";
-  static const String restaurantTransactionsPath = "/restaurant/transactions";
-  static const String systemPaymentAmountPath =
-      "/restaurant/system-payment-amount";
-
-  // Statistics endpoints
-  static const String restaurantStatisticsPath = "/restaurant/statistics";
-
-  // Driver schedule endpoints
-  static const String driverSchedulePath = "/driver/schedule";
-
-  // Ratings endpoints
-  static const String restaurantRatingsPath = "/restaurant/ratings";
-  static String respondToRatingPath(int ratingId) =>
-      "/restaurant/ratings/$ratingId/respond";
-
-  // Public restaurants endpoint
-  static const String restaurantsPath = "/restaurants";
-
-  // Driver orders endpoints
-  static const String availableOrdersPath = "/driver/orders/available";
-  static const String availableOrdersCountPath =
-      "/driver/orders/available/count";
-  static const String driverCapacityPath = "/driver/orders/capacity";
-  static const String driverActiveOrdersPath = "/driver/orders/active";
-  static const String acceptOrderPath = "/driver/orders";
-  static String driverOrderStatusPath(int orderId) =>
-      "/driver/orders/$orderId/status";
-
-  // Driver history endpoint for archive orders
-  static const String driverHistoryPath = "/driver/history";
-
-  // Driver order rejection
-  static String rejectOrderPath(int orderId) =>
-      "/driver/orders/$orderId/reject";
-  static const String driverRejectedOrdersPath = "/driver/rejected-orders";
-
-  // Driver order unassignment (for accepted orders)
-  static String unassignOrderPath(int orderId) =>
-      "/driver/orders/$orderId/unassign";
-  static const String driverUnassignedOrdersPath = "/driver/unassigned-orders";
-
-  // Driver restaurant linking endpoints
-  static const String driverLinkedRestaurantsPath = "/driver/restaurants";
-  static const String driverBrowseRestaurantsPath =
-      "/driver/restaurants/browse";
-  static const String driverAllRestaurantsPath = "/driver/restaurants/all";
-  static const String linkRestaurantByIdPath =
-      "/driver/restaurants/link-by-id";
-  static const String linkRestaurantPath = "/driver/restaurants/link";
-  static String unlinkRestaurantPath(int restaurantId) =>
-      "/driver/restaurants/$restaurantId";
-
-  // Driver bank endpoints
-  static const String driverBalancePath = "/driver/credits-debts";
   // Manager bank endpoints
   static const String managerCreditsDebtsPath = "/manager/credits-debts";
   static const String managerRestaurantPaymentAmountPath =
@@ -157,26 +67,23 @@ class ApiConstance {
       "/manager/system-payment-amount";
   static const String managerRestaurantPaymentsPath = "/manager/restaurant-payments";
   static const String managerSystemPaymentsPath = "/manager/system-payments";
+  // What the platform pays a restaurant or a driver
+  static const String managerPlatformPaymentsPath =
+      "/manager/platform-payments";
+  static String managerAnswerPaymentPath(int id) =>
+      "/manager/system-payments/$id/confirm";
   static const String managerOrderStatisticsPath =
       "/manager/statistics/orders";
-  static const String driverRestaurantPaymentAmountPath =
-      "/driver/restaurant-payment-amount";
-  static const String driverSystemPaymentAmountPath =
-      "/driver/system-payment-amount";
-  static const String driverPaymentsPath = "/driver/payments";
-  static const String driverSystemPaymentsPath = "/driver/system-payments";
-  static const String driverTransactionsPath = "/driver/transactions";
 
   // Manager coupons endpoints
+  // The delivery zones: where customers can order
+  static const String managerDeliveryZonesPath = "/manager/delivery-zones";
+  static String managerDeliveryZonePath(int id) =>
+      "/manager/delivery-zones/$id";
+  static String managerDeliveryZoneSwitchPath(int id) =>
+      "/manager/delivery-zones/$id/toggle-active";
   static const String managerCouponsPath = "/manager/coupons";
   static String managerCouponByIdPath(int id) => "/manager/coupons/$id";
-  static const String managerGenerateCouponCodePath =
-      "/manager/coupons/generate-code";
-
-  // Manager delivery zones endpoints
-  static const String managerDeliveryZonesPath = "/manager/delivery-zones";
-  static String managerDeliveryZoneByIdPath(int id) =>
-      "/manager/delivery-zones/$id";
 
   // Manager coupon zones endpoints
   static const String managerCouponZonesPath = "/manager/coupon-zones";
@@ -185,21 +92,13 @@ class ApiConstance {
 
   // Manager user management endpoints
   static const String managerUsersPath = "/manager/users";
-  static String managerUserByIdPath(int id) => "/manager/users/$id";
   static String managerApproveUserPath(int id) => "/manager/users/$id/approve";
   static String managerRejectUserPath(int id) => "/manager/users/$id/reject";
   static String managerSuspendUserPath(int id) => "/manager/users/$id/suspend";
   static String managerActivateUserPath(int id) => "/manager/users/$id/activate";
 
-  // Driver statistics endpoint
-  static const String driverStatisticsPath = "/driver/statistics";
-
   // Manager analytics endpoints
-  static const String managerAnalyticsStatisticsPath =
-      "/manager/analytics/statistics";
   static const String managerAnalyticsRevenuePath = "/manager/analytics/revenue";
-  static const String managerAnalyticsDashboardPath =
-      "/manager/analytics/dashboard";
   static const String managerDeliveryAnalyticsPath =
       "/manager/deliveries/analytics";
   static const String managerRatingStatisticsPath =

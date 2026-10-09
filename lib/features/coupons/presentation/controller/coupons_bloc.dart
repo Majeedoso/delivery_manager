@@ -179,7 +179,6 @@ class CouponsBloc extends Bloc<CouponsEvent, CouponsState> {
         emit(
           state.copyWith(
             zoneOperationStatus: ZoneOperationStatus.success,
-            zoneOperationMessage: 'Zone created successfully!',
             deliveryZones: [...state.deliveryZones, zone],
           ),
         );
@@ -225,7 +224,6 @@ class CouponsBloc extends Bloc<CouponsEvent, CouponsState> {
         emit(
           state.copyWith(
             zoneOperationStatus: ZoneOperationStatus.success,
-            zoneOperationMessage: 'Zone updated successfully!',
             deliveryZones: updatedZones,
           ),
         );
@@ -263,7 +261,6 @@ class CouponsBloc extends Bloc<CouponsEvent, CouponsState> {
         emit(
           state.copyWith(
             zoneOperationStatus: ZoneOperationStatus.success,
-            zoneOperationMessage: 'Zone deleted successfully!',
             deliveryZones: updatedZones,
           ),
         );
@@ -313,7 +310,6 @@ class CouponsBloc extends Bloc<CouponsEvent, CouponsState> {
         emit(
           state.copyWith(
             operationStatus: CouponOperationStatus.success,
-            operationMessage: 'Coupon created successfully!',
             coupons: [coupon, ...state.coupons],
             total: state.total + 1,
           ),
@@ -369,7 +365,6 @@ class CouponsBloc extends Bloc<CouponsEvent, CouponsState> {
         emit(
           state.copyWith(
             operationStatus: CouponOperationStatus.success,
-            operationMessage: 'Coupon updated successfully!',
             coupons: updatedCoupons,
           ),
         );

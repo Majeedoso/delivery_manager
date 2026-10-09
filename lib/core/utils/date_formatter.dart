@@ -14,15 +14,7 @@ class DateFormatter {
     if (date == null) {
       return AppLocalizations.of(context)!.selectDate;
     }
-    return '${date.day}/${date.month}/${date.year}';
-  }
-
-  /// Format date with time for display
-  /// Format: "DD/MM/YYYY HH:MM"
-  /// 
-  /// Example: "15/01/2024 14:30"
-  static String formatDateTime(DateTime date) {
-    return '${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }
 }
 

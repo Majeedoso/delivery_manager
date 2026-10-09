@@ -75,7 +75,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: !_hasUnsavedChanges(),
+      // Decided when leaving: typing doesn't rebuild the page, so a value
+      // computed here went stale and the edits were lost without asking
+      canPop: false,
       onPopInvokedWithResult: (bool didPop, dynamic result) async {
         if (didPop) return;
         if (!_hasUnsavedChanges()) {
@@ -165,10 +167,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.trim().isEmpty) {
-                                    return 'Name is required';
+                                    return AppLocalizations.of(
+                                      context,
+                                    )!.nameIsRequired;
                                   }
                                   if (value.trim().length < 2) {
-                                    return 'Name must be at least 2 characters';
+                                    return AppLocalizations.of(
+                                      context,
+                                    )!.nameTooShort;
                                   }
                                   return null;
                                 },
@@ -190,7 +196,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   if (value != null &&
                                       value.trim().isNotEmpty) {
                                     if (value.trim().length < 10) {
-                                      return 'Phone number must be at least 10 digits';
+                                      return AppLocalizations.of(
+                                        context,
+                                      )!.phoneTooShort;
                                     }
                                   }
                                   return null;

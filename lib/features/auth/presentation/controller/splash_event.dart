@@ -16,9 +16,8 @@ abstract class SplashEvent extends Equatable {
 /// This is the first event dispatched when the splash screen loads.
 /// It resets the splash state and begins the initialization sequence:
 /// 1. Check internet connection
-/// 2. Check notification permissions
-/// 3. Initialize notification service
-/// 4. Check authentication status
+/// 2. Check the app's version
+/// 3. Check authentication status
 class InitializeAppEvent extends SplashEvent {
   const InitializeAppEvent();
 }
@@ -30,19 +29,6 @@ class InitializeAppEvent extends SplashEvent {
 /// not just network interface availability.
 class CheckInternetConnectionEvent extends SplashEvent {
   const CheckInternetConnectionEvent();
-}
-
-/// Event triggered to request notification permission from the user
-/// 
-/// Used when notification permission is not granted.
-/// Opens the system permission dialog for notifications.
-class RequestNotificationPermissionEvent extends SplashEvent {
-  const RequestNotificationPermissionEvent();
-}
-
-/// Event triggered to re-check notification permission on app resume
-class RefreshNotificationPermissionEvent extends SplashEvent {
-  const RefreshNotificationPermissionEvent();
 }
 
 /// Event triggered when user wants to retry the initialization process

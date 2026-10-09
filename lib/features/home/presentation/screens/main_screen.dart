@@ -98,6 +98,9 @@ class _MainScreenState extends State<MainScreen> {
                       // Dashboard Container
                       _buildDashboardContainer(context),
 
+                      // Delivery zones: where customers can order
+                      _buildDeliveryAreasContainer(context),
+
                       // Profile Container
                       _buildProfileContainer(context),
 
@@ -242,7 +245,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildCouponsContainer(BuildContext context) {
     return _buildIconContainer(
       context,
-      title: 'Coupons',
+      title: AppLocalizations.of(context)!.coupons,
       iconPath: 'assets/images/coupons.ico',
       onTap: () => _navigateToCoupons(context),
     );
@@ -263,7 +266,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildUsersContainer(BuildContext context) {
     return _buildIconContainer(
       context,
-      title: 'User Management',
+      title: AppLocalizations.of(context)!.userManagement,
       iconPath: 'assets/images/user_management.ico',
       onTap: () => _navigateToUsers(context),
     );
@@ -276,9 +279,18 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildDashboardContainer(BuildContext context) {
     return _buildIconContainer(
       context,
-      title: 'Dashboard',
+      title: AppLocalizations.of(context)!.dashboard,
       iconData: Icons.tune,
       onTap: () => _navigateToDashboard(context),
+    );
+  }
+
+  Widget _buildDeliveryAreasContainer(BuildContext context) {
+    return _buildIconContainer(
+      context,
+      title: AppLocalizations.of(context)!.deliveryAreas,
+      iconData: Icons.map_outlined,
+      onTap: () => Navigator.of(context).pushNamed(AppRoutes.deliveryAreas),
     );
   }
 

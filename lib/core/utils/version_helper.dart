@@ -71,8 +71,10 @@ class VersionHelper {
   /// Handles versions in format: "major.minor.patch" or "major.minor.patch.build"
   /// Returns a list of [major, minor, patch]
   static List<int> _parseVersion(String version) {
+    // The build number and pre-release tag don't count: "1.0.0+5" is 1.0.0
+    final release = version.trim().split('+').first.split('-').first;
     // Remove any non-numeric characters except dots
-    final cleanedVersion = version.replaceAll(RegExp(r'[^0-9.]'), '');
+    final cleanedVersion = release.replaceAll(RegExp(r'[^0-9.]'), '');
     final parts = cleanedVersion.split('.').map((part) {
       try {
         return int.parse(part);

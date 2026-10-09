@@ -49,6 +49,10 @@ class TokenLocalDataSource implements BaseTokenLocalDataSource {
   /// Flag to track if we've already tried to recover from storage errors
   static bool _hasAttemptedRecovery = false;
 
+  /// Lets the one-time storage recovery run again (the flag lives per process).
+  @visibleForTesting
+  static void resetForTest() => _hasAttemptedRecovery = false;
+
   /// Attempt to recover from storage corruption by clearing all data
   /// This is called when we detect a corrupted keystore
   Future<void> _attemptRecovery() async {

@@ -3,9 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/core/utils/app_timeouts.dart';
 import 'package:delivery_manager/core/services/connectivity_service.dart';
-import 'package:delivery_manager/core/services/permission_service.dart';
-import 'package:delivery_manager/core/services/base_permission_service.dart';
-import 'package:delivery_manager/core/services/notification_service.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/splash_event.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/splash_state.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
@@ -19,9 +16,11 @@ import 'package:delivery_manager/core/services/services_locator.dart';
 ///
 /// This BLoC orchestrates the app initialization sequence:
 /// 1. Check internet connectivity (required)
-/// 2. Check notification permission (required)
-/// 3. Initialize notification service
-/// 4. Check authentication status (via AuthBloc)
+/// 2. Check the app's version
+/// 3. Check authentication status (via AuthBloc)
+///
+/// It asks for no notification permission: the server sends a manager
+/// nothing (decision 1 of manager_suite_report.md)
 ///
 /// The BLoC ensures all prerequisites are met before allowing the app
 /// to proceed to the main screens. If any required step fails, it displays
@@ -48,36 +47,28 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   /// Logging service for centralized logging
   final LoggingService _logger;
 
-  /// Permission service for checking and requesting notification permissions
-  ///
-  /// This is injected to allow for testing with mocks
-  final BasePermissionService _permissionService;
-
-  /// Track if we've already triggered the initial permission request
-  bool _initialPermissionRequested = false;
+  /// Checks for a working internet connection (injected so tests don't use DNS)
+  final Future<bool> Function() _hasInternetConnection;
 
   /// Creates an instance of SplashBloc
   ///
   /// [authBloc] is injected from the widget tree context
   /// and used to check authentication status during initialization
   /// [appVersionBloc] is injected to check app version compatibility
-  /// [permissionService] is injected to allow for testing with mocks
+  /// [connectivityCheck] defaults to [ConnectivityService.hasInternetConnection]
   /// [logger] is optional - if not provided, will use service locator
   SplashBloc({
     this.authBloc,
     this.appVersionBloc,
-    BasePermissionService? permissionService,
+    Future<bool> Function()? connectivityCheck,
     LoggingService? logger,
   }) : _logger = logger ?? sl<LoggingService>(),
-       _permissionService =
-           permissionService ??
-           PermissionService(logger: logger ?? sl<LoggingService>()),
+       _hasInternetConnection =
+           connectivityCheck ?? ConnectivityService.hasInternetConnection,
        super(SplashState()) {
     // Register event handlers
     on<InitializeAppEvent>(_initializeApp);
     on<CheckInternetConnectionEvent>(_checkInternetConnection);
-    on<RequestNotificationPermissionEvent>(_requestNotificationPermission);
-    on<RefreshNotificationPermissionEvent>(_refreshNotificationPermission);
     on<RetryInitializationEvent>(_retryInitialization);
   }
 
@@ -94,19 +85,16 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     _logger.debug('SplashBloc: Starting app initialization...');
 
     // Reset state
-    emit(
-      state.copyWith(
-        requestState: RequestState.loading,
-        currentStep: SplashStep.initializing,
-        statusMessage: '',
-        hasInternetConnection: false,
-        internetCheckCompleted: false,
-        hasNotificationPermission: false,
-        versionCheckCompleted: false,
-        isVersionSupported: true,
-        errorMessage: null,
-      ),
-    );
+    emit(state.copyWith(
+      requestState: RequestState.loading,
+      currentStep: SplashStep.initializing,
+      statusMessage: '',
+      hasInternetConnection: false,
+      internetCheckCompleted: false,
+      versionCheckCompleted: false,
+      isVersionSupported: true,
+      clearError: true,
+    ));
 
     // Give localization time to initialize
     await Future.delayed(const Duration(milliseconds: 100));
@@ -128,137 +116,106 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   /// Fixed race condition: Checks current state first before waiting for stream changes
   Future<void> _checkAppVersion(Emitter<SplashState> emit) async {
     _logger.debug('SplashBloc: Checking app version...');
-    emit(
-      state.copyWith(
-        currentStep: SplashStep.checkingVersion,
-        statusMessage: 'checkingVersion',
-        versionCheckCompleted: false,
-      ),
-    );
+    emit(state.copyWith(
+      currentStep: SplashStep.checkingVersion,
+      statusMessage: 'checkingVersion',
+      versionCheckCompleted: false,
+    ));
 
     if (appVersionBloc != null) {
       try {
-        _logger.debug(
-          'SplashBloc: AppVersionBloc is available, triggering version check...',
-        );
+        _logger.debug('SplashBloc: AppVersionBloc is available, triggering version check...');
 
         // Fix race condition: Check current state first
         var currentState = appVersionBloc!.state;
-        _logger.debug(
-          'SplashBloc: Initial AppVersionBloc state - requestState: ${currentState.requestState}',
-        );
+        _logger.debug('SplashBloc: Initial AppVersionBloc state - requestState: ${currentState.requestState}');
 
         // If already in loaded state with data, use it immediately
         if (currentState.requestState == RequestState.loaded &&
-            (currentState.appVersion != null ||
-                currentState.message.isNotEmpty)) {
-          _logger.debug(
-            'SplashBloc: Version check already completed, using current state',
-          );
-          emit(
-            state.copyWith(
-              versionCheckCompleted: true,
-              isVersionSupported: currentState.isVersionSupported,
-            ),
-          );
+            (currentState.appVersion != null || currentState.message.isNotEmpty)) {
+          _logger.debug('SplashBloc: Version check already completed, using current state');
+          emit(state.copyWith(
+            versionCheckCompleted: true,
+            isVersionSupported: currentState.isVersionSupported,
+          ));
 
           if (!currentState.isVersionSupported) {
-            emit(
-              state.copyWith(
-                requestState: RequestState.error,
-                currentStep: SplashStep.versionUpdateRequired,
-                statusMessage: 'versionUpdateRequired',
-              ),
-            );
+            emit(state.copyWith(
+              requestState: RequestState.error,
+              currentStep: SplashStep.versionUpdateRequired,
+              statusMessage: 'versionUpdateRequired',
+            ));
             return;
           }
 
-          // Version is supported, continue with notification permission check
-          await _checkNotificationPermission(emit);
+          // Version is supported: the account
+          await _checkAuthentication(emit);
           return;
         }
 
         // Trigger version check if not already loaded
         appVersionBloc!.add(const CheckAppVersionEvent());
-        _logger.debug(
-          'SplashBloc: CheckAppVersionEvent added to AppVersionBloc',
-        );
-
+        _logger.debug('SplashBloc: CheckAppVersionEvent added to AppVersionBloc');
+        
         // Wait for version check to complete (with timeout)
-        _logger.debug(
-          'SplashBloc: Waiting for AppVersionBloc to emit loaded state...',
+        _logger.debug('SplashBloc: Waiting for AppVersionBloc to emit loaded state...');
+        
+        final versionState = await appVersionBloc!.stream.firstWhere(
+          (state) {
+            _logger.debug('SplashBloc: Received AppVersionBloc state - requestState: ${state.requestState}, isVersionSupported: ${state.isVersionSupported}, hasAppVersion: ${state.appVersion != null}');
+            // Wait for loaded state AND make sure we got version data (not just initial state)
+            return state.requestState == RequestState.loaded && 
+                   (state.appVersion != null || state.message.isNotEmpty);
+          },
+        ).timeout(
+          AppTimeouts.versionCheck,
+          onTimeout: () {
+            _logger.debug('SplashBloc: Version check timed out after ${AppTimeouts.versionCheck.inSeconds} seconds, current state: ${appVersionBloc!.state.requestState}');
+            // If timeout, check if we have any state
+            final timeoutState = appVersionBloc!.state;
+            if (timeoutState.requestState == RequestState.loaded && timeoutState.appVersion != null) {
+              return timeoutState;
+            }
+            // If no valid state, return current and allow app to continue
+            return timeoutState;
+          },
         );
 
-        final versionState = await appVersionBloc!.stream
-            .firstWhere((state) {
-              _logger.debug(
-                'SplashBloc: Received AppVersionBloc state - requestState: ${state.requestState}, isVersionSupported: ${state.isVersionSupported}, hasAppVersion: ${state.appVersion != null}',
-              );
-              // Wait for loaded state AND make sure we got version data (not just initial state)
-              return state.requestState == RequestState.loaded &&
-                  (state.appVersion != null || state.message.isNotEmpty);
-            })
-            .timeout(
-              AppTimeouts.versionCheck,
-              onTimeout: () {
-                _logger.debug(
-                  'SplashBloc: Version check timed out after ${AppTimeouts.versionCheck.inSeconds} seconds, current state: ${appVersionBloc!.state.requestState}',
-                );
-                // If timeout, check if we have any state
-                final timeoutState = appVersionBloc!.state;
-                if (timeoutState.requestState == RequestState.loaded &&
-                    timeoutState.appVersion != null) {
-                  return timeoutState;
-                }
-                // If no valid state, return current and allow app to continue
-                return timeoutState;
-              },
-            );
+        _logger.info('SplashBloc: Version check completed. Final state - Supported: ${versionState.isVersionSupported}, Message: ${versionState.message}');
 
-        _logger.info(
-          'SplashBloc: Version check completed. Final state - Supported: ${versionState.isVersionSupported}, Message: ${versionState.message}',
-        );
-
-        emit(
-          state.copyWith(
-            versionCheckCompleted: true,
-            isVersionSupported: versionState.isVersionSupported,
-          ),
-        );
+        emit(state.copyWith(
+          versionCheckCompleted: true,
+          isVersionSupported: versionState.isVersionSupported,
+        ));
 
         if (!versionState.isVersionSupported) {
-          emit(
-            state.copyWith(
-              requestState: RequestState.error,
-              currentStep: SplashStep.versionUpdateRequired,
-              statusMessage: 'versionUpdateRequired',
-            ),
-          );
+          emit(state.copyWith(
+            requestState: RequestState.error,
+            currentStep: SplashStep.versionUpdateRequired,
+            statusMessage: 'versionUpdateRequired',
+          ));
           return;
         }
 
-        // Version is supported, continue with notification permission check
-        await _checkNotificationPermission(emit);
+        // Version is supported: the account
+        await _checkAuthentication(emit);
       } catch (e) {
         _logger.debug('SplashBloc: Error checking version', e);
         // On error, allow app to continue (don't block on version check failures)
-        emit(
-          state.copyWith(
-            versionCheckCompleted: true,
-            isVersionSupported: true, // Allow app to continue
-          ),
-        );
-        await _checkNotificationPermission(emit);
+        emit(state.copyWith(
+          versionCheckCompleted: true,
+          isVersionSupported: true, // Allow app to continue
+        ));
+        await _checkAuthentication(emit);
       }
     } else {
-      _logger.debug(
-        'SplashBloc: AppVersionBloc is null, skipping version check',
-      );
+      _logger.debug('SplashBloc: AppVersionBloc is null, skipping version check');
       // If AppVersionBloc not available, continue without version check
-      emit(
-        state.copyWith(versionCheckCompleted: true, isVersionSupported: true),
-      );
-      await _checkNotificationPermission(emit);
+      emit(state.copyWith(
+        versionCheckCompleted: true,
+        isVersionSupported: true,
+      ));
+      await _checkAuthentication(emit);
     }
   }
 
@@ -276,162 +233,51 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     Emitter<SplashState> emit,
   ) async {
     _logger.debug('SplashBloc: Checking internet connection...');
-    emit(
-      state.copyWith(
-        requestState: RequestState.loading, // Ensure loading state is set
-        currentStep: SplashStep.checkingInternet,
-        statusMessage: 'checkingInternet', // Will be localized in UI
-        internetCheckCompleted: false,
-      ),
-    );
+    emit(state.copyWith(
+      requestState: RequestState.loading, // Ensure loading state is set
+      currentStep: SplashStep.checkingInternet,
+      statusMessage: 'checkingInternet', // Will be localized in UI
+      internetCheckCompleted: false,
+    ));
 
     bool internetCheckResult = false;
     try {
       // Connectivity service has its own timeout and retry logic
       // Give it enough time for retries (10s per attempt x 2 attempts + overhead)
-      internetCheckResult = await ConnectivityService.hasInternetConnection()
+      internetCheckResult = await _hasInternetConnection()
           .timeout(
             AppTimeouts.internetCheck,
             onTimeout: () {
-              _logger.debug(
-                'SplashBloc: Internet check timed out after ${AppTimeouts.internetCheck.inSeconds} seconds',
-              );
+              _logger.debug('SplashBloc: Internet check timed out after ${AppTimeouts.internetCheck.inSeconds} seconds');
               return false;
             },
           );
-      _logger.info(
-        'SplashBloc: Internet connection check completed. Result: $internetCheckResult',
-      );
+      _logger.info('SplashBloc: Internet connection check completed. Result: $internetCheckResult');
     } catch (e) {
       _logger.debug('SplashBloc: Error checking internet connection', e);
       internetCheckResult = false;
     } finally {
       // Always mark as completed, even if there was an error or timeout
       // This ensures the refresh button appears even if the check hangs
-      emit(
-        state.copyWith(
-          hasInternetConnection: internetCheckResult,
-          internetCheckCompleted: true,
-        ),
-      );
+      emit(state.copyWith(
+        hasInternetConnection: internetCheckResult,
+        internetCheckCompleted: true,
+      ));
 
       if (!internetCheckResult) {
-        emit(
-          state.copyWith(
-            requestState: RequestState.error,
-            currentStep: SplashStep.noInternet,
-            statusMessage: 'noInternetConnection',
-          ),
-        );
+        emit(state.copyWith(
+          requestState: RequestState.error,
+          currentStep: SplashStep.noInternet,
+          statusMessage: 'noInternetConnection',
+        ));
         return;
       }
     }
 
-    // Step 1: Check app version (after internet check since API needs internet)
+    // Step 1: Check app version (after internet check since API needs internet).
+    // It continues into the auth check by itself
+    // (or stops on a required update), so nothing follows here.
     await _checkAppVersion(emit);
-
-    // If version check failed and update is required, don't continue
-    if (!state.isVersionSupported) {
-      return; // _checkAppVersion already set the error state
-    }
-
-    // Step 2: Check notification permission
-  }
-
-  /// Checks if notification permission is granted
-  ///
-  /// Process:
-  /// 1. Update state to checkingNotificationPermission
-  /// 2. Check permission status via PermissionService
-  /// 3. If not granted: emit error state with noNotificationPermission step
-  /// 4. If granted: proceed to initialize notification service
-  Future<void> _checkNotificationPermission(Emitter<SplashState> emit) async {
-    _logger.debug('SplashBloc: Checking notification permission...');
-    emit(
-      state.copyWith(
-        currentStep: SplashStep.checkingNotificationPermission,
-        statusMessage: 'checkingNotifications',
-      ),
-    );
-
-    final hasPermission = await _permissionService
-        .isNotificationPermissionGranted();
-    _logger.info('SplashBloc: Notification permission granted: $hasPermission');
-
-    emit(state.copyWith(hasNotificationPermission: hasPermission));
-
-    if (!hasPermission) {
-      if (!_initialPermissionRequested) {
-        _initialPermissionRequested = true;
-        await _requestNotificationPermissionInternal(emit);
-        return;
-      }
-
-      emit(state.copyWith(
-        requestState: RequestState.error,
-        currentStep: SplashStep.noNotificationPermission,
-        statusMessage: 'notificationsRequired',
-        errorMessage: null,
-      ));
-      return;
-    }
-
-    // Step 2: Initialize notification service
-    await _initializeNotifications(emit);
-  }
-
-  /// Verifies notification service is ready
-  ///
-  /// Process:
-  /// 1. Update state to settingUpNotifications
-  /// 2. Verify notification service is ready (already initialized in main())
-  /// 3. Proceed to authentication check
-  ///
-  /// Note: Notification service is initialized in main() before app starts.
-  /// This method only verifies it's ready and doesn't re-initialize.
-  Future<void> _initializeNotifications(Emitter<SplashState> emit) async {
-    _logger.debug('SplashBloc: Verifying notification service is ready...');
-    emit(
-      state.copyWith(
-        currentStep: SplashStep.settingUpNotifications,
-        statusMessage: 'settingUpNotifications',
-      ),
-    );
-
-    try {
-      // Notification service is already initialized in main()
-      // Just verify it's ready by checking if we can get the token
-      // This is non-blocking and won't fail if already initialized
-      try {
-        final isReady = await NotificationService.areNotificationsEnabled()
-            .timeout(AppTimeouts.notificationPermissionCheck);
-        if (isReady) {
-          _logger.info('SplashBloc: Notification service is ready');
-        } else {
-          _logger.debug(
-            'SplashBloc: Notification service not ready, but continuing...',
-          );
-        }
-      } on TimeoutException {
-        _logger.debug(
-          'SplashBloc: Notification check timed out, continuing anyway...',
-        );
-        // Continue even if check times out - not critical for app start
-      }
-
-      // Step 3: Check authentication status
-      await _checkAuthentication(emit);
-    } catch (e) {
-      _logger.debug(
-        'SplashBloc: Error checking notification service',
-        e,
-      );
-      // Don't block app startup if notification check fails - continue to auth check
-      _logger.info(
-        'SplashBloc: Continuing with auth check despite notification check error',
-      );
-      await _checkAuthentication(emit);
-    }
   }
 
   /// Checks authentication status using AuthBloc
@@ -447,108 +293,29 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   /// and navigates accordingly.
   Future<void> _checkAuthentication(Emitter<SplashState> emit) async {
     _logger.debug('SplashBloc: Checking authentication status...');
-    emit(
-      state.copyWith(
-        currentStep: SplashStep.checkingAuthentication,
-        statusMessage: 'checkingAuthentication',
-      ),
-    );
+    emit(state.copyWith(
+      currentStep: SplashStep.checkingAuthentication,
+      statusMessage: 'checkingAuthentication',
+    ));
 
     // Trigger auth check using the provided AuthBloc instance
     // The AuthBloc should be provided from the widget tree context
     if (authBloc != null) {
       _logger.debug('SplashBloc: Adding CheckAuthStatusEvent to AuthBloc');
       authBloc!.add(CheckAuthStatusEvent());
-      _logger.debug(
-        'SplashBloc: CheckAuthStatusEvent added, waiting for AuthBloc response...',
-      );
+      _logger.debug('SplashBloc: CheckAuthStatusEvent added, waiting for AuthBloc response...');
     } else {
       _logger.error('SplashBloc: ERROR - AuthBloc is null!');
-      emit(
-        state.copyWith(
-          requestState: RequestState.error,
-          currentStep: SplashStep.error,
-          statusMessage: 'initializationFailed',
-          errorMessage: 'AuthBloc not available',
-        ),
-      );
+      emit(state.copyWith(
+        requestState: RequestState.error,
+        currentStep: SplashStep.error,
+        statusMessage: 'initializationFailed',
+        errorMessage: 'AuthBloc not available',
+      ));
     }
 
     // Keep the state as checkingAuthentication until AuthBloc responds
     // Don't mark as complete here - let the navigation happen via AuthBloc listener
-  }
-
-  /// Handles notification permission request event
-  ///
-  /// Process:
-  /// 1. Update state to loading with requestingPermission message
-  /// 2. Request permission via PermissionService
-  /// 3. If granted: continue with notification permission check
-  /// 4. If denied: check if permanently denied
-  /// 5. If permanently denied: emit error with special flag for UI to show settings dialog
-  FutureOr<void> _requestNotificationPermission(
-    RequestNotificationPermissionEvent event,
-    Emitter<SplashState> emit,
-  ) async {
-    await _requestNotificationPermissionInternal(emit);
-  }
-
-  FutureOr<void> _refreshNotificationPermission(
-    RefreshNotificationPermissionEvent event,
-    Emitter<SplashState> emit,
-  ) async {
-    await _checkNotificationPermission(emit);
-  }
-
-  Future<void> _requestNotificationPermissionInternal(
-    Emitter<SplashState> emit,
-  ) async {
-    _logger.debug('SplashBloc: Requesting notification permission...');
-    emit(
-      state.copyWith(
-        requestState: RequestState.loading,
-        statusMessage: 'requestingPermission',
-      ),
-    );
-
-    try {
-      final granted = await _permissionService.requestNotificationPermission();
-
-      if (granted) {
-        _logger.info(
-          'SplashBloc: Permission granted, continuing initialization...',
-        );
-        emit(state.copyWith(hasNotificationPermission: true));
-        // Continue with initialization
-        await _initializeNotifications(emit);
-      } else {
-        // Check if permanently denied
-        final isPermanentlyDenied =
-            await _permissionService.isPermissionPermanentlyDenied();
-
-        // Note: Opening settings should be handled by UI
-        emit(
-          state.copyWith(
-            requestState: RequestState.error,
-            currentStep: SplashStep.noNotificationPermission,
-            statusMessage: 'notificationsRequired',
-            errorMessage: isPermanentlyDenied
-                ? 'permissionPermanentlyDenied'
-                : 'permissionDenied',
-          ),
-        );
-      }
-    } catch (e) {
-      _logger.error('SplashBloc: Error requesting permission', error: e);
-      emit(
-        state.copyWith(
-          requestState: RequestState.error,
-          currentStep: SplashStep.error,
-          statusMessage: 'permissionRequestFailed',
-          errorMessage: e.toString(),
-        ),
-      );
-    }
   }
 
   /// Handles retry initialization event
@@ -563,3 +330,4 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     add(const InitializeAppEvent());
   }
 }
+

@@ -75,15 +75,15 @@ class AppVersionBloc extends Bloc<AppVersionEvent, AppVersionState> {
           logger.warning('AppVersionBloc: Version check failed: ${failure.message}');
           logger.warning('AppVersionBloc: Failure type - NetworkFailure: ${failure is NetworkFailure}, ServerFailure: ${failure is ServerFailure}');
           
-          // Check if it's a network error - if so, allow app to continue
-          // Otherwise, block the app (could be a critical error)
-          final isNetworkError = failure is NetworkFailure;
+          // A failed check says nothing about this version being too old:
+          // let the app start. (A server error used to mark it unsupported
+          // with no version to update to, and the splash stopped for good.)
           
           emit(state.copyWith(
             requestState: RequestState.loaded,
             userCurrentVersion: currentVersion,
             message: failure.message,
-            isVersionSupported: isNetworkError, // Only allow on network errors
+            isVersionSupported: true
           ));
         },
         (appVersion) {

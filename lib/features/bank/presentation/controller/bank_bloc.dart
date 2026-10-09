@@ -6,7 +6,9 @@ import 'package:delivery_manager/features/bank/domain/repositories/base_bank_rep
 import 'package:delivery_manager/features/bank/domain/usecases/get_driver_balance_usecase.dart';
 import 'package:delivery_manager/features/bank/domain/usecases/record_restaurant_payment_usecase.dart';
 import 'package:delivery_manager/features/bank/domain/usecases/record_system_payment_usecase.dart';
+import 'package:delivery_manager/features/bank/domain/usecases/record_platform_payment_usecase.dart';
 import 'package:delivery_manager/features/bank/domain/usecases/get_transactions_usecase.dart';
+import 'package:delivery_manager/features/bank/domain/usecases/answer_payment_usecase.dart';
 import 'package:delivery_manager/core/utils/currency.dart';
 import 'package:delivery_manager/features/bank/presentation/controller/bank_event.dart';
 import 'package:delivery_manager/features/bank/presentation/controller/bank_state.dart';
@@ -16,7 +18,13 @@ class BankBloc extends Bloc<BankEvent, BankState> {
   final RecordRestaurantPaymentUseCase recordRestaurantPaymentUseCase;
   final RecordSystemPaymentUseCase recordSystemPaymentUseCase;
   final GetTransactionsUseCase getTransactionsUseCase;
+  final AnswerPaymentUseCase answerPaymentUseCase;
+  final RecordPlatformPaymentUseCase recordPlatformPaymentUseCase;
   final BaseBankRepository? bankRepository;
+
+  /// The payments list asked for last (another filter, a refresh): the
+  /// answer to an earlier one, arriving late, is dropped.
+  int _listRequest = 0;
 
   final LoggingService logger = sl<LoggingService>();
 
@@ -25,14 +33,18 @@ class BankBloc extends Bloc<BankEvent, BankState> {
     required this.recordRestaurantPaymentUseCase,
     required this.recordSystemPaymentUseCase,
     required this.getTransactionsUseCase,
+    required this.answerPaymentUseCase,
+    required this.recordPlatformPaymentUseCase,
     this.bankRepository,
   }) : super(const BankInitial()) {
     on<GetDriverBalanceEvent>(_onGetDriverBalance);
     on<RefreshBalanceEvent>(_onRefreshBalance);
     on<RecordRestaurantPaymentEvent>(_onRecordRestaurantPayment);
     on<RecordSystemPaymentEvent>(_onRecordSystemPayment);
+    on<RecordPlatformPaymentEvent>(_onRecordPlatformPayment);
     on<GetTransactionsEvent>(_onGetTransactions);
     on<LoadMoreTransactionsEvent>(_onLoadMoreTransactions);
+    on<AnswerPaymentEvent>(_onAnswerPayment);
     on<CalculateRestaurantPaymentAmountEvent>(
       _onCalculateRestaurantPaymentAmount,
     );
@@ -135,12 +147,7 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       },
       (transaction) {
         logger.info('BankBloc: Successfully recorded restaurant payment');
-        emit(
-          PaymentRecorded(
-            transaction: transaction,
-            message: 'Payment recorded successfully',
-          ),
-        );
+        emit(PaymentRecorded(transaction: transaction));
         // Refresh balance after recording payment
         add(const RefreshBalanceEvent());
       },
@@ -171,15 +178,29 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       },
       (transaction) {
         logger.info('BankBloc: Successfully recorded system payment');
-        emit(
-          PaymentRecorded(
-            transaction: transaction,
-            message: 'System payment recorded successfully',
-          ),
-        );
+        emit(PaymentRecorded(transaction: transaction));
         // Refresh balance after recording payment
         add(const RefreshBalanceEvent());
       },
+    );
+  }
+
+  Future<void> _onRecordPlatformPayment(
+    RecordPlatformPaymentEvent event,
+    Emitter<BankState> emit,
+  ) async {
+    emit(const PaymentRecording());
+    final result = await recordPlatformPaymentUseCase(
+      RecordPlatformPaymentParams(
+        restaurantId: event.restaurantId,
+        driverId: event.driverId,
+        amount: event.amount,
+        notes: event.notes,
+      ),
+    );
+    result.fold(
+      (failure) => emit(PaymentError(failure.message)),
+      (transaction) => emit(PaymentRecorded(transaction: transaction)),
     );
   }
 
@@ -188,6 +209,7 @@ class BankBloc extends Bloc<BankEvent, BankState> {
     Emitter<BankState> emit,
   ) async {
     logger.info('BankBloc: Getting transactions');
+    final request = ++_listRequest;
     emit(const BankLoading());
 
     final result = await getTransactionsUseCase(
@@ -198,6 +220,8 @@ class BankBloc extends Bloc<BankEvent, BankState> {
         perPage: event.perPage,
       ),
     );
+    // Asked for again meanwhile (another filter): this answer is late
+    if (request != _listRequest) return;
 
     result.fold(
       (failure) {
@@ -236,10 +260,13 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       logger.info('BankBloc: No more transactions to load');
       return;
     }
+    // An answer is on its way: the list is read again after it
+    if (currentState.answeringPaymentId != null) return;
 
     logger.info('BankBloc: Loading more transactions');
     emit(currentState.copyWith(transactionsState: RequestState.loading));
 
+    final request = _listRequest;
     final result = await getTransactionsUseCase(
       GetTransactionsParams(
         status: currentState.statusFilter,
@@ -248,6 +275,8 @@ class BankBloc extends Bloc<BankEvent, BankState> {
         perPage: 15,
       ),
     );
+    // The list was asked for again meanwhile: this page belongs to the one before
+    if (request != _listRequest) return;
 
     result.fold(
       (failure) {
@@ -276,6 +305,80 @@ class BankBloc extends Bloc<BankEvent, BankState> {
           ),
         );
       },
+    );
+  }
+
+  /// The manager's word on a payment a driver or a restaurant sent, one at a
+  /// time. Answered, or refused by the server (a colleague answered it
+  /// first), the list is read again: the payment may have moved on.
+  Future<void> _onAnswerPayment(
+    AnswerPaymentEvent event,
+    Emitter<BankState> emit,
+  ) async {
+    final current = state;
+    if (current is! TransactionsLoaded || current.answeringPaymentId != null) {
+      return;
+    }
+    emit(
+      TransactionsLoaded(
+        transactions: current.transactions,
+        currentPage: current.currentPage,
+        totalPages: current.totalPages,
+        hasMore: current.hasMore,
+        transactionsState: current.transactionsState,
+        statusFilter: current.statusFilter,
+        typeFilter: current.typeFilter,
+        answeringPaymentId: event.transactionId,
+      ),
+    );
+
+    final result = await answerPaymentUseCase(
+      AnswerPaymentParams(
+        transactionId: event.transactionId,
+        confirm: event.confirm,
+        notes: event.notes,
+      ),
+    );
+    final failure = result.fold((failure) => failure.message, (_) => null);
+    if (failure != null) {
+      logger.error('BankBloc: Answer to a payment refused: $failure');
+    }
+    final answer = PaymentAnswer(
+      transactionId: event.transactionId,
+      confirmed: event.confirm,
+      failure: failure,
+    );
+
+    // A list asked for before, still on its way, is older than this one
+    _listRequest++;
+    final reloaded = await getTransactionsUseCase(
+      GetTransactionsParams(
+        status: current.statusFilter,
+        type: current.typeFilter,
+      ),
+    );
+    emit(
+      reloaded.fold(
+        // Not read again: the list stays as it was
+        (_) => TransactionsLoaded(
+          transactions: current.transactions,
+          currentPage: current.currentPage,
+          totalPages: current.totalPages,
+          hasMore: current.hasMore,
+          statusFilter: current.statusFilter,
+          typeFilter: current.typeFilter,
+          lastAnswer: answer,
+        ),
+        (page) => TransactionsLoaded(
+          transactions: page.transactions,
+          currentPage: page.currentPage,
+          totalPages: page.totalPages,
+          hasMore: page.hasMore,
+          statusFilter: current.statusFilter,
+          typeFilter: current.typeFilter,
+          lastAnswer: answer,
+        ),
+      ),
     );
   }
 

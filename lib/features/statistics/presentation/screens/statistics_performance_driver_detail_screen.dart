@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dio/dio.dart';
@@ -143,9 +144,9 @@ class _StatisticsPerformanceDriverDetailScreenState
                 onDateFromSelected: (current) async {
                   final picked = await showDatePicker(
                     context: context,
-                    initialDate: current ?? DateTime.now(),
+                    initialDate: current ?? clock.now(),
                     firstDate: DateTime(2020),
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     final d = DateTime(picked.year, picked.month, picked.day);
@@ -163,14 +164,14 @@ class _StatisticsPerformanceDriverDetailScreenState
                 },
                 onDateToSelected: (current) async {
                   final first = _dateFrom ?? DateTime(2020);
-                  final init = (current ?? DateTime.now()).isBefore(first)
+                  final init = (current ?? clock.now()).isBefore(first)
                       ? first
-                      : (current ?? DateTime.now());
+                      : (current ?? clock.now());
                   final picked = await showDatePicker(
                     context: context,
                     initialDate: init,
                     firstDate: first,
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     setState(() {
@@ -376,12 +377,8 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 value:
                                     '${stats.responseSpeedMinutes.toStringAsFixed(1)} ${l.minutesAbbr}',
                                 icon: Icons.alt_route_outlined,
-                                iconColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-                                circleColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withValues(alpha: 0.1),
+                                iconColor: const Color(0xFFE64A19),
+                                circleColor: const Color(0xFFFFEBE3),
                                 description: l.responseSpeedDescription,
                               ),
                               _MetricCard(
@@ -389,12 +386,8 @@ class _StatisticsPerformanceDriverDetailScreenState
                                 value:
                                     '${stats.pickupSpeedMinutes.toStringAsFixed(1)} ${l.minutesAbbr}',
                                 icon: Icons.directions_run_outlined,
-                                iconColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary,
-                                circleColor: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withValues(alpha: 0.1),
+                                iconColor: const Color(0xFFE64A19),
+                                circleColor: const Color(0xFFFFEBE3),
                                 description: l.pickupSpeedDescription,
                               ),
                               _MetricCard(
@@ -558,9 +551,9 @@ class _MetricCard extends StatelessWidget {
               Text(
                 label,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.5),
+                  // The card is white in both modes: the theme's text
+                  // colour, white in dark mode, could not be read on it
+                  color: Colors.black.withValues(alpha: 0.5),
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5,
                   fontSize: 16.sp,

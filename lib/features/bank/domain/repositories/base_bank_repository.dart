@@ -41,6 +41,21 @@ abstract class BaseBankRepository {
     String? notes,
   });
 
+  /// The platform pays a restaurant or a driver what it owes them
+  Future<Either<Failure, Transaction>> recordPlatformPayment({
+    int? restaurantId,
+    int? driverId,
+    required double amount,
+    String? notes,
+  });
+
+  /// Confirms (or refuses, saying why) a payment a driver or a restaurant sent
+  Future<Either<Failure, Unit>> answerPayment({
+    required int transactionId,
+    required bool confirm,
+    String? notes,
+  });
+
   /// Get transaction history
   Future<Either<Failure, PaginatedTransactions>> getTransactions({
     String? status,

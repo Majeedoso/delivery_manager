@@ -54,8 +54,10 @@ class _StatisticsMoneyDriversScreenState
               ),
             )
             .toList();
-        final meta = response.data['meta'] as Map<String, dynamic>? ?? {};
-        final pagination = meta['pagination'] as Map<String, dynamic>? ?? {};
+        // The server sends its pages beside the list (`pagination`):
+        // read from `meta`, the list stopped at its first page
+        final pagination =
+            response.data['pagination'] as Map<String, dynamic>? ?? {};
         setState(() {
           if (page == 1) _drivers.clear();
           _drivers.addAll(items);

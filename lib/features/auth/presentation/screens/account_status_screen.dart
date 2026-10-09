@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
+import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_state.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_event.dart';
@@ -14,6 +15,8 @@ import 'package:delivery_manager/features/countdown/presentation/controller/coun
 import 'package:delivery_manager/features/countdown/presentation/controller/countdown_state.dart';
 import 'package:delivery_manager/features/countdown/presentation/controller/countdown_event.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
+import 'package:delivery_manager/core/services/services_locator.dart';
+import 'package:delivery_manager/core/services/public_settings_service.dart';
 
 class AccountStatusScreen extends StatelessWidget {
   const AccountStatusScreen({super.key});
@@ -66,7 +69,7 @@ class AccountStatusScreen extends StatelessWidget {
               final countdownBloc = context.read<CountdownBloc>();
               final countdownValue =
                   state.resendCountdown ??
-                  120; // Default to 120 if not provided
+                  sl<PublicSettingsService>().otpResendWaitSeconds;
               if (!countdownBloc.state.isActive) {
                 countdownBloc.add(StartCountdownEvent(countdownValue));
               }
@@ -82,17 +85,8 @@ class AccountStatusScreen extends StatelessWidget {
             // Show error messages
             if (state.message.isNotEmpty &&
                 state.requestState == RequestState.error) {
-              final localizations = AppLocalizations.of(context);
-              if (localizations != null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      state.message.replaceAll(RegExp(r'<[^>]+>'), ''),
-                    ),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
+              // In the customer's language, never as raw server text
+              ErrorSnackBar.show(context, state.message);
             }
           },
           builder: (context, state) {
@@ -127,7 +121,7 @@ class AccountStatusScreen extends StatelessWidget {
               );
             }
 
-            final localizations = AppLocalizations.of(context)!;
+            final l10n = AppLocalizations.of(context)!;
 
             // Check if email verification is required (account approved but email not verified)
             final isEmailVerificationRequired =
@@ -140,6 +134,7 @@ class AccountStatusScreen extends StatelessWidget {
                 (user.status == null &&
                     (user.role == UserRole.operator ||
                         user.role == UserRole.restaurant ||
+                        user.role == UserRole.driver ||
                         user.role == UserRole.manager));
 
             final isLoading = state.requestState == RequestState.loading;
@@ -176,7 +171,7 @@ class AccountStatusScreen extends StatelessWidget {
                       // Status title
                       Text(
                         isEmailVerificationRequired
-                            ? localizations.emailNotVerified
+                            ? l10n.emailNotVerified
                             : _getStatusTitle(effectiveStatus, context),
                         style: Theme.of(context).textTheme.headlineMedium
                             ?.copyWith(
@@ -194,9 +189,9 @@ class AccountStatusScreen extends StatelessWidget {
                       // Status message
                       Text(
                         isEmailVerificationRequired
-                            ? localizations.emailVerificationRequired
+                            ? l10n.emailVerificationRequired
                             : (user.isApproved && user.hasVerifiedEmail)
-                            ? localizations.accountApprovedRedirecting
+                            ? l10n.accountApprovedRedirectingMessage
                             : _getStatusMessage(
                                 effectiveStatus,
                                 user.rejectionReason,
@@ -225,7 +220,7 @@ class AccountStatusScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Text(
-                                localizations.rejectionReason,
+                                '${l10n.rejectionReason}:',
                                 style: Theme.of(context).textTheme.titleMedium
                                     ?.copyWith(
                                       color:
@@ -333,8 +328,7 @@ class AccountStatusScreen extends StatelessWidget {
                                         child: Text(
                                           isCountdownActive
                                               ? '${localizations.resendVerificationEmail} (${countdownSeconds}s)'
-                                              : localizations
-                                                    .resendVerificationEmail,
+                                              : l10n.resendVerificationEmail,
                                           textAlign: TextAlign.start,
                                           style: TextStyle(
                                             fontSize: 18.sp,
@@ -385,7 +379,7 @@ class AccountStatusScreen extends StatelessWidget {
                                   Expanded(
                                     flex: 8,
                                     child: Text(
-                                      localizations.checkStatus,
+                                      l10n.checkStatus,
                                       textAlign: TextAlign.start,
                                     ),
                                   ),
@@ -456,7 +450,7 @@ class AccountStatusScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 2.h),
                         Text(
-                          localizations.checkStatusDescription,
+                          l10n.checkStatusDescription,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 color:
@@ -508,10 +502,8 @@ class AccountStatusScreen extends StatelessWidget {
                                       Expanded(
                                         flex: 8,
                                         child: Text(
-                                          localizations.logout,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
+                                          l10n.logout,
+                                          style: TextStyle(color: Colors.white),
                                           textAlign: TextAlign.start,
                                         ),
                                       ),
@@ -549,10 +541,8 @@ class AccountStatusScreen extends StatelessWidget {
                                       Expanded(
                                         flex: 8,
                                         child: Text(
-                                          localizations.logout,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                          ),
+                                          l10n.logout,
+                                          style: TextStyle(color: Colors.white),
                                           textAlign: TextAlign.start,
                                         ),
                                       ),
@@ -597,16 +587,16 @@ class AccountStatusScreen extends StatelessWidget {
   }
 
   String _getStatusTitle(String? status, BuildContext context) {
-    final l = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
     switch (status) {
       case 'pending_approval':
-        return l.pendingApproval;
+        return l10n.accountPendingApproval;
       case 'suspended':
-        return l.suspended;
+        return l10n.accountSuspended;
       case 'rejected':
-        return l.rejectedStatus;
+        return l10n.accountRejected;
       default:
-        return l.accountStatus;
+        return l10n.accountStatus;
     }
   }
 
@@ -615,20 +605,20 @@ class AccountStatusScreen extends StatelessWidget {
     String? rejectionReason,
     BuildContext context,
   ) {
-    final l = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context)!;
     switch (status) {
       case 'pending_approval':
-        return l.accountPendingApprovalMessage;
+        return l10n.accountPendingApprovalMessage;
       case 'suspended':
-        return l.accountSuspendedMessage;
+        return l10n.accountSuspendedMessage;
       case 'rejected':
-        return l.accountRejectedMessage;
+        return l10n.accountRejectedMessage;
       case 'active':
       case 'approved':
-        return l.accountApprovedRedirecting;
+        return l10n.accountApprovedRedirectingMessage;
       default:
         // For unknown statuses, default to pending approval message instead of error
-        return l.accountPendingApprovalMessageShort;
+        return l10n.accountPendingApprovalFallbackMessage;
     }
   }
 }

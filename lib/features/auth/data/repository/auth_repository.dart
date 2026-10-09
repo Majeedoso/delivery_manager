@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:delivery_manager/core/error/exceptions.dart';
 import 'package:delivery_manager/core/error/failure.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
@@ -49,37 +50,6 @@ class AuthRepository extends BaseAuthRepository {
   });
 
   @override
-  Future<Either<Failure, AuthResponse>> register({
-    required String name,
-    required String email,
-    required String password,
-    required String role,
-    required String phone,
-  }) async {
-    try {
-      final result = await baseAuthRemoteDataSource.register(
-        name: name,
-        email: email,
-        password: password,
-        role: role,
-        phone: phone,
-      );
-
-      // Save user data and token locally
-      await baseAuthLocalDataSource.saveUser(result.user as UserModel);
-      await baseAuthLocalDataSource.saveToken(result.token);
-
-      return Right(result);
-    } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
-    } on NetworkException catch (failure) {
-      return Left(NetworkFailure(failure.message));
-    } on LocalDatabaseException catch (failure) {
-      return Left(DatabaseFailure(failure.message));
-    }
-  }
-
-  @override
   Future<Either<Failure, AuthResponse>> login({
     required String email,
     required String password,
@@ -90,30 +60,38 @@ class AuthRepository extends BaseAuthRepository {
         password: password,
       );
 
-      // Save user data and token locally
+      // Save the user locally, and the token in the encrypted storage (it was
+      // also written in the plain preferences)
       await baseAuthLocalDataSource.saveUser(result.user as UserModel);
-      await baseAuthLocalDataSource.saveToken(result.token);
+      await baseTokenRepository.saveToken(result.token);
 
       return Right(result);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } on LocalDatabaseException catch (failure) {
       return Left(DatabaseFailure(failure.message));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
     }
   }
 
   @override
   Future<Either<Failure, void>> logout() async {
     try {
-      // Get token before clearing local data
-      final token = await baseAuthLocalDataSource.getToken();
-      
-      // Call logout API with token (non-blocking)
-      if (token != null) {
-        // Don't await - let it run in background
-        _logoutWithToken(token);
+      // Get token before clearing local data: the one the app sends with
+      // requests (secure storage)
+      final token = await _storedToken();
+
+      // Revoke it on the server in the background: logging out locally must
+      // never wait for (or fail because of) the network
+      if (token != null && token.isNotEmpty) {
+        unawaited(
+          Future.sync(
+            () => baseAuthRemoteDataSource.logout(token: token),
+          ).catchError((Object _) {}),
+        );
       }
       
       // Clear local data immediately
@@ -122,55 +100,19 @@ class AuthRepository extends BaseAuthRepository {
 
       return const Right(null);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } on LocalDatabaseException catch (failure) {
       return Left(DatabaseFailure(failure.message));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
     }
   }
 
-  Future<void> _logoutWithToken(String token) async {
-    // This would be a separate method in the remote data source
-    // For now, we'll implement it here
-    try {
-      final dio = Dio(BaseOptions(
-        connectTimeout: const Duration(seconds: 10), // 10 seconds to establish connection
-        receiveTimeout: const Duration(seconds: 10), // 10 seconds to receive response
-        sendTimeout: const Duration(seconds: 10), // 10 seconds to send request
-      ));
-      
-      // Get current language for Accept-Language header
-      String languageCode = 'ar'; // Default to Arabic
-      try {
-        final sharedPreferences = await SharedPreferences.getInstance();
-        final savedLanguageCode = sharedPreferences.getString('selected_language');
-        if (savedLanguageCode != null && ['ar', 'en', 'fr'].contains(savedLanguageCode)) {
-          languageCode = savedLanguageCode;
-        }
-      } catch (e) {
-        // If language retrieval fails, use default
-      }
-
-      await dio.post(
-        ApiConstance.logoutPath,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Accept-Language': languageCode,
-          },
-        ),
-      );
-    } on DioException {
-      // Handle timeout and connection errors
-      // Note: Logging is handled by the data source layer
-      // We don't need to log here as logout should always succeed locally
-    } catch (e) {
-      // Log the error but don't fail the logout process
-      // Note: Logging is handled by the data source layer
-    }
+  Future<String?> _storedToken() async {
+    final secured = await baseTokenRepository.getToken();
+    return secured.fold((failure) => null, (token) => token);
   }
 
   @override
@@ -234,6 +176,8 @@ class AuthRepository extends BaseAuthRepository {
       }
     } on LocalDatabaseException catch (failure) {
       return Left(DatabaseFailure(failure.message));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
     }
   }
 
@@ -263,41 +207,7 @@ class AuthRepository extends BaseAuthRepository {
       
       return Right(result);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
-    } on NetworkException catch (failure) {
-      return Left(NetworkFailure(failure.message));
-    } on LocalDatabaseException catch (failure) {
-      return Left(DatabaseFailure(failure.message));
-    }
-  }
-
-  @override
-  Future<Either<Failure, User>> googleSignUp() async {
-    try {
-      final result = await baseGoogleAuthRemoteDataSource.signUpWithGoogle();
-      
-      // Convert User to UserModel for local storage
-      final userModel = UserModel(
-        id: result.id,
-        name: result.name,
-        email: result.email,
-        phone: result.phone,
-        role: result.role,
-        token: result.token,
-        googleId: result.googleId,
-      );
-      
-      // Save user data locally
-      await baseAuthLocalDataSource.saveUser(userModel);
-      
-      // Save token if available using TokenRepository (FlutterSecureStorage)
-      if (result.token != null) {
-        await baseTokenRepository.saveToken(result.token!);
-      }
-      
-      return Right(result);
-    } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } on LocalDatabaseException catch (failure) {
@@ -318,11 +228,13 @@ class AuthRepository extends BaseAuthRepository {
       
       return const Right(null);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } on LocalDatabaseException catch (failure) {
       return Left(DatabaseFailure(failure.message));
+    } catch (e) {
+      return Left(ServerFailure('Unexpected error: $e'));
     }
   }
 
@@ -332,7 +244,7 @@ class AuthRepository extends BaseAuthRepository {
       final response = await baseAuthRemoteDataSource.resendVerificationEmail();
       return Right(response);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } catch (e) {
@@ -346,7 +258,7 @@ class AuthRepository extends BaseAuthRepository {
       final response = await baseAuthRemoteDataSource.resendPasswordResetOtp(email);
       return Right(response);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } catch (e) {
@@ -360,7 +272,7 @@ class AuthRepository extends BaseAuthRepository {
       final response = await baseAuthRemoteDataSource.sendPasswordResetOtpAuthenticated();
       return Right(response);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } catch (e) {
@@ -374,28 +286,26 @@ class AuthRepository extends BaseAuthRepository {
     required String otp,
   }) async {
     try {
-      // Get current user to preserve token
-      final currentUserResult = await getCurrentUser();
-      final currentUser = currentUserResult.fold(
-        (failure) => null,
-        (user) => user,
-      );
-      
+      // The token the app holds (the encrypted storage): the verified user
+      // the server answers with carries none
+      final stored = await baseTokenRepository.getToken();
+      final token = stored.fold((failure) => null, (token) => token);
+
       final response = await baseAuthRemoteDataSource.verifyEmailOtp(
         email: email,
         otp: otp,
       );
-      
-      // Preserve token from current user if available
+
+      // Preserve the token if available
       final userModel = response.user as UserModel;
-      if (currentUser != null && currentUser.token != null) {
+      if (token != null && token.isNotEmpty) {
         final updatedUser = UserModel(
           id: userModel.id,
           name: userModel.name,
           email: userModel.email,
           phone: userModel.phone,
           role: userModel.role,
-          token: currentUser.token,
+          token: token,
           googleId: userModel.googleId,
           emailVerifiedAt: userModel.emailVerifiedAt,
           hasPassword: userModel.hasPassword,
@@ -414,7 +324,7 @@ class AuthRepository extends BaseAuthRepository {
         return Right(response);
       }
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } catch (e) {
@@ -434,7 +344,7 @@ class AuthRepository extends BaseAuthRepository {
       );
       return const Right(null);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } catch (e) {
@@ -458,7 +368,7 @@ class AuthRepository extends BaseAuthRepository {
       );
       return Right(message);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } catch (e) {
@@ -476,7 +386,7 @@ class AuthRepository extends BaseAuthRepository {
       );
       return const Right(null);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } catch (e) {
@@ -498,7 +408,7 @@ class AuthRepository extends BaseAuthRepository {
       );
       return Right(message);
     } on ServerException catch (failure) {
-      return Left(ServerFailure(failure.message));
+      return Left(ServerFailure(failure.message, errorCode: failure.errorCode));
     } on NetworkException catch (failure) {
       return Left(NetworkFailure(failure.message));
     } catch (e) {

@@ -10,6 +10,10 @@ class RestaurantDebt {
   final DateTime? confirmedAt;
   final List<DriverCreditDebtDetail> details;
 
+  /// What the payments, of any date, already paid of these orders (the
+  /// oldest first): with days chosen, the cash of those days pays others.
+  final double? paidTowardsOrders;
+
   const RestaurantDebt({
     required this.restaurantId,
     required this.restaurantName,
@@ -19,5 +23,6 @@ class RestaurantDebt {
     this.counterpartyType = 'restaurant',
     this.confirmedAt,
     this.details = const [],
+    this.paidTowardsOrders,
   });
 }

@@ -1,5 +1,6 @@
 import 'package:delivery_manager/features/bank/domain/entities/transaction.dart';
 import 'package:delivery_manager/core/utils/currency.dart';
+import 'package:delivery_manager/core/utils/server_time.dart';
 
 class TransactionModel extends Transaction {
   const TransactionModel({
@@ -9,6 +10,7 @@ class TransactionModel extends Transaction {
     required super.formattedAmount,
     required super.status,
     super.notes,
+    super.responseNotes,
     required super.fromUserId,
     super.fromUserName,
     required super.toUserId,
@@ -62,6 +64,7 @@ class TransactionModel extends Transaction {
           '${amount.toStringAsFixed(2)} ${Currency.dzd.code}',
       status: json['status'] as String? ?? 'pending',
       notes: json['notes'] as String?,
+      responseNotes: json['response_notes'] as String?,
       fromUserId: _parseInt(json['from_user_id']) != 0
           ? _parseInt(json['from_user_id'])
           : _parseInt(json['from_user']),
@@ -78,22 +81,21 @@ class TransactionModel extends Transaction {
           ? _parseInt(json['restaurant_id'])
           : null,
       restaurantName: json['restaurant_name'] as String?,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      confirmedAt: json['confirmed_at'] != null
-          ? DateTime.parse(json['confirmed_at'] as String)
-          : null,
+      // The server's times are UTC: shown on the phone's clock
+      createdAt: parseServerTime(json['created_at'] as String),
+      confirmedAt: tryParseServerTime(json['confirmed_at']),
       confirmedBy: _parseInt(json['confirmed_by']) != 0
           ? _parseInt(json['confirmed_by'])
           : null,
-      confirmedByName: json['confirmed_by_user']?['name'] as String?,
+      // The manager who answered: the server sends them as confirmed_by
+      confirmedByName:
+          (json['confirmed_by'] is Map ? json['confirmed_by']['name'] : null)
+              as String? ??
+          json['confirmed_by_user']?['name'] as String?,
       senderApproved: json['sender_approved'] as bool? ?? false,
       recipientApproved: json['recipient_approved'] as bool? ?? false,
-      senderApprovedAt: json['sender_approved_at'] != null
-          ? DateTime.parse(json['sender_approved_at'] as String)
-          : null,
-      recipientApprovedAt: json['recipient_approved_at'] != null
-          ? DateTime.parse(json['recipient_approved_at'] as String)
-          : null,
+      senderApprovedAt: tryParseServerTime(json['sender_approved_at']),
+      recipientApprovedAt: tryParseServerTime(json['recipient_approved_at']),
     );
   }
 }

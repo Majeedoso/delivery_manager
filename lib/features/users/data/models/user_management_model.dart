@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/features/users/domain/entities/managed_user.dart';
 
@@ -47,9 +48,9 @@ class UserManagementModel extends ManagedUser {
           ? json['trust_level']
           : int.tryParse(json['trust_level']?.toString() ?? ''),
       createdAt: DateTime.tryParse(json['created_at']?.toString() ?? '') ??
-          DateTime.now(),
+          clock.now(),
       updatedAt: DateTime.tryParse(json['updated_at']?.toString() ?? '') ??
-          DateTime.now(),
+          clock.now(),
     );
   }
 

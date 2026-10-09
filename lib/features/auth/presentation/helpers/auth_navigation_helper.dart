@@ -22,6 +22,7 @@ class AuthNavigationHelper {
 
     // Check account status for business roles
     if (user.role == UserRole.operator ||
+        user.role == UserRole.driver ||
         user.role == UserRole.restaurant ||
         user.role == UserRole.manager) {
       if (user.isPendingApproval || user.isSuspended || user.isRejected) {

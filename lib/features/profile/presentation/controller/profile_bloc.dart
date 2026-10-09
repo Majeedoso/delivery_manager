@@ -212,10 +212,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         await _updateSavedCredentialsEmailIfNeeded(oldEmail, event.newEmail);
         
         if (!emit.isDone) {
+          // The screen waits for this exact text: the server's own
+          // wording (which may be translated one day) is not relied on
           emit(state.copyWith(
             profile: response.profile,
             requestState: RequestState.loaded,
-            message: response.message,
+            message: 'Email changed successfully',
           ));
         }
       },
@@ -240,21 +242,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         (credentials) async {
           _logger.debug('ProfileBloc: Loaded credentials - rememberMe: ${credentials['rememberMe']}, email: ${credentials['email']}');
           
-          // Check if rememberMe is enabled and we have saved credentials
+          // "Remember me" keeps the email only: the password is never
+          // stored (waiting for one meant the email was never updated)
           if (credentials['rememberMe'] == 'true' && 
               credentials['email'] != null && 
-              credentials['email']!.isNotEmpty &&
-              credentials['password'] != null &&
-              credentials['password']!.isNotEmpty) {
-            // Since the user is authenticated and successfully changed their email,
-            // we update the saved credentials with the new email (keep the same password)
-            final savedPassword = credentials['password']!;
+              credentials['email']!.isNotEmpty) {
             
             _logger.debug('ProfileBloc: Updating saved email to: $newEmail');
             
             final saveResult = await saveCredentialsUseCase(SaveCredentialsParameters(
               email: newEmail,
-              password: savedPassword,
+              password: '',
               rememberMe: true,
             ));
             
@@ -271,8 +269,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               },
             );
           } else {
-            _logger.debug('ProfileBloc: No saved credentials with rememberMe enabled or email/password is empty');
-            _logger.debug('ProfileBloc: rememberMe=${credentials['rememberMe']}, email=${credentials['email']}, hasPassword=${credentials['password'] != null && credentials['password']!.isNotEmpty}');
+            _logger.debug('ProfileBloc: No remembered email to update');
           }
         },
       );

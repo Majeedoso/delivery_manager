@@ -15,7 +15,7 @@ import 'package:delivery_manager/features/localization/presentation/controller/l
 class FirstRunLanguageScreen extends StatelessWidget {
   const FirstRunLanguageScreen({super.key});
 
-  static const String route = '/first_run_language';
+  static const String route = '/first-run-language';
 
   /// Get localized strings based on a language code
   /// These are hardcoded because we can't use AppLocalizations before

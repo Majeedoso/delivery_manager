@@ -22,6 +22,7 @@ import 'package:delivery_manager/features/auth/presentation/controller/auth_even
 import 'package:delivery_manager/features/auth/data/models/user_model.dart';
 import 'package:delivery_manager/features/auth/data/datasource/auth_local_data_source.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
+import 'package:delivery_manager/core/services/public_settings_service.dart';
 
 class VerifyEmailOtpScreen extends StatefulWidget {
   static const String route = '/verify-email-otp';
@@ -44,6 +45,8 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
   int _failedAttempts = 0;
   static const int _maxAttempts = 5;
 
+  Timer? _clipboardTimer; // looks for a pasted code every second
+
   @override
   void initState() {
     super.initState();
@@ -52,8 +55,12 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
     // Start countdown if not already active (persists across navigation)
     final countdownBloc = context.read<CountdownBloc>();
     if (!countdownBloc.state.isActive) {
-      // Default to 120 seconds (2 minutes) - will be updated by resend response
-      countdownBloc.add(const StartCountdownEvent(120));
+      // The wait set on the server (settings); a resend answer updates it
+      countdownBloc.add(
+        StartCountdownEvent(
+          sl<PublicSettingsService>().otpResendWaitSeconds,
+        ),
+      );
     }
 
     _captureInitialClipboard();
@@ -63,6 +70,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
 
   @override
   void dispose() {
+    _clipboardTimer?.cancel();
     _otpController.dispose();
     super.dispose();
   }
@@ -99,14 +107,10 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
         final code = res.requireData.code;
         logger.debug('🔍 Smart Auth: Detected code: $code');
         if (code != null && code.length == 6) {
+          // Filling the Pinput completes it, and its onCompleted verifies
+          // the code (a second, delayed verify used to send it twice)
           _otpController.text = code;
           logger.info('✅ Smart Auth: OTP auto-filled: $code');
-          // Wait a bit longer to ensure onCompleted doesn't also trigger
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            if (mounted && !_isProcessing) {
-              _verifyEmail();
-            }
-          });
         }
       } else {
         logger.debug('❌ Smart Auth: No SMS detected');
@@ -117,7 +121,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
   }
 
   Future<void> _checkClipboardPeriodically() async {
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
+    _clipboardTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (!mounted) {
         timer.cancel();
         return;
@@ -145,13 +149,9 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
               _lastDetectedOtp = otp;
               final logger = sl<LoggingService>();
               logger.info('✅ Auto-detected NEW OTP: $otp');
+              // Filling the Pinput completes it, and its onCompleted
+              // verifies the code (a second, delayed verify sent it twice)
               _otpController.text = otp;
-              // Don't show message, just auto-verify silently
-              Future.delayed(const Duration(milliseconds: 500), () {
-                if (mounted && !_isProcessing) {
-                  _verifyEmail();
-                }
-              });
             }
           }
         }
@@ -200,8 +200,8 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Navigate back to Create Account page (SignupChoiceScreen)
-            Navigator.of(context).pushReplacementNamed(AppRoutes.signupChoice);
+            // Back to signing in (there is no sign-up in this app)
+            Navigator.of(context).pushReplacementNamed(AppRoutes.login);
           },
         ),
       ),
@@ -247,21 +247,25 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
                       SizedBox(height: 6.h),
                       Directionality(
                         textDirection: TextDirection.ltr,
-                        child: Pinput(
-                          length: 6,
-                          controller: _otpController,
-                          defaultPinTheme: defaultPinTheme,
-                          focusedPinTheme: focusedPinTheme,
-                          submittedPinTheme: submittedPinTheme,
-                          pinputAutovalidateMode:
-                              PinputAutovalidateMode.onSubmit,
-                          showCursor: true,
-                          onCompleted: (pin) {
-                            // Only call if not already processing (prevents duplicate calls from auto-detection)
-                            if (!_isProcessing) {
-                              _verifyEmail();
-                            }
-                          },
+                        child: Semantics(
+                          identifier: 'otp.code',
+                          container: true,
+                          child: Pinput(
+                            length: 6,
+                            controller: _otpController,
+                            defaultPinTheme: defaultPinTheme,
+                            focusedPinTheme: focusedPinTheme,
+                            submittedPinTheme: submittedPinTheme,
+                            pinputAutovalidateMode:
+                                PinputAutovalidateMode.onSubmit,
+                            showCursor: true,
+                            onCompleted: (pin) {
+                              // Only call if not already processing (prevents duplicate calls from auto-detection)
+                              if (!_isProcessing) {
+                                _verifyEmail();
+                              }
+                            },
+                          ),
                         ),
                       ),
                       SizedBox(height: 4.h),
@@ -369,30 +373,18 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
       );
 
       if (response.statusCode == 200) {
-        // Get current user to preserve token
-        final currentUserResult = await sl<BaseAuthLocalDataSource>()
+        // Keep everything stored about the manager (role, status...)
+        // and only mark the email verified. The role used to be saved as
+        // "UserRole.manager", which reads back as an operator.
+        final currentUser = await sl<BaseAuthLocalDataSource>()
             .getCurrentUser();
-        String? token;
-        if (currentUserResult != null) {
-          token = currentUserResult.token;
-        }
-
-        // Parse response - backend returns minimal data, so we need to get full user
         final data = response.data['data'] ?? {};
-        final userData = {
-          'id': currentUserResult?.id ?? 0,
-          'name': currentUserResult?.name ?? '',
+        final user = UserModel.fromJson({
+          'role': 'manager',
+          ...?currentUser?.toJson(),
           'email': data['email'] ?? widget.email,
-          'phone': currentUserResult?.phone ?? '',
-          'role': currentUserResult?.role.toString() ?? 'manager',
           'email_verified_at': data['email_verified_at'],
-          'has_password': currentUserResult?.hasPassword ?? false,
-        };
-        if (token != null) {
-          userData['token'] = token;
-        }
-
-        final user = UserModel.fromJson(userData);
+        });
 
         // Save updated user
         await sl<BaseAuthLocalDataSource>().saveUser(user);
@@ -495,7 +487,9 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
 
       if (response.statusCode == 200) {
         final data = response.data['data'] ?? {};
-        final resendCountdown = data['resend_countdown'] as int? ?? 120;
+        final resendCountdown =
+            (data['resend_countdown'] as num?)?.toInt() ??
+            sl<PublicSettingsService>().otpResendWaitSeconds;
 
         // Start countdown
         final countdownBloc = context.read<CountdownBloc>();

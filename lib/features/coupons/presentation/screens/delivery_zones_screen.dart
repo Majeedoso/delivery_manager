@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:delivery_manager/core/utils/error_message_mapper.dart';
+import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/features/coupons/domain/entities/delivery_zone.dart';
 import 'package:delivery_manager/features/coupons/presentation/controller/coupons_bloc.dart';
 import 'package:delivery_manager/features/coupons/presentation/controller/coupons_event.dart';
@@ -46,24 +48,13 @@ class _DeliveryZonesScreenState extends State<DeliveryZonesScreen> {
         listenWhen: (previous, current) =>
             previous.zoneOperationStatus != current.zoneOperationStatus,
         listener: (context, state) {
-          final localizations = AppLocalizations.of(context)!;
-          if (state.zoneOperationStatus == ZoneOperationStatus.success) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.zoneOperationMessage ?? localizations.success,
-                ),
-                backgroundColor: Colors.green,
-              ),
-            );
-          } else if (state.zoneOperationStatus == ZoneOperationStatus.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.zoneOperationMessage ?? localizations.errorOccurred,
-                ),
-                backgroundColor: Colors.red,
-              ),
+          // A saved zone shows in the list (the success was said in English);
+          // a failure is said in the manager's language
+          if (state.zoneOperationStatus == ZoneOperationStatus.failure) {
+            ErrorSnackBar.show(
+              context,
+              state.zoneOperationMessage ??
+                  AppLocalizations.of(context)!.errorOccurred,
             );
           }
         },
@@ -90,7 +81,10 @@ class _DeliveryZonesScreenState extends State<DeliveryZonesScreen> {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    state.zonesErrorMessage!,
+                    ErrorMessageMapper.getUserFriendlyMessage(
+                      state.zonesErrorMessage!,
+                      localizations,
+                    ),
                     style: TextStyle(
                       color: Colors.red.shade600,
                       fontSize: 14.sp,
@@ -178,10 +172,14 @@ class _DeliveryZonesScreenState extends State<DeliveryZonesScreen> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showZoneDialog(),
-        backgroundColor: const Color(0xFFFF781F),
-        child: const Icon(Icons.add, color: Colors.white),
+      floatingActionButton: Semantics(
+        identifier: 'coupon_zones.add',
+        container: true,
+        child: FloatingActionButton(
+          onPressed: () => _showZoneDialog(),
+          backgroundColor: const Color(0xFFFF781F),
+          child: const Icon(Icons.add, color: Colors.white),
+        ),
       ),
     );
   }

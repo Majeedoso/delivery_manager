@@ -5,6 +5,9 @@ class Transaction {
   final String formattedAmount;
   final String status;
   final String? notes;
+
+  /// Why the other side confirmed or refused it (the payer's [notes] stay)
+  final String? responseNotes;
   final int fromUserId;
   final String? fromUserName;
   final int toUserId;
@@ -27,6 +30,7 @@ class Transaction {
     required this.formattedAmount,
     required this.status,
     this.notes,
+    this.responseNotes,
     required this.fromUserId,
     this.fromUserName,
     required this.toUserId,

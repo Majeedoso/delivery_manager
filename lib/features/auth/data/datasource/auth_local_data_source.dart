@@ -8,29 +8,25 @@ import 'package:delivery_manager/features/auth/data/models/user_model.dart';
 /// 
 /// Defines the contract for local data persistence:
 /// - Saving and retrieving user data
-/// - Saving and retrieving authentication tokens
-/// - Clearing user data and tokens
-/// 
-/// The implementation uses SharedPreferences for storage.
+/// - Clearing user data
+/// - Removing the token an earlier version of the app also kept here
+///
+/// The implementation uses SharedPreferences for storage. It is plain, and
+/// Android includes it in the phone's backups: the sign-in token is not kept
+/// there, it lives in the encrypted storage (TokenLocalDataSource).
 abstract class BaseAuthLocalDataSource {
-  /// Save user data to local storage
+  /// Save user data to local storage (without the user's token)
   Future<void> saveUser(UserModel user);
-  
-  /// Save authentication token to local storage
-  Future<void> saveToken(String token);
-  
+
   /// Get current user from local storage
   /// Returns null if no user is saved
   Future<UserModel?> getCurrentUser();
-  
-  /// Get authentication token from local storage
-  /// Returns null if no token is saved
-  Future<String?> getToken();
-  
+
   /// Clear user data from local storage
   Future<void> clearUser();
-  
-  /// Clear authentication token from local storage
+
+  /// Remove the copies of the token an earlier version kept in this plain
+  /// storage: its own entry, and the one inside the saved user
   Future<void> clearToken();
 }
 
@@ -47,18 +43,11 @@ class AuthLocalDataSource extends BaseAuthLocalDataSource {
   @override
   Future<void> saveUser(UserModel user) async {
     try {
-      await sharedPreferences.setString(AppConstance.userKey, jsonEncode(user.toJson()));
+      // Without the token a Google sign-in puts in the user: this storage is plain
+      final json = user.toJson()..remove('token');
+      await sharedPreferences.setString(AppConstance.userKey, jsonEncode(json));
     } catch (e) {
       throw LocalDatabaseException(message: 'Failed to save user data');
-    }
-  }
-
-  @override
-  Future<void> saveToken(String token) async {
-    try {
-      await sharedPreferences.setString(AppConstance.tokenKey, token);
-    } catch (e) {
-      throw LocalDatabaseException(message: 'Failed to save token');
     }
   }
 
@@ -77,15 +66,6 @@ class AuthLocalDataSource extends BaseAuthLocalDataSource {
   }
 
   @override
-  Future<String?> getToken() async {
-    try {
-      return sharedPreferences.getString(AppConstance.tokenKey);
-    } catch (e) {
-      throw LocalDatabaseException(message: 'Failed to get token');
-    }
-  }
-
-  @override
   Future<void> clearUser() async {
     try {
       await sharedPreferences.remove(AppConstance.userKey);
@@ -98,6 +78,16 @@ class AuthLocalDataSource extends BaseAuthLocalDataSource {
   Future<void> clearToken() async {
     try {
       await sharedPreferences.remove(AppConstance.tokenKey);
+
+      final saved = sharedPreferences.getString(AppConstance.userKey);
+      final user = saved == null ? null : jsonDecode(saved);
+      if (user is Map<String, dynamic> && user.containsKey('token')) {
+        user.remove('token');
+        await sharedPreferences.setString(
+          AppConstance.userKey,
+          jsonEncode(user),
+        );
+      }
     } catch (e) {
       throw LocalDatabaseException(message: 'Failed to clear token');
     }

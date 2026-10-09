@@ -1,8 +1,10 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
+import 'package:delivery_manager/core/utils/error_message_mapper.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/core/widgets/period_date_selector.dart';
 import 'package:delivery_manager/core/utils/period_calculator.dart';
@@ -76,9 +78,9 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
 
     final picked = await showDatePicker(
       context: context,
-      initialDate: currentDate ?? DateTime.now(),
+      initialDate: currentDate ?? clock.now(),
       firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
+      lastDate: clock.now(),
     );
 
     if (picked != null) {
@@ -125,13 +127,6 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
                 listener: (context, state) {
                   if (state is BalanceError) {
                     ErrorSnackBar.show(context, state.message);
-                  } else if (state is PaymentRecorded) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message.replaceAll(RegExp(r'<[^>]+>'), '')),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
                   } else if (state is PaymentError) {
                     ErrorSnackBar.show(context, state.message);
                   }
@@ -166,8 +161,12 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4.w),
                             child: Text(
+                              // As the snackbar says it: it read "Exception: ..."
                               state.message.isNotEmpty
-                                  ? state.message
+                                  ? ErrorMessageMapper.getUserFriendlyMessage(
+                                      state.message,
+                                      AppLocalizations.of(context)!,
+                                    )
                                   : AppLocalizations.of(
                                       context,
                                     )!.errorLoadingData,
@@ -177,11 +176,8 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
                           ),
                           SizedBox(height: 2.h),
                           ElevatedButton(
-                            onPressed: () {
-                              context.read<BankBloc>().add(
-                                const GetDriverBalanceEvent(),
-                              );
-                            },
+                            // The days chosen stay (it asked for every day)
+                            onPressed: _fetchData,
                             child: Text(AppLocalizations.of(context)!.retry),
                           ),
                         ],
@@ -550,7 +546,7 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
                               ),
                             ),
                             Text(
-                              '-${balance.formattedSystemDebt}',
+                              '-${AppLocalizations.of(context)!.dinars(balance.formattedSystemDebt)}',
                               style: Theme.of(context).textTheme.titleLarge
                                   ?.copyWith(
                                     fontWeight: FontWeight.bold,
@@ -567,103 +563,8 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
               SizedBox(height: 4.h),
             ],
 
-            // Pending Payments Section
-            if (balance.pendingPayments.isNotEmpty) ...[
-              Text(
-                AppLocalizations.of(context)!.pendingPayments,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 2.h),
-              ...balance.pendingPayments.map((payment) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Card(
-                    elevation: 2,
-                    color:
-                        Theme.of(context).inputDecorationTheme.fillColor ??
-                        Theme.of(context).colorScheme.surface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      payment.recipientName,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 2.w,
-                                        vertical: 0.5.h,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.orange.withValues(
-                                          alpha: 0.2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        AppLocalizations.of(context)!.pending,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                              color: Colors.orange,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                '-${payment.formattedAmount}',
-                                style: Theme.of(context).textTheme.titleLarge
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.orange,
-                                    ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Text(
-                              payment.formattedDate,
-                              style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(color: Colors.grey[600]),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ],
-
             // Empty State
-            if (restaurantDebts.isEmpty &&
-                systemDebt == 0 &&
-                balance.pendingPayments.isEmpty)
+            if (restaurantDebts.isEmpty && systemDebt == 0)
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -768,7 +669,7 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
               ),
               SizedBox(height: 1.h),
               Text(
-                '${Currency.dzd.code} TOTAL',
+                '${AppLocalizations.of(context)!.currency} ${AppLocalizations.of(context)!.total.toUpperCase()}',
                 style: TextStyle(
                   color: amountColor.withValues(alpha: 0.7),
                   fontWeight: FontWeight.bold,
@@ -927,7 +828,7 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
                               ),
                             ),
                             Text(
-                              '-${debt.formattedAmount}',
+                              '-${AppLocalizations.of(context)!.dinars(debt.formattedAmount)}',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleLarge

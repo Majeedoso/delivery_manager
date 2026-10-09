@@ -95,11 +95,23 @@ class ErrorSnackBar {
     String message, {
     Duration duration = const Duration(seconds: 3),
   }) {
+    // Success toasts are intentionally disabled to keep UI error-only.
+    return;
+  }
+
+  /// Says a key action went through where its result is not on screen, in
+  /// the app's own words: [message] is one of the app's texts. The server's
+  /// sentences are not shown ([showSuccess] stays off).
+  static void showConfirmation(
+    BuildContext context,
+    String message, {
+    Duration duration = const Duration(seconds: 3),
+  }) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.check_circle_outline,
               color: Colors.white,
               size: 20,
@@ -108,10 +120,7 @@ class ErrorSnackBar {
             Expanded(
               child: Text(
                 message,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                ),
+                style: const TextStyle(color: Colors.white, fontSize: 14),
               ),
             ),
           ],
@@ -119,9 +128,7 @@ class ErrorSnackBar {
         backgroundColor: Colors.green.shade700,
         duration: duration,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
@@ -136,35 +143,8 @@ class ErrorSnackBar {
     String message, {
     Duration duration = const Duration(seconds: 3),
   }) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              Icons.info_outline,
-              color: Colors.white,
-              size: 20,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                message,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: Colors.blue.shade700,
-        duration: duration,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    );
+    // Info toasts are intentionally disabled to keep UI error-only.
+    return;
   }
 }
 

@@ -11,6 +11,7 @@ import 'package:sizer/sizer.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
+import 'package:delivery_manager/core/services/public_settings_service.dart';
 import 'package:delivery_manager/features/theme/presentation/controller/theme_bloc.dart';
 import 'package:delivery_manager/features/theme/presentation/controller/theme_event.dart';
 import 'package:delivery_manager/features/theme/presentation/controller/theme_state.dart';
@@ -22,10 +23,12 @@ import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/core/routes/route_generator.dart';
 import 'package:delivery_manager/core/utils/app_timeouts.dart';
 import 'package:delivery_manager/core/utils/app_navigator.dart';
+import 'package:delivery_manager/core/utils/week_material_localizations.dart';
 import 'package:delivery_manager/features/localization/presentation/controller/localization_bloc.dart';
 import 'package:delivery_manager/features/localization/presentation/controller/localization_event.dart';
 import 'package:delivery_manager/features/localization/presentation/controller/localization_state.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
+import 'package:delivery_manager/features/auth/presentation/screens/login_screen.dart';
 import 'package:delivery_manager/features/countdown/presentation/controller/countdown_bloc.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'firebase_options.dart';
@@ -42,17 +45,59 @@ final _initLogger = Logger(
   ),
 );
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+Future<void> main() => startApp();
 
-  // Lock orientation to portrait only
-  await SystemChrome.setPreferredOrientations([
+/// Every step [startApp] runs before the app starts, in order.
+///
+/// The app always uses these defaults. Tests pass their own steps, so the
+/// startup order, timeouts and error screens can be checked without Firebase.
+class StartupSteps {
+  const StartupSteps();
+
+  /// Lock orientation to portrait only
+  Future<void> lockOrientation() => SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
 
+  /// Initialize App Config (Environment Variables)
+  Future<void> loadConfig() => AppConfig.load();
+
+  Future<void> initFirebase() =>
+      Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  Future<void> initCrashReporting() => CrashReportingService.initialize();
+
+  Future<void> recordError(Object error, StackTrace stackTrace, String reason) =>
+      CrashReportingService.recordError(error, stackTrace, reason: reason);
+
+  Future<void> initServices() => ServicesLocator().init();
+
+  /// The manager's settings the app needs (map token, timers): asked for in
+  /// the background, never waited for
+  void loadPublicSettings() => sl<PublicSettingsService>().refresh();
+
+  Future<void> initNotifications() => NotificationService.initialize();
+
+  void registerBackgroundHandler() =>
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+}
+
+/// Starts the app: runs [steps] in order, then hands [MyApp] to [run].
+///
+/// A failed or timed-out critical step (Firebase, services) shows
+/// [InitializationErrorScreen] instead, whose retry starts over.
+Future<void> startApp({
+  StartupSteps steps = const StartupSteps(),
+  void Function(Widget app) run = runApp,
+}) async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Lock orientation to portrait only
+  await steps.lockOrientation();
+
   // Initialize App Config (Environment Variables)
-  await AppConfig.load();
+  await steps.loadConfig();
 
   // Track initialization errors
   String? initializationError;
@@ -62,16 +107,14 @@ void main() async {
     if (kDebugMode) {
       _initLogger.i('Main: Initializing Firebase...');
     }
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    ).timeout(AppTimeouts.firebaseInit);
+    await steps.initFirebase().timeout(AppTimeouts.firebaseInit);
     if (kDebugMode) {
       _initLogger.i('Main: Firebase initialized successfully');
     }
 
     // Initialize crash reporting after Firebase is ready
     try {
-      await CrashReportingService.initialize();
+      await steps.initCrashReporting();
       if (kDebugMode) {
         _initLogger.i('Main: Crash reporting initialized successfully');
       }
@@ -87,7 +130,7 @@ void main() async {
     }
     initializationError =
         'Firebase initialization timed out after ${AppTimeouts.firebaseInit.inSeconds} seconds';
-    _showErrorScreen(initializationError);
+    _showErrorScreen(initializationError, steps, run);
     return;
   } catch (e, stackTrace) {
     if (kDebugMode) {
@@ -99,16 +142,16 @@ void main() async {
     }
     // Try to record error to crash reporting if available
     try {
-      await CrashReportingService.recordError(
+      await steps.recordError(
         e,
         stackTrace,
-        reason: 'Firebase initialization failed',
+        'Firebase initialization failed',
       );
     } catch (_) {
       // Ignore crash reporting errors
     }
     initializationError = 'Firebase initialization failed: ${e.toString()}';
-    _showErrorScreen(initializationError);
+    _showErrorScreen(initializationError, steps, run);
     return;
   }
 
@@ -117,7 +160,7 @@ void main() async {
     if (kDebugMode) {
       _initLogger.i('Main: Initializing service locator...');
     }
-    await ServicesLocator().init().timeout(AppTimeouts.serviceLocatorInit);
+    await steps.initServices().timeout(AppTimeouts.serviceLocatorInit);
     if (kDebugMode) {
       _initLogger.i('Main: Service locator initialized successfully');
     }
@@ -127,7 +170,7 @@ void main() async {
     }
     initializationError =
         'Service locator initialization timed out after ${AppTimeouts.serviceLocatorInit.inSeconds} seconds';
-    _showErrorScreen(initializationError);
+    _showErrorScreen(initializationError, steps, run);
     return;
   } catch (e, stackTrace) {
     if (kDebugMode) {
@@ -139,44 +182,23 @@ void main() async {
     }
     // Try to record error to crash reporting if available
     try {
-      await CrashReportingService.recordError(
+      await steps.recordError(
         e,
         stackTrace,
-        reason: 'Service locator initialization failed',
+        'Service locator initialization failed',
       );
     } catch (_) {
       // Ignore crash reporting errors
     }
     initializationError = 'Service initialization failed: ${e.toString()}';
-    _showErrorScreen(initializationError);
+    _showErrorScreen(initializationError, steps, run);
     return;
   }
 
   try {
-    // Initialize theme service
-    if (kDebugMode) {
-      _initLogger.i('Main: Initializing theme service...');
-    }
-    // ThemeService.init() is no longer needed - ThemeBloc handles initialization
-    if (kDebugMode) {
-      _initLogger.i('Main: Theme service initialized successfully');
-    }
-  } on TimeoutException catch (e) {
-    if (kDebugMode) {
-      _initLogger.w('Main: Theme service initialization timed out: $e');
-      _initLogger.i('Main: Continuing with default theme...');
-    }
-    // Theme service failure is not critical, continue with default theme
-  } catch (e, stackTrace) {
-    if (kDebugMode) {
-      _initLogger.e(
-        'Main: Theme service initialization failed: $e',
-        error: e,
-        stackTrace: stackTrace,
-      );
-      _initLogger.i('Main: Continuing with default theme...');
-    }
-    // Theme service failure is not critical, continue with default theme
+    steps.loadPublicSettings();
+  } catch (_) {
+    // The last values known are used; the app starts all the same
   }
 
   try {
@@ -184,7 +206,7 @@ void main() async {
     if (kDebugMode) {
       _initLogger.i('Main: Starting notification service initialization...');
     }
-    await NotificationService.initialize().timeout(
+    await steps.initNotifications().timeout(
       AppTimeouts.notificationServiceInit,
     );
     if (kDebugMode) {
@@ -213,7 +235,7 @@ void main() async {
     if (kDebugMode) {
       _initLogger.i('Main: Setting up background message handler...');
     }
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    steps.registerBackgroundHandler();
     if (kDebugMode) {
       _initLogger.i('Main: Background message handler registered successfully');
     }
@@ -230,17 +252,21 @@ void main() async {
   }
 
   // All critical initialization completed successfully
-  runApp(const MyApp());
+  run(const MyApp());
 }
 
-/// Shows error screen when initialization fails
-void _showErrorScreen(String errorMessage) {
-  runApp(
+/// Shows error screen when initialization fails; retry starts the app again
+void _showErrorScreen(
+  String errorMessage,
+  StartupSteps steps,
+  void Function(Widget app) run,
+) {
+  run(
     InitializationErrorScreen(
       errorMessage: errorMessage,
       onRetry: () {
-        // Restart the app by calling main again
-        main();
+        // Restart the app by running the startup steps again
+        startApp(steps: steps, run: run);
       },
     ),
   );
@@ -254,16 +280,38 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  StreamSubscription<void>? _suspensionSub;
+  bool _handlingSuspension = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _suspensionSub = accountSuspendedEvents.stream.listen(
+      (_) => _onAccountSuspended(),
+    );
   }
 
   @override
   void dispose() {
+    _suspensionSub?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  /// Called when the backend returns 403 ACCOUNT_NOT_APPROVED mid-session.
+  /// Sends the suspended manager back to the login screen.
+  void _onAccountSuspended() {
+    if (_handlingSuspension) return;
+    _handlingSuspension = true;
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      LoginScreen.route,
+      (route) => false,
+    );
+    // Reset flag after a short delay to allow re-trigger if navigation failed
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) _handlingSuspension = false;
+    });
   }
 
   @override
@@ -339,9 +387,14 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                             locale: Locale(state.currentLanguage.code),
                             navigatorKey: navigatorKey,
                             debugShowCheckedModeBanner: false,
+                            // The title of the recent-apps screen: the app's name in its language
+                            onGenerateTitle: (context) => AppLocalizations.of(context)!.appName,
                             // Localization configuration
                             localizationsDelegates: const [
                               AppLocalizations.delegate,
+                              // Before Flutter's own: a calendar's week
+                              // begins on Sunday in every language
+                              WeekMaterialLocalizations.delegate,
                               GlobalMaterialLocalizations.delegate,
                               GlobalWidgetsLocalizations.delegate,
                               GlobalCupertinoLocalizations.delegate,
@@ -358,6 +411,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                             // Routes - initial route depends on first run status
                             initialRoute: initialRoute,
                             routes: RouteGenerator.generateRoutes(),
+                            onUnknownRoute: RouteGenerator.unknownRoute,
                           );
                         },
                       ),

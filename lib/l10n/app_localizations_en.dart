@@ -9,22 +9,16 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'Delivery Manager';
+  String get appName => 'Manager App';
 
   @override
   String get login => 'Login';
-
-  @override
-  String get signUp => 'Sign Up';
 
   @override
   String get email => 'Email';
 
   @override
   String get password => 'Password';
-
-  @override
-  String get confirmPassword => 'Confirm Password';
 
   @override
   String get name => 'Name';
@@ -39,58 +33,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPassword => 'Forgot Password';
 
   @override
-  String get dontHaveAccount => 'Don\'t have an account? ';
-
-  @override
-  String get alreadyHaveAccount => 'Already have an account? ';
-
-  @override
   String get signInWithGoogle => 'Sign in with Google';
-
-  @override
-  String get signUpWithGoogle => 'Sign up with Google';
-
-  @override
-  String get signUpWithEmail => 'Sign up with Email';
-
-  @override
-  String get createAccount => 'Create Account';
 
   @override
   String get checkingAuthentication => 'Checking authentication...';
 
   @override
-  String get welcome => 'Welcome';
-
-  @override
   String get logout => 'Logout';
 
   @override
-  String get clearSavedCredentials => 'Clear Saved Credentials';
-
-  @override
   String get language => 'Language';
-
-  @override
-  String get selectLanguage => 'Select Language';
-
-  @override
-  String get english => 'English';
-
-  @override
-  String get arabic => 'Arabic';
-
-  @override
-  String get french => 'French';
 
   @override
   String get or => 'OR';
 
   @override
   String get profile => 'Profile';
-
-  @override
-  String get profileInformation => 'Profile Information';
 
   @override
   String get userType => 'User Type';
@@ -100,76 +58,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appSettings => 'App Settings';
-
-  @override
-  String get deliveryPreferences => 'Delivery Preferences';
-
-  @override
-  String get deliveryPreferencesDescription => 'Choose which restaurants you want to deliver for';
-
-  @override
-  String get mutualSelected => 'Mutual';
-
-  @override
-  String get pendingSelected => 'Pending';
-
-  @override
-  String get selectAllRestaurants => 'Select All Restaurants';
-
-  @override
-  String get noSelectionAllRestaurantsHint => 'No selection means you will receive orders from all restaurants.';
-
-  @override
-  String selectedRestaurantsCount(int count, int total) {
-    return '$count of $total selected';
-  }
-
-  @override
-  String updatingSelections(int done, int total) {
-    return 'Updating selections $done/$total...';
-  }
-
-  @override
-  String get linkedRestaurants => 'Linked Restaurants';
-
-  @override
-  String get addRestaurantByCode => 'Add Restaurant by Code';
-
-  @override
-  String get restaurantCode => 'Restaurant Code';
-
-  @override
-  String get enterRestaurantCode => 'Enter restaurant code';
-
-  @override
-  String get linkRestaurant => 'Link';
-
-  @override
-  String get linkRestaurantSuccess => 'Linked successfully';
-
-  @override
-  String get unlinkRestaurant => 'Unlinked successfully';
-
-  @override
-  String get noLinkedRestaurants => 'No linked restaurants yet';
-
-  @override
-  String get noLinkedRestaurantsDescription => 'Add a restaurant code to start delivering for specific restaurants.';
-
-  @override
-  String get notifications => 'Notifications';
-
-  @override
-  String get pushNotifications => 'Push Notifications';
-
-  @override
-  String get pushNotificationsDescription => 'Receive push notifications';
-
-  @override
-  String get emailNotifications => 'Email Notifications';
-
-  @override
-  String get emailNotificationsDescription => 'Receive email notifications';
 
   @override
   String get privacy => 'Privacy';
@@ -193,7 +81,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutApp => 'About App';
 
   @override
-  String get aboutDescription => 'The Manager app gives you complete oversight of the entire delivery platform. Approve users, monitor performance, configure system settings, and manage delivery zones — all from a powerful admin dashboard.';
+  String get aboutDescription => 'The Manager app gives you complete oversight of the entire delivery platform. Approve users, monitor performance, configure system settings, and manage coupons — all from a powerful admin dashboard.';
 
   @override
   String get features => 'Features';
@@ -217,16 +105,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get secureStorageDescription => 'Configure delivery fees, commission rates, and platform-wide operational rules';
 
   @override
-  String get googleSignIn => 'Zone Management';
+  String get googleSignIn => 'Coupons';
 
   @override
-  String get googleSignInDescription => 'Define and activate delivery zones to control where orders can be placed';
+  String get googleSignInDescription => 'Create coupons, set their limits and the zones where they apply';
 
   @override
   String get contactUs => 'Contact Us';
 
   @override
-  String get copyright => '© 2025 Delivery Manager. All rights reserved.';
+  String copyright(String year) {
+    return '© $year Manager App. All rights reserved.';
+  }
 
   @override
   String get website => 'Website';
@@ -247,31 +137,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get main => 'Main';
 
   @override
-  String get pendingOrders => 'Pending Orders';
-
-  @override
-  String get pendingOrdersDescription => 'Manage orders waiting for verification';
-
-  @override
-  String get acceptOrder => 'Accept Order';
-
-  @override
-  String get orderAcceptedSuccessfully => 'Order accepted successfully!';
-
-  @override
-  String get noOrdersAvailable => 'No orders available';
-
-  @override
-  String get checkBackLater => 'Check back later for new orders';
-
-  @override
   String get refresh => 'Refresh';
-
-  @override
-  String get noDeliveryAddress => 'No delivery address';
-
-  @override
-  String get items => 'items';
 
   @override
   String get total => 'Total';
@@ -280,46 +146,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deliveryFee => 'Delivery Fee';
 
   @override
-  String get cash => 'Cash';
-
-  @override
-  String get card => 'Card';
-
-  @override
   String get confirmed => 'Confirmed';
 
   @override
-  String get readyForPickup => 'Ready for Pickup';
-
-  @override
-  String get showMore => 'Show more';
-
-  @override
-  String get showLess => 'Show less';
-
-  @override
-  String get paymentMethod => 'Payment';
-
-  @override
-  String get deliveryNotes => 'Notes';
-
-  @override
-  String get ongoingOrders => 'Ongoing Orders';
-
-  @override
-  String get ongoingOrdersDescription => 'Manage your active deliveries';
-
-  @override
-  String get archiveOrders => 'Archive Orders';
-
-  @override
-  String get archiveOrdersDescription => 'View accepted and rejected orders';
-
-  @override
   String get statistics => 'Statistics';
-
-  @override
-  String get statisticsDescription => 'View your performance metrics';
 
   @override
   String get statisticsMoney => 'Money';
@@ -358,31 +188,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get user => 'User';
 
   @override
-  String get orders => 'Orders';
-
-  @override
-  String get archive => 'Archive';
-
-  @override
-  String get ordersArchive => 'Orders Archive';
-
-  @override
-  String get acceptedOrders => 'Accepted Orders';
-
-  @override
-  String get rejectedOrders => 'Rejected Orders';
-
-  @override
-  String get deliveredOrders => 'Delivered Orders';
-
-  @override
-  String get canceledOrders => 'Canceled Orders';
-
-  @override
   String get delivered => 'Delivered';
-
-  @override
-  String get cancelled => 'Cancelled';
 
   @override
   String get resetPassword => 'Reset Password';
@@ -397,13 +203,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailAddress => 'Email Address';
 
   @override
-  String get sendResetLink => 'Send Reset Link';
-
-  @override
   String get sendOtp => 'Send OTP';
-
-  @override
-  String get backToLogin => 'Back to Login';
 
   @override
   String get enterOtpCode => 'Enter OTP Code';
@@ -456,49 +256,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resendVerificationEmail => 'Resend Verification';
 
   @override
-  String get verificationEmailSent => 'Verification email sent successfully. Please check your inbox.';
-
-  @override
-  String get checking => 'Checking...';
-
-  @override
   String get checkStatus => 'Check Status';
 
   @override
   String get checkStatusDescription => 'Tap \"Check Status\" to see if your account has been approved';
 
   @override
-  String get notificationsRequired => 'Notifications are required for this app';
-
-  @override
-  String get notificationsRequiredDescription => 'This app requires notification permission to receive new order alerts.';
-
-  @override
-  String get enableNotifications => 'Enable Notifications';
-
-  @override
-  String get openSettings => 'Open Settings';
-
-  @override
-  String get exitApp => 'Exit App';
-
-  @override
   String get initializing => 'Initializing...';
 
   @override
-  String get checkingNotifications => 'Checking notifications...';
-
-  @override
-  String get settingUpNotifications => 'Setting up notifications...';
-
-  @override
   String get initializationFailed => 'Initialization failed';
-
-  @override
-  String get requestingPermission => 'Requesting permission...';
-
-  @override
-  String get permissionRequestFailed => 'Permission request failed';
 
   @override
   String get checkingInternet => 'Checking internet connection...';
@@ -588,9 +355,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get day => 'day';
 
   @override
-  String get week => 'Week';
-
-  @override
   String get month => 'Month';
 
   @override
@@ -598,9 +362,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dateRange => 'Date Range';
-
-  @override
-  String get selectPeriod => 'Select Period';
 
   @override
   String get from => 'From';
@@ -636,34 +397,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get performanceMetrics => 'Performance Metrics';
 
   @override
-  String get averageRespondingTime => 'Average Responding Time';
-
-  @override
-  String get acceptedOrdersSuccessRate => 'Good Decisions Rate';
-
-  @override
-  String get acceptedOrdersSuccessRateExplanation => 'Measures how many accepted orders were successfully delivered. This is a positive metric that focuses on successes.';
-
-  @override
   String get acceptedOrdersSuccessRateGood => 'High success rate means you\'re accepting orders you can fulfill reliably.';
 
   @override
   String get acceptedOrdersSuccessRateBad => 'Low success rate indicates issues with order fulfillment - review your capacity.';
 
   @override
-  String get acceptedOrdersFailureRate => 'Bad Decisions Rate';
-
-  @override
-  String get acceptedOrdersFailureRateExplanation => 'Measures how many accepted orders failed for any reason (canceled, returned, refused by customer, not delivered). This is a negative metric that focuses on failures.';
-
-  @override
   String get acceptedOrdersFailureRateGood => 'Low failure rate shows reliable order handling.';
 
   @override
   String get acceptedOrdersFailureRateBad => 'High failure rate damages reputation - consider why orders are failing.';
-
-  @override
-  String get averageRespondingTimeExplanation => 'Measures the average time it takes for the operator to respond to an order (accept or reject) after it\'s created.';
 
   @override
   String get averageRespondingTimeGood => 'Fast response times lead to better customer satisfaction and higher order acceptance.';
@@ -681,9 +424,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
-  String get orderBreakdown => 'Order Breakdown';
-
-  @override
   String get all => 'All';
 
   @override
@@ -696,16 +436,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get minute => 'minute';
 
   @override
-  String get minutes => 'minutes';
-
-  @override
   String get hour => 'hour';
-
-  @override
-  String get hours => 'hours';
-
-  @override
-  String get days => 'days';
 
   @override
   String get errorGeneric => 'Something went wrong. Please try again.';
@@ -774,12 +505,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorDatabaseServer => 'Database error occurred. Please try again later.';
 
   @override
-  String get errorLoadingOrders => 'Error loading orders';
-
-  @override
-  String get order => 'Order';
-
-  @override
   String get customer => 'Customer';
 
   @override
@@ -789,13 +514,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get description => 'Description';
 
   @override
-  String get address => 'Address';
-
-  @override
   String get isOpen => 'Is Open';
-
-  @override
-  String get restaurantAndNotes => 'Restaurant & Notes';
 
   @override
   String get notes => 'Notes';
@@ -804,165 +523,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rejectionReason => 'Reason';
 
   @override
-  String get deliveryInstructions => 'Delivery Instructions';
-
-  @override
   String get confirm => 'Confirm';
-
-  @override
-  String get reject => 'Reject';
-
-  @override
-  String get startPreparing => 'Start Preparing';
-
-  @override
-  String get markReady => 'Mark Ready';
-
-  @override
-  String get pickedUp => 'Picked Up';
-
-  @override
-  String get markDelivered => 'Mark Delivered';
 
   @override
   String get loadMore => 'Load More';
 
   @override
-  String get noPendingOrders => 'No Pending Orders';
-
-  @override
-  String get noPendingOrdersDescription => 'There are no pending orders in this date range.';
-
-  @override
-  String get noOngoingOrders => 'No Ongoing Orders';
-
-  @override
-  String get noOngoingOrdersDescription => 'There are no ongoing orders in this date range.';
-
-  @override
-  String get selectDeliveryMethod => 'Select Delivery Method';
-
-  @override
-  String get selfDelivery => 'Self Delivery';
-
-  @override
-  String get externalDelivery => 'External Delivery';
-
-  @override
-  String get selfDeliveryDescription => 'The restaurant will deliver the order with its own driver';
-
-  @override
-  String get externalDeliveryDescription => 'The order will be picked up by third-party drivers';
-
-  @override
-  String get pleaseSelectDeliveryMethod => 'Please select a delivery method before marking the order as ready';
-
-  @override
   String get drivers => 'Drivers';
 
   @override
-  String get addDriver => 'Add Driver';
-
-  @override
-  String get editDriver => 'Edit Driver';
-
-  @override
-  String get deleteDriver => 'Delete Driver';
-
-  @override
-  String get driverCode => 'Driver Code';
-
-  @override
-  String get driverCodeRequired => 'Driver code is required';
-
-  @override
-  String get noDriversAdded => 'No drivers added yet';
-
-  @override
-  String get pleaseAddDriverBeforeSelfDelivery => 'Please add a driver in your profile before choosing Self Delivery.';
-
-  @override
-  String get selectDriversForDelivery => 'Select Drivers for Delivery';
-
-  @override
-  String get selectAllDrivers => 'Select All Drivers';
-
-  @override
-  String get selectSpecificDrivers => 'Select Specific Drivers';
-
-  @override
-  String driverSelected(int count) {
-    return '$count driver(s) selected';
-  }
-
-  @override
-  String get driverCodeNotFound => 'Driver code not found. Please enter a valid driver code.';
-
-  @override
-  String get driverAlreadyLinked => 'This driver is already linked to your restaurant.';
-
-  @override
-  String get driverLinkedSuccessfully => 'Driver linked successfully!';
-
-  @override
-  String get requestTimeout => 'Request Timeout';
-
-  @override
-  String get requestTimeoutDescription => 'The request took too long to complete. Please check your internet connection and try again.';
-
-  @override
   String get call => 'Call';
-
-  @override
-  String get failedToOpenPhoneApp => 'Failed to open phone app';
-
-  @override
-  String get errorMakingPhoneCall => 'Error making phone call';
-
-  @override
-  String get ordersLoadedSuccessfully => 'Orders loaded successfully';
-
-  @override
-  String get orderConfirmedSuccessfully => 'Order confirmed successfully';
-
-  @override
-  String get orderRejectedSuccessfully => 'Order rejected successfully';
-
-  @override
-  String get confirmOrder => 'Confirm';
-
-  @override
-  String get areYouSureConfirmOrder => 'Are you sure you want to confirm this order?';
-
-  @override
-  String get confirmOrderDescription => 'This will approve the order and make it visible to the restaurant.';
-
-  @override
-  String get pleaseSelectRejectReason => 'Please select a reason for rejecting this order:';
-
-  @override
-  String get enterYourReason => 'Enter your reason...';
-
-  @override
-  String get rejectReasonDidntPickUp => 'Didn\'t pick up the phone';
-
-  @override
-  String get rejectReasonSuspiciousBehavior => 'Suspicious customer behavior';
-
-  @override
-  String get rejectReasonInvalidAddress => 'Invalid delivery address';
-
-  @override
-  String get rejectReasonUnrealisticAmount => 'Order amount seems unrealistic';
-
-  @override
-  String get rejectReasonInvalidContact => 'Customer contact information invalid';
-
-  @override
-  String get rejectReasonRestaurantUnavailable => 'Restaurant not available';
-
-  @override
-  String get other => 'Other';
 
   @override
   String get currentPasswordRequired => 'Current password is required';
@@ -997,24 +567,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get appStoreUrlNotConfigured => 'App Store URL is not configured. Please update the app manually from the App Store.';
-
-  @override
-  String unableToDetermineAppPackage(String store) {
-    return 'Unable to determine app package. Please update the app manually from $store.';
-  }
-
-  @override
-  String unableToOpenStore(String store) {
-    return 'Unable to open $store. Please update the app manually.';
-  }
-
-  @override
-  String errorOpeningAppStore(String error) {
-    return 'Error opening app store: $error. Please update the app manually.';
-  }
-
-  @override
   String get emailVerifiedSuccessfully => 'Email verified successfully';
 
   @override
@@ -1039,90 +591,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pleaseEnterValid6DigitOtp => 'Please enter a valid 6-digit OTP';
 
   @override
-  String get failedToGetLegalUrls => 'Failed to get legal URLs';
-
-  @override
-  String get networkErrorCheckConnection => 'Network error. Please check your internet connection.';
-
-  @override
-  String get serverErrorOccurred => 'Server error occurred';
-
-  @override
-  String get failedToGetContactInformation => 'Failed to get contact information';
-
-  @override
-  String unexpectedErrorOccurred(String error) {
-    return 'An unexpected error occurred: $error';
-  }
-
-  @override
-  String get appStore => 'App Store';
-
-  @override
-  String get playStore => 'Play Store';
-
-  @override
   String get urlNotAvailable => 'URL not available. Please try again later.';
 
   @override
-  String get unableToOpenUrlTryAgain => 'Unable to open URL. Please try again.';
-
-  @override
-  String get unableToOpenUrlCheckConnection => 'Unable to open URL. Please check your internet connection.';
-
-  @override
-  String get anErrorOccurred => 'An error occurred';
-
-  @override
-  String get openingHours => 'Opening Hours';
-
-  @override
   String get closed => 'Closed';
-
-  @override
-  String get monday => 'Monday';
-
-  @override
-  String get tuesday => 'Tuesday';
-
-  @override
-  String get wednesday => 'Wednesday';
-
-  @override
-  String get thursday => 'Thursday';
-
-  @override
-  String get friday => 'Friday';
-
-  @override
-  String get saturday => 'Saturday';
 
   @override
   String get sunday => 'Sunday';
 
   @override
   String get open => 'Open';
-
-  @override
-  String get schedule => 'Schedule';
-
-  @override
-  String get restaurantIsOpen => 'Restaurant is currently open';
-
-  @override
-  String get restaurantIsClosed => 'Restaurant is currently closed';
-
-  @override
-  String get updateSchedule => 'Update Schedule';
-
-  @override
-  String get driverAvailability => 'Availability';
-
-  @override
-  String get driverIsAvailable => 'You are currently available for deliveries';
-
-  @override
-  String get driverIsUnavailable => 'You are currently unavailable for deliveries';
 
   @override
   String get unsavedChanges => 'Unsaved Changes';
@@ -1137,142 +615,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discard => 'Discard';
 
   @override
-  String get selectLocationMethod => 'Select Location Method';
-
-  @override
-  String get manualEntry => 'Manual Entry';
-
-  @override
-  String get fromMap => 'From Map';
-
-  @override
-  String get selectLocationOnMap => 'Select Location on Map';
-
-  @override
-  String get selectLocation => 'Select Location';
-
-  @override
-  String get locationCoordinates => 'Location Coordinates';
-
-  @override
-  String get enterCoordinatesManually => 'Enter Coordinates Manually';
-
-  @override
   String get latitude => 'Latitude';
 
   @override
   String get longitude => 'Longitude';
 
   @override
-  String get latitudeRequired => 'Latitude is required';
-
-  @override
-  String get longitudeRequired => 'Longitude is required';
-
-  @override
-  String get invalidLatitude => 'Invalid latitude value';
-
-  @override
-  String get invalidLongitude => 'Invalid longitude value';
-
-  @override
-  String get latitudeRange => 'Latitude must be between -90 and 90';
-
-  @override
-  String get longitudeRange => 'Longitude must be between -180 and 180';
-
-  @override
-  String get menu => 'Menu';
-
-  @override
-  String get categories => 'Categories';
-
-  @override
-  String get menuItems => 'Menu Items';
-
-  @override
-  String get addCategory => 'Add Category';
-
-  @override
-  String get editCategory => 'Edit Category';
-
-  @override
-  String get deleteCategory => 'Delete Category';
-
-  @override
-  String get addMenuItem => 'Add Menu Item';
-
-  @override
-  String get editMenuItem => 'Edit Menu Item';
-
-  @override
-  String get deleteMenuItem => 'Delete Menu Item';
-
-  @override
-  String get categoryName => 'Category Name';
-
-  @override
-  String get categoryDescription => 'Category Description';
-
-  @override
-  String get itemName => 'Item Name';
-
-  @override
-  String get itemDescription => 'Item Description';
-
-  @override
-  String get itemPrice => 'Price';
-
-  @override
-  String get preparationTime => 'Preparation Time';
-
-  @override
-  String get ingredients => 'Ingredients';
-
-  @override
-  String get allergens => 'Allergens';
-
-  @override
-  String get nutritionalInfo => 'Nutritional Information';
-
-  @override
-  String get image => 'Image';
-
-  @override
-  String get selectImage => 'Select Image';
-
-  @override
-  String get takePhoto => 'Take Photo';
-
-  @override
-  String get chooseFromGallery => 'Choose from Gallery';
-
-  @override
   String get search => 'Search';
 
   @override
-  String get filter => 'Filter';
-
-  @override
-  String get bulkActions => 'Bulk Actions';
-
-  @override
-  String get deleteSelected => 'Delete Selected';
-
-  @override
-  String get toggleAvailability => 'Toggle Availability';
-
-  @override
-  String get reorder => 'Reorder';
-
-  @override
-  String get dragToReorder => 'Drag to reorder';
-
-  @override
   String get active => 'Active';
-
-  @override
-  String get inactive => 'Inactive';
 
   @override
   String get edit => 'Edit';
@@ -1281,170 +633,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delete => 'Delete';
 
   @override
-  String get featured => 'Featured';
-
-  @override
-  String get available => 'Available';
-
-  @override
-  String get unavailable => 'Unavailable';
-
-  @override
   String get selected => 'Selected';
-
-  @override
-  String get makeUnavailable => 'Make Unavailable';
-
-  @override
-  String get makeAvailable => 'Make Available';
 
   @override
   String get remove => 'Remove';
 
   @override
-  String get removeImage => 'Remove Image';
-
-  @override
-  String get areYouSureYouWantToRemoveThisImage => 'Are you sure you want to remove this image?';
-
-  @override
-  String get noCategories => 'No Categories';
-
-  @override
-  String get noCategoriesDescription => 'You haven\'t created any categories yet. Tap the + button to add one.';
-
-  @override
-  String get noMenuItems => 'No Menu Items';
-
-  @override
-  String get noMenuItemsDescription => 'This category doesn\'t have any items yet. Tap the + button to add one.';
-
-  @override
-  String get areYouSureDeleteCategory => 'Are you sure you want to delete this category?';
-
-  @override
-  String get areYouSureDeleteMenuItem => 'Are you sure you want to delete this menu item?';
-
-  @override
-  String areYouSureDeleteSelected(int count) {
-    return 'Are you sure you want to delete $count selected item(s)?';
-  }
-
-  @override
-  String categoryHasItems(int count) {
-    return 'This category contains $count item(s). Please delete or move the items first.';
-  }
-
-  @override
-  String get categoryNameRequired => 'Category name is required';
-
-  @override
-  String get itemNameRequired => 'Item name is required';
-
-  @override
-  String get priceRequired => 'Price is required';
-
-  @override
-  String get priceInvalid => 'Price must be greater than 0';
-
-  @override
-  String get preparationTimeRequired => 'Preparation time is required';
-
-  @override
-  String get preparationTimeInvalid => 'Preparation time must be at least 1 minute';
-
-  @override
-  String get categoryRequired => 'Category is required';
-
-  @override
-  String get addIngredient => 'Add Ingredient';
-
-  @override
-  String get addAllergen => 'Add Allergen';
-
-  @override
-  String get sortOrder => 'Sort Order';
-
-  @override
   String get isActive => 'Is Active';
-
-  @override
-  String get isAvailable => 'Is Available';
-
-  @override
-  String get isFeatured => 'Is Featured';
 
   @override
   String get clearFilters => 'Clear Filters';
 
   @override
-  String get sortByName => 'Sort by Name';
-
-  @override
-  String get sortByPrice => 'Sort by Price';
-
-  @override
-  String get sortByOrder => 'Sort by Order';
-
-  @override
-  String get sortAscending => 'Ascending';
-
-  @override
-  String get sortDescending => 'Descending';
-
-  @override
-  String get minPrice => 'Min Price';
-
-  @override
-  String get maxPrice => 'Max Price';
-
-  @override
-  String get selectCategory => 'Select Category';
-
-  @override
-  String get categoryCreatedSuccessfully => 'Category created successfully';
-
-  @override
-  String get categoryUpdatedSuccessfully => 'Category updated successfully';
-
-  @override
-  String get categoryDeletedSuccessfully => 'Category deleted successfully';
-
-  @override
-  String get menuItemCreatedSuccessfully => 'Menu item created successfully';
-
-  @override
-  String get menuItemUpdatedSuccessfully => 'Menu item updated successfully';
-
-  @override
-  String get menuItemDeletedSuccessfully => 'Menu item deleted successfully';
-
-  @override
-  String get menuItemsUpdatedSuccessfully => 'Menu items updated successfully';
-
-  @override
-  String get menuItemsDeletedSuccessfully => 'Menu items deleted successfully';
-
-  @override
-  String get categoriesReorderedSuccessfully => 'Categories reordered successfully';
-
-  @override
-  String get menuItemsReorderedSuccessfully => 'Menu items reordered successfully';
-
-  @override
   String get bank => 'Bank';
-
-  @override
-  String get totalExpected => 'Total Expected';
-
-  @override
-  String get driverDebts => 'Driver Debts';
-
-  @override
-  String get pendingPayments => 'Pending Payments';
-
-  @override
-  String get noPendingTransactions => 'No pending transactions';
 
   @override
   String get errorLoadingData => 'Error loading data';
@@ -1453,25 +654,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noDataAvailable => 'No data available';
 
   @override
-  String get restaurantSystemManagerDebt => 'Restaurant System Manager Debt';
-
-  @override
-  String get restaurantDebtToSystem => 'The restaurant\'s debt to the system';
-
-  @override
-  String get restaurantSystemManagerDebtDescription => 'Amount restaurant owes to system manager (10% of order total)';
-
-  @override
   String get amount => 'Amount';
 
   @override
   String get driver => 'Driver';
-
-  @override
-  String get expectedFromDrivers => 'Expected from Drivers';
-
-  @override
-  String get payToSystemAdministrator => 'Pay to System Administrator';
 
   @override
   String get transactions => 'Transactions';
@@ -1480,91 +666,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bankArchive => 'Bank Archive';
 
   @override
-  String get createTransaction => 'Create Transaction';
-
-  @override
-  String get paySystem => 'Pay System';
-
-  @override
-  String get calculatingAmount => 'Calculating amount...';
-
-  @override
-  String get amountCalculated => 'Amount calculated';
-
-  @override
-  String get noAmountForRange => 'No amount due for the selected date range';
-
-  @override
-  String get amountFieldReadOnly => 'Amount is automatically calculated based on selected date range';
-
-  @override
-  String get pendingApprovals => 'Pending Approvals';
-
-  @override
-  String get myPendingTransactions => 'My Pending Transactions';
-
-  @override
-  String get transactionHistory => 'Transaction History';
-
-  @override
-  String get filterByType => 'Filter by Type';
-
-  @override
-  String get filterByDate => 'Filter by Date';
-
-  @override
-  String get waitingForApproval => 'Waiting for Approval';
-
-  @override
   String get approvedBy => 'Approved by';
-
-  @override
-  String get rejectedBy => 'Rejected by';
-
-  @override
-  String get breakdownByDriver => 'Breakdown by Driver';
-
-  @override
-  String get breakdown => 'Breakdown';
 
   @override
   String get transactionType => 'Type';
 
   @override
-  String get paymentToDriver => 'From Driver';
-
-  @override
-  String get paymentToSystem => 'Payment to System';
-
-  @override
   String get selectDriver => 'Select Driver';
-
-  @override
-  String get enterAmount => 'Enter Amount';
-
-  @override
-  String get submit => 'Submit';
-
-  @override
-  String get approve => 'Approve';
 
   @override
   String get date => 'Date';
 
   @override
   String get status => 'Status';
-
-  @override
-  String get confirmCancellation => 'Confirm Cancellation';
-
-  @override
-  String get cancelTransactionConfirmation => 'Are you sure you want to cancel this transaction? This action cannot be undone.';
-
-  @override
-  String get no => 'No';
-
-  @override
-  String get yesCancel => 'Yes, Cancel';
 
   @override
   String get receivables => 'Credits';
@@ -1579,123 +693,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newTransaction => 'New Transaction';
 
   @override
-  String get pendingTransactions => 'Pending Transactions';
-
-  @override
   String get transactionsHistory => 'Transaction History';
-
-  @override
-  String get ratings => 'Ratings';
-
-  @override
-  String get ratingsTitle => 'Customer Ratings';
-
-  @override
-  String get ratingsDetailTitle => 'Rating Details';
-
-  @override
-  String ratingsBasedOn(String count) {
-    return 'Based on $count ratings';
-  }
-
-  @override
-  String get ratingsAnonymous => 'Anonymous Customer';
-
-  @override
-  String get ratingsResponded => 'Responded';
-
-  @override
-  String get ratingsReplyNow => 'Reply Now';
-
-  @override
-  String get ratingsResponseSuccess => 'Response submitted successfully';
-
-  @override
-  String get ratingsOverallRating => 'Overall Rating';
-
-  @override
-  String get ratingsDate => 'Date';
-
-  @override
-  String get ratingsWouldReorder => 'Would Reorder';
-
-  @override
-  String get ratingsWouldRecommend => 'Would Recommend';
-
-  @override
-  String get ratingsDetailedRatings => 'Detailed Ratings';
-
-  @override
-  String get ratingsFoodQuality => 'Food Quality';
-
-  @override
-  String get ratingsDeliverySpeed => 'Delivery Speed';
-
-  @override
-  String get ratingsDriver => 'Driver';
-
-  @override
-  String get ratingsService => 'Service';
-
-  @override
-  String get ratingsComments => 'Comments';
-
-  @override
-  String get ratingsGeneralComment => 'General Comment';
-
-  @override
-  String get ratingsFoodComment => 'Food Comment';
-
-  @override
-  String get ratingsDeliveryComment => 'Delivery Comment';
-
-  @override
-  String get ratingsDriverComment => 'Driver Comment';
-
-  @override
-  String get ratingsRestaurantComment => 'Restaurant Comment';
-
-  @override
-  String get ratingsTags => 'Tags';
-
-  @override
-  String get ratingsYourResponse => 'Your Response';
-
-  @override
-  String get ratingsWriteResponse => 'Write a Response';
-
-  @override
-  String get ratingsResponseHint => 'Thank the customer or address their feedback...';
-
-  @override
-  String get ratingsResponseRequired => 'Please enter a response';
-
-  @override
-  String get ratingsResponseMinLength => 'Response must be at least 10 characters';
-
-  @override
-  String get ratingsSubmitResponse => 'Submit Response';
-
-  @override
-  String get ratingsEmptyTitle => 'No Ratings Yet';
-
-  @override
-  String get ratingsEmptyMessage => 'Customer ratings will appear here once you receive them.';
-
-  @override
-  String get ratingsLoadMore => 'Load More';
-
-  @override
-  String get ratingsFilterAll => 'All';
-
-  @override
-  String get ratingsFilterPositive => 'Positive';
-
-  @override
-  String get ratingsFilterNegative => 'Negative';
-
-  @override
-  String get orderCounts => 'Order Counts';
 
   @override
   String get performance => 'Performance';
@@ -1714,9 +712,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get thisYear => 'This Year';
-
-  @override
-  String get custom => 'Custom';
 
   @override
   String get responseSpeed => 'Response Speed';
@@ -1743,146 +738,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get poorDecisionsDescription => 'Rate of cancelled orders after acceptance';
 
   @override
-  String get statisticsDataFrom => 'Data from';
-
-  @override
-  String get orderCapacity => 'Order Capacity';
-
-  @override
-  String canAcceptMoreOrders(int count) {
-    return 'You can accept $count more order(s)';
-  }
-
-  @override
-  String get maxCapacityReached => 'Maximum capacity reached';
-
-  @override
-  String get preparing => 'Preparing';
-
-  @override
-  String get onDelivery => 'On Delivery';
-
-  @override
-  String get noPreparingOrders => 'No orders being prepared';
-
-  @override
-  String get noPreparingOrdersDescription => 'Orders waiting for food preparation will appear here';
-
-  @override
-  String get noReadyOrders => 'No orders ready for pickup';
-
-  @override
-  String get noReadyOrdersDescription => 'Orders ready to be picked up will appear here';
-
-  @override
-  String get noDeliveringOrders => 'No orders on delivery';
-
-  @override
-  String get noDeliveringOrdersDescription => 'Orders you are delivering will appear here';
-
-  @override
-  String get markPickedUp => 'Mark as Picked Up';
-
-  @override
-  String get navigateToRestaurant => 'Navigate to Restaurant';
-
-  @override
-  String get navigateToCustomer => 'Navigate to Customer';
-
-  @override
-  String get rejectOrder => 'Reject Order';
-
-  @override
-  String get selectRejectionReason => 'Select a reason for rejection:';
-
-  @override
-  String get rejectionReasonTooFar => 'Too far from my location';
-
-  @override
-  String get rejectionReasonLowEarnings => 'Low earnings for this order';
-
-  @override
-  String get rejectionReasonBadArea => 'Delivery area is problematic';
-
-  @override
-  String get rejectionReasonBusy => 'Currently busy with other deliveries';
-
-  @override
-  String get rejectionReasonVehicleIssue => 'Vehicle/transportation issue';
-
-  @override
-  String get rejectionReasonPersonal => 'Personal reasons';
-
-  @override
-  String get rejectionReasonOther => 'Other';
-
-  @override
-  String get additionalNotes => 'Additional Notes (optional)';
-
-  @override
-  String get additionalNotesHint => 'Add any additional details...';
-
-  @override
-  String get confirmRejection => 'Reject';
-
-  @override
-  String get orderRejected => 'Order rejected';
-
-  @override
-  String get noRejectedOrders => 'No rejected orders';
-
-  @override
-  String get rejectedAt => 'Rejected at';
-
-  @override
-  String get unassignOrder => 'Unassign from Order';
-
-  @override
-  String get selectUnassignReason => 'Why can\'t you complete this order?';
-
-  @override
-  String get unassignReasonVehicleBreakdown => 'Vehicle breakdown';
-
-  @override
-  String get unassignReasonPersonalEmergency => 'Personal emergency';
-
-  @override
-  String get unassignReasonSafetyConcern => 'Safety concern at location';
-
-  @override
-  String get unassignReasonCannotReach => 'Cannot reach pickup/delivery location';
-
-  @override
-  String get unassignReasonLongWait => 'Restaurant wait time too long';
-
-  @override
-  String get unassignReasonOrderIssue => 'Issue with order (missing items, wrong order)';
-
-  @override
-  String get unassignReasonOther => 'Other reason';
-
-  @override
-  String get confirmUnassign => 'Unassign';
-
-  @override
-  String get orderUnassigned => 'Unassigned from order';
-
-  @override
-  String get unassignOnDeliveryWarning => 'Emergency only! Unassigning during delivery is serious and will be reviewed. Only use for genuine emergencies.';
-
-  @override
-  String get unassignReadyWarning => 'The food is ready and waiting. Unassigning now may affect food quality for the customer.';
-
-  @override
-  String get unassignEmergencyNotesHint => 'Please describe the emergency situation...';
-
-  @override
-  String get unassignConsequenceNotice => 'Frequent unassignments may affect your driver metrics. The order will be returned to the available pool.';
-
-  @override
-  String get cantCompleteOrder => 'Can\'t Complete';
-
-  @override
   String get totalDebt => 'Total Debt';
 
   @override
@@ -1904,12 +759,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recordSystemPayment => 'Record System Payment';
 
   @override
-  String get paySystemDebt => 'Pay System Debt';
-
-  @override
-  String get paymentToRestaurant => 'Payment to Restaurant';
-
-  @override
   String get noDebts => 'No Outstanding Debts';
 
   @override
@@ -1917,9 +766,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidAmount => 'Invalid amount';
-
-  @override
-  String get record => 'Record';
 
   @override
   String get noTransactionsFound => 'No Transactions Found';
@@ -1940,64 +786,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get overpay => 'Overpay';
 
   @override
-  String get credit => 'Credit';
-
-  @override
   String get pickupSpeed => 'Pickup Speed';
 
   @override
   String get pickupSpeedDescription => 'Time from food ready to pickup';
 
   @override
-  String get pickupSpeedGood => 'Faster pickup (under 10 minutes) ensures fresh food and happy customers.';
-
-  @override
-  String get pickupSpeedBad => 'Slow pickup (over 20 minutes) may result in cold food and unhappy customers.';
-
-  @override
-  String get deliverySpeed => 'Delivery Speed';
-
-  @override
-  String get deliverySpeedDescription => 'Time from pickup to delivery';
-
-  @override
-  String get deliverySpeedGood => 'Fast delivery (under 20 minutes) leads to satisfied customers and better ratings.';
-
-  @override
-  String get deliverySpeedBad => 'Slow delivery (over 40 minutes) can result in complaints and lower ratings.';
-
-  @override
   String get completionRate => 'Completion Rate';
-
-  @override
-  String get completionRateDescription => 'Percentage of accepted orders that were delivered';
-
-  @override
-  String get completionRateGood => 'High rate (95%+) shows reliability and professionalism.';
-
-  @override
-  String get completionRateBad => 'Low rate (below 85%) indicates issues with order handling.';
 
   @override
   String get cancellationRate => 'Cancellation Rate';
 
   @override
   String get cancellationRateDescription => 'Percentage of accepted orders that were cancelled';
-
-  @override
-  String get cancellationRateGood => 'Low rate (under 5%) is excellent and shows consistent service.';
-
-  @override
-  String get cancellationRateBad => 'High rate (over 15%) raises concerns about reliability.';
-
-  @override
-  String get iHaveArrived => 'I\'ve Arrived';
-
-  @override
-  String get arrived => 'Arrived';
-
-  @override
-  String get driverArrived => 'Driver Arrived';
 
   @override
   String get ok => 'OK';
@@ -2015,7 +816,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountNotFound => 'Account Not Found';
 
   @override
-  String get accountNotFoundMessage => 'No account found with this email. Please sign up first.';
+  String get accountNotFoundMessage => 'No manager account uses this email. Manager accounts are created by the platform\'s team, not in the app.';
 
   @override
   String get loginFailed => 'Login Failed';
@@ -2058,9 +859,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get suspended => 'Suspended';
-
-  @override
-  String get rejectedStatus => 'Rejected';
 
   @override
   String get operator => 'Operator';
@@ -2283,12 +1081,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectZonesInfo => 'Select zones (applies to all if none selected)';
 
   @override
-  String get zone => 'zone';
-
-  @override
-  String get zones => 'zones';
-
-  @override
   String get noRestaurantsAvailable => 'No restaurants available. This coupon will be global.';
 
   @override
@@ -2429,22 +1221,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get averageOrderValueDesc => 'The average total amount (food + delivery) per delivered order in the selected period.';
 
   @override
-  String get ordersPlacedDesc => 'Total number of successfully delivered orders in the selected period.';
-
-  @override
-  String get netProfit => 'Net Profit';
-
-  @override
   String get orderMetrics => 'Order Metrics';
 
   @override
   String get averageOrderValue => 'Average Order Value';
-
-  @override
-  String get completedOrders => 'Completed Orders';
-
-  @override
-  String get statisticsDelivery => 'Delivery';
 
   @override
   String get statisticsRatings => 'Ratings';
@@ -2501,13 +1281,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get slowestDeliveryDesc => 'The longest delivery time recorded in the selected period.';
 
   @override
-  String get driverPerformance => 'Driver Performance';
-
-  @override
   String get minutesAbbr => 'min';
-
-  @override
-  String get noDriverData => 'No driver performance data available';
 
   @override
   String get averageRating => 'Average Rating';
@@ -2525,9 +1299,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restaurantServiceRating => 'Restaurant Service';
 
   @override
-  String get driverRatingLabel => 'Driver Rating';
-
-  @override
   String get deliverySpeedRating => 'Delivery Speed';
 
   @override
@@ -2537,28 +1308,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get recommendRate => 'Recommend Rate';
 
   @override
-  String get customerSatisfaction => 'Customer Satisfaction';
-
-  @override
-  String get categoryRatings => 'Category Ratings';
-
-  @override
-  String get last7Days => 'Last 7 days';
-
-  @override
-  String get last30Days => 'Last 30 days';
-
-  @override
-  String get last90Days => 'Last 90 days';
-
-  @override
-  String get last365Days => 'Last 365 days';
-
-  @override
   String get outOf5 => 'out of 5';
-
-  @override
-  String get quarter => 'Quarter';
 
   @override
   String get restaurantsTab => 'Restaurants';
@@ -2623,59 +1373,690 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmAccountDeletionCodeMessage => 'Please enter the code to confirm account deletion. This action cannot be undone.';
 
   @override
-  String get enableInSettings => 'Enable in Settings';
-
-  @override
-  String get notificationPermissionNeededMessage => 'This app needs notification permission to:';
-
-  @override
-  String get notificationBenefitNewOrders => '• Alert you about new delivery orders';
-
-  @override
-  String get notificationBenefitStatusUpdates => '• Notify you of order status updates';
-
-  @override
-  String get notificationBenefitImportantAlerts => '• Send important delivery alerts';
-
-  @override
-  String get notificationPermissionWarning => 'Without notifications, you won\'t receive new orders and the app cannot function properly.';
-
-  @override
-  String get notificationPermissionDeniedInstructions => 'Notification permission was denied. To enable it:';
-
-  @override
-  String get stepTapOpenSettings => '1. Tap \"Open Settings\" below';
-
-  @override
-  String get stepFindNotificationsInSettings => '2. Find \"Notifications\" in the app settings';
-
-  @override
-  String get stepEnableAllowNotifications => '3. Enable \"Allow notifications\"';
-
-  @override
-  String get stepReturnToApp => '4. Return to the app';
-
-  @override
-  String get initializationErrorTitle => 'Initialization Error';
-
-  @override
-  String get initializationErrorMessage => 'The app failed to initialize properly.';
-
-  @override
   String get unableToCheckForUpdates => 'Unable to check for updates. Please try again later.';
 
   @override
-  String get accountApprovedRedirecting => 'Your account has been approved! Redirecting...';
-
-  @override
   String get accountPendingApprovalMessage => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.';
-
-  @override
-  String get accountPendingApprovalMessageShort => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.';
 
   @override
   String get accountSuspendedMessage => 'Your account has been suspended. Please contact support for assistance.';
 
   @override
   String get accountRejectedMessage => 'Your account has been rejected. Please contact support for more information.';
+
+  @override
+  String balanceForPeriod(String period) {
+    return '($period Balance)';
+  }
+
+  @override
+  String get updateLinkUnavailable => 'The update can\'t be opened on this device. Please contact us to get the new version.';
+
+  @override
+  String get pageNotFound => 'Page Not Found';
+
+  @override
+  String get accountApprovedRedirectingMessage => 'Your account has been approved! Redirecting...';
+
+  @override
+  String get accountPendingApproval => 'Account Pending Approval';
+
+  @override
+  String get accountPendingApprovalFallbackMessage => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.';
+
+  @override
+  String get accountRejected => 'Account Rejected';
+
+  @override
+  String get accountSuspended => 'Account Suspended';
+
+  @override
+  String get appFailedToInitializeProperly => 'The app failed to initialize properly.';
+
+  @override
+  String get pleaseConfirmYourPassword => 'Please confirm your password';
+
+  @override
+  String get nameIsRequired => 'Name is required';
+
+  @override
+  String get nameTooShort => 'Name must be at least 2 characters';
+
+  @override
+  String get phoneTooShort => 'Phone number must be at least 10 digits';
+
+  @override
+  String usesUnlimited(int count) {
+    return '$count (unlimited)';
+  }
+
+  @override
+  String get finalTotalGlobal => 'Final Total (Global)';
+
+  @override
+  String zonesSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zones selected',
+      one: '1 zone selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsCategoryDelivery => 'Delivery';
+
+  @override
+  String get settingsCategoryFinancials => 'Financials';
+
+  @override
+  String get settingsCategoryCustomersOrders => 'Customers & Orders';
+
+  @override
+  String get settingsCategoryLoyaltyPromotions => 'Loyalty & Promotions';
+
+  @override
+  String get settingsCategoryAccountsSecurity => 'Accounts & Security';
+
+  @override
+  String get settingsCategoryApiIntegrations => 'API & Integrations';
+
+  @override
+  String get settingsCategoryLegalContact => 'Legal & Contact';
+
+  @override
+  String get settingTypeText => 'Text';
+
+  @override
+  String get settingTypeWhole => 'Whole number';
+
+  @override
+  String get settingTypeNumber => 'Number';
+
+  @override
+  String get settingTypeYesNo => 'Yes or no';
+
+  @override
+  String get settingTypeList => 'List (JSON)';
+
+  @override
+  String get settingSystemManagerOrderPercentageName => 'Commission on orders (%)';
+
+  @override
+  String get settingSystemManagerOrderPercentageRole => 'The platform\'s part of the food subtotal';
+
+  @override
+  String get settingSystemManagerOrderPercentageHelp => 'The percentage of every order\'s food subtotal that the platform keeps as its commission. For example, 10 means the platform earns 10 DZD for every 100 DZD of food ordered. When an order is delivered, the bank records it as owed by the restaurant to the platform (the driver owes the restaurant the whole food subtotal).';
+
+  @override
+  String get settingSystemManagerDeliveryFeePercentageName => 'Share of the delivery fee (%)';
+
+  @override
+  String get settingSystemManagerDeliveryFeePercentageRole => 'The platform\'s part of each delivery fee';
+
+  @override
+  String get settingSystemManagerDeliveryFeePercentageHelp => 'The percentage of the delivery fee that goes to the platform; the driver keeps the rest. For example, with 30 the platform keeps 30% of each delivery fee and the driver 70%. The bank applies it every time an order is delivered.';
+
+  @override
+  String get settingContactEmailName => 'Support email';
+
+  @override
+  String get settingContactEmailRole => 'Shown in every app';
+
+  @override
+  String get settingContactEmailHelp => 'Shown with the other contact details on the Contact and About pages of every app (customer, driver, restaurant, operator). Change it whenever your support address changes, so users always reach the right inbox.';
+
+  @override
+  String get settingContactPhoneName => 'Support phone';
+
+  @override
+  String get settingContactPhoneRole => 'Shown in every app';
+
+  @override
+  String get settingContactPhoneHelp => 'Shown on the Contact page of every app. The apps read it from the server, so a change here reaches every app at once, with no new app version.';
+
+  @override
+  String get settingContactWebsiteName => 'Website';
+
+  @override
+  String get settingContactWebsiteRole => 'Shown in every app';
+
+  @override
+  String get settingContactWebsiteHelp => 'The address of your platform\'s website, shown on the About and Contact pages of every app and opened in the phone\'s browser when tapped.';
+
+  @override
+  String get settingContactAddressName => 'Postal address';
+
+  @override
+  String get settingContactAddressRole => 'The company\'s address';
+
+  @override
+  String get settingContactAddressHelp => 'Your company\'s official address. It is printed in the contact part of the Privacy Policy and Terms of Service pages (in every language) and sent to the apps with the other contact details. Leave it empty to hide the address line.';
+
+  @override
+  String get settingMinimumDeliveryFeeName => 'Minimum delivery fee';
+
+  @override
+  String get settingMinimumDeliveryFeeRole => 'The least a delivery costs';
+
+  @override
+  String get settingMinimumDeliveryFeeHelp => 'The least a customer is ever charged for delivery, however close the restaurant is. For example, 50 means even a 300-metre order costs 50 DZD for delivery. Set 0 for no minimum: the formula\'s result is used as it is.';
+
+  @override
+  String get settingMaximumDeliveryFeeName => 'Maximum delivery fee';
+
+  @override
+  String get settingMaximumDeliveryFeeRole => 'The most a delivery costs';
+
+  @override
+  String get settingMaximumDeliveryFeeHelp => 'The most a customer can be charged for delivery, however far the restaurant is. For example, 500 means a 20 km order never costs more than 500 DZD for delivery. Set 0 for no maximum: the formula\'s result is used as it is.';
+
+  @override
+  String get settingMaxDriverConcurrentOrdersName => 'Orders a driver holds at once';
+
+  @override
+  String get settingMaxDriverConcurrentOrdersRole => 'The most active orders per driver';
+
+  @override
+  String get settingMaxDriverConcurrentOrdersHelp => 'The most active orders one driver can hold at the same time. Once a driver holds this many, no new order is offered to them until one is delivered or given back. Raise it for busy periods; lower it to keep deliveries short.';
+
+  @override
+  String get settingFixedDeliveryFeeName => 'Fixed delivery fee';
+
+  @override
+  String get settingFixedDeliveryFeeRole => 'The flat part of every delivery fee';
+
+  @override
+  String get settingFixedDeliveryFeeHelp => 'A flat amount in every delivery fee, whatever the distance: fee = fixed fee + (price per metre × distance in metres), then rounded and kept between the minimum and the maximum. Raising it raises what every customer pays for delivery.';
+
+  @override
+  String get settingPricePerMeterName => 'Price per metre';
+
+  @override
+  String get settingPricePerMeterRole => 'The distance part of the delivery fee';
+
+  @override
+  String get settingPricePerMeterHelp => 'What each metre of road between the restaurant and the delivery address adds to the fee. For example, 0.02 DZD per metre means a 5 km route adds 100 DZD to the fixed fee. The road distance comes from Mapbox or OpenRouteService.';
+
+  @override
+  String get settingMaxDeliveryDistanceKmName => 'Maximum delivery distance (km)';
+
+  @override
+  String get settingMaxDeliveryDistanceKmRole => 'How far a delivery can go';
+
+  @override
+  String get settingMaxDeliveryDistanceKmHelp => 'An order whose delivery address is farther than this many kilometres from the restaurant is refused when it is placed. It spares drivers very long trips and keeps delivery times predictable. Raise or lower it to widen or narrow your service area.';
+
+  @override
+  String get settingAverageCitySpeedKmhName => 'City speed (km/h)';
+
+  @override
+  String get settingAverageCitySpeedKmhRole => 'For the delivery time when no route is known';
+
+  @override
+  String get settingAverageCitySpeedKmhHelp => 'When neither Mapbox nor OpenRouteService answers, the distance is measured in a straight line and this speed gives the time the delivery takes through city streets. A usual value is 25 to 40 km/h, for traffic and stops.';
+
+  @override
+  String get settingAverageHighwaySpeedKmhName => 'Highway speed (km/h)';
+
+  @override
+  String get settingAverageHighwaySpeedKmhRole => 'For the long part of such a trip';
+
+  @override
+  String get settingAverageHighwaySpeedKmhHelp => 'Used with the city speed in that straight-line estimate: beyond the city-to-highway distance, the rest of the trip is counted at this faster speed. A usual value is 80 to 120 km/h.';
+
+  @override
+  String get settingCityHighwayTransitionKmName => 'City-to-highway distance (km)';
+
+  @override
+  String get settingCityHighwayTransitionKmRole => 'Where the city speed stops';
+
+  @override
+  String get settingCityHighwayTransitionKmHelp => 'In that straight-line estimate, a trip shorter than this is counted entirely at city speed; the kilometres beyond it at highway speed. For example, 5 means the first 5 km at city speed and the rest at highway speed.';
+
+  @override
+  String get settingCurrencyName => 'Currency';
+
+  @override
+  String get settingCurrencyRole => 'The platform\'s currency code';
+
+  @override
+  String get settingCurrencyHelp => 'The ISO 4217 code of the currency of every amount on the platform: order totals, delivery fees, earnings, notifications. For example, \"DZD\" for the Algerian dinar. The server writes it after amounts and sends it to every app.';
+
+  @override
+  String get settingBirthdayGiftEnabledName => 'Birthday gift';
+
+  @override
+  String get settingBirthdayGiftEnabledRole => 'On or off';
+
+  @override
+  String get settingBirthdayGiftEnabledHelp => 'When true (or 1), a customer who orders on their birthday gets that order paid for, up to the birthday gift cap, once a year. When false (or 0), there is no birthday gift. It turns the promotion on or off without touching the code.';
+
+  @override
+  String get settingBirthdayGiftCapName => 'Birthday gift cap (DZD)';
+
+  @override
+  String get settingBirthdayGiftCapRole => 'The most a birthday gift covers';
+
+  @override
+  String get settingBirthdayGiftCapHelp => 'The most a birthday gift covers, in the platform\'s currency. For example, with a cap of 500, a 700 DZD birthday order is reduced by 500 DZD. It keeps the gift reasonable on large orders.';
+
+  @override
+  String get settingCustomerRestaurantRadiusKmName => 'Restaurant search radius (km)';
+
+  @override
+  String get settingCustomerRestaurantRadiusKmRole => 'Which restaurants a customer sees';
+
+  @override
+  String get settingCustomerRestaurantRadiusKmHelp => 'A customer is shown the restaurants within this many kilometres of where they are. A larger radius shows more choice, but may include restaurants too far to deliver in good time.';
+
+  @override
+  String get settingCustomerRestaurantPrefilterRadiusKmName => 'Search pre-filter radius (km)';
+
+  @override
+  String get settingCustomerRestaurantPrefilterRadiusKmRole => 'A first, quicker sorting of the restaurants';
+
+  @override
+  String get settingCustomerRestaurantPrefilterRadiusKmHelp => 'Before the exact distance check, the database keeps only the restaurants within this larger radius, which is quicker. It must be at least the restaurant search radius: smaller, it would leave out nearby restaurants; much larger, it only makes the search slower.';
+
+  @override
+  String get settingPrivacyPolicyUrlName => 'Privacy Policy link';
+
+  @override
+  String get settingPrivacyPolicyUrlRole => 'Shown in every app';
+
+  @override
+  String get settingPrivacyPolicyUrlHelp => 'Opened in the phone\'s browser when someone taps \"Privacy Policy\" in any app. Change it here whenever you publish a new version of your policy: no app update is needed.';
+
+  @override
+  String get settingTermsOfServiceUrlName => 'Terms of Service link';
+
+  @override
+  String get settingTermsOfServiceUrlRole => 'Shown in every app';
+
+  @override
+  String get settingTermsOfServiceUrlHelp => 'Opened in the phone\'s browser when someone taps \"Terms of Service\" in any app. Change it here whenever you revise your terms: no app update is needed.';
+
+  @override
+  String get settingMinOrderSchedulingMinutesName => 'Scheduling notice (minutes)';
+
+  @override
+  String get settingMinOrderSchedulingMinutesRole => 'How far ahead an order is scheduled';
+
+  @override
+  String get settingMinOrderSchedulingMinutesHelp => 'A customer scheduling an order must pick a time at least this many minutes ahead. For example, 30 means no order can be scheduled for the next 30 minutes. It gives restaurants and drivers enough time to get ready.';
+
+  @override
+  String get settingNumberOfOrdersToBeTrustedName => 'Orders to become trusted';
+
+  @override
+  String get settingNumberOfOrdersToBeTrustedRole => 'When an operator stops checking a customer\'s orders';
+
+  @override
+  String get settingNumberOfOrdersToBeTrustedHelp => 'A new customer\'s orders are checked by an operator before they reach the restaurant. Once a customer has this many delivered orders, they become \"trusted\" and their next orders go straight to the restaurant. Lower it to trust sooner; raise it for more checking.';
+
+  @override
+  String get settingOtpValidityMinutesName => 'Code validity (minutes)';
+
+  @override
+  String get settingOtpValidityMinutesRole => 'How long an emailed code works';
+
+  @override
+  String get settingOtpValidityMinutesHelp => 'Codes are emailed to reset a password, verify or change an email address and confirm an account deletion. A code works for this many minutes after it is sent, and the email says so. Shorter is safer; longer is kinder to slow mailboxes.';
+
+  @override
+  String get settingOtpResendWaitSecondsName => 'Wait before a new code (seconds)';
+
+  @override
+  String get settingOtpResendWaitSecondsRole => 'Between two emailed codes';
+
+  @override
+  String get settingOtpResendWaitSecondsHelp => 'After a code is emailed, a new one can be asked for only after this many seconds; the apps show the countdown. It limits the emails sent to one address.';
+
+  @override
+  String get settingMaxSavedAddressesName => 'Saved addresses per customer';
+
+  @override
+  String get settingMaxSavedAddressesRole => 'How many addresses a customer keeps';
+
+  @override
+  String get settingMaxSavedAddressesHelp => 'The most delivery addresses one customer can keep in the app. One more is refused with a message.';
+
+  @override
+  String get settingMaxItemsPerOrderName => 'Dishes per order';
+
+  @override
+  String get settingMaxItemsPerOrderRole => 'Different dishes in one order';
+
+  @override
+  String get settingMaxItemsPerOrderHelp => 'An order with more different dishes than this is refused. It keeps one order to what a kitchen and a driver can handle at once.';
+
+  @override
+  String get settingMaxQuantityPerItemName => 'Portions per dish';
+
+  @override
+  String get settingMaxQuantityPerItemRole => 'Portions of one dish in one order';
+
+  @override
+  String get settingMaxQuantityPerItemHelp => 'The largest quantity of one dish a customer can order. A larger quantity is refused with a message.';
+
+  @override
+  String get settingAmountRoundingStepName => 'Rounding step (DZD)';
+
+  @override
+  String get settingAmountRoundingStepRole => 'Rounding of delivery fees and coupon discounts';
+
+  @override
+  String get settingAmountRoundingStepHelp => 'Delivery fees are rounded up, and coupon discounts down, to a multiple of this amount. With 5, a fee of 162 DZD becomes 165 and a discount of 312 DZD becomes 310. Set 1 to stop rounding.';
+
+  @override
+  String get settingLoyaltyCouponValidityDaysName => 'Loyalty coupon validity (days)';
+
+  @override
+  String get settingLoyaltyCouponValidityDaysRole => 'How long a loyalty coupon can be used';
+
+  @override
+  String get settingLoyaltyCouponValidityDaysHelp => 'A coupon obtained with loyalty points can be used for this many days. The customer app shows the number before the points are spent.';
+
+  @override
+  String get settingDefaultDeliveryTimeMinutesName => 'Default delivery time (minutes)';
+
+  @override
+  String get settingDefaultDeliveryTimeMinutesRole => 'When the route is unknown';
+
+  @override
+  String get settingDefaultDeliveryTimeMinutesHelp => 'When the road route to a customer can\'t be computed (no position yet, or no routing service), this many minutes is shown and used as the delivery time.';
+
+  @override
+  String get settingRouteCacheMinutesName => 'Road distance kept (minutes)';
+
+  @override
+  String get settingRouteCacheMinutesRole => 'How long a computed distance is reused';
+
+  @override
+  String get settingRouteCacheMinutesHelp => 'The road distance between a restaurant and a delivery spot is kept this many minutes instead of being asked again. The fee charged is then the fee shown, and fewer routing requests are made. Lower it only if roads change very often.';
+
+  @override
+  String get settingMapDefaultLatitudeName => 'Map centre: latitude';
+
+  @override
+  String get settingMapDefaultLatitudeRole => 'Where the apps\' map opens';
+
+  @override
+  String get settingMapDefaultLatitudeHelp => 'When someone opens the map to pick a place and no position is known yet, the map opens here. Set it, with the longitude, to the centre of your service area. A value between -90 and 90.';
+
+  @override
+  String get settingMapDefaultLongitudeName => 'Map centre: longitude';
+
+  @override
+  String get settingMapDefaultLongitudeRole => 'Where the apps\' map opens';
+
+  @override
+  String get settingMapDefaultLongitudeHelp => 'The longitude that goes with the map centre\'s latitude: the centre of your service area. A value between -180 and 180.';
+
+  @override
+  String get settingAppMapboxAccessTokenName => 'Map token (Mapbox)';
+
+  @override
+  String get settingAppMapboxAccessTokenRole => 'Draws the maps in the apps';
+
+  @override
+  String get settingAppMapboxAccessTokenHelp => 'The Mapbox public token (it starts with \"pk.\") the customer, driver, restaurant and manager apps draw their maps with. The apps read it from the server, so replacing it here needs no new app version. A secret token (\"sk.\") is refused: this one is handed to every app. The keys the server measures road distances with are not here: they are secrets, kept in the server\'s .env file.';
+
+  @override
+  String get settingLocalTimezoneName => 'Time zone';
+
+  @override
+  String get settingLocalTimezoneRole => 'Of the restaurants\' opening hours';
+
+  @override
+  String get settingLocalTimezoneHelp => 'Restaurants enter their opening hours as local times, for example 11:00 to 23:00. This is the time zone those hours are read in when the platform decides whether a restaurant is open. Use a standard name such as \"Africa/Algiers\"; anything else is refused.';
+
+  @override
+  String get settingBestSellerCountName => 'Best sellers per restaurant';
+
+  @override
+  String get settingBestSellerCountRole => 'How many dishes get the badge';
+
+  @override
+  String get settingBestSellerCountHelp => 'In the customer app, a restaurant\'s most ordered dishes carry a \"Best seller\" badge. This is how many of its dishes get it: those in the most delivered orders. Set 0 to show no badge.';
+
+  @override
+  String get settingBestSellerDaysName => 'Best seller period (days)';
+
+  @override
+  String get settingBestSellerDaysRole => 'The days the badge looks back on';
+
+  @override
+  String get settingBestSellerDaysHelp => 'Only orders delivered within this many past days count for the badge, so it follows what customers order now. For example, 30 means the last month of delivered orders.';
+
+  @override
+  String get settingBestSellerMinOrdersName => 'Orders to be a best seller';
+
+  @override
+  String get settingBestSellerMinOrdersRole => 'The least a dish needs for the badge';
+
+  @override
+  String get settingBestSellerMinOrdersHelp => 'A dish gets the badge only if it was in at least this many delivered orders during that period. A new restaurant with few orders shows no badge until its dishes reach this number.';
+
+  @override
+  String get settingLoyaltyEnabledName => 'Loyalty points';
+
+  @override
+  String get settingLoyaltyEnabledRole => 'On or off';
+
+  @override
+  String get settingLoyaltyEnabledHelp => 'When true, customers earn points on every delivered order and can spend them on discount coupons. When false, no point is earned and none can be spent; the balances already earned are kept. It pauses the loyalty programme without losing anything.';
+
+  @override
+  String get settingLoyaltyEarnRateName => 'Points earned per DZD';
+
+  @override
+  String get settingLoyaltyEarnRateRole => 'What an order earns';
+
+  @override
+  String get settingLoyaltyEarnRateHelp => 'The loyalty points a customer receives for each dinar paid for a delivered order (its total, delivery included, after discounts). For example, 0.1 means a 1000 DZD order earns 100 points. A higher rate makes the programme more rewarding; a lower one costs the platform less.';
+
+  @override
+  String get settingLoyaltyRedeemRateName => 'DZD per point spent';
+
+  @override
+  String get settingLoyaltyRedeemRateRole => 'What a point is worth';
+
+  @override
+  String get settingLoyaltyRedeemRateHelp => 'What one loyalty point is worth when a customer spends it on a coupon. For example, 0.5 means 200 points make a 100 DZD coupon. It sets the real cost of the programme: lower protects margins, higher attracts more customers to spend their points.';
+
+  @override
+  String get settingLoyaltyMinRedeemPointsName => 'Minimum points to spend';
+
+  @override
+  String get settingLoyaltyMinRedeemPointsRole => 'The least a customer spends at once';
+
+  @override
+  String get settingLoyaltyMinRedeemPointsHelp => 'A customer can\'t spend fewer points than this at once. A floor (for example 100 points) avoids tiny coupons and lets customers build up a real balance first.';
+
+  @override
+  String get settingLoyaltyTiersName => 'Redemption tiers';
+
+  @override
+  String get settingLoyaltyTiersRole => 'The point amounts a customer can spend';
+
+  @override
+  String get settingLoyaltyTiersHelp => 'The exact point amounts a customer can spend at once, as a JSON list of whole numbers, for example [100, 500, 1000, 2000]. The customer app offers only these. Each should be at least the minimum points to spend.';
+
+  @override
+  String get settingMaxCouponsPerCategoryName => 'Coupons of one kind per order';
+
+  @override
+  String get settingMaxCouponsPerCategoryRole => 'Stacking coupons of the same kind';
+
+  @override
+  String get settingMaxCouponsPerCategoryHelp => 'The most coupons of the same kind (restaurant, delivery or global) one order can use. With 1, a customer can\'t put two restaurant coupons on one order. Loyalty coupons count as restaurant coupons. Raise it to let coupons of the same kind be combined.';
+
+  @override
+  String get settingMaxCouponCategoriesName => 'Kinds of coupon per order';
+
+  @override
+  String get settingMaxCouponCategoriesRole => 'Combining different kinds of coupon';
+
+  @override
+  String get settingMaxCouponCategoriesHelp => 'The most different kinds of coupon (restaurant, delivery, global) one order can use together. For example, 2 means an order can combine at most two kinds, such as a restaurant coupon and a delivery coupon. With 3, all three can be used together.';
+
+  @override
+  String confirmPaymentReceived(String amount, String payer) {
+    return 'Did you receive $amount from $payer?';
+  }
+
+  @override
+  String get paymentRecordedNotice => 'Payment recorded';
+
+  @override
+  String get refusedAt => 'Refused At';
+
+  @override
+  String get paymentWaitingForAnswer => 'A payment they sent from their app is waiting for your answer in the transaction history: it is not counted yet.';
+
+  @override
+  String get reasonLoyaltyCouponCredit => 'Loyalty Coupon Credit';
+
+  @override
+  String get reject => 'Reject';
+
+  @override
+  String paymentNote(String note) {
+    return 'Note: $note';
+  }
+
+  @override
+  String paymentAnswer(String note) {
+    return 'Answer: $note';
+  }
+
+  @override
+  String get paymentConfirmedNotice => 'Payment confirmed';
+
+  @override
+  String get paymentRefusedNotice => 'Payment refused';
+
+  @override
+  String get refusePaymentTitle => 'Refuse this payment?';
+
+  @override
+  String get refusePaymentReasonHint => 'Why? (e.g. not received)';
+
+  @override
+  String get confirmPaymentReceivedTitle => 'Payment received?';
+
+  @override
+  String get creditDetails => 'Credit Details';
+
+  @override
+  String get debtDetails => 'Debt Details';
+
+  @override
+  String get orderSettlements => 'Order Settlements';
+
+  @override
+  String get cashTransactions => 'Cash Transactions';
+
+  @override
+  String get noTransactionsInPeriod => 'No transactions in selected date range';
+
+  @override
+  String get receivedPayment => 'Received Payment';
+
+  @override
+  String get sentPayment => 'Sent Payment';
+
+  @override
+  String get totalOrderSettlements => 'Total Order Settlements';
+
+  @override
+  String get totalCashOutgoing => 'Total Cash Outgoing';
+
+  @override
+  String get totalCashIncoming => 'Total Cash Incoming';
+
+  @override
+  String get netBalance => 'Net Balance';
+
+  @override
+  String get paidTowardsOrders => 'Paid towards these orders';
+
+  @override
+  String get cashPaidInTheseDays => 'Cash paid in these days';
+
+  @override
+  String get cashReceivedInTheseDays => 'Cash received in these days';
+
+  @override
+  String get reasonOvercharge => 'Overcharge';
+
+  @override
+  String get reasonOrderSettlement => 'Order Settlement';
+
+  @override
+  String get reasonCouponCredit => 'Coupon Credit';
+
+  @override
+  String get reasonGlobalCouponCredit => 'Global Coupon Credit';
+
+  @override
+  String get reasonBirthdayCredit => 'Birthday Gift Credit';
+
+  @override
+  String get deliveryAreas => 'Delivery Zones';
+
+  @override
+  String get deliveryAreasHelp => 'Customers can order only at a door inside a zone that is on.';
+
+  @override
+  String get noDeliveryAreasYet => 'No delivery zone yet: no customer can order.';
+
+  @override
+  String get addDeliveryArea => 'Add a delivery zone';
+
+  @override
+  String get editDeliveryArea => 'Edit the delivery zone';
+
+  @override
+  String get deliveryAreaOn => 'On: customers can order there';
+
+  @override
+  String get deliveryAreaOff => 'Off: no customer can order there';
+
+  @override
+  String get deleteDeliveryArea => 'Delete the delivery zone';
+
+  @override
+  String deleteDeliveryAreaConfirmation(String name) {
+    return 'Delete $name? Customers there will no longer be able to order.';
+  }
+
+  @override
+  String get coordinatesInvalid => 'Latitude from -90 to 90, longitude from -180 to 180';
+
+  @override
+  String get radiusOutOfRange => 'The radius goes from 0.1 to 100 km';
+
+  @override
+  String get payFromPlatform => 'Pay from the platform';
+
+  @override
+  String platformPaymentTitle(String name) {
+    return 'A payment from the platform to $name';
+  }
+
+  @override
+  String get platformPaymentHelp => 'It counts at once, and they are told. Paying more than is owed makes the difference their debt to the platform.';
+
+  @override
+  String get platformPaymentRecorded => 'Payment from the platform recorded';
+
+  @override
+  String get paidByThePlatform => 'Paid by the platform';
+
+  @override
+  String get paidBeyondWhatWasOwed => 'Paid beyond what was owed';
 }

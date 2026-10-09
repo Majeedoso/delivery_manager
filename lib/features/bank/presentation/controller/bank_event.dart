@@ -70,6 +70,43 @@ class RecordSystemPaymentEvent extends BankEvent {
   List<Object?> get props => [driverId, amount, notes];
 }
 
+/// The platform pays a restaurant ([restaurantId]) or a driver ([driverId])
+/// what it owes them.
+class RecordPlatformPaymentEvent extends BankEvent {
+  final int? restaurantId;
+  final int? driverId;
+  final double amount;
+  final String? notes;
+
+  const RecordPlatformPaymentEvent({
+    this.restaurantId,
+    this.driverId,
+    required this.amount,
+    this.notes,
+  });
+
+  @override
+  List<Object?> get props => [restaurantId, driverId, amount, notes];
+}
+
+/// The manager's word on a payment a driver or a restaurant sent to the
+/// platform: received ([confirm]), or refused, saying why ([notes], which
+/// the payer reads).
+class AnswerPaymentEvent extends BankEvent {
+  final int transactionId;
+  final bool confirm;
+  final String? notes;
+
+  const AnswerPaymentEvent({
+    required this.transactionId,
+    required this.confirm,
+    this.notes,
+  });
+
+  @override
+  List<Object?> get props => [transactionId, confirm, notes];
+}
+
 class GetTransactionsEvent extends BankEvent {
   final String? status;
   final String? type;

@@ -42,7 +42,7 @@ class CouponsHomeScreen extends StatelessWidget {
                 ),
                 _buildIconContainer(
                   context,
-                  title: 'Global Coupons',
+                  title: localizations.globalCoupons,
                   iconPath: '',
                   overrideIcon: Icon(
                     Icons.stars_rounded,

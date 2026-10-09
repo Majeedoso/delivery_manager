@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
+import 'package:delivery_manager/core/network/request_failure.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/features/bank/data/models/driver_balance_model.dart';
@@ -44,6 +45,23 @@ abstract class BankRemoteDataSource {
   Future<TransactionModel> recordSystemPayment({
     required int driverId,
     required double amount,
+    String? notes,
+  });
+
+  /// The platform pays a restaurant ([restaurantId]) or a driver
+  /// ([driverId]) what it owes them: it counts at once.
+  Future<TransactionModel> recordPlatformPayment({
+    int? restaurantId,
+    int? driverId,
+    required double amount,
+    String? notes,
+  });
+
+  /// Confirms (or refuses, saying why) a payment a driver or a restaurant
+  /// sent to the platform from its app: it counts once confirmed.
+  Future<void> answerPayment({
+    required int transactionId,
+    required bool confirm,
     String? notes,
   });
   Future<GetTransactionsResult> getTransactions({
@@ -131,60 +149,7 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
         );
       }
     } catch (e) {
-      logger.error('BankRemoteDataSource: Exception occurred', error: e);
-      logger.error('BankRemoteDataSource: Exception type: ${e.runtimeType}');
-
-      if (e is DioException) {
-        if (e.response != null) {
-          logger.error(
-            'BankRemoteDataSource: Response status code: ${e.response?.statusCode}',
-          );
-
-          try {
-            final responseData = e.response?.data;
-            if (responseData is String) {
-              logger.error(
-                'BankRemoteDataSource: Raw response body (String): ${responseData.substring(0, responseData.length > 500 ? 500 : responseData.length)}',
-              );
-            } else {
-              logger.error(
-                'BankRemoteDataSource: Raw response body: $responseData',
-              );
-            }
-          } catch (logError) {
-            logger.error(
-              'BankRemoteDataSource: Failed to log response data: $logError',
-            );
-          }
-        }
-
-        if (e.type == DioExceptionType.connectionTimeout ||
-            e.type == DioExceptionType.receiveTimeout ||
-            e.type == DioExceptionType.sendTimeout) {
-          logger.error('BankRemoteDataSource: Timeout error occurred');
-          throw Exception(
-            'Request timeout: Please check your internet connection and try again',
-          );
-        } else if (e.type == DioExceptionType.connectionError) {
-          logger.error('BankRemoteDataSource: Connection error occurred');
-          throw Exception('Connection error: Unable to reach the server');
-        } else if (e.type == DioExceptionType.badResponse) {
-          logger.error('BankRemoteDataSource: Bad response error');
-          String errorMessage =
-              'Server returned an invalid response. Please try again.';
-          if (e.response?.data != null) {
-            final responseData = e.response!.data;
-            if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('message')) {
-              errorMessage = responseData['message'].toString();
-            }
-          }
-          throw Exception(errorMessage);
-        }
-      }
-
-      logger.error('BankRemoteDataSource: Stack trace: ${StackTrace.current}');
-      throw Exception('Error fetching driver balance: $e');
+      throw _failure(e, 'Balance');
     }
   }
 
@@ -240,34 +205,7 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
         throw Exception('Failed to calculate amount: ${response.statusCode}');
       }
     } catch (e) {
-      logger.error(
-        'BankRemoteDataSource: Exception calculating restaurant payment amount',
-        error: e,
-      );
-
-      if (e is DioException) {
-        if (e.type == DioExceptionType.connectionTimeout ||
-            e.type == DioExceptionType.receiveTimeout ||
-            e.type == DioExceptionType.sendTimeout) {
-          throw Exception(
-            'Request timeout: Please check your internet connection',
-          );
-        } else if (e.type == DioExceptionType.connectionError) {
-          throw Exception('Connection error: Unable to reach the server');
-        } else if (e.type == DioExceptionType.badResponse) {
-          String errorMessage = 'Server error. Please try again.';
-          if (e.response?.data != null) {
-            final responseData = e.response!.data;
-            if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('message')) {
-              errorMessage = responseData['message'].toString();
-            }
-          }
-          throw Exception(errorMessage);
-        }
-      }
-
-      throw Exception('Error calculating amount: $e');
+      throw _failure(e, 'Restaurant amount');
     }
   }
 
@@ -325,34 +263,7 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
         );
       }
     } catch (e) {
-      logger.error(
-        'BankRemoteDataSource: Exception calculating system payment amount',
-        error: e,
-      );
-
-      if (e is DioException) {
-        if (e.type == DioExceptionType.connectionTimeout ||
-            e.type == DioExceptionType.receiveTimeout ||
-            e.type == DioExceptionType.sendTimeout) {
-          throw Exception(
-            'Request timeout: Please check your internet connection',
-          );
-        } else if (e.type == DioExceptionType.connectionError) {
-          throw Exception('Connection error: Unable to reach the server');
-        } else if (e.type == DioExceptionType.badResponse) {
-          String errorMessage = 'Server error. Please try again.';
-          if (e.response?.data != null) {
-            final responseData = e.response!.data;
-            if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('message')) {
-              errorMessage = responseData['message'].toString();
-            }
-          }
-          throw Exception(errorMessage);
-        }
-      }
-
-      throw Exception('Error calculating system amount: $e');
+      throw _failure(e, 'Driver amount');
     }
   }
 
@@ -424,42 +335,32 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
         );
       }
     } catch (e) {
-      logger.error(
-        'BankRemoteDataSource: Exception recording restaurant payment',
-        error: e,
+      throw _failure(e, 'Restaurant payment');
+    }
+  }
+
+  @override
+  Future<TransactionModel> recordPlatformPayment({
+    int? restaurantId,
+    int? driverId,
+    required double amount,
+    String? notes,
+  }) async {
+    try {
+      final response = await dio.post(
+        ApiConstance.managerPlatformPaymentsPath,
+        data: {
+          'restaurant_id': ?restaurantId,
+          'driver_id': ?driverId,
+          'amount': amount,
+          if (notes != null && notes.isNotEmpty) 'notes': notes,
+        },
       );
-
-      if (e is DioException) {
-        if (e.type == DioExceptionType.connectionTimeout ||
-            e.type == DioExceptionType.receiveTimeout ||
-            e.type == DioExceptionType.sendTimeout) {
-          throw Exception(
-            'Request timeout: Please check your internet connection and try again',
-          );
-        } else if (e.type == DioExceptionType.connectionError) {
-          throw Exception('Connection error: Unable to reach the server');
-        } else if (e.type == DioExceptionType.badResponse) {
-          String errorMessage =
-              'Server returned an invalid response. Please try again.';
-          if (e.response?.data != null) {
-            final responseData = e.response!.data;
-            if (responseData is Map<String, dynamic>) {
-              if (responseData.containsKey('message')) {
-                errorMessage = responseData['message'].toString();
-              } else if (responseData.containsKey('errors')) {
-                final errors = responseData['errors'] as Map<String, dynamic>;
-                errorMessage = errors.values.first
-                    .toString()
-                    .replaceAll('[', '')
-                    .replaceAll(']', '');
-              }
-            }
-          }
-          throw Exception(errorMessage);
-        }
-      }
-
-      throw Exception('Error recording restaurant payment: $e');
+      return TransactionModel.fromJson(
+        response.data['data'] as Map<String, dynamic>,
+      );
+    } catch (e) {
+      throw _failure(e, 'record a payment from the platform');
     }
   }
 
@@ -516,42 +417,7 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
         );
       }
     } catch (e) {
-      logger.error(
-        'BankRemoteDataSource: Exception recording system payment',
-        error: e,
-      );
-
-      if (e is DioException) {
-        if (e.type == DioExceptionType.connectionTimeout ||
-            e.type == DioExceptionType.receiveTimeout ||
-            e.type == DioExceptionType.sendTimeout) {
-          throw Exception(
-            'Request timeout: Please check your internet connection and try again',
-          );
-        } else if (e.type == DioExceptionType.connectionError) {
-          throw Exception('Connection error: Unable to reach the server');
-        } else if (e.type == DioExceptionType.badResponse) {
-          String errorMessage =
-              'Server returned an invalid response. Please try again.';
-          if (e.response?.data != null) {
-            final responseData = e.response!.data;
-            if (responseData is Map<String, dynamic>) {
-              if (responseData.containsKey('message')) {
-                errorMessage = responseData['message'].toString();
-              } else if (responseData.containsKey('errors')) {
-                final errors = responseData['errors'] as Map<String, dynamic>;
-                errorMessage = errors.values.first
-                    .toString()
-                    .replaceAll('[', '')
-                    .replaceAll(']', '');
-              }
-            }
-          }
-          throw Exception(errorMessage);
-        }
-      }
-
-      throw Exception('Error recording system payment: $e');
+      throw _failure(e, 'Driver payment');
     }
   }
 
@@ -616,35 +482,35 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
         throw Exception('Failed to load transactions: ${response.statusCode}');
       }
     } catch (e) {
-      logger.error(
-        'BankRemoteDataSource: Exception getting transactions',
-        error: e,
-      );
-
-      if (e is DioException) {
-        if (e.type == DioExceptionType.connectionTimeout ||
-            e.type == DioExceptionType.receiveTimeout ||
-            e.type == DioExceptionType.sendTimeout) {
-          throw Exception(
-            'Request timeout: Please check your internet connection and try again',
-          );
-        } else if (e.type == DioExceptionType.connectionError) {
-          throw Exception('Connection error: Unable to reach the server');
-        } else if (e.type == DioExceptionType.badResponse) {
-          String errorMessage =
-              'Server returned an invalid response. Please try again.';
-          if (e.response?.data != null) {
-            final responseData = e.response!.data;
-            if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('message')) {
-              errorMessage = responseData['message'].toString();
-            }
-          }
-          throw Exception(errorMessage);
-        }
-      }
-
-      throw Exception('Error fetching transactions: $e');
+      throw _failure(e, 'Payments list');
     }
+  }
+
+  @override
+  Future<void> answerPayment({
+    required int transactionId,
+    required bool confirm,
+    String? notes,
+  }) async {
+    try {
+      await dio.post(
+        ApiConstance.managerAnswerPaymentPath(transactionId),
+        data: {
+          'action': confirm ? 'confirm' : 'reject',
+          if (notes != null && notes.isNotEmpty) 'notes': notes,
+        },
+      );
+    } catch (e) {
+      throw _failure(e, 'Answer to a payment');
+    }
+  }
+
+  /// What a failed request tells the manager: the server's reason, or that
+  /// the network failed ([requestFailureOf]). The pages read "Exception:
+  /// Connection error: Unable to reach the server", in English whatever the
+  /// language.
+  Exception _failure(Object error, String request) {
+    logger.error('BankRemoteDataSource: $request failed', error: error);
+    return requestFailureOf(error);
   }
 }

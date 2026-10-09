@@ -11,6 +11,10 @@ import 'package:delivery_manager/features/auth/domain/repository/base_token_repo
 /// 
 /// Returns true if a valid token exists and is confirmed by the server,
 /// false otherwise (no token, empty token, or invalid token).
+///
+/// When the server can't answer (offline, timeout, server error) the saved
+/// session is kept: that says nothing about the token, and signing the
+/// customer out would lose their login for a network blip.
 /// 
 /// Used primarily during app startup in the splash screen to determine
 /// if the user should be logged in automatically.
@@ -23,7 +27,8 @@ class CheckAuthStatusUseCase implements BaseUseCase<bool, NoParameters> {
   /// Execute the use case to check authentication status
   /// 
   /// Returns:
-  /// - Right(true) if user is authenticated with a valid token
+  /// - Right(true) if user is authenticated with a valid token, or the server
+  ///   couldn't be asked
   /// - Right(false) if no token exists, token is empty, or token is invalid
   /// - Left(Failure) if an error occurs during token retrieval
   @override
@@ -44,7 +49,8 @@ class CheckAuthStatusUseCase implements BaseUseCase<bool, NoParameters> {
         final validateResult = await _repository.validateToken(token);
         return validateResult.fold(
           (failure) {
-            return const Right(false);
+            // No answer about the token: keep the session
+            return const Right(true);
           },
           (isValid) {
             return Right(isValid);

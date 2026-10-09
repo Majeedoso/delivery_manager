@@ -26,33 +26,6 @@ class LoginEvent extends AuthEvent {
   List<Object> get props => [email, password];
 }
 
-/// Event triggered when user attempts to register a new account
-///
-/// Contains:
-/// - [name]: User's full name
-/// - [email]: User's email address
-/// - [password]: User's chosen password
-/// - [role]: User's role (typically 'manager' for this app)
-/// - [phone]: User's phone number (optional)
-class RegisterEvent extends AuthEvent {
-  final String name;
-  final String email;
-  final String password;
-  final String role;
-  final String phone;
-
-  const RegisterEvent({
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.role,
-    required this.phone,
-  });
-
-  @override
-  List<Object> get props => [name, email, password, role, phone];
-}
-
 /// Event triggered when user attempts to log out
 ///
 /// Clears authentication token and user data from local storage
@@ -73,12 +46,6 @@ class CheckAuthStatusEvent extends AuthEvent {}
 /// 3. Sends credentials to backend
 /// 4. Saves authentication token
 class GoogleSignInEvent extends AuthEvent {}
-
-/// Event triggered when user attempts to sign up with Google
-///
-/// Similar to GoogleSignInEvent but for new user registration.
-/// Creates a new account using Google credentials.
-class GoogleSignUpEvent extends AuthEvent {}
 
 /// Event triggered when user attempts to sign out from Google
 ///
@@ -102,22 +69,6 @@ class ResendPasswordResetOtpEvent extends AuthEvent {
 
   @override
   List<Object> get props => [email];
-}
-
-/// Event triggered when user verifies email OTP
-///
-/// Verifies the 6-digit OTP code sent to the user's email.
-/// Contains:
-/// - [email]: The email address to verify
-/// - [otp]: The 6-digit OTP code
-class VerifyEmailOtpEvent extends AuthEvent {
-  final String email;
-  final String otp;
-
-  const VerifyEmailOtpEvent({required this.email, required this.otp});
-
-  @override
-  List<Object> get props => [email, otp];
 }
 
 /// Event triggered when user verifies password reset OTP (from login page)

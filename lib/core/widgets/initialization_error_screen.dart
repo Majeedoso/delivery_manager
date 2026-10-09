@@ -22,12 +22,21 @@ class InitializationErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
+    // Built above its own MaterialApp, where there are no Localizations yet:
+    // the texts are in the language that MaterialApp picks from the phone's
+    final l10n = lookupAppLocalizations(
+      basicLocaleListResolution(
+        WidgetsBinding.instance.platformDispatcher.locales,
+        AppLocalizations.supportedLocales,
+      ),
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MaterialTheme.lightTheme(),
       darkTheme: MaterialTheme.darkTheme(),
       themeMode: ThemeMode.system,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: Container(
           width: double.infinity,
@@ -46,7 +55,7 @@ class InitializationErrorScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    l.initializationErrorTitle,
+                    l10n.initializationFailed,
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.bold,
@@ -55,7 +64,7 @@ class InitializationErrorScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    l.initializationErrorMessage,
+                    l10n.appFailedToInitializeProperly,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
@@ -91,7 +100,7 @@ class InitializationErrorScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          l.retry,
+                          l10n.retry,
                           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                                 fontWeight: FontWeight.bold,
                               ),

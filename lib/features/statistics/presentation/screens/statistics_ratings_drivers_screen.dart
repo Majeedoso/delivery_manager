@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
+import 'package:delivery_manager/core/utils/server_time.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -400,7 +401,9 @@ Color _starColor(double rating) {
 
 String _formatDate(String ratedAt) {
   try {
-    final dt = DateTime.parse(ratedAt);
+    // The server's time is UTC: the day on the phone's clock (a review at
+    // 00:30 read the day before)
+    final dt = parseServerTime(ratedAt);
     return '${dt.year}-${dt.month.toString().padLeft(2, '0')}-'
         '${dt.day.toString().padLeft(2, '0')}';
   } catch (_) {

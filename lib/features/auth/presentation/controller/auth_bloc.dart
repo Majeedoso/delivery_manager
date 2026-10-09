@@ -7,9 +7,7 @@ import 'package:delivery_manager/core/utils/app_timeouts.dart';
 import 'package:delivery_manager/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:delivery_manager/features/auth/domain/usecases/login_usecase.dart';
 import 'package:delivery_manager/features/auth/domain/usecases/logout_usecase.dart';
-import 'package:delivery_manager/features/auth/domain/usecases/register_usecase.dart';
 import 'package:delivery_manager/features/auth/domain/usecases/google_sign_in_usecase.dart';
-import 'package:delivery_manager/features/auth/domain/usecases/google_sign_up_usecase.dart';
 import 'package:delivery_manager/features/auth/domain/usecases/google_sign_out_usecase.dart';
 import 'package:delivery_manager/features/auth/domain/usecases/save_token_usecase.dart';
 import 'package:delivery_manager/features/auth/domain/usecases/check_auth_status_usecase.dart';
@@ -52,9 +50,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   /// Use case for user login
   final LoginUseCase loginUseCase;
 
-  /// Use case for user registration
-  final RegisterUseCase registerUseCase;
-
   /// Use case for user logout
   final LogoutUseCase logoutUseCase;
 
@@ -63,9 +58,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   /// Use case for Google Sign-In
   final GoogleSignInUseCase googleSignInUseCase;
-
-  /// Use case for Google Sign-Up
-  final GoogleSignUpUseCase googleSignUpUseCase;
 
   /// Use case for Google Sign-Out
   final GoogleSignOutUseCase googleSignOutUseCase;
@@ -117,11 +109,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   /// following the Dependency Inversion Principle.
   AuthBloc({
     required this.loginUseCase,
-    required this.registerUseCase,
     required this.logoutUseCase,
     required this.getCurrentUserUseCase,
     required this.googleSignInUseCase,
-    required this.googleSignUpUseCase,
     required this.googleSignOutUseCase,
     required this.saveTokenUseCase,
     required this.checkAuthStatusUseCase,
@@ -140,11 +130,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
        super(const AuthState()) {
     // Register event handlers
     on<LoginEvent>(_login);
-    on<RegisterEvent>(_register);
     on<LogoutEvent>(_logout);
     on<CheckAuthStatusEvent>(_checkAuthStatus);
     on<GoogleSignInEvent>(_googleSignIn);
-    on<GoogleSignUpEvent>(_googleSignUp);
     on<GoogleSignOutEvent>(_googleSignOut);
     on<ResendVerificationEmailEvent>(_resendVerificationEmail);
     on<ResendPasswordResetOtpEvent>(_resendPasswordResetOtp);
@@ -181,6 +169,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           state.copyWith(
             requestState: RequestState.error,
             message: failure.message,
+            errorCode: failure.errorCode,
             isAuthenticated: false,
           ),
         );
@@ -202,54 +191,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         if (!emit.isDone) {
           _logger.debug('AuthBloc: Emitting login success state');
-          emit(
-            state.copyWith(
-              requestState: RequestState.loaded,
-              user: authResponse.user,
-              message: authResponse.message,
-              isAuthenticated: true,
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  /// Handles user registration event
-  ///
-  /// Process:
-  /// 1. Emit loading state
-  /// 2. Call register use case with user details
-  /// 3. On success: save token, emit success state with user data
-  /// 4. On failure: emit error state with error message
-  FutureOr<void> _register(RegisterEvent event, Emitter<AuthState> emit) async {
-    emit(state.copyWith(requestState: RequestState.loading));
-
-    final result = await registerUseCase(
-      RegisterParameters(
-        name: event.name,
-        email: event.email,
-        password: event.password,
-        role: event.role,
-        phone: event.phone,
-      ),
-    );
-
-    await result.fold(
-      (failure) async {
-        emit(
-          state.copyWith(
-            requestState: RequestState.error,
-            message: failure.message,
-            isAuthenticated: false,
-          ),
-        );
-      },
-      (authResponse) async {
-        // Save token after successful registration
-        await saveTokenUseCase(SaveTokenParameters(token: authResponse.token));
-
-        if (!emit.isDone) {
           emit(
             state.copyWith(
               requestState: RequestState.loaded,
@@ -606,6 +547,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             state.copyWith(
               requestState: RequestState.error,
               message: failure.message,
+              errorCode: failure.errorCode,
               isAuthenticated: false,
             ),
           );
@@ -641,59 +583,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               requestState: RequestState.loaded,
               user: user,
               message: 'Signed in with Google successfully',
-              isAuthenticated: true,
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  /// Handles Google Sign-Up event
-  ///
-  /// Process:
-  /// 1. Emit loading state
-  /// 2. Call Google Sign-Up use case (creates new account)
-  /// 3. On success: emit success state with user data
-  /// 4. On failure: emit error state
-  FutureOr<void> _googleSignUp(
-    GoogleSignUpEvent event,
-    Emitter<AuthState> emit,
-  ) async {
-    _logger.debug('AuthBloc: Starting Google Sign-Up process...');
-    emit(state.copyWith(requestState: RequestState.loading));
-
-    _logger.debug('AuthBloc: Calling googleSignUpUseCase...');
-    final result = await googleSignUpUseCase(const NoParameters());
-    _logger.debug('AuthBloc: googleSignUpUseCase completed');
-
-    await result.fold(
-      (failure) async {
-        final isCancelled = failure.message.toLowerCase().contains('cancel');
-        if (isCancelled) {
-          _logger.debug('AuthBloc: Google Sign-Up cancelled by user');
-          emit(state.copyWith(requestState: RequestState.loaded, message: ''));
-        } else {
-          _logger.error('AuthBloc: Google Sign-Up failed: ${failure.message}');
-          emit(
-            state.copyWith(
-              requestState: RequestState.error,
-              message: failure.message,
-              isAuthenticated: false,
-            ),
-          );
-        }
-      },
-      (user) async {
-        _logger.info(
-          'AuthBloc: Google Sign-Up successful for user: ${user.email}',
-        );
-        if (!emit.isDone) {
-          emit(
-            state.copyWith(
-              requestState: RequestState.loaded,
-              user: user,
-              message: 'Signed up with Google successfully',
               isAuthenticated: true,
             ),
           );
@@ -899,9 +788,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           event.password,
         );
 
+        // The page waits for this exact text: the server's own sentence, which
+        // is in the app's language, is not relied on
         if (!emit.isDone) {
           emit(
-            state.copyWith(requestState: RequestState.loaded, message: message),
+            state.copyWith(
+              requestState: RequestState.loaded,
+              message: 'Password reset successfully',
+            ),
           );
         }
       },
@@ -1024,9 +918,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         // Update saved credentials if they exist and rememberMe is enabled
         await _updateSavedCredentialsIfNeeded(event.newPassword);
 
+        // The screen waits for this exact text: the server's own wording
+        // (which may change or be translated) is not relied on
+
         if (!emit.isDone) {
           emit(
-            state.copyWith(requestState: RequestState.loaded, message: message),
+            state.copyWith(
+              requestState: RequestState.loaded,
+              message: 'Password reset successfully',
+            ),
           );
         }
       },

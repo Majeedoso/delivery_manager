@@ -1,16 +1,12 @@
 {
   "@@locale": "en",
-  "appName": "Delivery Manager",
+  "appName": "Manager App",
   "@appName": {
     "description": "The name of the application"
   },
   "login": "Login",
   "@login": {
     "description": "Login button text"
-  },
-  "signUp": "Sign Up",
-  "@signUp": {
-    "description": "Sign up button text"
   },
   "email": "Email",
   "@email": {
@@ -19,10 +15,6 @@
   "password": "Password",
   "@password": {
     "description": "Password field label"
-  },
-  "confirmPassword": "Confirm Password",
-  "@confirmPassword": {
-    "description": "Confirm password field label"
   },
   "name": "Name",
   "@name": {
@@ -40,65 +32,21 @@
   "@forgotPassword": {
     "description": "Forgot password screen title"
   },
-  "dontHaveAccount": "Don't have an account? ",
-  "@dontHaveAccount": {
-    "description": "Text before sign up link"
-  },
-  "alreadyHaveAccount": "Already have an account? ",
-  "@alreadyHaveAccount": {
-    "description": "Text before login link"
-  },
   "signInWithGoogle": "Sign in with Google",
   "@signInWithGoogle": {
     "description": "Google sign in button text"
-  },
-  "signUpWithGoogle": "Sign up with Google",
-  "@signUpWithGoogle": {
-    "description": "Google sign up button text"
-  },
-  "signUpWithEmail": "Sign up with Email",
-  "@signUpWithEmail": {
-    "description": "Email sign up button text"
-  },
-  "createAccount": "Create Account",
-  "@createAccount": {
-    "description": "Create account title"
   },
   "checkingAuthentication": "Checking authentication...",
   "@checkingAuthentication": {
     "description": "Checking authentication status message"
   },
-  "welcome": "Welcome",
-  "@welcome": {
-    "description": "Welcome message"
-  },
   "logout": "Logout",
   "@logout": {
     "description": "Logout button text"
   },
-  "clearSavedCredentials": "Clear Saved Credentials",
-  "@clearSavedCredentials": {
-    "description": "Clear saved credentials button text"
-  },
   "language": "Language",
   "@language": {
     "description": "Language selection label"
-  },
-  "selectLanguage": "Select Language",
-  "@selectLanguage": {
-    "description": "Language selection dialog title"
-  },
-  "english": "English",
-  "@english": {
-    "description": "English language name"
-  },
-  "arabic": "Arabic",
-  "@arabic": {
-    "description": "Arabic language name"
-  },
-  "french": "French",
-  "@french": {
-    "description": "French language name"
   },
   "or": "OR",
   "@or": {
@@ -107,10 +55,6 @@
   "profile": "Profile",
   "@profile": {
     "description": "Profile screen title"
-  },
-  "profileInformation": "Profile Information",
-  "@profileInformation": {
-    "description": "Profile information section title"
   },
   "userType": "User Type",
   "@userType": {
@@ -123,110 +67,6 @@
   "appSettings": "App Settings",
   "@appSettings": {
     "description": "App settings section title"
-  },
-  "deliveryPreferences": "Delivery Preferences",
-  "@deliveryPreferences": {
-    "description": "Delivery preferences screen title"
-  },
-  "deliveryPreferencesDescription": "Choose which restaurants you want to deliver for",
-  "@deliveryPreferencesDescription": {
-    "description": "Delivery preferences description"
-  },
-  "mutualSelected": "Mutual",
-  "@mutualSelected": {
-    "description": "mutualSelected badge"
-  },
-  "pendingSelected": "Pending",
-  "@pendingSelected": {
-    "description": "pendingSelected badge"
-  },
-  "selectAllRestaurants": "Select All Restaurants",
-  "@selectAllRestaurants": {
-    "description": "selectAllRestaurants label"
-  },
-  "noSelectionAllRestaurantsHint": "No selection means you will receive orders from all restaurants.",
-  "@noSelectionAllRestaurantsHint": {
-    "description": "Hint shown when no restaurants are selected"
-  },
-  "selectedRestaurantsCount": "{count} of {total} selected",
-  "@selectedRestaurantsCount": {
-    "description": "selectedRestaurantsCount label",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
-  "updatingSelections": "Updating selections {done}/{total}...",
-  "@updatingSelections": {
-    "description": "updatingSelections label",
-    "placeholders": {
-      "done": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      }
-    }
-  },
-  "linkedRestaurants": "Linked Restaurants",
-  "@linkedRestaurants": {
-    "description": "Linked restaurants section title"
-  },
-  "addRestaurantByCode": "Add Restaurant by Code",
-  "@addRestaurantByCode": {
-    "description": "Button label to add restaurant by code"
-  },
-  "restaurantCode": "Restaurant Code",
-  "@restaurantCode": {
-    "description": "Restaurant code field label"
-  },
-  "enterRestaurantCode": "Enter restaurant code",
-  "@enterRestaurantCode": {
-    "description": "Restaurant code input hint"
-  },
-  "linkRestaurant": "Link",
-  "@linkRestaurant": {
-    "description": "Button label to link restaurant"
-  },
-  "linkRestaurantSuccess": "Linked successfully",
-  "@linkRestaurantSuccess": {
-    "description": "Success message when restaurant is linked"
-  },
-  "unlinkRestaurant": "Unlinked successfully",
-  "@unlinkRestaurant": {
-    "description": "Success message when restaurant is unlinked"
-  },
-  "noLinkedRestaurants": "No linked restaurants yet",
-  "@noLinkedRestaurants": {
-    "description": "Empty state title when no linked restaurants"
-  },
-  "noLinkedRestaurantsDescription": "Add a restaurant code to start delivering for specific restaurants.",
-  "@noLinkedRestaurantsDescription": {
-    "description": "Empty state description when no linked restaurants"
-  },
-  "notifications": "Notifications",
-  "@notifications": {
-    "description": "Notifications section title"
-  },
-  "pushNotifications": "Push Notifications",
-  "@pushNotifications": {
-    "description": "Push notifications setting"
-  },
-  "pushNotificationsDescription": "Receive push notifications",
-  "@pushNotificationsDescription": {
-    "description": "Push notifications description"
-  },
-  "emailNotifications": "Email Notifications",
-  "@emailNotifications": {
-    "description": "Email notifications setting"
-  },
-  "emailNotificationsDescription": "Receive email notifications",
-  "@emailNotificationsDescription": {
-    "description": "Email notifications description"
   },
   "privacy": "Privacy",
   "@privacy": {
@@ -256,7 +96,7 @@
   "@aboutApp": {
     "description": "About app screen title"
   },
-  "aboutDescription": "The Manager app gives you complete oversight of the entire delivery platform. Approve users, monitor performance, configure system settings, and manage delivery zones — all from a powerful admin dashboard.",
+  "aboutDescription": "The Manager app gives you complete oversight of the entire delivery platform. Approve users, monitor performance, configure system settings, and manage coupons — all from a powerful admin dashboard.",
   "@aboutDescription": {
     "description": "Description of the app shown in about page"
   },
@@ -288,11 +128,11 @@
   "@secureStorageDescription": {
     "description": "Secure storage description"
   },
-  "googleSignIn": "Zone Management",
+  "googleSignIn": "Coupons",
   "@googleSignIn": {
     "description": "Google sign-in feature"
   },
-  "googleSignInDescription": "Define and activate delivery zones to control where orders can be placed",
+  "googleSignInDescription": "Create coupons, set their limits and the zones where they apply",
   "@googleSignInDescription": {
     "description": "Google sign-in description"
   },
@@ -300,9 +140,12 @@
   "@contactUs": {
     "description": "Contact us section title"
   },
-  "copyright": "© 2025 Delivery Manager. All rights reserved.",
+  "copyright": "© {year} Manager App. All rights reserved.",
   "@copyright": {
-    "description": "Copyright text"
+    "description": "The copyright line, with the current year",
+    "placeholders": {
+      "year": {"type": "String"}
+    }
   },
   "website": "Website",
   "@website": {
@@ -328,41 +171,9 @@
   "@main": {
     "description": "Main screen title"
   },
-  "pendingOrders": "Pending Orders",
-  "@pendingOrders": {
-    "description": "Pending orders container title"
-  },
-  "pendingOrdersDescription": "Manage orders waiting for verification",
-  "@pendingOrdersDescription": {
-    "description": "Pending orders container description"
-  },
-  "acceptOrder": "Accept Order",
-  "@acceptOrder": {
-    "description": "Accept order button text"
-  },
-  "orderAcceptedSuccessfully": "Order accepted successfully!",
-  "@orderAcceptedSuccessfully": {
-    "description": "Success message when order is accepted"
-  },
-  "noOrdersAvailable": "No orders available",
-  "@noOrdersAvailable": {
-    "description": "Empty state message when no orders"
-  },
-  "checkBackLater": "Check back later for new orders",
-  "@checkBackLater": {
-    "description": "Empty state subtitle"
-  },
   "refresh": "Refresh",
   "@refresh": {
     "description": "Refresh button text"
-  },
-  "noDeliveryAddress": "No delivery address",
-  "@noDeliveryAddress": {
-    "description": "Placeholder when no delivery address"
-  },
-  "items": "items",
-  "@items": {
-    "description": "Items label (plural)"
   },
   "total": "Total",
   "@total": {
@@ -372,61 +183,13 @@
   "@deliveryFee": {
     "description": "Delivery fee label"
   },
-  "cash": "Cash",
-  "@cash": {
-    "description": "Cash payment method"
-  },
-  "card": "Card",
-  "@card": {
-    "description": "Card payment method"
-  },
   "confirmed": "Confirmed",
   "@confirmed": {
     "description": "Confirmed status"
   },
-  "readyForPickup": "Ready for Pickup",
-  "@readyForPickup": {
-    "description": "Ready for pickup status"
-  },
-  "showMore": "Show more",
-  "@showMore": {
-    "description": "Show more details button"
-  },
-  "showLess": "Show less",
-  "@showLess": {
-    "description": "Show less details button"
-  },
-  "paymentMethod": "Payment",
-  "@paymentMethod": {
-    "description": "Payment method label"
-  },
-  "deliveryNotes": "Notes",
-  "@deliveryNotes": {
-    "description": "Delivery notes label"
-  },
-  "ongoingOrders": "Ongoing Orders",
-  "@ongoingOrders": {
-    "description": "Title for ongoing orders feature"
-  },
-  "ongoingOrdersDescription": "Manage your active deliveries",
-  "@ongoingOrdersDescription": {
-    "description": "Description for ongoing orders hub screen"
-  },
-  "archiveOrders": "Archive Orders",
-  "@archiveOrders": {
-    "description": "Archive orders container title"
-  },
-  "archiveOrdersDescription": "View accepted and rejected orders",
-  "@archiveOrdersDescription": {
-    "description": "Archive orders container description"
-  },
   "statistics": "Statistics",
   "@statistics": {
     "description": "Statistics screen title"
-  },
-  "statisticsDescription": "View your performance metrics",
-  "@statisticsDescription": {
-    "description": "Statistics container description"
   },
   "statisticsMoney": "Money",
   "@statisticsMoney": {
@@ -476,41 +239,9 @@
   "@user": {
     "description": "Default user name when no name is available"
   },
-  "orders": "Orders",
-  "@orders": {
-    "description": "Orders screen title"
-  },
-  "archive": "Archive",
-  "@archive": {
-    "description": "Archive screen title"
-  },
-  "ordersArchive": "Orders Archive",
-  "@ordersArchive": {
-    "description": "Orders archive container title"
-  },
-  "acceptedOrders": "Accepted Orders",
-  "@acceptedOrders": {
-    "description": "Accepted orders screen title"
-  },
-  "rejectedOrders": "Rejected Orders",
-  "@rejectedOrders": {
-    "description": "Title for rejected orders screen"
-  },
-  "deliveredOrders": "Delivered Orders",
-  "@deliveredOrders": {
-    "description": "Delivered orders screen title"
-  },
-  "canceledOrders": "Canceled Orders",
-  "@canceledOrders": {
-    "description": "Canceled orders screen title"
-  },
   "delivered": "Delivered",
   "@delivered": {
     "description": "Delivered orders status label"
-  },
-  "cancelled": "Cancelled",
-  "@cancelled": {
-    "description": "Cancelled status label"
   },
   "resetPassword": "Reset Password",
   "@resetPassword": {
@@ -528,17 +259,9 @@
   "@emailAddress": {
     "description": "Email address field label"
   },
-  "sendResetLink": "Send Reset Link",
-  "@sendResetLink": {
-    "description": "Send reset link button text"
-  },
   "sendOtp": "Send OTP",
   "@sendOtp": {
     "description": "Send OTP button text"
-  },
-  "backToLogin": "Back to Login",
-  "@backToLogin": {
-    "description": "Back to login button text"
   },
   "enterOtpCode": "Enter OTP Code",
   "@enterOtpCode": {
@@ -609,14 +332,6 @@
   "@resendVerificationEmail": {
     "description": "Resend verification email button text"
   },
-  "verificationEmailSent": "Verification email sent successfully. Please check your inbox.",
-  "@verificationEmailSent": {
-    "description": "Verification email sent success message"
-  },
-  "checking": "Checking...",
-  "@checking": {
-    "description": "Checking status text"
-  },
   "checkStatus": "Check Status",
   "@checkStatus": {
     "description": "Check status button text"
@@ -625,49 +340,13 @@
   "@checkStatusDescription": {
     "description": "Check status description text"
   },
-  "notificationsRequired": "Notifications are required for this app",
-  "@notificationsRequired": {
-    "description": "Message when notifications are required"
-  },
-  "notificationsRequiredDescription": "This app requires notification permission to receive new order alerts.",
-  "@notificationsRequiredDescription": {
-    "description": "Description of why notifications are required"
-  },
-  "enableNotifications": "Enable Notifications",
-  "@enableNotifications": {
-    "description": "Enable notifications button text"
-  },
-  "openSettings": "Open Settings",
-  "@openSettings": {
-    "description": "Open settings button text"
-  },
-  "exitApp": "Exit App",
-  "@exitApp": {
-    "description": "Exit app button text"
-  },
   "initializing": "Initializing...",
   "@initializing": {
     "description": "Initialization status message"
   },
-  "checkingNotifications": "Checking notifications...",
-  "@checkingNotifications": {
-    "description": "Checking notifications status message"
-  },
-  "settingUpNotifications": "Setting up notifications...",
-  "@settingUpNotifications": {
-    "description": "Setting up notifications status message"
-  },
   "initializationFailed": "Initialization failed",
   "@initializationFailed": {
     "description": "Initialization failed error message"
-  },
-  "requestingPermission": "Requesting permission...",
-  "@requestingPermission": {
-    "description": "Requesting permission status message"
-  },
-  "permissionRequestFailed": "Permission request failed",
-  "@permissionRequestFailed": {
-    "description": "Permission request failed error message"
   },
   "checkingInternet": "Checking internet connection...",
   "@checkingInternet": {
@@ -785,10 +464,6 @@
   "@day": {
     "description": "Single day time unit"
   },
-  "week": "Week",
-  "@week": {
-    "description": "Week period option for period selector"
-  },
   "month": "Month",
   "@month": {
     "description": "Month period option for period selector"
@@ -800,10 +475,6 @@
   "dateRange": "Date Range",
   "@dateRange": {
     "description": "Date range period option for period selector"
-  },
-  "selectPeriod": "Select Period",
-  "@selectPeriod": {
-    "description": "Period selection dropdown label"
   },
   "from": "From",
   "@from": {
@@ -849,18 +520,6 @@
   "@performanceMetrics": {
     "description": "Performance metrics section title"
   },
-  "averageRespondingTime": "Average Responding Time",
-  "@averageRespondingTime": {
-    "description": "Average responding time label"
-  },
-  "acceptedOrdersSuccessRate": "Good Decisions Rate",
-  "@acceptedOrdersSuccessRate": {
-    "description": "Accepted orders success rate label - measures how many accepted orders were actually delivered successfully"
-  },
-  "acceptedOrdersSuccessRateExplanation": "Measures how many accepted orders were successfully delivered. This is a positive metric that focuses on successes.",
-  "@acceptedOrdersSuccessRateExplanation": {
-    "description": "Explanation of accepted orders success rate metric"
-  },
   "acceptedOrdersSuccessRateGood": "High success rate means you're accepting orders you can fulfill reliably.",
   "@acceptedOrdersSuccessRateGood": {
     "description": "Explanation when success rate is good"
@@ -869,14 +528,6 @@
   "@acceptedOrdersSuccessRateBad": {
     "description": "Explanation when success rate is bad"
   },
-  "acceptedOrdersFailureRate": "Bad Decisions Rate",
-  "@acceptedOrdersFailureRate": {
-    "description": "Accepted orders failure rate label - measures how many accepted orders failed"
-  },
-  "acceptedOrdersFailureRateExplanation": "Measures how many accepted orders failed for any reason (canceled, returned, refused by customer, not delivered). This is a negative metric that focuses on failures.",
-  "@acceptedOrdersFailureRateExplanation": {
-    "description": "Explanation of accepted orders failure rate metric"
-  },
   "acceptedOrdersFailureRateGood": "Low failure rate shows reliable order handling.",
   "@acceptedOrdersFailureRateGood": {
     "description": "Explanation when failure rate is good"
@@ -884,10 +535,6 @@
   "acceptedOrdersFailureRateBad": "High failure rate damages reputation - consider why orders are failing.",
   "@acceptedOrdersFailureRateBad": {
     "description": "Explanation when failure rate is bad"
-  },
-  "averageRespondingTimeExplanation": "Measures the average time it takes for the operator to respond to an order (accept or reject) after it's created.",
-  "@averageRespondingTimeExplanation": {
-    "description": "Explanation of average responding time metric"
   },
   "averageRespondingTimeGood": "Fast response times lead to better customer satisfaction and higher order acceptance.",
   "@averageRespondingTimeGood": {
@@ -909,10 +556,6 @@
   "@close": {
     "description": "Closing time label"
   },
-  "orderBreakdown": "Order Breakdown",
-  "@orderBreakdown": {
-    "description": "Order breakdown section title"
-  },
   "all": "All",
   "@all": {
     "description": "All period option for period selector"
@@ -929,21 +572,9 @@
   "@minute": {
     "description": "Single minute time unit"
   },
-  "minutes": "minutes",
-  "@minutes": {
-    "description": "Plural minutes time unit"
-  },
   "hour": "hour",
   "@hour": {
     "description": "Single hour time unit"
-  },
-  "hours": "hours",
-  "@hours": {
-    "description": "Plural hours time unit"
-  },
-  "days": "days",
-  "@days": {
-    "description": "Plural days time unit"
   },
   "errorGeneric": "Something went wrong. Please try again.",
   "@errorGeneric": {
@@ -1033,14 +664,6 @@
   "@errorDatabaseServer": {
     "description": "Database server error"
   },
-  "errorLoadingOrders": "Error loading orders",
-  "@errorLoadingOrders": {
-    "description": "Error loading orders message"
-  },
-  "order": "Order",
-  "@order": {
-    "description": "Order label"
-  },
   "customer": "Customer",
   "@customer": {
     "description": "Role name for customer"
@@ -1053,17 +676,9 @@
   "@description": {
     "description": "Description field label"
   },
-  "address": "Address",
-  "@address": {
-    "description": "Address field label"
-  },
   "isOpen": "Is Open",
   "@isOpen": {
     "description": "Is Open toggle label"
-  },
-  "restaurantAndNotes": "Restaurant & Notes",
-  "@restaurantAndNotes": {
-    "description": "Restaurant and Notes toggle button label"
   },
   "notes": "Notes",
   "@notes": {
@@ -1073,223 +688,21 @@
   "@rejectionReason": {
     "description": "Label for rejection reason"
   },
-  "deliveryInstructions": "Delivery Instructions",
-  "@deliveryInstructions": {
-    "description": "Delivery Instructions label"
-  },
   "confirm": "Confirm",
   "@confirm": {
     "description": "Confirm button text"
-  },
-  "reject": "Reject",
-  "@reject": {
-    "description": "Reject button text"
-  },
-  "startPreparing": "Start Preparing",
-  "@startPreparing": {
-    "description": "Start Preparing button text"
-  },
-  "markReady": "Mark Ready",
-  "@markReady": {
-    "description": "Mark Ready button text"
-  },
-  "pickedUp": "Picked Up",
-  "@pickedUp": {
-    "description": "Picked Up button text"
-  },
-  "markDelivered": "Mark Delivered",
-  "@markDelivered": {
-    "description": "Mark Delivered button text"
   },
   "loadMore": "Load More",
   "@loadMore": {
     "description": "Load more button text"
   },
-  "noPendingOrders": "No Pending Orders",
-  "@noPendingOrders": {
-    "description": "No pending orders message"
-  },
-  "noPendingOrdersDescription": "There are no pending orders in this date range.",
-  "@noPendingOrdersDescription": {
-    "description": "No pending orders description"
-  },
-  "noOngoingOrders": "No Ongoing Orders",
-  "@noOngoingOrders": {
-    "description": "No ongoing orders message"
-  },
-  "noOngoingOrdersDescription": "There are no ongoing orders in this date range.",
-  "@noOngoingOrdersDescription": {
-    "description": "No ongoing orders description"
-  },
-  "selectDeliveryMethod": "Select Delivery Method",
-  "@selectDeliveryMethod": {
-    "description": "Dialog title for selecting delivery method"
-  },
-  "selfDelivery": "Self Delivery",
-  "@selfDelivery": {
-    "description": "Self delivery option label"
-  },
-  "externalDelivery": "External Delivery",
-  "@externalDelivery": {
-    "description": "External delivery option label"
-  },
-  "selfDeliveryDescription": "The restaurant will deliver the order with its own driver",
-  "@selfDeliveryDescription": {
-    "description": "Self delivery description"
-  },
-  "externalDeliveryDescription": "The order will be picked up by third-party drivers",
-  "@externalDeliveryDescription": {
-    "description": "External delivery description"
-  },
-  "pleaseSelectDeliveryMethod": "Please select a delivery method before marking the order as ready",
-  "@pleaseSelectDeliveryMethod": {
-    "description": "Message prompting user to select delivery method"
-  },
   "drivers": "Drivers",
   "@drivers": {
     "description": "Drivers section title"
   },
-  "addDriver": "Add Driver",
-  "@addDriver": {
-    "description": "Add driver button text"
-  },
-  "editDriver": "Edit Driver",
-  "@editDriver": {
-    "description": "Edit driver button text"
-  },
-  "deleteDriver": "Delete Driver",
-  "@deleteDriver": {
-    "description": "Delete driver button text"
-  },
-  "driverCode": "Driver Code",
-  "@driverCode": {
-    "description": "Driver code field label"
-  },
-  "driverCodeRequired": "Driver code is required",
-  "@driverCodeRequired": {
-    "description": "Driver code required validation message"
-  },
-  "noDriversAdded": "No drivers added yet",
-  "@noDriversAdded": {
-    "description": "Message when no drivers are added"
-  },
-  "pleaseAddDriverBeforeSelfDelivery": "Please add a driver in your profile before choosing Self Delivery.",
-  "@pleaseAddDriverBeforeSelfDelivery": {
-    "description": "Warning message when no drivers exist for self delivery"
-  },
-  "selectDriversForDelivery": "Select Drivers for Delivery",
-  "@selectDriversForDelivery": {
-    "description": "Dialog title for selecting drivers"
-  },
-  "selectAllDrivers": "Select All Drivers",
-  "@selectAllDrivers": {
-    "description": "Option to select all drivers"
-  },
-  "selectSpecificDrivers": "Select Specific Drivers",
-  "@selectSpecificDrivers": {
-    "description": "Option to select specific drivers"
-  },
-  "driverSelected": "{count} driver(s) selected",
-  "@driverSelected": {
-    "description": "Message showing number of selected drivers",
-    "placeholders": {
-      "count": {
-        "type": "int",
-        "example": "3"
-      }
-    }
-  },
-  "driverCodeNotFound": "Driver code not found. Please enter a valid driver code.",
-  "@driverCodeNotFound": {
-    "description": "Error message when driver code doesn't exist"
-  },
-  "driverAlreadyLinked": "This driver is already linked to your restaurant.",
-  "@driverAlreadyLinked": {
-    "description": "Error message when trying to link an already linked driver"
-  },
-  "driverLinkedSuccessfully": "Driver linked successfully!",
-  "@driverLinkedSuccessfully": {
-    "description": "Success message when driver is linked successfully"
-  },
-  "requestTimeout": "Request Timeout",
-  "@requestTimeout": {
-    "description": "Request timeout error message"
-  },
-  "requestTimeoutDescription": "The request took too long to complete. Please check your internet connection and try again.",
-  "@requestTimeoutDescription": {
-    "description": "Request timeout description"
-  },
   "call": "Call",
   "@call": {
     "description": "Call button tooltip"
-  },
-  "failedToOpenPhoneApp": "Failed to open phone app",
-  "@failedToOpenPhoneApp": {
-    "description": "Failed to open phone app error message"
-  },
-  "errorMakingPhoneCall": "Error making phone call",
-  "@errorMakingPhoneCall": {
-    "description": "Error making phone call message"
-  },
-  "ordersLoadedSuccessfully": "Orders loaded successfully",
-  "@ordersLoadedSuccessfully": {
-    "description": "Orders loaded successfully message"
-  },
-  "orderConfirmedSuccessfully": "Order confirmed successfully",
-  "@orderConfirmedSuccessfully": {
-    "description": "Order confirmed successfully message"
-  },
-  "orderRejectedSuccessfully": "Order rejected successfully",
-  "@orderRejectedSuccessfully": {
-    "description": "Order rejected successfully message"
-  },
-  "confirmOrder": "Confirm",
-  "@confirmOrder": {
-    "description": "Confirm order dialog title and button"
-  },
-  "areYouSureConfirmOrder": "Are you sure you want to confirm this order?",
-  "@areYouSureConfirmOrder": {
-    "description": "Confirm order confirmation message"
-  },
-  "confirmOrderDescription": "This will approve the order and make it visible to the restaurant.",
-  "@confirmOrderDescription": {
-    "description": "Confirm order description"
-  },
-  "pleaseSelectRejectReason": "Please select a reason for rejecting this order:",
-  "@pleaseSelectRejectReason": {
-    "description": "Reject order dialog title"
-  },
-  "enterYourReason": "Enter your reason...",
-  "@enterYourReason": {
-    "description": "Custom reject reason input hint"
-  },
-  "rejectReasonDidntPickUp": "Didn't pick up the phone",
-  "@rejectReasonDidntPickUp": {
-    "description": "Reject reason option"
-  },
-  "rejectReasonSuspiciousBehavior": "Suspicious customer behavior",
-  "@rejectReasonSuspiciousBehavior": {
-    "description": "Reject reason option"
-  },
-  "rejectReasonInvalidAddress": "Invalid delivery address",
-  "@rejectReasonInvalidAddress": {
-    "description": "Reject reason option"
-  },
-  "rejectReasonUnrealisticAmount": "Order amount seems unrealistic",
-  "@rejectReasonUnrealisticAmount": {
-    "description": "Reject reason option"
-  },
-  "rejectReasonInvalidContact": "Customer contact information invalid",
-  "@rejectReasonInvalidContact": {
-    "description": "Reject reason option"
-  },
-  "rejectReasonRestaurantUnavailable": "Restaurant not available",
-  "@rejectReasonRestaurantUnavailable": {
-    "description": "Reject reason option"
-  },
-  "other": "Other",
-  "@other": {
-    "description": "Other option label"
   },
   "currentPasswordRequired": "Current password is required",
   "@currentPasswordRequired": {
@@ -1336,37 +749,6 @@
       }
     }
   },
-  "appStoreUrlNotConfigured": "App Store URL is not configured. Please update the app manually from the App Store.",
-  "@appStoreUrlNotConfigured": {
-    "description": "Message when App Store URL is not configured"
-  },
-  "unableToDetermineAppPackage": "Unable to determine app package. Please update the app manually from {store}.",
-  "@unableToDetermineAppPackage": {
-    "description": "Message when app package cannot be determined",
-    "placeholders": {
-      "store": {
-        "type": "String"
-      }
-    }
-  },
-  "unableToOpenStore": "Unable to open {store}. Please update the app manually.",
-  "@unableToOpenStore": {
-    "description": "Message when app store cannot be opened",
-    "placeholders": {
-      "store": {
-        "type": "String"
-      }
-    }
-  },
-  "errorOpeningAppStore": "Error opening app store: {error}. Please update the app manually.",
-  "@errorOpeningAppStore": {
-    "description": "Error message when app store cannot be opened",
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
   "emailVerifiedSuccessfully": "Email verified successfully",
   "@emailVerifiedSuccessfully": {
     "description": "Success message when email is verified"
@@ -1399,86 +781,13 @@
   "@pleaseEnterValid6DigitOtp": {
     "description": "Validation message for OTP input"
   },
-  "failedToGetLegalUrls": "Failed to get legal URLs",
-  "@failedToGetLegalUrls": {
-    "description": "Error message when legal URLs cannot be retrieved"
-  },
-  "networkErrorCheckConnection": "Network error. Please check your internet connection.",
-  "@networkErrorCheckConnection": {
-    "description": "Network error message"
-  },
-  "serverErrorOccurred": "Server error occurred",
-  "@serverErrorOccurred": {
-    "description": "Generic server error message"
-  },
-  "failedToGetContactInformation": "Failed to get contact information",
-  "@failedToGetContactInformation": {
-    "description": "Error message when contact information cannot be retrieved"
-  },
-  "unexpectedErrorOccurred": "An unexpected error occurred: {error}",
-  "@unexpectedErrorOccurred": {
-    "description": "Unexpected error message",
-    "placeholders": {
-      "error": {
-        "type": "String"
-      }
-    }
-  },
-  "appStore": "App Store",
-  "@appStore": {
-    "description": "App Store name"
-  },
-  "playStore": "Play Store",
-  "@playStore": {
-    "description": "Play Store name"
-  },
   "urlNotAvailable": "URL not available. Please try again later.",
   "@urlNotAvailable": {
     "description": "Message when URL is not available"
   },
-  "unableToOpenUrlTryAgain": "Unable to open URL. Please try again.",
-  "@unableToOpenUrlTryAgain": {
-    "description": "Message when URL cannot be opened"
-  },
-  "unableToOpenUrlCheckConnection": "Unable to open URL. Please check your internet connection.",
-  "@unableToOpenUrlCheckConnection": {
-    "description": "Message when URL cannot be opened due to connection issues"
-  },
-  "anErrorOccurred": "An error occurred",
-  "@anErrorOccurred": {
-    "description": "Generic error message fallback"
-  },
-  "openingHours": "Opening Hours",
-  "@openingHours": {
-    "description": "Opening hours section title"
-  },
   "closed": "Closed",
   "@closed": {
     "description": "Closed status for a day"
-  },
-  "monday": "Monday",
-  "@monday": {
-    "description": "Monday day name"
-  },
-  "tuesday": "Tuesday",
-  "@tuesday": {
-    "description": "Tuesday day name"
-  },
-  "wednesday": "Wednesday",
-  "@wednesday": {
-    "description": "Wednesday day name"
-  },
-  "thursday": "Thursday",
-  "@thursday": {
-    "description": "Thursday day name"
-  },
-  "friday": "Friday",
-  "@friday": {
-    "description": "Friday day name"
-  },
-  "saturday": "Saturday",
-  "@saturday": {
-    "description": "Saturday day name"
   },
   "sunday": "Sunday",
   "@sunday": {
@@ -1487,34 +796,6 @@
   "open": "Open",
   "@open": {
     "description": "Opening time label"
-  },
-  "schedule": "Schedule",
-  "@schedule": {
-    "description": "Schedule page title"
-  },
-  "restaurantIsOpen": "Restaurant is currently open",
-  "@restaurantIsOpen": {
-    "description": "Message when restaurant is open"
-  },
-  "restaurantIsClosed": "Restaurant is currently closed",
-  "@restaurantIsClosed": {
-    "description": "Message when restaurant is closed"
-  },
-  "updateSchedule": "Update Schedule",
-  "@updateSchedule": {
-    "description": "Button text to update schedule"
-  },
-  "driverAvailability": "Availability",
-  "@driverAvailability": {
-    "description": "Driver availability toggle label"
-  },
-  "driverIsAvailable": "You are currently available for deliveries",
-  "@driverIsAvailable": {
-    "description": "Message when driver is available"
-  },
-  "driverIsUnavailable": "You are currently unavailable for deliveries",
-  "@driverIsUnavailable": {
-    "description": "Message when driver is unavailable"
   },
   "unsavedChanges": "Unsaved Changes",
   "@unsavedChanges": {
@@ -1532,34 +813,6 @@
   "@discard": {
     "description": "Discard button text"
   },
-  "selectLocationMethod": "Select Location Method",
-  "@selectLocationMethod": {
-    "description": "Title for location selection dialog"
-  },
-  "manualEntry": "Manual Entry",
-  "@manualEntry": {
-    "description": "Manual entry option for location"
-  },
-  "fromMap": "From Map",
-  "@fromMap": {
-    "description": "Map selection option for location"
-  },
-  "selectLocationOnMap": "Select Location on Map",
-  "@selectLocationOnMap": {
-    "description": "Title for map picker page"
-  },
-  "selectLocation": "Select Location",
-  "@selectLocation": {
-    "description": "Button text to select location"
-  },
-  "locationCoordinates": "Location Coordinates",
-  "@locationCoordinates": {
-    "description": "Label for location coordinates field"
-  },
-  "enterCoordinatesManually": "Enter Coordinates Manually",
-  "@enterCoordinatesManually": {
-    "description": "Title for manual coordinates dialog"
-  },
   "latitude": "Latitude",
   "@latitude": {
     "description": "Latitude field label"
@@ -1568,153 +821,13 @@
   "@longitude": {
     "description": "Longitude field label"
   },
-  "latitudeRequired": "Latitude is required",
-  "@latitudeRequired": {
-    "description": "Validation message for required latitude"
-  },
-  "longitudeRequired": "Longitude is required",
-  "@longitudeRequired": {
-    "description": "Validation message for required longitude"
-  },
-  "invalidLatitude": "Invalid latitude value",
-  "@invalidLatitude": {
-    "description": "Validation message for invalid latitude"
-  },
-  "invalidLongitude": "Invalid longitude value",
-  "@invalidLongitude": {
-    "description": "Validation message for invalid longitude"
-  },
-  "latitudeRange": "Latitude must be between -90 and 90",
-  "@latitudeRange": {
-    "description": "Validation message for latitude range"
-  },
-  "longitudeRange": "Longitude must be between -180 and 180",
-  "@longitudeRange": {
-    "description": "Validation message for longitude range"
-  },
-  "menu": "Menu",
-  "@menu": {
-    "description": "Menu feature title"
-  },
-  "categories": "Categories",
-  "@categories": {
-    "description": "Categories label"
-  },
-  "menuItems": "Menu Items",
-  "@menuItems": {
-    "description": "Menu items label"
-  },
-  "addCategory": "Add Category",
-  "@addCategory": {
-    "description": "Add category button text"
-  },
-  "editCategory": "Edit Category",
-  "@editCategory": {
-    "description": "Edit category button text"
-  },
-  "deleteCategory": "Delete Category",
-  "@deleteCategory": {
-    "description": "Delete category button text"
-  },
-  "addMenuItem": "Add Menu Item",
-  "@addMenuItem": {
-    "description": "Add menu item button text"
-  },
-  "editMenuItem": "Edit Menu Item",
-  "@editMenuItem": {
-    "description": "Edit menu item button text"
-  },
-  "deleteMenuItem": "Delete Menu Item",
-  "@deleteMenuItem": {
-    "description": "Delete menu item button text"
-  },
-  "categoryName": "Category Name",
-  "@categoryName": {
-    "description": "Category name field label"
-  },
-  "categoryDescription": "Category Description",
-  "@categoryDescription": {
-    "description": "Category description field label"
-  },
-  "itemName": "Item Name",
-  "@itemName": {
-    "description": "Menu item name field label"
-  },
-  "itemDescription": "Item Description",
-  "@itemDescription": {
-    "description": "Menu item description field label"
-  },
-  "itemPrice": "Price",
-  "@itemPrice": {
-    "description": "Menu item price field label"
-  },
-  "preparationTime": "Preparation Time",
-  "@preparationTime": {
-    "description": "Preparation time field label"
-  },
-  "ingredients": "Ingredients",
-  "@ingredients": {
-    "description": "Ingredients label"
-  },
-  "allergens": "Allergens",
-  "@allergens": {
-    "description": "Allergens label"
-  },
-  "nutritionalInfo": "Nutritional Information",
-  "@nutritionalInfo": {
-    "description": "Nutritional information label"
-  },
-  "image": "Image",
-  "@image": {
-    "description": "Image label"
-  },
-  "selectImage": "Select Image",
-  "@selectImage": {
-    "description": "Select image button text"
-  },
-  "takePhoto": "Take Photo",
-  "@takePhoto": {
-    "description": "Take photo option"
-  },
-  "chooseFromGallery": "Choose from Gallery",
-  "@chooseFromGallery": {
-    "description": "Choose from gallery option"
-  },
   "search": "Search",
   "@search": {
     "description": "Search hint text"
   },
-  "filter": "Filter",
-  "@filter": {
-    "description": "Filter button text"
-  },
-  "bulkActions": "Bulk Actions",
-  "@bulkActions": {
-    "description": "Bulk actions label"
-  },
-  "deleteSelected": "Delete Selected",
-  "@deleteSelected": {
-    "description": "Delete selected items button text"
-  },
-  "toggleAvailability": "Toggle Availability",
-  "@toggleAvailability": {
-    "description": "Toggle availability button text"
-  },
-  "reorder": "Reorder",
-  "@reorder": {
-    "description": "Reorder button text"
-  },
-  "dragToReorder": "Drag to reorder",
-  "@dragToReorder": {
-    "description": "Drag to reorder instruction"
-  },
   "active": "Active",
   "@active": {
     "description": "Status name for active"
-  },
-  "inactive": "Inactive",
-  "@inactive": {
-    "description": "Inactive status label"
   },
   "edit": "Edit",
   "@edit": {
@@ -1724,234 +837,25 @@
   "@delete": {
     "description": "Delete button text"
   },
-  "featured": "Featured",
-  "@featured": {
-    "description": "Featured label"
-  },
-  "available": "Available",
-  "@available": {
-    "description": "Available status label"
-  },
-  "unavailable": "Unavailable",
-  "@unavailable": {
-    "description": "Unavailable status label"
-  },
   "selected": "Selected",
   "@selected": {
     "description": "Selected label"
-  },
-  "makeUnavailable": "Make Unavailable",
-  "@makeUnavailable": {
-    "description": "Make unavailable button text"
-  },
-  "makeAvailable": "Make Available",
-  "@makeAvailable": {
-    "description": "Make available button text"
   },
   "remove": "Remove",
   "@remove": {
     "description": "Remove button text"
   },
-  "removeImage": "Remove Image",
-  "@removeImage": {
-    "description": "Remove image dialog title"
-  },
-  "areYouSureYouWantToRemoveThisImage": "Are you sure you want to remove this image?",
-  "@areYouSureYouWantToRemoveThisImage": {
-    "description": "Remove image confirmation message"
-  },
-  "noCategories": "No Categories",
-  "@noCategories": {
-    "description": "No categories message"
-  },
-  "noCategoriesDescription": "You haven't created any categories yet. Tap the + button to add one.",
-  "@noCategoriesDescription": {
-    "description": "No categories description"
-  },
-  "noMenuItems": "No Menu Items",
-  "@noMenuItems": {
-    "description": "No menu items message"
-  },
-  "noMenuItemsDescription": "This category doesn't have any items yet. Tap the + button to add one.",
-  "@noMenuItemsDescription": {
-    "description": "No menu items description"
-  },
-  "areYouSureDeleteCategory": "Are you sure you want to delete this category?",
-  "@areYouSureDeleteCategory": {
-    "description": "Delete category confirmation message"
-  },
-  "areYouSureDeleteMenuItem": "Are you sure you want to delete this menu item?",
-  "@areYouSureDeleteMenuItem": {
-    "description": "Delete menu item confirmation message"
-  },
-  "areYouSureDeleteSelected": "Are you sure you want to delete {count} selected item(s)?",
-  "@areYouSureDeleteSelected": {
-    "description": "Delete selected items confirmation message",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "categoryHasItems": "This category contains {count} item(s). Please delete or move the items first.",
-  "@categoryHasItems": {
-    "description": "Message when trying to delete category with items",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "categoryNameRequired": "Category name is required",
-  "@categoryNameRequired": {
-    "description": "Category name required validation"
-  },
-  "itemNameRequired": "Item name is required",
-  "@itemNameRequired": {
-    "description": "Item name required validation"
-  },
-  "priceRequired": "Price is required",
-  "@priceRequired": {
-    "description": "Price required validation"
-  },
-  "priceInvalid": "Price must be greater than 0",
-  "@priceInvalid": {
-    "description": "Price invalid validation"
-  },
-  "preparationTimeRequired": "Preparation time is required",
-  "@preparationTimeRequired": {
-    "description": "Preparation time required validation"
-  },
-  "preparationTimeInvalid": "Preparation time must be at least 1 minute",
-  "@preparationTimeInvalid": {
-    "description": "Preparation time invalid validation"
-  },
-  "categoryRequired": "Category is required",
-  "@categoryRequired": {
-    "description": "Category required validation"
-  },
-  "addIngredient": "Add Ingredient",
-  "@addIngredient": {
-    "description": "Add ingredient button text"
-  },
-  "addAllergen": "Add Allergen",
-  "@addAllergen": {
-    "description": "Add allergen button text"
-  },
-  "sortOrder": "Sort Order",
-  "@sortOrder": {
-    "description": "Sort order field label"
-  },
   "isActive": "Is Active",
   "@isActive": {
     "description": "Is active toggle label"
-  },
-  "isAvailable": "Is Available",
-  "@isAvailable": {
-    "description": "Is available toggle label"
-  },
-  "isFeatured": "Is Featured",
-  "@isFeatured": {
-    "description": "Is featured toggle label"
   },
   "clearFilters": "Clear Filters",
   "@clearFilters": {
     "description": "Clear filters button text"
   },
-  "sortByName": "Sort by Name",
-  "@sortByName": {
-    "description": "Sort by name option"
-  },
-  "sortByPrice": "Sort by Price",
-  "@sortByPrice": {
-    "description": "Sort by price option"
-  },
-  "sortByOrder": "Sort by Order",
-  "@sortByOrder": {
-    "description": "Sort by order option"
-  },
-  "sortAscending": "Ascending",
-  "@sortAscending": {
-    "description": "Sort ascending option"
-  },
-  "sortDescending": "Descending",
-  "@sortDescending": {
-    "description": "Sort descending option"
-  },
-  "minPrice": "Min Price",
-  "@minPrice": {
-    "description": "Minimum price filter label"
-  },
-  "maxPrice": "Max Price",
-  "@maxPrice": {
-    "description": "Maximum price filter label"
-  },
-  "selectCategory": "Select Category",
-  "@selectCategory": {
-    "description": "Select category label"
-  },
-  "categoryCreatedSuccessfully": "Category created successfully",
-  "@categoryCreatedSuccessfully": {
-    "description": "Category created success message"
-  },
-  "categoryUpdatedSuccessfully": "Category updated successfully",
-  "@categoryUpdatedSuccessfully": {
-    "description": "Category updated success message"
-  },
-  "categoryDeletedSuccessfully": "Category deleted successfully",
-  "@categoryDeletedSuccessfully": {
-    "description": "Category deleted success message"
-  },
-  "menuItemCreatedSuccessfully": "Menu item created successfully",
-  "@menuItemCreatedSuccessfully": {
-    "description": "Menu item created success message"
-  },
-  "menuItemUpdatedSuccessfully": "Menu item updated successfully",
-  "@menuItemUpdatedSuccessfully": {
-    "description": "Menu item updated success message"
-  },
-  "menuItemDeletedSuccessfully": "Menu item deleted successfully",
-  "@menuItemDeletedSuccessfully": {
-    "description": "Menu item deleted success message"
-  },
-  "menuItemsUpdatedSuccessfully": "Menu items updated successfully",
-  "@menuItemsUpdatedSuccessfully": {
-    "description": "Menu items updated success message"
-  },
-  "menuItemsDeletedSuccessfully": "Menu items deleted successfully",
-  "@menuItemsDeletedSuccessfully": {
-    "description": "Menu items deleted success message"
-  },
-  "categoriesReorderedSuccessfully": "Categories reordered successfully",
-  "@categoriesReorderedSuccessfully": {
-    "description": "Categories reordered success message"
-  },
-  "menuItemsReorderedSuccessfully": "Menu items reordered successfully",
-  "@menuItemsReorderedSuccessfully": {
-    "description": "Menu items reordered success message"
-  },
-  "@currency": {
-    "description": "Currency symbol/abbreviation"
-  },
   "bank": "Bank",
   "@bank": {
     "description": "Bank feature title"
-  },
-  "totalExpected": "Total Expected",
-  "@totalExpected": {
-    "description": "Total expected amount label"
-  },
-  "driverDebts": "Driver Debts",
-  "@driverDebts": {
-    "description": "Driver debts section title"
-  },
-  "pendingPayments": "Pending Payments",
-  "@pendingPayments": {
-    "description": "Section header for pending payments"
-  },
-  "noPendingTransactions": "No pending transactions",
-  "@noPendingTransactions": {
-    "description": "No pending transactions message"
   },
   "errorLoadingData": "Error loading data",
   "@errorLoadingData": {
@@ -1961,18 +865,6 @@
   "@noDataAvailable": {
     "description": "No data available message"
   },
-  "restaurantSystemManagerDebt": "Restaurant System Manager Debt",
-  "@restaurantSystemManagerDebt": {
-    "description": "Restaurant system manager debt label"
-  },
-  "restaurantDebtToSystem": "The restaurant's debt to the system",
-  "@restaurantDebtToSystem": {
-    "description": "Restaurant debt to system title"
-  },
-  "restaurantSystemManagerDebtDescription": "Amount restaurant owes to system manager (10% of order total)",
-  "@restaurantSystemManagerDebtDescription": {
-    "description": "Restaurant system manager debt description"
-  },
   "amount": "Amount",
   "@amount": {
     "description": "Amount label"
@@ -1980,14 +872,6 @@
   "driver": "Driver",
   "@driver": {
     "description": "Role name for driver"
-  },
-  "expectedFromDrivers": "Expected from Drivers",
-  "@expectedFromDrivers": {
-    "description": "Expected from drivers page title"
-  },
-  "payToSystemAdministrator": "Pay to System Administrator",
-  "@payToSystemAdministrator": {
-    "description": "Pay to system administrator page title"
   },
   "transactions": "Transactions",
   "@transactions": {
@@ -1997,97 +881,17 @@
   "@bankArchive": {
     "description": "Bank archive page title"
   },
-  "createTransaction": "Create Transaction",
-  "@createTransaction": {
-    "description": "Create transaction button/label"
-  },
-  "paySystem": "Pay System",
-  "@paySystem": {
-    "description": "Pay System tab label"
-  },
-  "calculatingAmount": "Calculating amount...",
-  "@calculatingAmount": {
-    "description": "Message shown while calculating payment amount"
-  },
-  "amountCalculated": "Amount calculated",
-  "@amountCalculated": {
-    "description": "Message shown when amount is calculated"
-  },
-  "noAmountForRange": "No amount due for the selected date range",
-  "@noAmountForRange": {
-    "description": "Message shown when calculated amount is zero"
-  },
-  "amountFieldReadOnly": "Amount is automatically calculated based on selected date range",
-  "@amountFieldReadOnly": {
-    "description": "Helper text for read-only amount field"
-  },
-  "pendingApprovals": "Pending Approvals",
-  "@pendingApprovals": {
-    "description": "Pending approvals section title"
-  },
-  "myPendingTransactions": "My Pending Transactions",
-  "@myPendingTransactions": {
-    "description": "My pending transactions section title"
-  },
-  "transactionHistory": "Transaction History",
-  "@transactionHistory": {
-    "description": "Transaction history section title"
-  },
-  "filterByType": "Filter by Type",
-  "@filterByType": {
-    "description": "Filter by type label"
-  },
-  "filterByDate": "Filter by Date",
-  "@filterByDate": {
-    "description": "Filter by date label"
-  },
-  "waitingForApproval": "Waiting for Approval",
-  "@waitingForApproval": {
-    "description": "Waiting for approval status"
-  },
   "approvedBy": "Approved by",
   "@approvedBy": {
     "description": "Approved by label"
-  },
-  "rejectedBy": "Rejected by",
-  "@rejectedBy": {
-    "description": "Rejected by label"
-  },
-  "breakdownByDriver": "Breakdown by Driver",
-  "@breakdownByDriver": {
-    "description": "Breakdown by driver section title"
-  },
-  "breakdown": "Breakdown",
-  "@breakdown": {
-    "description": "Section title for breakdown details"
   },
   "transactionType": "Type",
   "@transactionType": {
     "description": "Transaction type label"
   },
-  "paymentToDriver": "From Driver",
-  "@paymentToDriver": {
-    "description": "Payment to driver transaction type"
-  },
-  "paymentToSystem": "Payment to System",
-  "@paymentToSystem": {
-    "description": "Payment to system transaction type"
-  },
   "selectDriver": "Select Driver",
   "@selectDriver": {
     "description": "Select driver label"
-  },
-  "enterAmount": "Enter Amount",
-  "@enterAmount": {
-    "description": "Enter amount label"
-  },
-  "submit": "Submit",
-  "@submit": {
-    "description": "Submit button text"
-  },
-  "approve": "Approve",
-  "@approve": {
-    "description": "Approve button text"
   },
   "date": "Date",
   "@date": {
@@ -2096,22 +900,6 @@
   "status": "Status",
   "@status": {
     "description": "Status label"
-  },
-  "confirmCancellation": "Confirm Cancellation",
-  "@confirmCancellation": {
-    "description": "Confirm cancellation dialog title"
-  },
-  "cancelTransactionConfirmation": "Are you sure you want to cancel this transaction? This action cannot be undone.",
-  "@cancelTransactionConfirmation": {
-    "description": "Cancel transaction confirmation message"
-  },
-  "no": "No",
-  "@no": {
-    "description": "No button text"
-  },
-  "yesCancel": "Yes, Cancel",
-  "@yesCancel": {
-    "description": "Yes cancel button text"
   },
   "receivables": "Credits",
   "@receivables": {
@@ -2129,166 +917,9 @@
   "@newTransaction": {
     "description": "New transaction screen title"
   },
-  "pendingTransactions": "Pending Transactions",
-  "@pendingTransactions": {
-    "description": "Pending transactions screen title"
-  },
   "transactionsHistory": "Transaction History",
   "@transactionsHistory": {
     "description": "Transaction history screen title"
-  },
-  "ratings": "Ratings",
-  "@ratings": {
-    "description": "Ratings menu item title"
-  },
-  "ratingsTitle": "Customer Ratings",
-  "@ratingsTitle": {
-    "description": "Ratings screen title"
-  },
-  "ratingsDetailTitle": "Rating Details",
-  "@ratingsDetailTitle": {
-    "description": "Rating detail screen title"
-  },
-  "ratingsBasedOn": "Based on {count} ratings",
-  "@ratingsBasedOn": {
-    "description": "Label showing number of ratings",
-    "placeholders": {
-      "count": {
-        "type": "String"
-      }
-    }
-  },
-  "ratingsAnonymous": "Anonymous Customer",
-  "@ratingsAnonymous": {
-    "description": "Placeholder name for anonymous ratings"
-  },
-  "ratingsResponded": "Responded",
-  "@ratingsResponded": {
-    "description": "Badge showing rating has been responded to"
-  },
-  "ratingsReplyNow": "Reply Now",
-  "@ratingsReplyNow": {
-    "description": "Button to reply to a rating"
-  },
-  "ratingsResponseSuccess": "Response submitted successfully",
-  "@ratingsResponseSuccess": {
-    "description": "Success message after submitting response"
-  },
-  "ratingsOverallRating": "Overall Rating",
-  "@ratingsOverallRating": {
-    "description": "Label for overall rating"
-  },
-  "ratingsDate": "Date",
-  "@ratingsDate": {
-    "description": "Label for rating date"
-  },
-  "ratingsWouldReorder": "Would Reorder",
-  "@ratingsWouldReorder": {
-    "description": "Badge showing customer would reorder"
-  },
-  "ratingsWouldRecommend": "Would Recommend",
-  "@ratingsWouldRecommend": {
-    "description": "Badge showing customer would recommend"
-  },
-  "ratingsDetailedRatings": "Detailed Ratings",
-  "@ratingsDetailedRatings": {
-    "description": "Section title for detailed ratings breakdown"
-  },
-  "ratingsFoodQuality": "Food Quality",
-  "@ratingsFoodQuality": {
-    "description": "Label for food quality rating"
-  },
-  "ratingsDeliverySpeed": "Delivery Speed",
-  "@ratingsDeliverySpeed": {
-    "description": "Label for delivery speed rating"
-  },
-  "ratingsDriver": "Driver",
-  "@ratingsDriver": {
-    "description": "Label for driver rating"
-  },
-  "ratingsService": "Service",
-  "@ratingsService": {
-    "description": "Label for restaurant service rating"
-  },
-  "ratingsComments": "Comments",
-  "@ratingsComments": {
-    "description": "Section title for rating comments"
-  },
-  "ratingsGeneralComment": "General Comment",
-  "@ratingsGeneralComment": {
-    "description": "Label for general comment"
-  },
-  "ratingsFoodComment": "Food Comment",
-  "@ratingsFoodComment": {
-    "description": "Label for food comment"
-  },
-  "ratingsDeliveryComment": "Delivery Comment",
-  "@ratingsDeliveryComment": {
-    "description": "Label for delivery comment"
-  },
-  "ratingsDriverComment": "Driver Comment",
-  "@ratingsDriverComment": {
-    "description": "Label for driver comment"
-  },
-  "ratingsRestaurantComment": "Restaurant Comment",
-  "@ratingsRestaurantComment": {
-    "description": "Label for restaurant comment"
-  },
-  "ratingsTags": "Tags",
-  "@ratingsTags": {
-    "description": "Section title for rating tags"
-  },
-  "ratingsYourResponse": "Your Response",
-  "@ratingsYourResponse": {
-    "description": "Section title for existing response"
-  },
-  "ratingsWriteResponse": "Write a Response",
-  "@ratingsWriteResponse": {
-    "description": "Section title for response form"
-  },
-  "ratingsResponseHint": "Thank the customer or address their feedback...",
-  "@ratingsResponseHint": {
-    "description": "Placeholder text for response input"
-  },
-  "ratingsResponseRequired": "Please enter a response",
-  "@ratingsResponseRequired": {
-    "description": "Validation message when response is empty"
-  },
-  "ratingsResponseMinLength": "Response must be at least 10 characters",
-  "@ratingsResponseMinLength": {
-    "description": "Validation message when response is too short"
-  },
-  "ratingsSubmitResponse": "Submit Response",
-  "@ratingsSubmitResponse": {
-    "description": "Button to submit response"
-  },
-  "ratingsEmptyTitle": "No Ratings Yet",
-  "@ratingsEmptyTitle": {
-    "description": "Title when no ratings are available"
-  },
-  "ratingsEmptyMessage": "Customer ratings will appear here once you receive them.",
-  "@ratingsEmptyMessage": {
-    "description": "Message when no ratings are available"
-  },
-  "ratingsLoadMore": "Load More",
-  "@ratingsLoadMore": {
-    "description": "Button to load more ratings"
-  },
-  "ratingsFilterAll": "All",
-  "@ratingsFilterAll": {
-    "description": "Filter option for all ratings"
-  },
-  "ratingsFilterPositive": "Positive",
-  "@ratingsFilterPositive": {
-    "description": "Filter option for positive ratings (4+ stars)"
-  },
-  "ratingsFilterNegative": "Negative",
-  "@ratingsFilterNegative": {
-    "description": "Filter option for negative ratings (2 or less stars)"
-  },
-  "orderCounts": "Order Counts",
-  "@orderCounts": {
-    "description": "Section title for order counts"
   },
   "performance": "Performance",
   "@performance": {
@@ -2313,10 +944,6 @@
   "thisYear": "This Year",
   "@thisYear": {
     "description": "This year period option"
-  },
-  "custom": "Custom",
-  "@custom": {
-    "description": "Custom period option"
   },
   "responseSpeed": "Response Speed",
   "@responseSpeed": {
@@ -2350,195 +977,6 @@
   "@poorDecisionsDescription": {
     "description": "Description of poor decisions metric"
   },
-  "statisticsDataFrom": "Data from",
-  "@statisticsDataFrom": {
-    "description": "Statistics data from date label"
-  },
-  "orderCapacity": "Order Capacity",
-  "@orderCapacity": {
-    "description": "Order capacity indicator title"
-  },
-  "canAcceptMoreOrders": "You can accept {count} more order(s)",
-  "@canAcceptMoreOrders": {
-    "description": "Message showing how many more orders driver can accept",
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "maxCapacityReached": "Maximum capacity reached",
-  "@maxCapacityReached": {
-    "description": "Message when driver has reached maximum order capacity"
-  },
-  "preparing": "Preparing",
-  "@preparing": {
-    "description": "Orders being prepared by restaurant"
-  },
-  "onDelivery": "On Delivery",
-  "@onDelivery": {
-    "description": "Orders currently being delivered"
-  },
-  "noPreparingOrders": "No orders being prepared",
-  "@noPreparingOrders": {
-    "description": "Empty state title for preparing orders tab"
-  },
-  "noPreparingOrdersDescription": "Orders waiting for food preparation will appear here",
-  "@noPreparingOrdersDescription": {
-    "description": "Empty state description for preparing orders tab"
-  },
-  "noReadyOrders": "No orders ready for pickup",
-  "@noReadyOrders": {
-    "description": "Empty state title for ready orders tab"
-  },
-  "noReadyOrdersDescription": "Orders ready to be picked up will appear here",
-  "@noReadyOrdersDescription": {
-    "description": "Empty state description for ready orders tab"
-  },
-  "noDeliveringOrders": "No orders on delivery",
-  "@noDeliveringOrders": {
-    "description": "Empty state title for delivering orders tab"
-  },
-  "noDeliveringOrdersDescription": "Orders you are delivering will appear here",
-  "@noDeliveringOrdersDescription": {
-    "description": "Empty state description for delivering orders tab"
-  },
-  "markPickedUp": "Mark as Picked Up",
-  "@markPickedUp": {
-    "description": "Button to mark order as picked up from restaurant"
-  },
-  "navigateToRestaurant": "Navigate to Restaurant",
-  "@navigateToRestaurant": {
-    "description": "Button to open Google Maps navigation to restaurant"
-  },
-  "navigateToCustomer": "Navigate to Customer",
-  "@navigateToCustomer": {
-    "description": "Button to open Google Maps navigation to customer"
-  },
-  "rejectOrder": "Reject Order",
-  "@rejectOrder": {
-    "description": "Title for reject order dialog"
-  },
-  "selectRejectionReason": "Select a reason for rejection:",
-  "@selectRejectionReason": {
-    "description": "Prompt to select rejection reason"
-  },
-  "rejectionReasonTooFar": "Too far from my location",
-  "@rejectionReasonTooFar": {
-    "description": "Rejection reason: distance too far"
-  },
-  "rejectionReasonLowEarnings": "Low earnings for this order",
-  "@rejectionReasonLowEarnings": {
-    "description": "Rejection reason: low pay"
-  },
-  "rejectionReasonBadArea": "Delivery area is problematic",
-  "@rejectionReasonBadArea": {
-    "description": "Rejection reason: bad delivery area"
-  },
-  "rejectionReasonBusy": "Currently busy with other deliveries",
-  "@rejectionReasonBusy": {
-    "description": "Rejection reason: driver busy"
-  },
-  "rejectionReasonVehicleIssue": "Vehicle/transportation issue",
-  "@rejectionReasonVehicleIssue": {
-    "description": "Rejection reason: vehicle problem"
-  },
-  "rejectionReasonPersonal": "Personal reasons",
-  "@rejectionReasonPersonal": {
-    "description": "Rejection reason: personal"
-  },
-  "rejectionReasonOther": "Other",
-  "@rejectionReasonOther": {
-    "description": "Rejection reason: other"
-  },
-  "additionalNotes": "Additional Notes (optional)",
-  "@additionalNotes": {
-    "description": "Label for additional notes field"
-  },
-  "additionalNotesHint": "Add any additional details...",
-  "@additionalNotesHint": {
-    "description": "Hint for additional notes field"
-  },
-  "confirmRejection": "Reject",
-  "@confirmRejection": {
-    "description": "Button to confirm order rejection"
-  },
-  "orderRejected": "Order rejected",
-  "@orderRejected": {
-    "description": "Message shown when order is successfully rejected"
-  },
-  "noRejectedOrders": "No rejected orders",
-  "@noRejectedOrders": {
-    "description": "Message when there are no rejected orders"
-  },
-  "rejectedAt": "Rejected at",
-  "@rejectedAt": {
-    "description": "Label for rejection timestamp"
-  },
-  "unassignOrder": "Unassign from Order",
-  "@unassignOrder": {
-    "description": "Title for unassign order dialog"
-  },
-  "selectUnassignReason": "Why can't you complete this order?",
-  "@selectUnassignReason": {
-    "description": "Prompt to select unassign reason"
-  },
-  "unassignReasonVehicleBreakdown": "Vehicle breakdown",
-  "@unassignReasonVehicleBreakdown": {
-    "description": "Unassign reason: vehicle broke down"
-  },
-  "unassignReasonPersonalEmergency": "Personal emergency",
-  "@unassignReasonPersonalEmergency": {
-    "description": "Unassign reason: personal emergency"
-  },
-  "unassignReasonSafetyConcern": "Safety concern at location",
-  "@unassignReasonSafetyConcern": {
-    "description": "Unassign reason: safety issue"
-  },
-  "unassignReasonCannotReach": "Cannot reach pickup/delivery location",
-  "@unassignReasonCannotReach": {
-    "description": "Unassign reason: inaccessible location"
-  },
-  "unassignReasonLongWait": "Restaurant wait time too long",
-  "@unassignReasonLongWait": {
-    "description": "Unassign reason: excessive waiting"
-  },
-  "unassignReasonOrderIssue": "Issue with order (missing items, wrong order)",
-  "@unassignReasonOrderIssue": {
-    "description": "Unassign reason: order problem"
-  },
-  "unassignReasonOther": "Other reason",
-  "@unassignReasonOther": {
-    "description": "Unassign reason: other"
-  },
-  "confirmUnassign": "Unassign",
-  "@confirmUnassign": {
-    "description": "Button to confirm order unassignment"
-  },
-  "orderUnassigned": "Unassigned from order",
-  "@orderUnassigned": {
-    "description": "Message when order is successfully unassigned"
-  },
-  "unassignOnDeliveryWarning": "Emergency only! Unassigning during delivery is serious and will be reviewed. Only use for genuine emergencies.",
-  "@unassignOnDeliveryWarning": {
-    "description": "Warning for unassigning during delivery"
-  },
-  "unassignReadyWarning": "The food is ready and waiting. Unassigning now may affect food quality for the customer.",
-  "@unassignReadyWarning": {
-    "description": "Warning for unassigning when food is ready"
-  },
-  "unassignEmergencyNotesHint": "Please describe the emergency situation...",
-  "@unassignEmergencyNotesHint": {
-    "description": "Hint for emergency notes"
-  },
-  "unassignConsequenceNotice": "Frequent unassignments may affect your driver metrics. The order will be returned to the available pool.",
-  "@unassignConsequenceNotice": {
-    "description": "Notice about consequences of unassigning"
-  },
-  "cantCompleteOrder": "Can't Complete",
-  "@cantCompleteOrder": {
-    "description": "Button label for unassigning from order"
-  },
   "totalDebt": "Total Debt",
   "@totalDebt": {
     "description": "Label for total debt amount"
@@ -2567,14 +1005,6 @@
   "@recordSystemPayment": {
     "description": "Record system payment dialog title"
   },
-  "paySystemDebt": "Pay System Debt",
-  "@paySystemDebt": {
-    "description": "Pay system debt button text"
-  },
-  "paymentToRestaurant": "Payment to Restaurant",
-  "@paymentToRestaurant": {
-    "description": "Payment to restaurant transaction type"
-  },
   "noDebts": "No Outstanding Debts",
   "@noDebts": {
     "description": "Message when driver has no debts"
@@ -2586,10 +1016,6 @@
   "invalidAmount": "Invalid amount",
   "@invalidAmount": {
     "description": "Invalid amount error message"
-  },
-  "record": "Record",
-  "@record": {
-    "description": "Record button text"
   },
   "noTransactionsFound": "No Transactions Found",
   "@noTransactionsFound": {
@@ -2615,10 +1041,6 @@
   "@overpay": {
     "description": "Label indicating overpayment credit (money paid in excess)"
   },
-  "credit": "Credit",
-  "@credit": {
-    "description": "Credit label"
-  },
   "pickupSpeed": "Pickup Speed",
   "@pickupSpeed": {
     "description": "Time between food ready and driver pickup"
@@ -2627,45 +1049,9 @@
   "@pickupSpeedDescription": {
     "description": "Description of pickup speed metric"
   },
-  "pickupSpeedGood": "Faster pickup (under 10 minutes) ensures fresh food and happy customers.",
-  "@pickupSpeedGood": {
-    "description": "When pickup speed is good"
-  },
-  "pickupSpeedBad": "Slow pickup (over 20 minutes) may result in cold food and unhappy customers.",
-  "@pickupSpeedBad": {
-    "description": "When pickup speed is bad"
-  },
-  "deliverySpeed": "Delivery Speed",
-  "@deliverySpeed": {
-    "description": "Time between pickup and delivery"
-  },
-  "deliverySpeedDescription": "Time from pickup to delivery",
-  "@deliverySpeedDescription": {
-    "description": "Description of delivery speed metric"
-  },
-  "deliverySpeedGood": "Fast delivery (under 20 minutes) leads to satisfied customers and better ratings.",
-  "@deliverySpeedGood": {
-    "description": "When delivery speed is good"
-  },
-  "deliverySpeedBad": "Slow delivery (over 40 minutes) can result in complaints and lower ratings.",
-  "@deliverySpeedBad": {
-    "description": "When delivery speed is bad"
-  },
   "completionRate": "Completion Rate",
   "@completionRate": {
     "description": "Percentage of orders completed successfully"
-  },
-  "completionRateDescription": "Percentage of accepted orders that were delivered",
-  "@completionRateDescription": {
-    "description": "Description of completion rate metric"
-  },
-  "completionRateGood": "High rate (95%+) shows reliability and professionalism.",
-  "@completionRateGood": {
-    "description": "When completion rate is good"
-  },
-  "completionRateBad": "Low rate (below 85%) indicates issues with order handling.",
-  "@completionRateBad": {
-    "description": "When completion rate is bad"
   },
   "cancellationRate": "Cancellation Rate",
   "@cancellationRate": {
@@ -2674,26 +1060,6 @@
   "cancellationRateDescription": "Percentage of accepted orders that were cancelled",
   "@cancellationRateDescription": {
     "description": "Description of cancellation rate metric"
-  },
-  "cancellationRateGood": "Low rate (under 5%) is excellent and shows consistent service.",
-  "@cancellationRateGood": {
-    "description": "When cancellation rate is good"
-  },
-  "cancellationRateBad": "High rate (over 15%) raises concerns about reliability.",
-  "@cancellationRateBad": {
-    "description": "When cancellation rate is bad"
-  },
-  "iHaveArrived": "I've Arrived",
-  "@iHaveArrived": {
-    "description": "Button text for driver to mark arrival at customer location"
-  },
-  "arrived": "Arrived",
-  "@arrived": {
-    "description": "Status label when driver has arrived at delivery location"
-  },
-  "driverArrived": "Driver Arrived",
-  "@driverArrived": {
-    "description": "Notification/status text when driver has arrived"
   },
   "ok": "OK",
   "@ok": {
@@ -2715,7 +1081,7 @@
   "@accountNotFound": {
     "description": "Title for account not found error dialog"
   },
-  "accountNotFoundMessage": "No account found with this email. Please sign up first.",
+  "accountNotFoundMessage": "No manager account uses this email. Manager accounts are created by the platform's team, not in the app.",
   "@accountNotFoundMessage": {
     "description": "Message for account not found error"
   },
@@ -2774,10 +1140,6 @@
   "suspended": "Suspended",
   "@suspended": {
     "description": "Status name for suspended"
-  },
-  "rejectedStatus": "Rejected",
-  "@rejectedStatus": {
-    "description": "Status name for rejected"
   },
   "operator": "Operator",
   "@operator": {
@@ -2918,8 +1280,6 @@
   "internalNoteHint": "Internal note about this coupon...",
   "noCouponZonesAvailable": "No coupon zones available. Create zones to restrict coupon availability.",
   "selectZonesInfo": "Select zones (applies to all if none selected)",
-  "zone": "zone",
-  "zones": "zones",
   "noRestaurantsAvailable": "No restaurants available. This coupon will be global.",
   "selectedRestaurant": "Selected Restaurant",
   "allRestaurantsGlobal": "All Restaurants (Global)",
@@ -3002,11 +1362,6 @@
   "driverEarningsSection": "Earnings",
   "driverNetEarnings": "Net Earnings",
   "averageOrderValueDesc": "The average total amount (food + delivery) per delivered order in the selected period.",
-  "ordersPlacedDesc": "Total number of successfully delivered orders in the selected period.",
-  "netProfit": "Net Profit",
-  "@netProfit": {
-    "description": "Net profit label"
-  },
   "orderMetrics": "Order Metrics",
   "@orderMetrics": {
     "description": "Order metrics section header"
@@ -3014,14 +1369,6 @@
   "averageOrderValue": "Average Order Value",
   "@averageOrderValue": {
     "description": "Average order value label"
-  },
-  "completedOrders": "Completed Orders",
-  "@completedOrders": {
-    "description": "Completed orders label"
-  },
-  "statisticsDelivery": "Delivery",
-  "@statisticsDelivery": {
-    "description": "Statistics delivery tab title"
   },
   "statisticsRatings": "Ratings",
   "@statisticsRatings": {
@@ -3095,17 +1442,9 @@
   "@slowestDeliveryDesc": {
     "description": "Tooltip for slowest delivery card"
   },
-  "driverPerformance": "Driver Performance",
-  "@driverPerformance": {
-    "description": "Driver performance section header"
-  },
   "minutesAbbr": "min",
   "@minutesAbbr": {
     "description": "Minutes abbreviation"
-  },
-  "noDriverData": "No driver performance data available",
-  "@noDriverData": {
-    "description": "Empty state for driver performance table"
   },
   "averageRating": "Average Rating",
   "@averageRating": {
@@ -3127,10 +1466,6 @@
   "@restaurantServiceRating": {
     "description": "Restaurant service rating label"
   },
-  "driverRatingLabel": "Driver Rating",
-  "@driverRatingLabel": {
-    "description": "Driver rating label"
-  },
   "deliverySpeedRating": "Delivery Speed",
   "@deliverySpeedRating": {
     "description": "Delivery speed rating label"
@@ -3143,37 +1478,9 @@
   "@recommendRate": {
     "description": "Customer recommend rate label"
   },
-  "customerSatisfaction": "Customer Satisfaction",
-  "@customerSatisfaction": {
-    "description": "Customer satisfaction section header"
-  },
-  "categoryRatings": "Category Ratings",
-  "@categoryRatings": {
-    "description": "Category ratings section header"
-  },
-  "last7Days": "Last 7 days",
-  "@last7Days": {
-    "description": "Last 7 days filter option"
-  },
-  "last30Days": "Last 30 days",
-  "@last30Days": {
-    "description": "Last 30 days filter option"
-  },
-  "last90Days": "Last 90 days",
-  "@last90Days": {
-    "description": "Last 90 days filter option"
-  },
-  "last365Days": "Last 365 days",
-  "@last365Days": {
-    "description": "Last 365 days filter option"
-  },
   "outOf5": "out of 5",
   "@outOf5": {
     "description": "Rating out of 5 suffix"
-  },
-  "quarter": "Quarter",
-  "@quarter": {
-    "description": "Quarter period option"
   },
   "restaurantsTab": "Restaurants",
   "@restaurantsTab": {
@@ -3212,40 +1519,13 @@
     }
   },
   "confirmAccountDeletionCodeMessage": "Please enter the code to confirm account deletion. This action cannot be undone.",
-  "enableInSettings": "Enable in Settings",
-  "notificationPermissionNeededMessage": "This app needs notification permission to:",
-  "notificationBenefitNewOrders": "• Alert you about new delivery orders",
-  "notificationBenefitStatusUpdates": "• Notify you of order status updates",
-  "notificationBenefitImportantAlerts": "• Send important delivery alerts",
-  "notificationPermissionWarning": "Without notifications, you won't receive new orders and the app cannot function properly.",
-  "notificationPermissionDeniedInstructions": "Notification permission was denied. To enable it:",
-  "stepTapOpenSettings": "1. Tap \"Open Settings\" below",
-  "stepFindNotificationsInSettings": "2. Find \"Notifications\" in the app settings",
-  "stepEnableAllowNotifications": "3. Enable \"Allow notifications\"",
-  "stepReturnToApp": "4. Return to the app",
-  "initializationErrorTitle": "Initialization Error",
-  "@initializationErrorTitle": {
-    "description": "Title on initialization error screen"
-  },
-  "initializationErrorMessage": "The app failed to initialize properly.",
-  "@initializationErrorMessage": {
-    "description": "Message on initialization error screen"
-  },
   "unableToCheckForUpdates": "Unable to check for updates. Please try again later.",
   "@unableToCheckForUpdates": {
     "description": "Fallback error message when app version check fails"
   },
-  "accountApprovedRedirecting": "Your account has been approved! Redirecting...",
-  "@accountApprovedRedirecting": {
-    "description": "Account status message when account is approved and app is redirecting"
-  },
   "accountPendingApprovalMessage": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.",
   "@accountPendingApprovalMessage": {
     "description": "Detailed account status message shown while account is pending approval"
-  },
-  "accountPendingApprovalMessageShort": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.",
-  "@accountPendingApprovalMessageShort": {
-    "description": "Short account status message shown for unknown status fallback"
   },
   "accountSuspendedMessage": "Your account has been suspended. Please contact support for assistance.",
   "@accountSuspendedMessage": {
@@ -3254,5 +1534,902 @@
   "accountRejectedMessage": "Your account has been rejected. Please contact support for more information.",
   "@accountRejectedMessage": {
     "description": "Account status message shown when account is rejected"
+  },
+  "balanceForPeriod": "({period} Balance)",
+  "@balanceForPeriod": {
+    "description": "Under the amount of a debt or credit: the period it covers, e.g. \"(Week Balance)\"",
+    "placeholders": {
+      "period": {"type": "String"}
+    }
+  },
+  "updateLinkUnavailable": "The update can't be opened on this device. Please contact us to get the new version.",
+  "@updateLinkUnavailable": {
+    "description": "The update button when there is no download for this device (an iPhone without a link) or it can't be opened"
+  },
+  "pageNotFound": "Page Not Found",
+  "@pageNotFound": {
+    "description": "pageNotFound"
+  },
+  "accountApprovedRedirectingMessage": "Your account has been approved! Redirecting...",
+  "@accountApprovedRedirectingMessage": {
+    "description": "accountApprovedRedirectingMessage"
+  },
+  "accountPendingApproval": "Account Pending Approval",
+  "@accountPendingApproval": {
+    "description": "accountPendingApproval"
+  },
+  "accountPendingApprovalFallbackMessage": "Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.",
+  "@accountPendingApprovalFallbackMessage": {
+    "description": "accountPendingApprovalFallbackMessage"
+  },
+  "accountRejected": "Account Rejected",
+  "@accountRejected": {
+    "description": "accountRejected"
+  },
+  "accountSuspended": "Account Suspended",
+  "@accountSuspended": {
+    "description": "accountSuspended"
+  },
+  "appFailedToInitializeProperly": "The app failed to initialize properly.",
+  "@appFailedToInitializeProperly": {
+    "description": "appFailedToInitializeProperly"
+  },
+  "pleaseConfirmYourPassword": "Please confirm your password",
+  "@pleaseConfirmYourPassword": {
+    "description": "pleaseConfirmYourPassword"
+  },
+  "nameIsRequired": "Name is required",
+  "@nameIsRequired": {
+    "description": "nameIsRequired"
+  },
+  "nameTooShort": "Name must be at least 2 characters",
+  "@nameTooShort": {
+    "description": "Edit profile: the name is under 2 characters"
+  },
+  "phoneTooShort": "Phone number must be at least 10 digits",
+  "@phoneTooShort": {
+    "description": "Edit profile: the phone number is under 10 digits"
+  },
+  "usesUnlimited": "{count} (unlimited)",
+  "@usesUnlimited": {
+    "description": "How many times a coupon was used, when it has no limit",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "finalTotalGlobal": "Final Total (Global)",
+  "@finalTotalGlobal": {
+    "description": "What a global coupon's discount applies to: the order's final total"
+  },
+  "zonesSelected": "{count, plural, =1{1 zone selected} other{{count} zones selected}}",
+  "@zonesSelected": {
+    "description": "How many coupon zones the coupon form has selected",
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settingsCategoryDelivery": "Delivery",
+  "@settingsCategoryDelivery": {
+    "description": "A group of platform settings on the manager's dashboard"
+  },
+  "settingsCategoryFinancials": "Financials",
+  "@settingsCategoryFinancials": {
+    "description": "A group of platform settings on the manager's dashboard"
+  },
+  "settingsCategoryCustomersOrders": "Customers & Orders",
+  "@settingsCategoryCustomersOrders": {
+    "description": "A group of platform settings on the manager's dashboard"
+  },
+  "settingsCategoryLoyaltyPromotions": "Loyalty & Promotions",
+  "@settingsCategoryLoyaltyPromotions": {
+    "description": "A group of platform settings on the manager's dashboard"
+  },
+  "settingsCategoryAccountsSecurity": "Accounts & Security",
+  "@settingsCategoryAccountsSecurity": {
+    "description": "A group of platform settings on the manager's dashboard"
+  },
+  "settingsCategoryApiIntegrations": "API & Integrations",
+  "@settingsCategoryApiIntegrations": {
+    "description": "A group of platform settings on the manager's dashboard"
+  },
+  "settingsCategoryLegalContact": "Legal & Contact",
+  "@settingsCategoryLegalContact": {
+    "description": "A group of platform settings on the manager's dashboard"
+  },
+  "settingTypeText": "Text",
+  "@settingTypeText": {
+    "description": "The kind of value a platform setting holds"
+  },
+  "settingTypeWhole": "Whole number",
+  "@settingTypeWhole": {
+    "description": "The kind of value a platform setting holds"
+  },
+  "settingTypeNumber": "Number",
+  "@settingTypeNumber": {
+    "description": "The kind of value a platform setting holds"
+  },
+  "settingTypeYesNo": "Yes or no",
+  "@settingTypeYesNo": {
+    "description": "The kind of value a platform setting holds"
+  },
+  "settingTypeList": "List (JSON)",
+  "@settingTypeList": {
+    "description": "The kind of value a platform setting holds"
+  },
+  "settingSystemManagerOrderPercentageName": "Commission on orders (%)",
+  "@settingSystemManagerOrderPercentageName": {
+    "description": "The platform setting system_manager_order_percentage: its name"
+  },
+  "settingSystemManagerOrderPercentageRole": "The platform's part of the food subtotal",
+  "@settingSystemManagerOrderPercentageRole": {
+    "description": "The platform setting system_manager_order_percentage: its what it is for, in a line"
+  },
+  "settingSystemManagerOrderPercentageHelp": "The percentage of every order's food subtotal that the platform keeps as its commission. For example, 10 means the platform earns 10 DZD for every 100 DZD of food ordered. When an order is delivered, the bank records it as owed by the restaurant to the platform (the driver owes the restaurant the whole food subtotal).",
+  "@settingSystemManagerOrderPercentageHelp": {
+    "description": "The platform setting system_manager_order_percentage: its how it works"
+  },
+  "settingSystemManagerDeliveryFeePercentageName": "Share of the delivery fee (%)",
+  "@settingSystemManagerDeliveryFeePercentageName": {
+    "description": "The platform setting system_manager_delivery_fee_percentage: its name"
+  },
+  "settingSystemManagerDeliveryFeePercentageRole": "The platform's part of each delivery fee",
+  "@settingSystemManagerDeliveryFeePercentageRole": {
+    "description": "The platform setting system_manager_delivery_fee_percentage: its what it is for, in a line"
+  },
+  "settingSystemManagerDeliveryFeePercentageHelp": "The percentage of the delivery fee that goes to the platform; the driver keeps the rest. For example, with 30 the platform keeps 30% of each delivery fee and the driver 70%. The bank applies it every time an order is delivered.",
+  "@settingSystemManagerDeliveryFeePercentageHelp": {
+    "description": "The platform setting system_manager_delivery_fee_percentage: its how it works"
+  },
+  "settingContactEmailName": "Support email",
+  "@settingContactEmailName": {
+    "description": "The platform setting contact_email: its name"
+  },
+  "settingContactEmailRole": "Shown in every app",
+  "@settingContactEmailRole": {
+    "description": "The platform setting contact_email: its what it is for, in a line"
+  },
+  "settingContactEmailHelp": "Shown with the other contact details on the Contact and About pages of every app (customer, driver, restaurant, operator). Change it whenever your support address changes, so users always reach the right inbox.",
+  "@settingContactEmailHelp": {
+    "description": "The platform setting contact_email: its how it works"
+  },
+  "settingContactPhoneName": "Support phone",
+  "@settingContactPhoneName": {
+    "description": "The platform setting contact_phone: its name"
+  },
+  "settingContactPhoneRole": "Shown in every app",
+  "@settingContactPhoneRole": {
+    "description": "The platform setting contact_phone: its what it is for, in a line"
+  },
+  "settingContactPhoneHelp": "Shown on the Contact page of every app. The apps read it from the server, so a change here reaches every app at once, with no new app version.",
+  "@settingContactPhoneHelp": {
+    "description": "The platform setting contact_phone: its how it works"
+  },
+  "settingContactWebsiteName": "Website",
+  "@settingContactWebsiteName": {
+    "description": "The platform setting contact_website: its name"
+  },
+  "settingContactWebsiteRole": "Shown in every app",
+  "@settingContactWebsiteRole": {
+    "description": "The platform setting contact_website: its what it is for, in a line"
+  },
+  "settingContactWebsiteHelp": "The address of your platform's website, shown on the About and Contact pages of every app and opened in the phone's browser when tapped.",
+  "@settingContactWebsiteHelp": {
+    "description": "The platform setting contact_website: its how it works"
+  },
+  "settingContactAddressName": "Postal address",
+  "@settingContactAddressName": {
+    "description": "The platform setting contact_address: its name"
+  },
+  "settingContactAddressRole": "The company's address",
+  "@settingContactAddressRole": {
+    "description": "The platform setting contact_address: its what it is for, in a line"
+  },
+  "settingContactAddressHelp": "Your company's official address. It is printed in the contact part of the Privacy Policy and Terms of Service pages (in every language) and sent to the apps with the other contact details. Leave it empty to hide the address line.",
+  "@settingContactAddressHelp": {
+    "description": "The platform setting contact_address: its how it works"
+  },
+  "settingMinimumDeliveryFeeName": "Minimum delivery fee",
+  "@settingMinimumDeliveryFeeName": {
+    "description": "The platform setting minimum_delivery_fee: its name"
+  },
+  "settingMinimumDeliveryFeeRole": "The least a delivery costs",
+  "@settingMinimumDeliveryFeeRole": {
+    "description": "The platform setting minimum_delivery_fee: its what it is for, in a line"
+  },
+  "settingMinimumDeliveryFeeHelp": "The least a customer is ever charged for delivery, however close the restaurant is. For example, 50 means even a 300-metre order costs 50 DZD for delivery. Set 0 for no minimum: the formula's result is used as it is.",
+  "@settingMinimumDeliveryFeeHelp": {
+    "description": "The platform setting minimum_delivery_fee: its how it works"
+  },
+  "settingMaximumDeliveryFeeName": "Maximum delivery fee",
+  "@settingMaximumDeliveryFeeName": {
+    "description": "The platform setting maximum_delivery_fee: its name"
+  },
+  "settingMaximumDeliveryFeeRole": "The most a delivery costs",
+  "@settingMaximumDeliveryFeeRole": {
+    "description": "The platform setting maximum_delivery_fee: its what it is for, in a line"
+  },
+  "settingMaximumDeliveryFeeHelp": "The most a customer can be charged for delivery, however far the restaurant is. For example, 500 means a 20 km order never costs more than 500 DZD for delivery. Set 0 for no maximum: the formula's result is used as it is.",
+  "@settingMaximumDeliveryFeeHelp": {
+    "description": "The platform setting maximum_delivery_fee: its how it works"
+  },
+  "settingMaxDriverConcurrentOrdersName": "Orders a driver holds at once",
+  "@settingMaxDriverConcurrentOrdersName": {
+    "description": "The platform setting max_driver_concurrent_orders: its name"
+  },
+  "settingMaxDriverConcurrentOrdersRole": "The most active orders per driver",
+  "@settingMaxDriverConcurrentOrdersRole": {
+    "description": "The platform setting max_driver_concurrent_orders: its what it is for, in a line"
+  },
+  "settingMaxDriverConcurrentOrdersHelp": "The most active orders one driver can hold at the same time. Once a driver holds this many, no new order is offered to them until one is delivered or given back. Raise it for busy periods; lower it to keep deliveries short.",
+  "@settingMaxDriverConcurrentOrdersHelp": {
+    "description": "The platform setting max_driver_concurrent_orders: its how it works"
+  },
+  "settingFixedDeliveryFeeName": "Fixed delivery fee",
+  "@settingFixedDeliveryFeeName": {
+    "description": "The platform setting fixed_delivery_fee: its name"
+  },
+  "settingFixedDeliveryFeeRole": "The flat part of every delivery fee",
+  "@settingFixedDeliveryFeeRole": {
+    "description": "The platform setting fixed_delivery_fee: its what it is for, in a line"
+  },
+  "settingFixedDeliveryFeeHelp": "A flat amount in every delivery fee, whatever the distance: fee = fixed fee + (price per metre × distance in metres), then rounded and kept between the minimum and the maximum. Raising it raises what every customer pays for delivery.",
+  "@settingFixedDeliveryFeeHelp": {
+    "description": "The platform setting fixed_delivery_fee: its how it works"
+  },
+  "settingPricePerMeterName": "Price per metre",
+  "@settingPricePerMeterName": {
+    "description": "The platform setting price_per_meter: its name"
+  },
+  "settingPricePerMeterRole": "The distance part of the delivery fee",
+  "@settingPricePerMeterRole": {
+    "description": "The platform setting price_per_meter: its what it is for, in a line"
+  },
+  "settingPricePerMeterHelp": "What each metre of road between the restaurant and the delivery address adds to the fee. For example, 0.02 DZD per metre means a 5 km route adds 100 DZD to the fixed fee. The road distance comes from Mapbox or OpenRouteService.",
+  "@settingPricePerMeterHelp": {
+    "description": "The platform setting price_per_meter: its how it works"
+  },
+  "settingMaxDeliveryDistanceKmName": "Maximum delivery distance (km)",
+  "@settingMaxDeliveryDistanceKmName": {
+    "description": "The platform setting max_delivery_distance_km: its name"
+  },
+  "settingMaxDeliveryDistanceKmRole": "How far a delivery can go",
+  "@settingMaxDeliveryDistanceKmRole": {
+    "description": "The platform setting max_delivery_distance_km: its what it is for, in a line"
+  },
+  "settingMaxDeliveryDistanceKmHelp": "An order whose delivery address is farther than this many kilometres from the restaurant is refused when it is placed. It spares drivers very long trips and keeps delivery times predictable. Raise or lower it to widen or narrow your service area.",
+  "@settingMaxDeliveryDistanceKmHelp": {
+    "description": "The platform setting max_delivery_distance_km: its how it works"
+  },
+  "settingAverageCitySpeedKmhName": "City speed (km/h)",
+  "@settingAverageCitySpeedKmhName": {
+    "description": "The platform setting average_city_speed_kmh: its name"
+  },
+  "settingAverageCitySpeedKmhRole": "For the delivery time when no route is known",
+  "@settingAverageCitySpeedKmhRole": {
+    "description": "The platform setting average_city_speed_kmh: its what it is for, in a line"
+  },
+  "settingAverageCitySpeedKmhHelp": "When neither Mapbox nor OpenRouteService answers, the distance is measured in a straight line and this speed gives the time the delivery takes through city streets. A usual value is 25 to 40 km/h, for traffic and stops.",
+  "@settingAverageCitySpeedKmhHelp": {
+    "description": "The platform setting average_city_speed_kmh: its how it works"
+  },
+  "settingAverageHighwaySpeedKmhName": "Highway speed (km/h)",
+  "@settingAverageHighwaySpeedKmhName": {
+    "description": "The platform setting average_highway_speed_kmh: its name"
+  },
+  "settingAverageHighwaySpeedKmhRole": "For the long part of such a trip",
+  "@settingAverageHighwaySpeedKmhRole": {
+    "description": "The platform setting average_highway_speed_kmh: its what it is for, in a line"
+  },
+  "settingAverageHighwaySpeedKmhHelp": "Used with the city speed in that straight-line estimate: beyond the city-to-highway distance, the rest of the trip is counted at this faster speed. A usual value is 80 to 120 km/h.",
+  "@settingAverageHighwaySpeedKmhHelp": {
+    "description": "The platform setting average_highway_speed_kmh: its how it works"
+  },
+  "settingCityHighwayTransitionKmName": "City-to-highway distance (km)",
+  "@settingCityHighwayTransitionKmName": {
+    "description": "The platform setting city_highway_transition_km: its name"
+  },
+  "settingCityHighwayTransitionKmRole": "Where the city speed stops",
+  "@settingCityHighwayTransitionKmRole": {
+    "description": "The platform setting city_highway_transition_km: its what it is for, in a line"
+  },
+  "settingCityHighwayTransitionKmHelp": "In that straight-line estimate, a trip shorter than this is counted entirely at city speed; the kilometres beyond it at highway speed. For example, 5 means the first 5 km at city speed and the rest at highway speed.",
+  "@settingCityHighwayTransitionKmHelp": {
+    "description": "The platform setting city_highway_transition_km: its how it works"
+  },
+  "settingCurrencyName": "Currency",
+  "@settingCurrencyName": {
+    "description": "The platform setting currency: its name"
+  },
+  "settingCurrencyRole": "The platform's currency code",
+  "@settingCurrencyRole": {
+    "description": "The platform setting currency: its what it is for, in a line"
+  },
+  "settingCurrencyHelp": "The ISO 4217 code of the currency of every amount on the platform: order totals, delivery fees, earnings, notifications. For example, \"DZD\" for the Algerian dinar. The server writes it after amounts and sends it to every app.",
+  "@settingCurrencyHelp": {
+    "description": "The platform setting currency: its how it works"
+  },
+  "settingBirthdayGiftEnabledName": "Birthday gift",
+  "@settingBirthdayGiftEnabledName": {
+    "description": "The platform setting birthday_gift_enabled: its name"
+  },
+  "settingBirthdayGiftEnabledRole": "On or off",
+  "@settingBirthdayGiftEnabledRole": {
+    "description": "The platform setting birthday_gift_enabled: its what it is for, in a line"
+  },
+  "settingBirthdayGiftEnabledHelp": "When true (or 1), a customer who orders on their birthday gets that order paid for, up to the birthday gift cap, once a year. When false (or 0), there is no birthday gift. It turns the promotion on or off without touching the code.",
+  "@settingBirthdayGiftEnabledHelp": {
+    "description": "The platform setting birthday_gift_enabled: its how it works"
+  },
+  "settingBirthdayGiftCapName": "Birthday gift cap (DZD)",
+  "@settingBirthdayGiftCapName": {
+    "description": "The platform setting birthday_gift_cap: its name"
+  },
+  "settingBirthdayGiftCapRole": "The most a birthday gift covers",
+  "@settingBirthdayGiftCapRole": {
+    "description": "The platform setting birthday_gift_cap: its what it is for, in a line"
+  },
+  "settingBirthdayGiftCapHelp": "The most a birthday gift covers, in the platform's currency. For example, with a cap of 500, a 700 DZD birthday order is reduced by 500 DZD. It keeps the gift reasonable on large orders.",
+  "@settingBirthdayGiftCapHelp": {
+    "description": "The platform setting birthday_gift_cap: its how it works"
+  },
+  "settingCustomerRestaurantRadiusKmName": "Restaurant search radius (km)",
+  "@settingCustomerRestaurantRadiusKmName": {
+    "description": "The platform setting customer_restaurant_radius_km: its name"
+  },
+  "settingCustomerRestaurantRadiusKmRole": "Which restaurants a customer sees",
+  "@settingCustomerRestaurantRadiusKmRole": {
+    "description": "The platform setting customer_restaurant_radius_km: its what it is for, in a line"
+  },
+  "settingCustomerRestaurantRadiusKmHelp": "A customer is shown the restaurants within this many kilometres of where they are. A larger radius shows more choice, but may include restaurants too far to deliver in good time.",
+  "@settingCustomerRestaurantRadiusKmHelp": {
+    "description": "The platform setting customer_restaurant_radius_km: its how it works"
+  },
+  "settingCustomerRestaurantPrefilterRadiusKmName": "Search pre-filter radius (km)",
+  "@settingCustomerRestaurantPrefilterRadiusKmName": {
+    "description": "The platform setting customer_restaurant_prefilter_radius_km: its name"
+  },
+  "settingCustomerRestaurantPrefilterRadiusKmRole": "A first, quicker sorting of the restaurants",
+  "@settingCustomerRestaurantPrefilterRadiusKmRole": {
+    "description": "The platform setting customer_restaurant_prefilter_radius_km: its what it is for, in a line"
+  },
+  "settingCustomerRestaurantPrefilterRadiusKmHelp": "Before the exact distance check, the database keeps only the restaurants within this larger radius, which is quicker. It must be at least the restaurant search radius: smaller, it would leave out nearby restaurants; much larger, it only makes the search slower.",
+  "@settingCustomerRestaurantPrefilterRadiusKmHelp": {
+    "description": "The platform setting customer_restaurant_prefilter_radius_km: its how it works"
+  },
+  "settingPrivacyPolicyUrlName": "Privacy Policy link",
+  "@settingPrivacyPolicyUrlName": {
+    "description": "The platform setting privacy_policy_url: its name"
+  },
+  "settingPrivacyPolicyUrlRole": "Shown in every app",
+  "@settingPrivacyPolicyUrlRole": {
+    "description": "The platform setting privacy_policy_url: its what it is for, in a line"
+  },
+  "settingPrivacyPolicyUrlHelp": "Opened in the phone's browser when someone taps \"Privacy Policy\" in any app. Change it here whenever you publish a new version of your policy: no app update is needed.",
+  "@settingPrivacyPolicyUrlHelp": {
+    "description": "The platform setting privacy_policy_url: its how it works"
+  },
+  "settingTermsOfServiceUrlName": "Terms of Service link",
+  "@settingTermsOfServiceUrlName": {
+    "description": "The platform setting terms_of_service_url: its name"
+  },
+  "settingTermsOfServiceUrlRole": "Shown in every app",
+  "@settingTermsOfServiceUrlRole": {
+    "description": "The platform setting terms_of_service_url: its what it is for, in a line"
+  },
+  "settingTermsOfServiceUrlHelp": "Opened in the phone's browser when someone taps \"Terms of Service\" in any app. Change it here whenever you revise your terms: no app update is needed.",
+  "@settingTermsOfServiceUrlHelp": {
+    "description": "The platform setting terms_of_service_url: its how it works"
+  },
+  "settingMinOrderSchedulingMinutesName": "Scheduling notice (minutes)",
+  "@settingMinOrderSchedulingMinutesName": {
+    "description": "The platform setting min_order_scheduling_minutes: its name"
+  },
+  "settingMinOrderSchedulingMinutesRole": "How far ahead an order is scheduled",
+  "@settingMinOrderSchedulingMinutesRole": {
+    "description": "The platform setting min_order_scheduling_minutes: its what it is for, in a line"
+  },
+  "settingMinOrderSchedulingMinutesHelp": "A customer scheduling an order must pick a time at least this many minutes ahead. For example, 30 means no order can be scheduled for the next 30 minutes. It gives restaurants and drivers enough time to get ready.",
+  "@settingMinOrderSchedulingMinutesHelp": {
+    "description": "The platform setting min_order_scheduling_minutes: its how it works"
+  },
+  "settingNumberOfOrdersToBeTrustedName": "Orders to become trusted",
+  "@settingNumberOfOrdersToBeTrustedName": {
+    "description": "The platform setting number_of_orders_to_be_trusted: its name"
+  },
+  "settingNumberOfOrdersToBeTrustedRole": "When an operator stops checking a customer's orders",
+  "@settingNumberOfOrdersToBeTrustedRole": {
+    "description": "The platform setting number_of_orders_to_be_trusted: its what it is for, in a line"
+  },
+  "settingNumberOfOrdersToBeTrustedHelp": "A new customer's orders are checked by an operator before they reach the restaurant. Once a customer has this many delivered orders, they become \"trusted\" and their next orders go straight to the restaurant. Lower it to trust sooner; raise it for more checking.",
+  "@settingNumberOfOrdersToBeTrustedHelp": {
+    "description": "The platform setting number_of_orders_to_be_trusted: its how it works"
+  },
+  "settingOtpValidityMinutesName": "Code validity (minutes)",
+  "@settingOtpValidityMinutesName": {
+    "description": "The platform setting otp_validity_minutes: its name"
+  },
+  "settingOtpValidityMinutesRole": "How long an emailed code works",
+  "@settingOtpValidityMinutesRole": {
+    "description": "The platform setting otp_validity_minutes: its what it is for, in a line"
+  },
+  "settingOtpValidityMinutesHelp": "Codes are emailed to reset a password, verify or change an email address and confirm an account deletion. A code works for this many minutes after it is sent, and the email says so. Shorter is safer; longer is kinder to slow mailboxes.",
+  "@settingOtpValidityMinutesHelp": {
+    "description": "The platform setting otp_validity_minutes: its how it works"
+  },
+  "settingOtpResendWaitSecondsName": "Wait before a new code (seconds)",
+  "@settingOtpResendWaitSecondsName": {
+    "description": "The platform setting otp_resend_wait_seconds: its name"
+  },
+  "settingOtpResendWaitSecondsRole": "Between two emailed codes",
+  "@settingOtpResendWaitSecondsRole": {
+    "description": "The platform setting otp_resend_wait_seconds: its what it is for, in a line"
+  },
+  "settingOtpResendWaitSecondsHelp": "After a code is emailed, a new one can be asked for only after this many seconds; the apps show the countdown. It limits the emails sent to one address.",
+  "@settingOtpResendWaitSecondsHelp": {
+    "description": "The platform setting otp_resend_wait_seconds: its how it works"
+  },
+  "settingMaxSavedAddressesName": "Saved addresses per customer",
+  "@settingMaxSavedAddressesName": {
+    "description": "The platform setting max_saved_addresses: its name"
+  },
+  "settingMaxSavedAddressesRole": "How many addresses a customer keeps",
+  "@settingMaxSavedAddressesRole": {
+    "description": "The platform setting max_saved_addresses: its what it is for, in a line"
+  },
+  "settingMaxSavedAddressesHelp": "The most delivery addresses one customer can keep in the app. One more is refused with a message.",
+  "@settingMaxSavedAddressesHelp": {
+    "description": "The platform setting max_saved_addresses: its how it works"
+  },
+  "settingMaxItemsPerOrderName": "Dishes per order",
+  "@settingMaxItemsPerOrderName": {
+    "description": "The platform setting max_items_per_order: its name"
+  },
+  "settingMaxItemsPerOrderRole": "Different dishes in one order",
+  "@settingMaxItemsPerOrderRole": {
+    "description": "The platform setting max_items_per_order: its what it is for, in a line"
+  },
+  "settingMaxItemsPerOrderHelp": "An order with more different dishes than this is refused. It keeps one order to what a kitchen and a driver can handle at once.",
+  "@settingMaxItemsPerOrderHelp": {
+    "description": "The platform setting max_items_per_order: its how it works"
+  },
+  "settingMaxQuantityPerItemName": "Portions per dish",
+  "@settingMaxQuantityPerItemName": {
+    "description": "The platform setting max_quantity_per_item: its name"
+  },
+  "settingMaxQuantityPerItemRole": "Portions of one dish in one order",
+  "@settingMaxQuantityPerItemRole": {
+    "description": "The platform setting max_quantity_per_item: its what it is for, in a line"
+  },
+  "settingMaxQuantityPerItemHelp": "The largest quantity of one dish a customer can order. A larger quantity is refused with a message.",
+  "@settingMaxQuantityPerItemHelp": {
+    "description": "The platform setting max_quantity_per_item: its how it works"
+  },
+  "settingAmountRoundingStepName": "Rounding step (DZD)",
+  "@settingAmountRoundingStepName": {
+    "description": "The platform setting amount_rounding_step: its name"
+  },
+  "settingAmountRoundingStepRole": "Rounding of delivery fees and coupon discounts",
+  "@settingAmountRoundingStepRole": {
+    "description": "The platform setting amount_rounding_step: its what it is for, in a line"
+  },
+  "settingAmountRoundingStepHelp": "Delivery fees are rounded up, and coupon discounts down, to a multiple of this amount. With 5, a fee of 162 DZD becomes 165 and a discount of 312 DZD becomes 310. Set 1 to stop rounding.",
+  "@settingAmountRoundingStepHelp": {
+    "description": "The platform setting amount_rounding_step: its how it works"
+  },
+  "settingLoyaltyCouponValidityDaysName": "Loyalty coupon validity (days)",
+  "@settingLoyaltyCouponValidityDaysName": {
+    "description": "The platform setting loyalty_coupon_validity_days: its name"
+  },
+  "settingLoyaltyCouponValidityDaysRole": "How long a loyalty coupon can be used",
+  "@settingLoyaltyCouponValidityDaysRole": {
+    "description": "The platform setting loyalty_coupon_validity_days: its what it is for, in a line"
+  },
+  "settingLoyaltyCouponValidityDaysHelp": "A coupon obtained with loyalty points can be used for this many days. The customer app shows the number before the points are spent.",
+  "@settingLoyaltyCouponValidityDaysHelp": {
+    "description": "The platform setting loyalty_coupon_validity_days: its how it works"
+  },
+  "settingDefaultDeliveryTimeMinutesName": "Default delivery time (minutes)",
+  "@settingDefaultDeliveryTimeMinutesName": {
+    "description": "The platform setting default_delivery_time_minutes: its name"
+  },
+  "settingDefaultDeliveryTimeMinutesRole": "When the route is unknown",
+  "@settingDefaultDeliveryTimeMinutesRole": {
+    "description": "The platform setting default_delivery_time_minutes: its what it is for, in a line"
+  },
+  "settingDefaultDeliveryTimeMinutesHelp": "When the road route to a customer can't be computed (no position yet, or no routing service), this many minutes is shown and used as the delivery time.",
+  "@settingDefaultDeliveryTimeMinutesHelp": {
+    "description": "The platform setting default_delivery_time_minutes: its how it works"
+  },
+  "settingRouteCacheMinutesName": "Road distance kept (minutes)",
+  "@settingRouteCacheMinutesName": {
+    "description": "The platform setting route_cache_minutes: its name"
+  },
+  "settingRouteCacheMinutesRole": "How long a computed distance is reused",
+  "@settingRouteCacheMinutesRole": {
+    "description": "The platform setting route_cache_minutes: its what it is for, in a line"
+  },
+  "settingRouteCacheMinutesHelp": "The road distance between a restaurant and a delivery spot is kept this many minutes instead of being asked again. The fee charged is then the fee shown, and fewer routing requests are made. Lower it only if roads change very often.",
+  "@settingRouteCacheMinutesHelp": {
+    "description": "The platform setting route_cache_minutes: its how it works"
+  },
+  "settingMapDefaultLatitudeName": "Map centre: latitude",
+  "@settingMapDefaultLatitudeName": {
+    "description": "The platform setting map_default_latitude: its name"
+  },
+  "settingMapDefaultLatitudeRole": "Where the apps' map opens",
+  "@settingMapDefaultLatitudeRole": {
+    "description": "The platform setting map_default_latitude: its what it is for, in a line"
+  },
+  "settingMapDefaultLatitudeHelp": "When someone opens the map to pick a place and no position is known yet, the map opens here. Set it, with the longitude, to the centre of your service area. A value between -90 and 90.",
+  "@settingMapDefaultLatitudeHelp": {
+    "description": "The platform setting map_default_latitude: its how it works"
+  },
+  "settingMapDefaultLongitudeName": "Map centre: longitude",
+  "@settingMapDefaultLongitudeName": {
+    "description": "The platform setting map_default_longitude: its name"
+  },
+  "settingMapDefaultLongitudeRole": "Where the apps' map opens",
+  "@settingMapDefaultLongitudeRole": {
+    "description": "The platform setting map_default_longitude: its what it is for, in a line"
+  },
+  "settingMapDefaultLongitudeHelp": "The longitude that goes with the map centre's latitude: the centre of your service area. A value between -180 and 180.",
+  "@settingMapDefaultLongitudeHelp": {
+    "description": "The platform setting map_default_longitude: its how it works"
+  },
+  "settingAppMapboxAccessTokenName": "Map token (Mapbox)",
+  "@settingAppMapboxAccessTokenName": {
+    "description": "The platform setting app_mapbox_access_token: its name"
+  },
+  "settingAppMapboxAccessTokenRole": "Draws the maps in the apps",
+  "@settingAppMapboxAccessTokenRole": {
+    "description": "The platform setting app_mapbox_access_token: its what it is for, in a line"
+  },
+  "settingAppMapboxAccessTokenHelp": "The Mapbox public token (it starts with \"pk.\") the customer, driver, restaurant and manager apps draw their maps with. The apps read it from the server, so replacing it here needs no new app version. A secret token (\"sk.\") is refused: this one is handed to every app. The keys the server measures road distances with are not here: they are secrets, kept in the server's .env file.",
+  "@settingAppMapboxAccessTokenHelp": {
+    "description": "The platform setting app_mapbox_access_token: its how it works"
+  },
+  "settingLocalTimezoneName": "Time zone",
+  "@settingLocalTimezoneName": {
+    "description": "The platform setting local_timezone: its name"
+  },
+  "settingLocalTimezoneRole": "Of the restaurants' opening hours",
+  "@settingLocalTimezoneRole": {
+    "description": "The platform setting local_timezone: its what it is for, in a line"
+  },
+  "settingLocalTimezoneHelp": "Restaurants enter their opening hours as local times, for example 11:00 to 23:00. This is the time zone those hours are read in when the platform decides whether a restaurant is open. Use a standard name such as \"Africa/Algiers\"; anything else is refused.",
+  "@settingLocalTimezoneHelp": {
+    "description": "The platform setting local_timezone: its how it works"
+  },
+  "settingBestSellerCountName": "Best sellers per restaurant",
+  "@settingBestSellerCountName": {
+    "description": "The platform setting best_seller_count: its name"
+  },
+  "settingBestSellerCountRole": "How many dishes get the badge",
+  "@settingBestSellerCountRole": {
+    "description": "The platform setting best_seller_count: its what it is for, in a line"
+  },
+  "settingBestSellerCountHelp": "In the customer app, a restaurant's most ordered dishes carry a \"Best seller\" badge. This is how many of its dishes get it: those in the most delivered orders. Set 0 to show no badge.",
+  "@settingBestSellerCountHelp": {
+    "description": "The platform setting best_seller_count: its how it works"
+  },
+  "settingBestSellerDaysName": "Best seller period (days)",
+  "@settingBestSellerDaysName": {
+    "description": "The platform setting best_seller_days: its name"
+  },
+  "settingBestSellerDaysRole": "The days the badge looks back on",
+  "@settingBestSellerDaysRole": {
+    "description": "The platform setting best_seller_days: its what it is for, in a line"
+  },
+  "settingBestSellerDaysHelp": "Only orders delivered within this many past days count for the badge, so it follows what customers order now. For example, 30 means the last month of delivered orders.",
+  "@settingBestSellerDaysHelp": {
+    "description": "The platform setting best_seller_days: its how it works"
+  },
+  "settingBestSellerMinOrdersName": "Orders to be a best seller",
+  "@settingBestSellerMinOrdersName": {
+    "description": "The platform setting best_seller_min_orders: its name"
+  },
+  "settingBestSellerMinOrdersRole": "The least a dish needs for the badge",
+  "@settingBestSellerMinOrdersRole": {
+    "description": "The platform setting best_seller_min_orders: its what it is for, in a line"
+  },
+  "settingBestSellerMinOrdersHelp": "A dish gets the badge only if it was in at least this many delivered orders during that period. A new restaurant with few orders shows no badge until its dishes reach this number.",
+  "@settingBestSellerMinOrdersHelp": {
+    "description": "The platform setting best_seller_min_orders: its how it works"
+  },
+  "settingLoyaltyEnabledName": "Loyalty points",
+  "@settingLoyaltyEnabledName": {
+    "description": "The platform setting loyalty_enabled: its name"
+  },
+  "settingLoyaltyEnabledRole": "On or off",
+  "@settingLoyaltyEnabledRole": {
+    "description": "The platform setting loyalty_enabled: its what it is for, in a line"
+  },
+  "settingLoyaltyEnabledHelp": "When true, customers earn points on every delivered order and can spend them on discount coupons. When false, no point is earned and none can be spent; the balances already earned are kept. It pauses the loyalty programme without losing anything.",
+  "@settingLoyaltyEnabledHelp": {
+    "description": "The platform setting loyalty_enabled: its how it works"
+  },
+  "settingLoyaltyEarnRateName": "Points earned per DZD",
+  "@settingLoyaltyEarnRateName": {
+    "description": "The platform setting loyalty_earn_rate: its name"
+  },
+  "settingLoyaltyEarnRateRole": "What an order earns",
+  "@settingLoyaltyEarnRateRole": {
+    "description": "The platform setting loyalty_earn_rate: its what it is for, in a line"
+  },
+  "settingLoyaltyEarnRateHelp": "The loyalty points a customer receives for each dinar paid for a delivered order (its total, delivery included, after discounts). For example, 0.1 means a 1000 DZD order earns 100 points. A higher rate makes the programme more rewarding; a lower one costs the platform less.",
+  "@settingLoyaltyEarnRateHelp": {
+    "description": "The platform setting loyalty_earn_rate: its how it works"
+  },
+  "settingLoyaltyRedeemRateName": "DZD per point spent",
+  "@settingLoyaltyRedeemRateName": {
+    "description": "The platform setting loyalty_redeem_rate: its name"
+  },
+  "settingLoyaltyRedeemRateRole": "What a point is worth",
+  "@settingLoyaltyRedeemRateRole": {
+    "description": "The platform setting loyalty_redeem_rate: its what it is for, in a line"
+  },
+  "settingLoyaltyRedeemRateHelp": "What one loyalty point is worth when a customer spends it on a coupon. For example, 0.5 means 200 points make a 100 DZD coupon. It sets the real cost of the programme: lower protects margins, higher attracts more customers to spend their points.",
+  "@settingLoyaltyRedeemRateHelp": {
+    "description": "The platform setting loyalty_redeem_rate: its how it works"
+  },
+  "settingLoyaltyMinRedeemPointsName": "Minimum points to spend",
+  "@settingLoyaltyMinRedeemPointsName": {
+    "description": "The platform setting loyalty_min_redeem_points: its name"
+  },
+  "settingLoyaltyMinRedeemPointsRole": "The least a customer spends at once",
+  "@settingLoyaltyMinRedeemPointsRole": {
+    "description": "The platform setting loyalty_min_redeem_points: its what it is for, in a line"
+  },
+  "settingLoyaltyMinRedeemPointsHelp": "A customer can't spend fewer points than this at once. A floor (for example 100 points) avoids tiny coupons and lets customers build up a real balance first.",
+  "@settingLoyaltyMinRedeemPointsHelp": {
+    "description": "The platform setting loyalty_min_redeem_points: its how it works"
+  },
+  "settingLoyaltyTiersName": "Redemption tiers",
+  "@settingLoyaltyTiersName": {
+    "description": "The platform setting loyalty_tiers: its name"
+  },
+  "settingLoyaltyTiersRole": "The point amounts a customer can spend",
+  "@settingLoyaltyTiersRole": {
+    "description": "The platform setting loyalty_tiers: its what it is for, in a line"
+  },
+  "settingLoyaltyTiersHelp": "The exact point amounts a customer can spend at once, as a JSON list of whole numbers, for example [100, 500, 1000, 2000]. The customer app offers only these. Each should be at least the minimum points to spend.",
+  "@settingLoyaltyTiersHelp": {
+    "description": "The platform setting loyalty_tiers: its how it works"
+  },
+  "settingMaxCouponsPerCategoryName": "Coupons of one kind per order",
+  "@settingMaxCouponsPerCategoryName": {
+    "description": "The platform setting max_coupons_per_category: its name"
+  },
+  "settingMaxCouponsPerCategoryRole": "Stacking coupons of the same kind",
+  "@settingMaxCouponsPerCategoryRole": {
+    "description": "The platform setting max_coupons_per_category: its what it is for, in a line"
+  },
+  "settingMaxCouponsPerCategoryHelp": "The most coupons of the same kind (restaurant, delivery or global) one order can use. With 1, a customer can't put two restaurant coupons on one order. Loyalty coupons count as restaurant coupons. Raise it to let coupons of the same kind be combined.",
+  "@settingMaxCouponsPerCategoryHelp": {
+    "description": "The platform setting max_coupons_per_category: its how it works"
+  },
+  "settingMaxCouponCategoriesName": "Kinds of coupon per order",
+  "@settingMaxCouponCategoriesName": {
+    "description": "The platform setting max_coupon_categories: its name"
+  },
+  "settingMaxCouponCategoriesRole": "Combining different kinds of coupon",
+  "@settingMaxCouponCategoriesRole": {
+    "description": "The platform setting max_coupon_categories: its what it is for, in a line"
+  },
+  "settingMaxCouponCategoriesHelp": "The most different kinds of coupon (restaurant, delivery, global) one order can use together. For example, 2 means an order can combine at most two kinds, such as a restaurant coupon and a delivery coupon. With 3, all three can be used together.",
+  "@settingMaxCouponCategoriesHelp": {
+    "description": "The platform setting max_coupon_categories: its how it works"
+  },
+  "confirmPaymentReceived": "Did you receive {amount} from {payer}?",
+  "@confirmPaymentReceived": {
+    "description": "Question before the manager confirms a payment a driver or a restaurant sent: the amount and who sent it",
+    "placeholders": {
+      "amount": {"type": "String"},
+      "payer": {"type": "String"}
+    }
+  },
+  "paymentRecordedNotice": "Payment recorded",
+  "@paymentRecordedNotice": {
+    "description": "Confirmation once the manager recorded a payment received from a restaurant or a driver (the form starts again)"
+  },
+  "refusedAt": "Refused At",
+  "@refusedAt": {
+    "description": "Label before the date a payment was refused, as confirmedAt for a confirmed one"
+  },
+  "paymentWaitingForAnswer": "A payment they sent from their app is waiting for your answer in the transaction history: it is not counted yet.",
+  "@paymentWaitingForAnswer": {
+    "description": "On the new payment page, when the restaurant or driver chosen has sent a payment the manager has not answered yet"
+  },
+  "reasonLoyaltyCouponCredit": "Loyalty Coupon Credit",
+  "@reasonLoyaltyCouponCredit": {
+    "description": "Why the platform owes a restaurant: a loyalty coupon a customer used there"
+  },
+  "reject": "Reject",
+  "@reject": {
+    "description": "Reject button text"
+  },
+  "paymentNote": "Note: {note}",
+  "@paymentNote": {
+    "description": "On a payment: the note its payer wrote with it",
+    "placeholders": {
+      "note": {"type": "String"}
+    }
+  },
+  "paymentAnswer": "Answer: {note}",
+  "@paymentAnswer": {
+    "description": "On a payment: why the other side confirmed or refused it",
+    "placeholders": {
+      "note": {"type": "String"}
+    }
+  },
+  "paymentConfirmedNotice": "Payment confirmed",
+  "@paymentConfirmedNotice": {
+    "description": "Confirmation once the driver confirmed a restaurant's payment (its card leaves the list)"
+  },
+  "paymentRefusedNotice": "Payment refused",
+  "@paymentRefusedNotice": {
+    "description": "Confirmation once the driver refused a restaurant's payment (its card leaves the list)"
+  },
+  "refusePaymentTitle": "Refuse this payment?",
+  "@refusePaymentTitle": {
+    "description": "Title of the dialog where the driver refuses a restaurant's payment, saying why"
+  },
+  "refusePaymentReasonHint": "Why? (e.g. not received)",
+  "@refusePaymentReasonHint": {
+    "description": "Hint of the reason field when the driver refuses a restaurant's payment"
+  },
+  "confirmPaymentReceivedTitle": "Payment received?",
+  "@confirmPaymentReceivedTitle": {
+    "description": "Title of the dialog before the driver confirms a restaurant's payment"
+  },
+  "creditDetails": "Credit Details",
+  "@creditDetails": {
+    "description": "Title of the page listing what makes up an amount owed to the driver"
+  },
+  "debtDetails": "Debt Details",
+  "@debtDetails": {
+    "description": "Title of the page listing what makes up an amount the driver owes"
+  },
+  "orderSettlements": "Order Settlements",
+  "@orderSettlements": {
+    "description": "Section: the amounts each delivered order put on the driver"
+  },
+  "cashTransactions": "Cash Transactions",
+  "@cashTransactions": {
+    "description": "Section: the payments made or received in cash"
+  },
+  "noTransactionsInPeriod": "No transactions in selected date range",
+  "@noTransactionsInPeriod": {
+    "description": "A debt or credit with nothing in the chosen period"
+  },
+  "receivedPayment": "Received Payment",
+  "@receivedPayment": {
+    "description": "A payment the driver received"
+  },
+  "sentPayment": "Sent Payment",
+  "@sentPayment": {
+    "description": "A payment the driver made"
+  },
+  "totalOrderSettlements": "Total Order Settlements",
+  "@totalOrderSettlements": {
+    "description": "Sum of the order settlements of a debt"
+  },
+  "totalCashOutgoing": "Total Cash Outgoing",
+  "@totalCashOutgoing": {
+    "description": "Sum of the payments the driver made"
+  },
+  "totalCashIncoming": "Total Cash Incoming",
+  "@totalCashIncoming": {
+    "description": "Sum of the payments the driver received"
+  },
+  "netBalance": "Net Balance",
+  "@netBalance": {
+    "description": "What remains once settlements and payments are counted"
+  },
+  "paidTowardsOrders": "Paid towards these orders",
+  "@paidTowardsOrders": {
+    "description": "Balance details: how much of these orders the payments (of any date, the oldest orders first) already paid"
+  },
+  "cashPaidInTheseDays": "Cash paid in these days",
+  "@cashPaidInTheseDays": {
+    "description": "Balance details, days chosen: the cash the restaurant paid during those days (it may pay other days' orders)"
+  },
+  "cashReceivedInTheseDays": "Cash received in these days",
+  "@cashReceivedInTheseDays": {
+    "description": "Balance details, days chosen: the cash the restaurant received during those days (it may pay other days' orders)"
+  },
+  "reasonOvercharge": "Overcharge",
+  "@reasonOvercharge": {
+    "description": "Why a payment the driver made was counted"
+  },
+  "reasonOrderSettlement": "Order Settlement",
+  "@reasonOrderSettlement": {
+    "description": "Why an amount was counted: a delivered order"
+  },
+  "reasonCouponCredit": "Coupon Credit",
+  "@reasonCouponCredit": {
+    "description": "Why an amount was counted: a coupon the platform pays back to the driver"
+  },
+  "reasonGlobalCouponCredit": "Global Coupon Credit",
+  "@reasonGlobalCouponCredit": {
+    "description": "Why an amount was counted: a coupon for every customer, paid back to the driver"
+  },
+  "reasonBirthdayCredit": "Birthday Gift Credit",
+  "@reasonBirthdayCredit": {
+    "description": "Why an amount was counted: a customer's birthday gift, paid back to the driver"
+  },
+  "deliveryAreas": "Delivery Zones",
+  "@deliveryAreas": {
+    "description": "The delivery zones page and its door on the home page: where customers can order (not the coupons' zones)"
+  },
+  "deliveryAreasHelp": "Customers can order only at a door inside a zone that is on.",
+  "@deliveryAreasHelp": {
+    "description": "The delivery zones page: what the zones are for"
+  },
+  "noDeliveryAreasYet": "No delivery zone yet: no customer can order.",
+  "@noDeliveryAreasYet": {
+    "description": "The delivery zones page, empty"
+  },
+  "addDeliveryArea": "Add a delivery zone",
+  "@addDeliveryArea": {
+    "description": "The delivery zones page: the button and the form's title for a new zone"
+  },
+  "editDeliveryArea": "Edit the delivery zone",
+  "@editDeliveryArea": {
+    "description": "The delivery zones page: the form's title for a zone changed"
+  },
+  "deliveryAreaOn": "On: customers can order there",
+  "@deliveryAreaOn": {
+    "description": "The delivery zones page: under a zone that is on"
+  },
+  "deliveryAreaOff": "Off: no customer can order there",
+  "@deliveryAreaOff": {
+    "description": "The delivery zones page: under a zone that is off"
+  },
+  "deleteDeliveryArea": "Delete the delivery zone",
+  "@deleteDeliveryArea": {
+    "description": "The delivery zones page: the question's title before a zone is deleted"
+  },
+  "deleteDeliveryAreaConfirmation": "Delete {name}? Customers there will no longer be able to order.",
+  "@deleteDeliveryAreaConfirmation": {
+    "description": "The delivery zones page: the question before a zone is deleted",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "coordinatesInvalid": "Latitude from -90 to 90, longitude from -180 to 180",
+  "@coordinatesInvalid": {
+    "description": "The delivery zone form: a centre that is no place on Earth"
+  },
+  "radiusOutOfRange": "The radius goes from 0.1 to 100 km",
+  "@radiusOutOfRange": {
+    "description": "The delivery zone form: a radius the server would refuse"
+  },
+  "payFromPlatform": "Pay from the platform",
+  "@payFromPlatform": {
+    "description": "The bank: the button on what the platform owes a restaurant or a driver"
+  },
+  "platformPaymentTitle": "A payment from the platform to {name}",
+  "@platformPaymentTitle": {
+    "description": "The bank: the title of the platform payment form",
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "platformPaymentHelp": "It counts at once, and they are told. Paying more than is owed makes the difference their debt to the platform.",
+  "@platformPaymentHelp": {
+    "description": "The bank: under the platform payment form's title"
+  },
+  "platformPaymentRecorded": "Payment from the platform recorded",
+  "@platformPaymentRecorded": {
+    "description": "The bank: once the platform payment is recorded"
+  },
+  "paidByThePlatform": "Paid by the platform",
+  "@paidByThePlatform": {
+    "description": "The bank's archive: a payment the platform made"
+  },
+  "paidBeyondWhatWasOwed": "Paid beyond what was owed",
+  "@paidBeyondWhatWasOwed": {
+    "description": "A balance's details: what a side paid beyond its debts, owed back by the other (anyone may pay more than they owe)"
   }
 }

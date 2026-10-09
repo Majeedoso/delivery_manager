@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:delivery_manager/features/profile/domain/entities/profile.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
@@ -64,14 +65,14 @@ class ProfileModel extends Profile {
       
       final createdAt = json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
-          : DateTime.now();
+          : clock.now();
       if (kDebugMode && logger != null) {
         logger.debug('ProfileModel.fromJson - Created At: $createdAt');
       }
       
       final updatedAt = json['updated_at'] != null
           ? DateTime.parse(json['updated_at'] as String)
-          : DateTime.now();
+          : clock.now();
       if (kDebugMode && logger != null) {
         logger.debug('ProfileModel.fromJson - Updated At: $updatedAt');
       }

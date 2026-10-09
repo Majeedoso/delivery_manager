@@ -1,5 +1,4 @@
 import 'package:delivery_manager/features/bank/domain/entities/restaurant_debt.dart';
-import 'package:delivery_manager/features/bank/domain/entities/pending_payment.dart';
 
 class DriverBalance {
   final int driverId;
@@ -12,7 +11,6 @@ class DriverBalance {
   final String formattedTotalDebt;
   final double totalCredits;
   final String formattedTotalCredits;
-  final List<PendingPayment> pendingPayments;
 
   const DriverBalance({
     required this.driverId,
@@ -25,6 +23,5 @@ class DriverBalance {
     required this.formattedTotalDebt,
     required this.totalCredits,
     required this.formattedTotalCredits,
-    required this.pendingPayments,
   });
 }

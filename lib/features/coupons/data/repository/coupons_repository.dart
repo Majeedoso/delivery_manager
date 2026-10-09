@@ -58,7 +58,7 @@ class CouponsRepository implements BaseCouponsRepository {
   Future<Either<Failure, List<Map<String, dynamic>>>> getRestaurants({
     String? search,
     int page = 1,
-    int perPage = 50,
+    int perPage = 100,
   }) async {
     try {
       final result = await remoteDataSource.getRestaurants(

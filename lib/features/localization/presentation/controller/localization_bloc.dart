@@ -14,8 +14,8 @@ class LocalizationBloc extends Bloc<LocalizationEvent, LocalizationState> {
     on<GetSupportedLanguagesEvent>(_getSupportedLanguages);
     on<CheckFirstRunEvent>(_checkFirstRun);
 
-    // Load current language on initialization
-    add(GetCurrentLanguageEvent());
+    // The language is loaded by whoever creates the bloc (main.dart adds
+    // GetCurrentLanguageEvent); adding it here too loaded it twice.
   }
 
   Future<void> _getCurrentLanguage(

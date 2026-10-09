@@ -46,20 +46,6 @@ class UsersRepositoryImpl implements BaseUsersRepository {
   }
 
   @override
-  Future<Either<Failure, ManagedUser>> getUserById(int id) async {
-    try {
-      final user = await remoteDataSource.getUserById(id);
-      return Right(user);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(e.message));
-    } on NetworkException catch (e) {
-      return Left(NetworkFailure(e.message));
-    } catch (e) {
-      return Left(ServerFailure(e.toString()));
-    }
-  }
-
-  @override
   Future<Either<Failure, void>> approveUser(int userId) async {
     try {
       await remoteDataSource.approveUser(userId);

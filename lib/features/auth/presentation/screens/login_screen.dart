@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -10,7 +11,6 @@ import 'package:delivery_manager/features/auth/domain/usecases/load_credentials_
 import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_event.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_state.dart';
-import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/features/auth/presentation/helpers/auth_navigation_helper.dart';
 import 'package:delivery_manager/features/settings/presentation/screens/settings_screen.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
@@ -85,6 +85,9 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
+      // Only the screen on top answers: the auth screens under it share
+      // this bloc and would repeat its errors or navigate a second time.
+      listenWhen: (previous, current) => ModalRoute.isCurrentOf(context) ?? true,
       listener: (context, state) {
         final logger = sl<LoggingService>();
         if (kDebugMode) {
@@ -119,31 +122,19 @@ class _LoginScreenState extends State<LoginScreen> {
           if (kDebugMode) {
             print('🔴 [LOGIN_SCREEN] Error: ${state.message}');
           }
-          // Check for actionable errors that should show a dialog
-          final errorMessage = state.message.toLowerCase();
-
-          // Role mismatch error - show informative dialog
-          if (errorMessage.contains('this account is for') ||
-              errorMessage.contains('please use the') ||
-              (errorMessage.contains('app') &&
-                  errorMessage.contains('users'))) {
-            ErrorDialog.showRoleMismatch(context, message: state.message);
-          }
-          // Account not found error - show dialog
-          else if (errorMessage.contains('account not found') ||
-              errorMessage.contains('please sign up first')) {
-            ErrorDialog.showAccountNotFound(context, message: state.message);
-          }
-          // Invalid credentials - show dialog
-          else if (errorMessage.contains('invalid') &&
-              (errorMessage.contains('email') ||
-                  errorMessage.contains('password') ||
-                  errorMessage.contains('credentials'))) {
-            ErrorDialog.showInvalidCredentials(context);
-          }
-          // Other errors - show snackbar
-          else {
-            ErrorSnackBar.show(context, state.message);
+          // The refusals that need explaining open a dialog. The server names
+          // them with a code: its message is written in the app's language, so
+          // its words cannot be relied on
+          switch (state.errorCode) {
+            case 'ROLE_MISMATCH':
+              ErrorDialog.showRoleMismatch(context, message: state.message);
+            case 'ACCOUNT_NOT_FOUND':
+              // The manager's own sentence: the server's says to sign up
+              ErrorDialog.showAccountNotFound(context);
+            case 'INVALID_CREDENTIALS':
+              ErrorDialog.showInvalidCredentials(context);
+            default:
+              ErrorSnackBar.show(context, state.message);
           }
         }
       },
@@ -377,76 +368,86 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             // Remember Me and Forgot Password
+                            // (both may wrap: in French they don't fit on one
+                            // line of a small phone)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      height: 24,
-                                      width: 24,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(
-                                            4,
+                                Flexible(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                              4,
+                                            ),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1.0,
+                                            ),
                                           ),
-                                          border: Border.all(
-                                            color: Colors.black,
-                                            width: 1.0,
+                                          child: Checkbox(
+                                            value: _rememberMe,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _rememberMe = value ?? false;
+                                              });
+                                            },
+                                            fillColor: WidgetStateProperty.all(
+                                              Colors.transparent,
+                                            ),
+                                            checkColor: Colors.black,
+                                            side: BorderSide.none,
+                                            materialTapTargetSize:
+                                                MaterialTapTargetSize.shrinkWrap,
                                           ),
-                                        ),
-                                        child: Checkbox(
-                                          value: _rememberMe,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _rememberMe = value ?? false;
-                                            });
-                                          },
-                                          fillColor: WidgetStateProperty.all(
-                                            Colors.transparent,
-                                          ),
-                                          checkColor: Colors.black,
-                                          side: BorderSide.none,
-                                          materialTapTargetSize:
-                                              MaterialTapTargetSize.shrinkWrap,
                                         ),
                                       ),
+                                      SizedBox(width: 2.w),
+                                      Flexible(
+                                        child: Text(
+                                          AppLocalizations.of(context)!.rememberMe,
+                                          style: TextStyle(
+                                            fontSize: 18.sp,
+                                            color:
+                                                Theme.of(context).brightness ==
+                                                    Brightness.dark
+                                                ? Colors.white
+                                                : Colors.grey[700],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 2.w),
+                                Flexible(
+                                  child: TextButton(
+                                    onPressed: () => Navigator.pushNamed(
+                                      context,
+                                      '/forgot-password',
                                     ),
-                                    SizedBox(width: 2.w),
-                                    Text(
-                                      AppLocalizations.of(context)!.rememberMe,
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: Size.zero,
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    child: Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.forgotPassword,
+                                      textAlign: TextAlign.end,
                                       style: TextStyle(
                                         fontSize: 18.sp,
-                                        color:
-                                            Theme.of(context).brightness ==
-                                                Brightness.dark
-                                            ? Colors.white
-                                            : Colors.grey[700],
+                                        color: const Color(0xFFFF5C00),
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                TextButton(
-                                  onPressed: () => Navigator.pushNamed(
-                                    context,
-                                    '/forgot-password',
-                                  ),
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    minimumSize: Size.zero,
-                                    tapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  child: Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.forgotPassword,
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      color: const Color(0xFFFF5C00),
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
@@ -548,44 +549,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             // Footer Links and Copyright
                             Column(
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.dontHaveAccount,
-                                      style: TextStyle(
-                                        color:
-                                            Theme.of(context).brightness ==
-                                                Brightness.dark
-                                            ? Colors.white
-                                            : Colors.grey[600],
-                                        fontSize: 18.sp,
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(
-                                          context,
-                                        ).pushReplacementNamed(
-                                          AppRoutes.signupChoice,
-                                        );
-                                      },
-                                      child: Text(
-                                        AppLocalizations.of(context)!.signUp,
-                                        style: TextStyle(
-                                          color: const Color(0xFFFF5C00),
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 4.h),
+                                // No way to sign up: manager accounts are
+                                // created on the server, never in the app
                                 Text(
-                                  AppLocalizations.of(context)!.copyright,
+                                  AppLocalizations.of(context)!.copyright('${clock.now().year}'),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.grey[500],

@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -18,6 +19,7 @@ import 'package:delivery_manager/features/app_version/presentation/controller/ap
 import 'package:delivery_manager/features/app_version/presentation/controller/app_version_event.dart';
 import 'package:delivery_manager/features/app_version/presentation/controller/app_version_state.dart';
 import 'package:delivery_manager/features/app_version/domain/entities/app_version.dart';
+import 'package:delivery_manager/features/app_version/presentation/update_link.dart';
 import 'package:delivery_manager/features/app_config/domain/usecases/get_legal_urls_usecase.dart';
 import 'package:delivery_manager/features/app_config/domain/usecases/get_legal_urls_parameters.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
@@ -178,14 +180,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _SettingsTile(
                     title: localizations.privacyPolicy,
                     icon: Icons.security_outlined,
-                    onTap: _isLoadingUrls || _privacyPolicyUrl == null
+                    onTap: _isLoadingUrls
                         ? null
                         : () => _openUrl(_privacyPolicyUrl),
                   ),
                   _SettingsTile(
                     title: localizations.termsOfService,
                     icon: Icons.description_outlined,
-                    onTap: _isLoadingUrls || _termsOfServiceUrl == null
+                    onTap: _isLoadingUrls
                         ? null
                         : () => _openUrl(_termsOfServiceUrl),
                   ),
@@ -195,7 +197,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     builder: (context, snapshot) {
                       final version = snapshot.hasData
                           ? snapshot.data!.version
-                          : '1.0.0';
+                          : '';
                       return _SettingsTile(
                         title: localizations.version,
                         subtitle: version,
@@ -216,7 +218,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   SizedBox(height: 4.h),
                   Center(
                     child: Text(
-                      localizations.copyright,
+                      localizations.copyright('${clock.now().year}'),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         color: isDark ? Colors.white : Colors.grey[500],
                         fontSize: 16.sp,
@@ -318,7 +321,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     AppVersionState state,
     AppLocalizations localizations,
   ) {
-    if (state.requestState == RequestState.loading) {
+    if (state.requestState == RequestState.loading ||
+        state.requestState == RequestState.initial) {
       return SizedBox(
         height: 100,
         child: Center(
@@ -329,9 +333,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     if (state.appVersion == null || state.userCurrentVersion == null) {
       return Text(
-        state.message.isNotEmpty
-            ? state.message
-            : localizations.unableToCheckForUpdates,
+        localizations.unableToCheckForUpdates,
         style: const TextStyle(color: Colors.red),
       );
     }
@@ -494,25 +496,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     BuildContext context,
     AppVersion appVersion,
   ) async {
-    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    final updateUrl = isIOS
-        ? appVersion.updateUrlIos
-        : appVersion.updateUrlAndroid;
-    String? urlToOpen = updateUrl;
-    if (urlToOpen == null || urlToOpen.isEmpty) {
-      final packageInfo = await PackageInfo.fromPlatform();
-      final packageName = packageInfo.packageName;
-      urlToOpen = isIOS
-          ? null
-          : 'https://play.google.com/store/apps/details?id=$packageName';
-    }
-    if (urlToOpen != null) {
-      await launchUrl(
-        Uri.parse(urlToOpen),
-        mode: LaunchMode.externalApplication,
-      );
-      if (context.mounted) Navigator.of(context).pop();
-    }
+    // The app is installed directly, not from a store: without a link from
+    // the server, its hosted APK; nothing to open is said on the page
+    await openUpdateLink(context, appVersion);
+    if (context.mounted) Navigator.of(context).pop();
   }
 }
 
@@ -520,14 +507,12 @@ class _SettingsTile extends StatelessWidget {
   final String title;
   final String? subtitle;
   final IconData icon;
-  final Widget? trailing;
   final VoidCallback? onTap;
 
   const _SettingsTile({
     required this.title,
     this.subtitle,
     required this.icon,
-    this.trailing,
     this.onTap,
   });
 
@@ -554,43 +539,46 @@ class _SettingsTile extends StatelessWidget {
             ? Border.all(color: Colors.white.withOpacity(0.1))
             : null,
       ),
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.8.h),
-        leading: Container(
-          padding: EdgeInsets.all(2.5.w),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFF892D).withOpacity(0.12),
-            borderRadius: BorderRadius.circular(3.w),
-          ),
-          child: Icon(icon, color: const Color(0xFFFF892D), size: 20.sp),
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            fontSize: 18.sp,
-            fontWeight: FontWeight.bold,
-            color: isDark ? Colors.white : Colors.black87,
-          ),
-          overflow: TextOverflow.ellipsis,
-        ),
-        subtitle: subtitle != null
-            ? Text(
-                subtitle!,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: isDark ? Colors.white : Colors.grey[600],
-                ),
-                overflow: TextOverflow.ellipsis,
-              )
-            : null,
-        trailing:
-            trailing ??
-            Icon(
-              Icons.arrow_forward_ios,
-              size: 14.sp,
-              color: isDark ? Colors.white.withOpacity(0.4) : Colors.grey[400],
+      // The tile paints its ink on the nearest Material: the card's colour
+      // hid it (a debug assertion on every build)
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.8.h),
+          leading: Container(
+            padding: EdgeInsets.all(2.5.w),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFF892D).withOpacity(0.12),
+              borderRadius: BorderRadius.circular(3.w),
             ),
-        onTap: onTap,
+            child: Icon(icon, color: const Color(0xFFFF892D), size: 20.sp),
+          ),
+          title: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.bold,
+              color: isDark ? Colors.white : Colors.black87,
+            ),
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: subtitle != null
+              ? Text(
+                  subtitle!,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: isDark ? Colors.white : Colors.grey[600],
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                )
+              : null,
+          trailing: Icon(
+            Icons.arrow_forward_ios,
+            size: 14.sp,
+            color: isDark ? Colors.white.withOpacity(0.4) : Colors.grey[400],
+          ),
+          onTap: onTap,
+        ),
       ),
     );
   }
@@ -667,98 +655,103 @@ class _LanguageCard extends StatelessWidget {
             ? Border.all(color: Colors.white.withOpacity(0.1))
             : null,
       ),
-      child: DropdownButton2<String>(
-        isExpanded: true,
-        underline: const SizedBox.shrink(),
-        buttonStyleData: const ButtonStyleData(
-          overlayColor: WidgetStatePropertyAll(Colors.transparent),
-        ),
-        customButton: ListTile(
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 4.w,
-            vertical: 0.3.h,
+      // The tile paints its ink on the nearest Material: the card's colour
+      // hid it (a debug assertion on every build)
+      child: Material(
+        type: MaterialType.transparency,
+        child: DropdownButton2<String>(
+          isExpanded: true,
+          underline: const SizedBox.shrink(),
+          buttonStyleData: const ButtonStyleData(
+            overlayColor: WidgetStatePropertyAll(Colors.transparent),
           ),
-          leading: Container(
-            padding: EdgeInsets.all(2.5.w),
+          customButton: ListTile(
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 4.w,
+              vertical: 0.3.h,
+            ),
+            leading: Container(
+              padding: EdgeInsets.all(2.5.w),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFF892D).withOpacity(0.12),
+                borderRadius: BorderRadius.circular(3.w),
+              ),
+              child: Icon(
+                Icons.language_outlined,
+                color: const Color(0xFFFF892D),
+                size: 20.sp,
+              ),
+            ),
+            title: Text(
+              localizations.language,
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: isDark ? Colors.white : Colors.black87,
+              ),
+            ),
+            subtitle: Text(
+              '${currentLanguage.flag}  ${currentLanguage.nativeName}',
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: isDark ? Colors.white : Colors.grey[600],
+              ),
+            ),
+            trailing: Icon(
+              Icons.keyboard_arrow_down,
+              size: 22.sp,
+              color: isDark ? Colors.white.withOpacity(0.4) : Colors.grey[400],
+            ),
+          ),
+          dropdownStyleData: DropdownStyleData(
+            width: 90.w,
             decoration: BoxDecoration(
-              color: const Color(0xFFFF892D).withOpacity(0.12),
-              borderRadius: BorderRadius.circular(3.w),
+              borderRadius: BorderRadius.circular(4.w),
+              color: isDark ? const Color(0xFF121212) : Colors.white,
             ),
-            child: Icon(
-              Icons.language_outlined,
-              color: const Color(0xFFFF892D),
-              size: 20.sp,
-            ),
+            elevation: 8,
+            offset: const Offset(0, -4),
           ),
-          title: Text(
-            localizations.language,
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : Colors.black87,
-            ),
+          menuItemStyleData: MenuItemStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
           ),
-          subtitle: Text(
-            '${currentLanguage.flag}  ${currentLanguage.nativeName}',
-            style: TextStyle(
-              fontSize: 16.sp,
-              color: isDark ? Colors.white : Colors.grey[600],
-            ),
-          ),
-          trailing: Icon(
-            Icons.keyboard_arrow_down,
-            size: 22.sp,
-            color: isDark ? Colors.white.withOpacity(0.4) : Colors.grey[400],
-          ),
-        ),
-        dropdownStyleData: DropdownStyleData(
-          width: 90.w,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4.w),
-            color: isDark ? const Color(0xFF121212) : Colors.white,
-          ),
-          elevation: 8,
-          offset: const Offset(0, -4),
-        ),
-        menuItemStyleData: MenuItemStyleData(
-          padding: EdgeInsets.symmetric(horizontal: 4.w),
-        ),
-        items: supportedLanguages.map((language) {
-          return DropdownMenuItem<String>(
-            value: language.code,
-            child: Row(
-              children: [
-                Text(language.flag, style: TextStyle(fontSize: 18.sp)),
-                SizedBox(width: 3.w),
-                Expanded(
-                  child: Text(
-                    language.nativeName,
-                    style: TextStyle(
-                      fontSize: 17.sp,
-                      color: isDark ? Colors.white : Colors.black,
-                      fontWeight: language.code == currentLanguage.code
-                          ? FontWeight.bold
-                          : FontWeight.normal,
+          items: supportedLanguages.map((language) {
+            return DropdownMenuItem<String>(
+              value: language.code,
+              child: Row(
+                children: [
+                  Text(language.flag, style: TextStyle(fontSize: 18.sp)),
+                  SizedBox(width: 3.w),
+                  Expanded(
+                    child: Text(
+                      language.nativeName,
+                      style: TextStyle(
+                        fontSize: 17.sp,
+                        color: isDark ? Colors.white : Colors.black,
+                        fontWeight: language.code == currentLanguage.code
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                if (language.code == currentLanguage.code)
-                  const Icon(Icons.check, color: Color(0xFFFF892D), size: 18),
-              ],
-            ),
-          );
-        }).toList(),
-        onChanged: (String? selectedCode) {
-          if (selectedCode != null) {
-            final selectedLanguage = supportedLanguages.firstWhere(
-              (lang) => lang.code == selectedCode,
+                  if (language.code == currentLanguage.code)
+                    const Icon(Icons.check, color: Color(0xFFFF892D), size: 18),
+                ],
+              ),
             );
-            context.read<LocalizationBloc>().add(
-              ChangeLanguageEvent(selectedLanguage),
-            );
-          }
-        },
+          }).toList(),
+          onChanged: (String? selectedCode) {
+            if (selectedCode != null) {
+              final selectedLanguage = supportedLanguages.firstWhere(
+                (lang) => lang.code == selectedCode,
+              );
+              context.read<LocalizationBloc>().add(
+                ChangeLanguageEvent(selectedLanguage),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -819,101 +812,106 @@ class _ThemeCard extends StatelessWidget {
             ? Border.all(color: Colors.white.withOpacity(0.1))
             : null,
       ),
-      child: DropdownButton2<String>(
-        isExpanded: true,
-        underline: const SizedBox.shrink(),
-        buttonStyleData: const ButtonStyleData(
-          overlayColor: WidgetStatePropertyAll(Colors.transparent),
-        ),
-        customButton: ListTile(
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 4.w,
-            vertical: 0.3.h,
+      // The tile paints its ink on the nearest Material: the card's colour
+      // hid it (a debug assertion on every build)
+      child: Material(
+        type: MaterialType.transparency,
+        child: DropdownButton2<String>(
+          isExpanded: true,
+          underline: const SizedBox.shrink(),
+          buttonStyleData: const ButtonStyleData(
+            overlayColor: WidgetStatePropertyAll(Colors.transparent),
           ),
-          leading: Container(
-            padding: EdgeInsets.all(2.5.w),
+          customButton: ListTile(
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 4.w,
+              vertical: 0.3.h,
+            ),
+            leading: Container(
+              padding: EdgeInsets.all(2.5.w),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFF892D).withOpacity(0.12),
+                borderRadius: BorderRadius.circular(3.w),
+              ),
+              child: Icon(
+                themeIcon(currentTheme),
+                color: const Color(0xFFFF892D),
+                size: 20.sp,
+              ),
+            ),
+            title: Text(
+              localizations.theme,
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: isDark ? Colors.white : Colors.black87,
+              ),
+            ),
+            subtitle: Text(
+              themeLabel(currentTheme),
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: isDark ? Colors.white : Colors.grey[600],
+              ),
+            ),
+            trailing: Icon(
+              Icons.keyboard_arrow_down,
+              size: 22.sp,
+              color: isDark ? Colors.white.withOpacity(0.4) : Colors.grey[400],
+            ),
+          ),
+          dropdownStyleData: DropdownStyleData(
+            width: 90.w,
             decoration: BoxDecoration(
-              color: const Color(0xFFFF892D).withOpacity(0.12),
-              borderRadius: BorderRadius.circular(3.w),
+              borderRadius: BorderRadius.circular(4.w),
+              color: isDark ? const Color(0xFF121212) : Colors.white,
             ),
-            child: Icon(
-              themeIcon(currentTheme),
-              color: const Color(0xFFFF892D),
-              size: 20.sp,
-            ),
+            elevation: 8,
+            offset: const Offset(0, -4),
           ),
-          title: Text(
-            localizations.theme,
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: isDark ? Colors.white : Colors.black87,
-            ),
+          menuItemStyleData: MenuItemStyleData(
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
           ),
-          subtitle: Text(
-            themeLabel(currentTheme),
-            style: TextStyle(
-              fontSize: 16.sp,
-              color: isDark ? Colors.white : Colors.grey[600],
-            ),
-          ),
-          trailing: Icon(
-            Icons.keyboard_arrow_down,
-            size: 22.sp,
-            color: isDark ? Colors.white.withOpacity(0.4) : Colors.grey[400],
-          ),
-        ),
-        dropdownStyleData: DropdownStyleData(
-          width: 90.w,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4.w),
-            color: isDark ? const Color(0xFF121212) : Colors.white,
-          ),
-          elevation: 8,
-          offset: const Offset(0, -4),
-        ),
-        menuItemStyleData: MenuItemStyleData(
-          padding: EdgeInsets.symmetric(horizontal: 4.w),
-        ),
-        items: themeOptions.map((option) {
-          return DropdownMenuItem<String>(
-            value: option['value'] as String,
-            child: Row(
-              children: [
-                Icon(
-                  option['icon'] as IconData,
-                  color: const Color(0xFFFF892D),
-                  size: 18.sp,
-                ),
-                SizedBox(width: 3.w),
-                Expanded(
-                  child: Text(
-                    option['label'] as String,
-                    style: TextStyle(
-                      fontSize: 17.sp,
-                      color: isDark ? Colors.white : Colors.black,
-                      fontWeight:
-                          (option['value'] as String) == currentTheme.name
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+          items: themeOptions.map((option) {
+            return DropdownMenuItem<String>(
+              value: option['value'] as String,
+              child: Row(
+                children: [
+                  Icon(
+                    option['icon'] as IconData,
+                    color: const Color(0xFFFF892D),
+                    size: 18.sp,
                   ),
-                ),
-                if ((option['value'] as String) == currentTheme.name)
-                  const Icon(Icons.check, color: Color(0xFFFF892D), size: 18),
-              ],
-            ),
-          );
-        }).toList(),
-        onChanged: (String? selectedValue) {
-          if (selectedValue != null) {
-            ThemeMode mode = ThemeMode.system;
-            if (selectedValue == 'light') mode = ThemeMode.light;
-            if (selectedValue == 'dark') mode = ThemeMode.dark;
-            context.read<ThemeBloc>().add(ChangeThemeEvent(mode));
-          }
-        },
+                  SizedBox(width: 3.w),
+                  Expanded(
+                    child: Text(
+                      option['label'] as String,
+                      style: TextStyle(
+                        fontSize: 17.sp,
+                        color: isDark ? Colors.white : Colors.black,
+                        fontWeight:
+                            (option['value'] as String) == currentTheme.name
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  if ((option['value'] as String) == currentTheme.name)
+                    const Icon(Icons.check, color: Color(0xFFFF892D), size: 18),
+                ],
+              ),
+            );
+          }).toList(),
+          onChanged: (String? selectedValue) {
+            if (selectedValue != null) {
+              ThemeMode mode = ThemeMode.system;
+              if (selectedValue == 'light') mode = ThemeMode.light;
+              if (selectedValue == 'dark') mode = ThemeMode.dark;
+              context.read<ThemeBloc>().add(ChangeThemeEvent(mode));
+            }
+          },
+        ),
       ),
     );
   }

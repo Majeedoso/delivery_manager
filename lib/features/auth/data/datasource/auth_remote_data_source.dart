@@ -17,29 +17,6 @@ import 'package:delivery_manager/features/auth/data/models/verify_email_otp_resp
 /// The implementation is responsible for making HTTP requests to the backend API
 /// and handling network-related exceptions.
 abstract class BaseAuthRemoteDataSource {
-  /// Register a new user via API
-  ///
-  /// Parameters:
-  /// - [name]: User's full name
-  /// - [email]: User's email address
-  /// - [password]: User's password
-  /// - [role]: User's role
-  /// - [phone]: User's phone number
-  ///
-  /// Returns:
-  /// - [AuthResponseModel] containing user data and token
-  ///
-  /// Throws:
-  /// - [ServerException] for API errors (validation, duplicate email, etc.)
-  /// - [NetworkException] for network errors (timeout, connection failure)
-  Future<AuthResponseModel> register({
-    required String name,
-    required String email,
-    required String password,
-    required String role,
-    required String phone,
-  });
-
   /// Login user via API
   ///
   /// Parameters:
@@ -57,12 +34,12 @@ abstract class BaseAuthRemoteDataSource {
     required String password,
   });
 
-  /// Logout user via API
+  /// Logout user via API, revoking [token] on the server
   ///
   /// Throws:
   /// - [ServerException] for API errors
   /// - [NetworkException] for network errors
-  Future<void> logout();
+  Future<void> logout({required String token});
 
   /// Update FCM token on server
   ///
@@ -224,85 +201,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   }
 
   @override
-  Future<AuthResponseModel> register({
-    required String name,
-    required String email,
-    required String password,
-    required String role,
-    required String phone,
-  }) async {
-    try {
-      final requestData = {
-        'name': name,
-        'email': email,
-        'password': password,
-        'password_confirmation': password,
-        'role': role,
-        'phone': phone,
-        'app_type': 'manager', // Validate that role matches manager app
-      };
-
-      final deviceId = await deviceInfoService.getDeviceId();
-      if (deviceId != null) requestData['device_id'] = deviceId;
-
-      final response = await dio.post(
-        ApiConstance.registerPath,
-        data: requestData,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return AuthResponseModel.fromJson(response.data);
-      } else {
-        throw ServerException(
-          message:
-              response.data?['message']?.toString() ?? 'Registration failed',
-        );
-      }
-    } on DioException catch (e) {
-      if (e.response != null) {
-        final errorData = e.response?.data;
-        String errorMessage = 'Registration failed';
-
-        if (errorData is Map<String, dynamic>) {
-          errorMessage =
-              errorData['message']?.toString() ??
-              errorData['error']?.toString() ??
-              'Registration failed';
-        }
-
-        throw ServerException(message: errorMessage);
-      } else {
-        // Handle timeout and connection errors
-        if (e.type == DioExceptionType.connectionTimeout ||
-            e.type == DioExceptionType.receiveTimeout ||
-            e.type == DioExceptionType.sendTimeout) {
-          throw NetworkException(
-            message:
-                'Request timeout. Please check your internet connection and try again.',
-          );
-        } else if (e.type == DioExceptionType.connectionError) {
-          throw NetworkException(
-            message:
-                'Cannot connect to server. Please check your internet connection.',
-          );
-        } else {
-          throw NetworkException(
-            message: 'Network error occurred: ${e.message}',
-          );
-        }
-      }
-    } catch (e) {
-      throw ServerException(message: 'Unexpected error: ${e.toString()}');
-    }
-  }
-
-  @override
   Future<AuthResponseModel> login({
     required String email,
     required String password,
@@ -346,7 +244,10 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
               'Login failed';
         }
 
-        throw ServerException(message: errorMessage);
+        throw ServerException(
+          message: errorMessage,
+          errorCode: serverErrorCodeOf(errorData),
+        );
       } else {
         // Handle timeout and connection errors
         if (e.type == DioExceptionType.connectionTimeout ||
@@ -368,29 +269,30 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
         }
       }
     } catch (e) {
+      if (e is ServerException || e is NetworkException) rethrow;
       throw ServerException(message: 'Unexpected error: ${e.toString()}');
     }
   }
 
   @override
-  Future<void> logout() async {
+  Future<void> logout({required String token}) async {
     try {
       final response = await dio.post(
         ApiConstance.logoutPath,
         options: Options(
-          headers: {'Authorization': 'Bearer ${await _getToken()}'},
+          headers: {'Authorization': 'Bearer $token'},
         ),
       );
 
       if (response.statusCode != 200) {
         throw ServerException(
-          message: response.data['message'] ?? 'Logout failed',
+          message: _messageOf(response.data) ?? 'Logout failed',
         );
       }
     } on DioException catch (e) {
       if (e.response != null) {
         throw ServerException(
-          message: e.response?.data['message'] ?? 'Logout failed',
+          message: _messageOf(e.response?.data) ?? 'Logout failed',
         );
       } else {
         // Handle timeout and connection errors
@@ -425,13 +327,14 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
 
       if (response.statusCode != 200) {
         throw ServerException(
-          message: response.data['message'] ?? 'Failed to update FCM token',
+          message: _messageOf(response.data) ?? 'Failed to update FCM token',
         );
       }
     } on DioException catch (e) {
       if (e.response != null) {
         throw ServerException(
-          message: e.response?.data['message'] ?? 'Failed to update FCM token',
+          message:
+              _messageOf(e.response?.data) ?? 'Failed to update FCM token',
         );
       } else {
         // Handle timeout and connection errors
@@ -938,9 +841,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     }
   }
 
-  Future<String?> _getToken() async {
-    // This should be injected or retrieved from local storage
-    // For now, return null - the repository will handle token management
-    return null;
-  }
+  /// The `message` of an error body, when the body is JSON (not an HTML page).
+  String? _messageOf(Object? body) =>
+      body is Map ? body['message']?.toString() : null;
 }

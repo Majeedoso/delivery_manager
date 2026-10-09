@@ -9,8 +9,9 @@ import 'package:delivery_manager/features/auth/domain/entities/user.dart';
 /// Abstract repository interface for authentication operations
 /// 
 /// This repository defines the contract for all authentication-related operations:
-/// - User registration and login with email/password
-/// - Google Sign-In and Sign-Up
+/// - Login with email/password (managers are created on the server, never
+///   signed up)
+/// - Google Sign-In
 /// - User logout
 /// - Retrieving current authenticated user
 /// 
@@ -21,28 +22,6 @@ import 'package:delivery_manager/features/auth/domain/entities/user.dart';
 /// 
 /// This follows the Repository Pattern to abstract data sources from business logic.
 abstract class BaseAuthRepository {
-  /// Register a new user with email and password
-  /// 
-  /// Parameters:
-  /// - [name]: User's full name
-  /// - [email]: User's email address
-  /// - [password]: User's password
-  /// - [role]: User's role (operator, restaurant, delivery, manager, customer)
-  /// - [phone]: User's phone number
-  /// 
-  /// Returns:
-  /// - Right(AuthResponse) with user data and token upon success
-  /// - Left(Failure) if registration fails
-  /// 
-  /// The implementation should save user data and token locally upon success.
-  Future<Either<Failure, AuthResponse>> register({
-    required String name,
-    required String email,
-    required String password,
-    required String role,
-    required String phone,
-  });
-
   /// Login with email and password
   /// 
   /// Parameters:
@@ -95,17 +74,6 @@ abstract class BaseAuthRepository {
   /// - Save user data and token locally upon success
   Future<Either<Failure, User>> googleSignIn();
   
-  /// Sign up with Google (for new users)
-  /// 
-  /// Returns:
-  /// - Right(User) with user data and token upon successful registration
-  /// - Left(Failure) if sign-up fails
-  /// 
-  /// The implementation should:
-  /// - Initiate Google Sign-In via Firebase
-  /// - Send user data to backend API to create account
-  /// - Save user data and token locally upon success
-  Future<Either<Failure, User>> googleSignUp();
   
   /// Sign out from Google authentication
   /// 

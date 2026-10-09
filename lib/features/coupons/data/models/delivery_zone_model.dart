@@ -47,16 +47,4 @@ class DeliveryZoneModel extends DeliveryZone {
       'is_active': isActive,
     };
   }
-
-  /// Create a JSON map for creating a new zone (without id).
-  Map<String, dynamic> toCreateJson() {
-    return {
-      'name': name,
-      if (description != null && description!.isNotEmpty)
-        'description': description,
-      if (latitude != null) 'latitude': latitude,
-      if (longitude != null) 'longitude': longitude,
-      if (radiusKm != null) 'radius_km': radiusKm,
-    };
-  }
 }

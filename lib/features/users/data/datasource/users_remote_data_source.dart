@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/error/exceptions.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
+import 'package:delivery_manager/core/network/request_failure.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/features/auth/domain/repository/base_token_repository.dart';
@@ -15,7 +16,6 @@ abstract class BaseUsersRemoteDataSource {
     String? search,
   });
 
-  Future<UserManagementModel> getUserById(int id);
   Future<void> approveUser(int userId);
   Future<void> rejectUser(int userId, String reason);
   Future<void> suspendUser(int userId, String reason);
@@ -41,12 +41,13 @@ class UsersPage {
 class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
   final Dio dio;
   final BaseTokenRepository tokenRepository;
-  final LoggingService _logger = LoggingService();
+  final LoggingService _logger;
 
   UsersRemoteDataSourceImpl({
     required this.dio,
     required this.tokenRepository,
-  });
+    LoggingService? logger,
+  }) : _logger = logger ?? LoggingService();
 
   Future<Map<String, String>> _getAuthHeaders() async {
     final tokenResult = await tokenRepository.getToken();
@@ -145,43 +146,8 @@ class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
       throw ServerException(
         message: 'Failed to load users: ${response.statusCode}',
       );
-    } on DioException catch (e) {
-      _logger.error('UsersRemoteDataSource: DioException', error: e);
-      _handleDioException(e);
-      rethrow;
     } catch (e) {
-      _logger.error('UsersRemoteDataSource: Unexpected error', error: e);
-      throw ServerException(message: 'Unexpected error: $e');
-    }
-  }
-
-  @override
-  Future<UserManagementModel> getUserById(int id) async {
-    _logger.debug('UsersRemoteDataSource: Fetching user $id');
-
-    try {
-      final headers = await _getAuthHeaders();
-      final response = await dio.get(
-        ApiConstance.managerUserByIdPath(id),
-        options: Options(headers: headers),
-      );
-
-      if (response.statusCode == 200) {
-        final payload = _extractData(response.data);
-        final userJson = payload['user'] ?? payload;
-        return UserManagementModel.fromJson(userJson);
-      }
-
-      throw ServerException(
-        message: 'Failed to load user: ${response.statusCode}',
-      );
-    } on DioException catch (e) {
-      _logger.error('UsersRemoteDataSource: DioException', error: e);
-      _handleDioException(e);
-      rethrow;
-    } catch (e) {
-      _logger.error('UsersRemoteDataSource: Unexpected error', error: e);
-      throw ServerException(message: 'Unexpected error: $e');
+      throw _failure(e);
     }
   }
 
@@ -212,13 +178,8 @@ class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
       throw ServerException(
         message: 'Failed to approve user: ${response.statusCode}',
       );
-    } on DioException catch (e) {
-      _logger.error('UsersRemoteDataSource: DioException', error: e);
-      _handleDioException(e);
-      rethrow;
     } catch (e) {
-      _logger.error('UsersRemoteDataSource: Unexpected error', error: e);
-      throw ServerException(message: 'Unexpected error: $e');
+      throw _failure(e);
     }
   }
 
@@ -250,13 +211,8 @@ class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
       throw ServerException(
         message: 'Failed to reject user: ${response.statusCode}',
       );
-    } on DioException catch (e) {
-      _logger.error('UsersRemoteDataSource: DioException', error: e);
-      _handleDioException(e);
-      rethrow;
     } catch (e) {
-      _logger.error('UsersRemoteDataSource: Unexpected error', error: e);
-      throw ServerException(message: 'Unexpected error: $e');
+      throw _failure(e);
     }
   }
 
@@ -288,13 +244,8 @@ class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
       throw ServerException(
         message: 'Failed to suspend user: ${response.statusCode}',
       );
-    } on DioException catch (e) {
-      _logger.error('UsersRemoteDataSource: DioException', error: e);
-      _handleDioException(e);
-      rethrow;
     } catch (e) {
-      _logger.error('UsersRemoteDataSource: Unexpected error', error: e);
-      throw ServerException(message: 'Unexpected error: $e');
+      throw _failure(e);
     }
   }
 
@@ -325,13 +276,8 @@ class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
       throw ServerException(
         message: 'Failed to activate user: ${response.statusCode}',
       );
-    } on DioException catch (e) {
-      _logger.error('UsersRemoteDataSource: DioException', error: e);
-      _handleDioException(e);
-      rethrow;
     } catch (e) {
-      _logger.error('UsersRemoteDataSource: Unexpected error', error: e);
-      throw ServerException(message: 'Unexpected error: $e');
+      throw _failure(e);
     }
   }
 
@@ -403,21 +349,14 @@ class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
     return defaultValue;
   }
 
-  void _handleDioException(DioException e) {
-    if (e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout ||
-        e.type == DioExceptionType.connectionError) {
-      throw NetworkException(message: 'Network connection error');
-    }
-
-    final response = e.response;
-    if (response != null) {
-      String message = 'Server error occurred';
-      if (response.data is Map && response.data['message'] != null) {
-        message = response.data['message'].toString();
-      }
-      throw ServerException(message: message);
-    }
-    throw ServerException(message: e.message ?? 'Unknown error occurred');
+  /// What a failed request tells the manager: the server's reason, or that
+  /// the network failed ([requestFailureOf]); a failure raised here (no
+  /// token, a refusal in a 200) as it is. It read "Unexpected error:
+  /// Instance of 'ServerException'", or Dio's own text.
+  Exception _failure(Object error) {
+    _logger.error('UsersRemoteDataSource: request failed', error: error);
+    if (error is ServerException) return error;
+    if (error is NetworkException) return error;
+    return requestFailureOf(error);
   }
 }

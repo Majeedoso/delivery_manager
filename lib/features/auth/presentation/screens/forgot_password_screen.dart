@@ -12,6 +12,8 @@ import 'package:delivery_manager/features/auth/presentation/controller/auth_stat
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:sizer/sizer.dart';
+import 'package:delivery_manager/core/services/services_locator.dart';
+import 'package:delivery_manager/core/services/public_settings_service.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const String route = '/forgot-password';
@@ -42,6 +44,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
+      // Only the screen on top answers: the auth screens under it share
+      // this bloc and would repeat its errors or navigate a second time.
+      listenWhen: (previous, current) => ModalRoute.isCurrentOf(context) ?? true,
       listener: (context, state) {
         // Handle countdown when password reset OTP is sent
         if (state.requestState == RequestState.loaded && 
@@ -49,7 +54,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             state.resendCountdown != null) {
           // Start countdown with the value from the backend response
           final countdownBloc = context.read<CountdownBloc>();
-          final countdownValue = state.resendCountdown ?? 120; // Default to 120 if not provided
+          final countdownValue =
+              state.resendCountdown ??
+              sl<PublicSettingsService>().otpResendWaitSeconds;
           if (!countdownBloc.state.isActive) {
             countdownBloc.add(StartCountdownEvent(countdownValue));
           }
@@ -129,11 +136,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
+                        // Checked as sent: trimmed (keyboards add a space
+                        // after a suggested address)
+                        final email = value?.trim() ?? '';
+                        if (email.isEmpty) {
+                          return AppLocalizations.of(context)!.pleaseEnterEmail;
                         }
-                        if (!RegExp(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$').hasMatch(value)) {
-                          return 'Please enter a valid email';
+                        if (!RegExp(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$').hasMatch(email)) {
+                          return AppLocalizations.of(context)!.pleaseEnterValidEmail;
                         }
                         return null;
                       },
@@ -157,6 +167,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             onPressed: isLoading ? null : () {
                               if (isCountdownActive) {
                                 // Countdown is active - just navigate to OTP page without sending new OTP
+                                if (!_formKey.currentState!.validate()) return;
                                 Navigator.pushNamed(
                                   context, 
                                   AppRoutes.resetPasswordUnauthenticated,

@@ -1,3 +1,6 @@
+import 'package:clock/clock.dart';
+import 'package:delivery_manager/core/utils/week.dart';
+
 /// Helper class for calculating date ranges based on period selection
 /// 
 /// This keeps business logic (date calculations) out of the presentation layer,
@@ -11,12 +14,16 @@ class PeriodCalculator {
   /// Periods:
   /// - 'all': Returns (null, null) - no date filtering
   /// - 'day': Today only
-  /// - 'week': Last 7 days (today minus 6 days)
-  /// - 'month': Last 30 days (today minus 29 days)
-  /// - 'year': Last 365 days (today minus 364 days)
+  /// - 'week': This week, since its first day (Sunday: `firstDayOfWeek`)
+  /// - 'month': This month, since the 1st
+  /// - 'year': This year, since 1 January
   /// - 'dateRange': Returns (null, null) - dates should be set manually
+  ///
+  /// The periods the server counts by the same names. They were the last 7,
+  /// 30 and 365 days: whoever wants those picks the days ('dateRange', which
+  /// opens on the last 7).
   static ({DateTime? startDate, DateTime? endDate}) calculatePeriodRange(String period) {
-    final now = DateTime.now();
+    final now = clock.now();
     final today = DateTime(now.year, now.month, now.day);
     
     switch (period) {
@@ -25,14 +32,17 @@ class PeriodCalculator {
       case 'day':
         return (startDate: today, endDate: today);
       case 'week':
-        // Go back 6 days from today (total 7 days including today)
-        return (startDate: today.subtract(const Duration(days: 6)), endDate: today);
+        // The first day of this week (today, on that day)
+        return (
+          startDate: startOfWeek(today),
+          endDate: today,
+        );
       case 'month':
-        // Go back 29 days from today (total 30 days including today)
-        return (startDate: today.subtract(const Duration(days: 29)), endDate: today);
+        // The 1st of this month
+        return (startDate: DateTime(now.year, now.month), endDate: today);
       case 'year':
-        // Go back 364 days from today (total 365 days including today)
-        return (startDate: today.subtract(const Duration(days: 364)), endDate: today);
+        // 1 January of this year
+        return (startDate: DateTime(now.year), endDate: today);
       case 'dateRange':
         // For dateRange, return nulls - dates should be set manually
         return (startDate: null, endDate: null);
@@ -44,7 +54,7 @@ class PeriodCalculator {
   /// Get default date range for 'dateRange' period
   /// Returns last 7 days (today minus 6 days to today)
   static ({DateTime startDate, DateTime endDate}) getDefaultDateRange() {
-    final now = DateTime.now();
+    final now = clock.now();
     final today = DateTime(now.year, now.month, now.day);
     return (startDate: today.subtract(const Duration(days: 6)), endDate: today);
   }
@@ -52,7 +62,7 @@ class PeriodCalculator {
   /// Calculate date range for 'all' period in orders context
   /// Returns date range from 2020-01-01 to now
   static ({DateTime startDate, DateTime endDate}) getAllTimeRange() {
-    final now = DateTime.now();
+    final now = clock.now();
     return (startDate: DateTime(2020, 1, 1), endDate: now);
   }
 }

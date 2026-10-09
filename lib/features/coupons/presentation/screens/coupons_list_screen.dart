@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import 'package:delivery_manager/core/services/services_locator.dart';
+import 'package:delivery_manager/core/utils/error_message_mapper.dart';
 import 'package:delivery_manager/features/coupons/domain/entities/coupon.dart';
 import 'package:delivery_manager/features/coupons/presentation/controller/coupons_bloc.dart';
 import 'package:delivery_manager/features/coupons/presentation/controller/coupons_event.dart';
@@ -33,6 +33,11 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
+    // The route's bloc: the page made a second one, which the status filter
+    // and the next pages never reached
+    context.read<CouponsBloc>().add(
+      LoadCouponsEvent(refresh: true, discountTarget: widget.discountTarget),
+    );
   }
 
   @override
@@ -69,6 +74,24 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
     );
   }
 
+  /// A coupon's status in the manager's language (it was the server's word,
+  /// in capitals: ACTIVE, DRAFT, DISABLED).
+  String _statusLabel(AppLocalizations localizations, String status) =>
+      switch (status) {
+        'active' => localizations.active,
+        'draft' => localizations.draft,
+        'disabled' => localizations.disabled,
+        _ => status,
+      };
+
+  /// Who issued a coupon, in the manager's language ("manager" was shown).
+  String _issuerLabel(AppLocalizations localizations, String issuer) =>
+      switch (issuer) {
+        'manager' => localizations.manager,
+        'restaurant' => localizations.restaurant,
+        _ => issuer,
+      };
+
   Color _getStatusColor(String status) {
     switch (status) {
       case 'active':
@@ -99,221 +122,198 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    return BlocProvider(
-      create: (context) => sl<CouponsBloc>()
-        ..add(
-          LoadCouponsEvent(
-            refresh: true,
-            discountTarget: widget.discountTarget,
-          ),
-        ),
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
-        appBar: AppBar(
-          title: Text(widget.title),
-          backgroundColor: isDark ? Colors.black : Colors.white,
-          foregroundColor: isDark ? Colors.white : Colors.black,
-          elevation: 0,
-          actions: [
-            PopupMenuButton<String?>(
-              icon: Icon(
-                Icons.filter_list,
-                color: isDark
-                    ? Colors.white
-                    : _selectedStatus != null
-                    ? const Color(0xFFFF781F)
-                    : Colors.grey,
-              ),
-              onSelected: _onStatusFilterChanged,
-              itemBuilder: (context) => [
-                PopupMenuItem(value: null, child: Text(localizations.all)),
-                PopupMenuItem(
-                  value: 'active',
-                  child: Text(localizations.active),
-                ),
-                PopupMenuItem(value: 'draft', child: Text(localizations.draft)),
-                PopupMenuItem(
-                  value: 'disabled',
-                  child: Text(localizations.disabled),
-                ),
-              ],
+    return Scaffold(
+      // The light grey stayed under dark mode's black bar and dark cards
+      backgroundColor: isDark ? null : Colors.grey.shade50,
+      appBar: AppBar(
+        title: Text(widget.title),
+        backgroundColor: isDark ? Colors.black : Colors.white,
+        foregroundColor: isDark ? Colors.white : Colors.black,
+        elevation: 0,
+        actions: [
+          PopupMenuButton<String?>(
+            icon: Icon(
+              Icons.filter_list,
+              color: isDark
+                  ? Colors.white
+                  : _selectedStatus != null
+                  ? const Color(0xFFFF781F)
+                  : Colors.grey,
             ),
-          ],
-        ),
-        floatingActionButton: Builder(
-          builder: (context) {
-            return FloatingActionButton.extended(
-              onPressed: () async {
-                final result = await Navigator.push<bool>(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => BlocProvider.value(
-                      value: context.read<CouponsBloc>(),
-                      child: AddEditCouponScreen(
-                        discountTarget: widget.discountTarget,
-                      ),
-                    ),
-                  ),
-                );
-                if (result == true && context.mounted) {
-                  context.read<CouponsBloc>().add(
-                    LoadCouponsEvent(
-                      refresh: true,
+            onSelected: _onStatusFilterChanged,
+            itemBuilder: (context) => [
+              PopupMenuItem(value: null, child: Text(localizations.all)),
+              PopupMenuItem(value: 'active', child: Text(localizations.active)),
+              PopupMenuItem(value: 'draft', child: Text(localizations.draft)),
+              PopupMenuItem(
+                value: 'disabled',
+                child: Text(localizations.disabled),
+              ),
+            ],
+          ),
+        ],
+      ),
+      floatingActionButton: Builder(
+        builder: (context) {
+          return FloatingActionButton.extended(
+            onPressed: () async {
+              final result = await Navigator.push<bool>(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider.value(
+                    value: context.read<CouponsBloc>(),
+                    child: AddEditCouponScreen(
                       discountTarget: widget.discountTarget,
                     ),
-                  );
-                }
-              },
-              backgroundColor: const Color(0xFFFF781F),
-              icon: const Icon(Icons.add),
-              label: Text(
-                widget.discountTarget == 'delivery_fee'
-                    ? localizations.newDeliveryCoupon
-                    : localizations.newCoupon,
-              ),
-            );
-          },
-        ),
-        body: BlocConsumer<CouponsBloc, CouponsState>(
-          listener: (context, state) {
-            // Handle operation messages
-            if (state.operationStatus == CouponOperationStatus.success &&
-                state.operationMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.operationMessage!),
-                  backgroundColor: Colors.green,
+                  ),
                 ),
               );
-            } else if (state.operationStatus == CouponOperationStatus.failure &&
-                state.operationMessage != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.operationMessage!),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            if (state.isLoading && state.coupons.isEmpty) {
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : const Color(0xFFFF8A32),
-                ),
-              );
-            }
-
-            if (state.errorMessage != null && state.coupons.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.error_outline,
-                      size: 48,
-                      color: Colors.red.shade300,
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      state.errorMessage!,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 14.sp),
-                    ),
-                    SizedBox(height: 2.h),
-                    ElevatedButton(
-                      onPressed: () => context.read<CouponsBloc>().add(
-                        LoadCouponsEvent(
-                          status: _selectedStatus,
-                          refresh: true,
-                          discountTarget: widget.discountTarget,
-                        ),
-                      ),
-                      child: Text(localizations.retry),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            if (state.coupons.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.local_offer_outlined,
-                      size: 64,
-                      color: Colors.grey.shade400,
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      widget.discountTarget == 'delivery_fee'
-                          ? localizations.noDeliveryCouponsYet
-                          : localizations.noCouponsYet,
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                    SizedBox(height: 1.h),
-                    Text(
-                      widget.discountTarget == 'delivery_fee'
-                          ? localizations.createFirstDeliveryCoupon
-                          : localizations.createFirstCoupon,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Colors.grey.shade500,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            return RefreshIndicator(
-              onRefresh: () async {
+              if (result == true && context.mounted) {
                 context.read<CouponsBloc>().add(
                   LoadCouponsEvent(
-                    status: _selectedStatus,
                     refresh: true,
                     discountTarget: widget.discountTarget,
                   ),
                 );
-              },
-              child: ListView.builder(
-                controller: _scrollController,
-                padding: EdgeInsets.all(4.w),
-                itemCount: state.coupons.length + (state.isLoadingMore ? 1 : 0),
-                itemBuilder: (context, index) {
-                  if (index == state.coupons.length) {
-                    return Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: CircularProgressIndicator(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : const Color(0xFFFF8A32),
-                        ),
-                      ),
-                    );
-                  }
-                  return _buildCouponCard(context, state.coupons[index]);
-                },
+              }
+            },
+            backgroundColor: const Color(0xFFFF781F),
+            icon: const Icon(Icons.add),
+            label: Text(
+              widget.discountTarget == 'delivery_fee'
+                  ? localizations.newDeliveryCoupon
+                  : localizations.newCoupon,
+            ),
+          );
+        },
+      ),
+      // No message here: the saved coupon shows in the list, and the form
+      // says a failure (both said it, the success in English)
+      body: BlocBuilder<CouponsBloc, CouponsState>(
+        builder: (context, state) {
+          if (state.isLoading && state.coupons.isEmpty) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : const Color(0xFFFF8A32),
               ),
             );
-          },
-        ),
+          }
+
+          if (state.errorMessage != null && state.coupons.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 48,
+                    color: Colors.red.shade300,
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    ErrorMessageMapper.getUserFriendlyMessage(
+                      state.errorMessage!,
+                      localizations,
+                    ),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
+                  SizedBox(height: 2.h),
+                  ElevatedButton(
+                    onPressed: () => context.read<CouponsBloc>().add(
+                      LoadCouponsEvent(
+                        status: _selectedStatus,
+                        refresh: true,
+                        discountTarget: widget.discountTarget,
+                      ),
+                    ),
+                    child: Text(localizations.retry),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          if (state.coupons.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.local_offer_outlined,
+                    size: 64,
+                    color: Colors.grey.shade400,
+                  ),
+                  SizedBox(height: 2.h),
+                  Text(
+                    widget.discountTarget == 'delivery_fee'
+                        ? localizations.noDeliveryCouponsYet
+                        : localizations.noCouponsYet,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  SizedBox(height: 1.h),
+                  Text(
+                    widget.discountTarget == 'delivery_fee'
+                        ? localizations.createFirstDeliveryCoupon
+                        : localizations.createFirstCoupon,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: Colors.grey.shade500,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<CouponsBloc>().add(
+                LoadCouponsEvent(
+                  status: _selectedStatus,
+                  refresh: true,
+                  discountTarget: widget.discountTarget,
+                ),
+              );
+            },
+            child: ListView.builder(
+              controller: _scrollController,
+              padding: EdgeInsets.all(4.w),
+              itemCount: state.coupons.length + (state.isLoadingMore ? 1 : 0),
+              itemBuilder: (context, index) {
+                if (index == state.coupons.length) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : const Color(0xFFFF8A32),
+                      ),
+                    ),
+                  );
+                }
+                return _buildCouponCard(context, state.coupons[index]);
+              },
+            ),
+          );
+        },
       ),
     );
   }
 
   Widget _buildCouponCard(BuildContext context, Coupon coupon) {
     final localizations = AppLocalizations.of(context)!;
-    final dateFormat = DateFormat('MMM d, yyyy');
+    // In the manager's language ("12 sept. 2026", not "Sep 12, 2026")
+    final dateFormat = DateFormat.yMMMd(
+      Localizations.localeOf(context).toString(),
+    );
     final statusColor = _getStatusColor(coupon.status);
 
     return Card(
@@ -401,7 +401,10 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
                         ),
                         SizedBox(width: 1.w),
                         Text(
-                          coupon.status.toUpperCase(),
+                          _statusLabel(
+                            localizations,
+                            coupon.status,
+                          ).toUpperCase(),
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w600,
@@ -446,7 +449,7 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
                     SizedBox(width: 1.w),
                     Expanded(
                       child: Text(
-                        '${localizations.issuer} ${coupon.issuerType}',
+                        '${localizations.issuer} ${_issuerLabel(localizations, coupon.issuerType!)}',
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: Colors.grey.shade600,
@@ -463,11 +466,17 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
               Row(
                 children: [
                   Text(
-                    coupon.discountDisplay,
+                    coupon.type == 'percentage'
+                        ? '${coupon.value}%'
+                        : '${coupon.value} ${localizations.dzd}',
                     style: TextStyle(
                       fontSize: 28.sp,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87,
+                      // Black was lost on dark mode's dark card
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black87,
                     ),
                   ),
                   SizedBox(width: 2.w),
@@ -520,7 +529,7 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
                     label: localizations.uses,
                     value: coupon.maxUsesTotal != null
                         ? '${coupon.usagesCount}/${coupon.maxUsesTotal}'
-                        : '${coupon.usagesCount} (unlimited)',
+                        : localizations.usesUnlimited(coupon.usagesCount),
                   ),
                   SizedBox(width: 4.w),
                   if (coupon.minOrderValue != null)

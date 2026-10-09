@@ -53,6 +53,17 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
           lastPage: lastPage,
           clearErrorMessage: true,
         ));
+
+        // The server gives 50 settings a page: the groups came from the
+        // first page only, and the next settings would have hidden the
+        // last groups. Every page is read
+        if (currentPage < lastPage) {
+          add(LoadSettingsEvent(
+            category: event.category,
+            search: event.search,
+            page: currentPage + 1,
+          ));
+        }
       },
     );
   }

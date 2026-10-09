@@ -14,7 +14,6 @@ class DriverBalanceModel extends DriverBalance {
     required super.formattedTotalDebt,
     required super.totalCredits,
     required super.formattedTotalCredits,
-    required super.pendingPayments,
   });
 
   /// Safely parses a value that might be a num or a String to double
@@ -29,13 +28,13 @@ class DriverBalanceModel extends DriverBalance {
 
   factory DriverBalanceModel.fromJson(Map<String, dynamic> json) {
     // Helper to safely map lists
-    List<RestaurantDebtModel> mapList(dynamic list) {
+    List<RestaurantDebtModel> mapList(dynamic list, {required bool isCredit}) {
       if (list == null || list is! List) return [];
       return list
           .map((item) {
             try {
               if (item is Map<String, dynamic>) {
-                return RestaurantDebtModel.fromJson(item);
+                return RestaurantDebtModel.fromJson(item, isCredit: isCredit);
               }
               return null;
             } catch (e) {
@@ -46,8 +45,10 @@ class DriverBalanceModel extends DriverBalance {
           .toList();
     }
 
-    final credits = mapList(json['credits']);
-    final allDebts = mapList(json['debts']);
+    // Each list says which side it is: the platform's debts come as
+    // positive amounts, and read as credits
+    final credits = mapList(json['credits'], isCredit: true);
+    final allDebts = mapList(json['debts'], isCredit: false);
 
     // Separate restaurant debts from system debts
     // System debts are those where counterparty_id is 0 or name is 'System' (better check type if passed in model)
@@ -87,7 +88,6 @@ class DriverBalanceModel extends DriverBalance {
       totalCredits: totalCredits,
       formattedTotalCredits:
           '${totalCredits.toStringAsFixed(2)} ${Currency.dzd.code}',
-      pendingPayments: [], // Not provided in new response
     );
   }
 }

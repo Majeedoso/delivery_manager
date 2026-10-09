@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dio/dio.dart';
@@ -48,7 +49,12 @@ class _StatisticsPerformanceRestaurantDetailScreenState
 
   Future<_RestaurantStats> _fetchStats() async {
     final dio = sl<Dio>();
-    final q = <String, dynamic>{'period': _selectedPeriod};
+    // The days the filter names (`PeriodCalculator`) are sent as they are.
+    // Sent by name, the server counted its own (its "week" was the last seven
+    // days), and "day" was refused
+    final q = <String, dynamic>{
+      'period': _selectedPeriod == 'all' ? 'all' : 'custom',
+    };
     if (_dateFrom != null) q['start_date'] = _fmt(_dateFrom!);
     if (_dateTo != null) q['end_date'] = _fmt(_dateTo!);
 
@@ -98,7 +104,7 @@ class _StatisticsPerformanceRestaurantDetailScreenState
     DateTime? dateFrom;
     DateTime? dateTo;
     if (period == 'dateRange') {
-      final now = DateTime.now();
+      final now = clock.now();
       dateFrom = now.subtract(const Duration(days: 6));
       dateTo = now;
     } else if (period != 'all') {
@@ -144,9 +150,9 @@ class _StatisticsPerformanceRestaurantDetailScreenState
                 onDateFromSelected: (currentDate) async {
                   final picked = await showDatePicker(
                     context: context,
-                    initialDate: currentDate ?? DateTime.now(),
+                    initialDate: currentDate ?? clock.now(),
                     firstDate: DateTime(2020),
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     setState(() {
@@ -162,9 +168,9 @@ class _StatisticsPerformanceRestaurantDetailScreenState
                 onDateToSelected: (currentDate) async {
                   final picked = await showDatePicker(
                     context: context,
-                    initialDate: currentDate ?? DateTime.now(),
+                    initialDate: currentDate ?? clock.now(),
                     firstDate: _dateFrom ?? DateTime(2020),
-                    lastDate: DateTime.now(),
+                    lastDate: clock.now(),
                   );
                   if (picked != null) {
                     setState(() {
@@ -175,7 +181,7 @@ class _StatisticsPerformanceRestaurantDetailScreenState
                   }
                 },
                 firstDate: DateTime(2020),
-                lastDate: DateTime.now(),
+                lastDate: clock.now(),
               ),
             ),
             Expanded(
@@ -602,9 +608,9 @@ class _MetricCard extends StatelessWidget {
               Text(
                 label,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.5),
+                  // The card is white in both modes: the theme's text
+                  // colour, white in dark mode, could not be read on it
+                  color: Colors.black.withValues(alpha: 0.5),
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.5,
                   fontSize: 16.sp,

@@ -4,8 +4,6 @@ import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/features/auth/presentation/screens/splash_screen.dart';
 import 'package:delivery_manager/features/auth/presentation/screens/login_screen.dart';
-import 'package:delivery_manager/features/auth/presentation/screens/signup_choice_screen.dart';
-import 'package:delivery_manager/features/auth/presentation/screens/signup_screen.dart';
 import 'package:delivery_manager/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:delivery_manager/features/auth/presentation/screens/reset_password_unauthenticated_screen.dart';
 import 'package:delivery_manager/features/auth/presentation/screens/account_status_screen.dart';
@@ -19,18 +17,15 @@ import 'package:delivery_manager/features/profile/presentation/screens/verify_em
 import 'package:delivery_manager/features/profile/presentation/screens/reset_password_authenticated_screen.dart';
 import 'package:delivery_manager/features/profile/presentation/screens/verify_delete_account_otp_screen.dart';
 import 'package:delivery_manager/features/profile/presentation/controller/profile_bloc.dart';
-import 'package:delivery_manager/features/profile/presentation/controller/profile_event.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/splash_bloc.dart';
 import 'package:delivery_manager/features/settings/presentation/screens/settings_screen.dart';
 import 'package:delivery_manager/features/settings/presentation/screens/about_screen.dart';
 import 'package:delivery_manager/features/localization/presentation/controller/localization_bloc.dart';
-import 'package:delivery_manager/features/localization/presentation/screens/language_selection_screen.dart';
 import 'package:delivery_manager/features/localization/presentation/screens/first_run_language_screen.dart';
 import 'package:delivery_manager/features/app_version/presentation/controller/app_version_bloc.dart';
 import 'package:delivery_manager/features/app_version/presentation/screens/update_required_screen.dart';
 import 'package:delivery_manager/features/app_version/domain/entities/app_version.dart';
-import 'package:delivery_manager/features/profile/presentation/widgets/map_picker_page.dart';
 import 'package:delivery_manager/features/bank/presentation/screens/bank_main_screen.dart';
 import 'package:delivery_manager/features/bank/presentation/screens/receivables_payables_screen.dart';
 import 'package:delivery_manager/features/bank/presentation/screens/new_transaction_screen.dart';
@@ -62,6 +57,9 @@ import 'package:delivery_manager/features/statistics/presentation/screens/statis
 import 'package:delivery_manager/features/coupons/presentation/screens/coupons_home_screen.dart';
 import 'package:delivery_manager/features/coupons/presentation/screens/coupons_list_screen.dart';
 import 'package:delivery_manager/features/coupons/presentation/screens/delivery_zones_screen.dart';
+import 'package:delivery_manager/features/delivery_areas/presentation/controller/delivery_areas_bloc.dart';
+import 'package:delivery_manager/features/delivery_areas/presentation/controller/delivery_areas_event.dart';
+import 'package:delivery_manager/features/delivery_areas/presentation/screens/delivery_areas_screen.dart';
 import 'package:delivery_manager/features/coupons/presentation/controller/coupons_bloc.dart';
 import 'package:delivery_manager/features/users/presentation/screens/users_screen.dart';
 import 'package:delivery_manager/features/users/presentation/controller/users_bloc.dart';
@@ -77,6 +75,17 @@ import 'package:delivery_manager/l10n/app_localizations.dart';
 /// It provides a centralized location for managing routes and their
 /// associated BLoC providers.
 class RouteGenerator {
+  /// A name the table doesn't know: a readable page instead of the error
+  /// MaterialApp throws without it.
+  static Route<dynamic> unknownRoute(RouteSettings settings) {
+    return MaterialPageRoute(
+      settings: settings,
+      builder: (context) => Scaffold(
+        body: Center(child: Text(AppLocalizations.of(context)!.pageNotFound)),
+      ),
+    );
+  }
+
   /// Generate routes for the MaterialApp
   ///
   /// Returns a map of route names to route builders.
@@ -87,8 +96,8 @@ class RouteGenerator {
         value: context.read<LocalizationBloc>(),
         child: const FirstRunLanguageScreen(),
       ),
-      AppRoutes.splash: (context) => BlocProvider.value(
-        value: sl<AppVersionBloc>(),
+      AppRoutes.splash: (context) => BlocProvider(
+        create: (context) => sl<AppVersionBloc>(),
         child: BlocProvider(
           create: (context) => SplashBloc(
             authBloc: context.read<AuthBloc>(),
@@ -98,15 +107,14 @@ class RouteGenerator {
         ),
       ),
       AppRoutes.login: (context) => const LoginScreen(),
-      AppRoutes.signupChoice: (context) => const SignupChoiceScreen(),
-      AppRoutes.signup: (context) => const SignupScreen(),
       AppRoutes.main: (context) => const MainScreen(),
       AppRoutes.profile: (context) => BlocProvider(
         create: (context) => sl<ProfileBloc>(),
         child: const ProfileScreen(),
       ),
+      // The screen asks for the profile itself
       AppRoutes.editProfile: (context) => BlocProvider(
-        create: (context) => sl<ProfileBloc>()..add(const GetProfileEvent()),
+        create: (context) => sl<ProfileBloc>(),
         child: const EditProfileScreen(),
       ),
       AppRoutes.changePassword: (context) => BlocProvider(
@@ -142,13 +150,12 @@ class RouteGenerator {
       ),
       AppRoutes.settings: (context) => BlocProvider.value(
         value: context.read<LocalizationBloc>(),
-        child: BlocProvider.value(
-          value: sl<AppVersionBloc>(),
+        child: BlocProvider(
+          create: (context) => sl<AppVersionBloc>(),
           child: const SettingsScreen(),
         ),
       ),
       AppRoutes.about: (context) => const AboutScreen(),
-      AppRoutes.languageSelection: (context) => const LanguageSelectionScreen(),
       AppRoutes.updateRequired: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
         if (args == null || args is! Map<String, dynamic>) {
@@ -195,19 +202,6 @@ class RouteGenerator {
           otp: args['otp'] ?? '',
         );
       },
-      AppRoutes.mapPicker: (context) {
-        final args = ModalRoute.of(context)?.settings.arguments;
-        if (args == null || args is! Map<String, dynamic>) {
-          final l10n = AppLocalizations.of(context)!;
-          return Scaffold(
-            body: Center(child: Text(l10n.invalidRouteArguments)),
-          );
-        }
-        return MapPickerPage(
-          initialLat: args['initialLat'] as double?,
-          initialLng: args['initialLng'] as double?,
-        );
-      },
       // Bank routes
       AppRoutes.bank: (context) => const BankMainScreen(),
       AppRoutes.bankReceivables: (context) => BlocProvider(
@@ -232,10 +226,12 @@ class RouteGenerator {
         DateTime? dateTo;
 
         if (args is Map<String, dynamic>) {
-          item = args['item'] as RestaurantDebt?;
-          period = args['period'] as String?;
-          dateFrom = args['dateFrom'] as DateTime?;
-          dateTo = args['dateTo'] as DateTime?;
+          // Whatever else came is not an amount (a cast broke the page)
+          final given = args['item'];
+          item = given is RestaurantDebt ? given : null;
+          period = args['period'] is String ? args['period'] : null;
+          dateFrom = args['dateFrom'] is DateTime ? args['dateFrom'] : null;
+          dateTo = args['dateTo'] is DateTime ? args['dateTo'] : null;
         } else if (args is RestaurantDebt) {
           item = args;
         }
@@ -265,7 +261,10 @@ class RouteGenerator {
           const StatisticsMoneyRestaurantsScreen(),
       AppRoutes.statisticsMoneyRestaurantDetail: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
-        if (args == null || args is! Map<String, dynamic>) {
+        // An id and a name, or the page says so (a cast broke the page)
+        if (args is! Map<String, dynamic> ||
+            args['id'] is! int ||
+            args['name'] is! String) {
           final l10n = AppLocalizations.of(context)!;
           return Scaffold(
             body: Center(child: Text(l10n.invalidRouteArguments)),
@@ -280,7 +279,10 @@ class RouteGenerator {
           const StatisticsMoneyDriversScreen(),
       AppRoutes.statisticsMoneyDriverDetail: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
-        if (args == null || args is! Map<String, dynamic>) {
+        // An id and a name, or the page says so (a cast broke the page)
+        if (args is! Map<String, dynamic> ||
+            args['id'] is! int ||
+            args['name'] is! String) {
           final l10n = AppLocalizations.of(context)!;
           return Scaffold(
             body: Center(child: Text(l10n.invalidRouteArguments)),
@@ -313,7 +315,10 @@ class RouteGenerator {
           const StatisticsPerformanceRestaurantsScreen(),
       AppRoutes.statisticsPerformanceRestaurantDetail: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
-        if (args == null || args is! Map<String, dynamic>) {
+        // An id and a name, or the page says so (a cast broke the page)
+        if (args is! Map<String, dynamic> ||
+            args['id'] is! int ||
+            args['name'] is! String) {
           final l10n = AppLocalizations.of(context)!;
           return Scaffold(
             body: Center(child: Text(l10n.invalidRouteArguments)),
@@ -328,7 +333,10 @@ class RouteGenerator {
           const StatisticsPerformanceDriversScreen(),
       AppRoutes.statisticsPerformanceDriverDetail: (context) {
         final args = ModalRoute.of(context)?.settings.arguments;
-        if (args == null || args is! Map<String, dynamic>) {
+        // An id and a name, or the page says so (a cast broke the page)
+        if (args is! Map<String, dynamic> ||
+            args['id'] is! int ||
+            args['name'] is! String) {
           final l10n = AppLocalizations.of(context)!;
           return Scaffold(
             body: Center(child: Text(l10n.invalidRouteArguments)),
@@ -361,9 +369,17 @@ class RouteGenerator {
           discountTarget: 'final_total',
         ),
       ),
-      AppRoutes.deliveryZones: (context) => BlocProvider.value(
-        value: context.read<CouponsBloc>(),
+      // Its own bloc: the coupon form's is not above the navigator, and
+      // the page found none (an error page)
+      AppRoutes.deliveryZones: (context) => BlocProvider(
+        create: (context) => sl<CouponsBloc>(),
         child: const DeliveryZonesScreen(),
+      ),
+      // Where customers can order
+      AppRoutes.deliveryAreas: (context) => BlocProvider(
+        create: (context) =>
+            sl<DeliveryAreasBloc>()..add(const LoadDeliveryAreasEvent()),
+        child: const DeliveryAreasScreen(),
       ),
       // User management routes
       AppRoutes.users: (context) => BlocProvider(

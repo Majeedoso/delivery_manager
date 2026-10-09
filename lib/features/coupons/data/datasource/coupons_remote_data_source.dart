@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/error/exceptions.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
+import 'package:delivery_manager/core/network/request_failure.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/features/coupons/data/models/coupon_model.dart';
@@ -21,11 +22,12 @@ abstract class BaseCouponsRemoteDataSource {
   /// Get coupon zones for manager selection.
   Future<List<DeliveryZoneModel>> getDeliveryZones();
 
-  /// Get restaurants for coupon targeting.
+  /// The restaurants a coupon can target: every one, by name (the
+  /// manager's list; the customers' only has those open at that moment).
   Future<List<Map<String, dynamic>>> getRestaurants({
     String? search,
     int page = 1,
-    int perPage = 50,
+    int perPage = 100,
   });
 
   /// Create a new delivery zone.
@@ -58,6 +60,17 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
     } catch (_) {
       return LoggingService();
     }
+  }
+
+  /// What a failed request tells the manager: the server's reason, or that
+  /// the network failed ([requestFailureOf]). An error page read as a map
+  /// threw, and the page read "An unexpected error occurred: type 'String'
+  /// is not a subtype...".
+  Exception _failure(Object error, String request) {
+    logger.error('$request failed', error: error);
+    if (error is ServerException) return error;
+    if (error is NetworkException) return error;
+    return requestFailureOf(error);
   }
 
   @override
@@ -102,21 +115,8 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
           message: response.data['message'] ?? 'Failed to load coupons',
         );
       }
-    } on DioException catch (e) {
-      logger.error('Get Coupons API DioException: ${e.message}');
-      if (e.response != null) {
-        throw ServerException(
-          message: e.response!.data['message'] ?? 'Failed to load coupons',
-        );
-      } else {
-        throw NetworkException(
-          message:
-              'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Get Coupons unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Get Coupons');
     }
   }
 
@@ -142,21 +142,8 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
           message: response.data['message'] ?? 'Failed to load coupon zones',
         );
       }
-    } on DioException catch (e) {
-      logger.error('Get coupon zones API DioException: ${e.message}');
-      if (e.response != null) {
-        throw ServerException(
-          message: e.response!.data['message'] ?? 'Failed to load coupon zones',
-        );
-      } else {
-        throw NetworkException(
-          message:
-              'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Get coupon zones unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Get coupon zones');
     }
   }
 
@@ -181,21 +168,8 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
           message: response.data['message'] ?? 'Failed to create zone',
         );
       }
-    } on DioException catch (e) {
-      logger.error('Create delivery zone API DioException: ${e.message}');
-      if (e.response != null) {
-        throw ServerException(
-          message: e.response!.data['message'] ?? 'Failed to create zone',
-        );
-      } else {
-        throw NetworkException(
-          message:
-              'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Create delivery zone unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Create delivery zone');
     }
   }
 
@@ -223,21 +197,8 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
           message: response.data['message'] ?? 'Failed to update zone',
         );
       }
-    } on DioException catch (e) {
-      logger.error('Update delivery zone API DioException: ${e.message}');
-      if (e.response != null) {
-        throw ServerException(
-          message: e.response!.data['message'] ?? 'Failed to update zone',
-        );
-      } else {
-        throw NetworkException(
-          message:
-              'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Update delivery zone unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Update delivery zone');
     }
   }
 
@@ -257,21 +218,8 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
           message: response.data['message'] ?? 'Failed to delete zone',
         );
       }
-    } on DioException catch (e) {
-      logger.error('Delete delivery zone API DioException: ${e.message}');
-      if (e.response != null) {
-        throw ServerException(
-          message: e.response!.data['message'] ?? 'Failed to delete zone',
-        );
-      } else {
-        throw NetworkException(
-          message:
-              'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Delete delivery zone unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Delete delivery zone');
     }
   }
 
@@ -294,21 +242,8 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
           message: response.data['message'] ?? 'Failed to create coupon',
         );
       }
-    } on DioException catch (e) {
-      logger.error('Create Coupon API DioException: ${e.message}');
-      if (e.response != null) {
-        final message =
-            e.response!.data['message'] ?? 'Failed to create coupon';
-        throw ServerException(message: message);
-      } else {
-        throw NetworkException(
-          message:
-              'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Create Coupon unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Create Coupon');
     }
   }
 
@@ -331,21 +266,8 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
           message: response.data['message'] ?? 'Failed to update coupon',
         );
       }
-    } on DioException catch (e) {
-      logger.error('Update Coupon API DioException: ${e.message}');
-      if (e.response != null) {
-        final message =
-            e.response!.data['message'] ?? 'Failed to update coupon';
-        throw ServerException(message: message);
-      } else {
-        throw NetworkException(
-          message:
-              'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Update Coupon unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Update Coupon');
     }
   }
 
@@ -353,14 +275,22 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
   Future<List<Map<String, dynamic>>> getRestaurants({
     String? search,
     int page = 1,
-    int perPage = 50,
+    int perPage = 100,
   }) async {
     try {
-      final queryParams = <String, dynamic>{'page': page, 'per_page': perPage};
+      final queryParams = <String, dynamic>{
+        'page': page,
+        'per_page': perPage,
+        'sort_by': 'name',
+        'sort_order': 'asc',
+      };
       if (search != null && search.isNotEmpty) queryParams['search'] = search;
 
+      // The manager's list: every restaurant. The customers' list
+      // (/restaurants) only has those open at that moment: at night
+      // none, and the coupon went out for every restaurant
       final response = await dio.get(
-        ApiConstance.restaurantsPath,
+        ApiConstance.managerRestaurantsPath,
         queryParameters: queryParams,
       );
 
@@ -379,21 +309,8 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
           message: response.data['message'] ?? 'Failed to load restaurants',
         );
       }
-    } on DioException catch (e) {
-      logger.error('Get Restaurants API DioException: ${e.message}');
-      if (e.response != null) {
-        throw ServerException(
-          message: e.response!.data['message'] ?? 'Failed to load restaurants',
-        );
-      } else {
-        throw NetworkException(
-          message:
-              'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Get Restaurants unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Get Restaurants');
     }
   }
 }

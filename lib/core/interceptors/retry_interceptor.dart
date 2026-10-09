@@ -5,7 +5,8 @@ import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:flutter/foundation.dart';
 
 /// Interceptor that adds retry logic for network requests
-/// Retries on network errors, timeouts, and 5xx server errors
+/// Retries when the server couldn't be reached; timeouts and 5xx server errors
+/// only for requests that are safe to repeat (GET, HEAD, OPTIONS)
 class RetryInterceptor extends Interceptor {
   final int maxRetries;
   final Duration retryDelay;
@@ -74,19 +75,31 @@ class RetryInterceptor extends Interceptor {
       return false;
     }
 
-    // Retry on network errors and timeouts
+    // Retry when the request never reached the server (for all request types)
     if (err.type == DioExceptionType.connectionTimeout ||
-        err.type == DioExceptionType.sendTimeout ||
-        err.type == DioExceptionType.receiveTimeout ||
         err.type == DioExceptionType.connectionError) {
       return true;
     }
 
-    // Retry on 5xx server errors (server-side errors)
+    // Only safe, idempotent requests (GET, HEAD, OPTIONS) may be sent twice.
+    // Don't repeat POST, PUT, PATCH, DELETE: the server may already have acted
+    final method = err.requestOptions.method.toUpperCase();
+    final isIdempotent =
+        method == 'GET' || method == 'HEAD' || method == 'OPTIONS';
+
+    // A send or receive timeout can come after the server handled the request
+    // (e.g. the payment was recorded but the answer was slow), so repeating a
+    // POST would record it twice
+    if (err.type == DioExceptionType.sendTimeout ||
+        err.type == DioExceptionType.receiveTimeout) {
+      return isIdempotent;
+    }
+
+    // For 5xx server errors, only retry idempotent requests
     if (err.type == DioExceptionType.badResponse) {
       final statusCode = err.response?.statusCode;
       if (statusCode != null && statusCode >= 500 && statusCode < 600) {
-        return true;
+        return isIdempotent;
       }
     }
 

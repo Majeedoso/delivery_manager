@@ -33,9 +33,11 @@ class _RejectUserDialogState extends State<RejectUserDialog> {
         right: 16,
         top: 16,
       ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      // The theme's sheet colour (white in light mode): a white sheet left
+      // dark mode's light title, and what was typed, white on white
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerLowest,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Form(
         key: _formKey,

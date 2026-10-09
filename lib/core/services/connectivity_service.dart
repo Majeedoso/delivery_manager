@@ -1,11 +1,16 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 
 /// Service to check internet connectivity
 /// Uses HTTP lookup to verify actual internet access
 class ConnectivityService {
+  /// Resolves a host name. Tests replace it so no real DNS lookups happen.
+  @visibleForTesting
+  static Future<List<InternetAddress>> Function(String host) lookup =
+      InternetAddress.lookup;
   /// Get logging service instance
   static LoggingService get _logger {
     try {
@@ -46,7 +51,7 @@ class ConnectivityService {
           try {
             // Use HTTP lookup to check internet connectivity
             // This is a Future-based approach that's more reliable
-            final result = await InternetAddress.lookup(host)
+            final result = await lookup(host)
                 .timeout(
                   const Duration(seconds: 10),
                   onTimeout: () {

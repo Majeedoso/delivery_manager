@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/features/users/domain/entities/managed_user.dart';
+import 'package:delivery_manager/features/users/presentation/widgets/user_labels.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:delivery_manager/core/utils/phone_text.dart';
 
 class UserListItem extends StatelessWidget {
   final ManagedUser user;
@@ -143,7 +145,7 @@ class UserListItem extends StatelessWidget {
               Icon(_getStatusIcon(status), size: 18, color: color),
               const SizedBox(width: 8),
               Text(
-                status.displayName,
+                statusLabel(localizations, status),
                 style: TextStyle(color: color, fontWeight: FontWeight.w500),
               ),
             ],
@@ -237,7 +239,7 @@ class UserListItem extends StatelessWidget {
                         if (user.phone.isNotEmpty) ...[
                           const SizedBox(height: 2),
                           Text(
-                            user.phone,
+                            phoneText(user.phone),
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(color: Colors.grey[600]),
                           ),

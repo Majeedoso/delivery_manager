@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
+import 'package:delivery_manager/core/utils/error_message_mapper.dart';
+import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/features/users/domain/entities/managed_user.dart';
 import 'package:delivery_manager/features/users/presentation/controller/users_bloc.dart';
 import 'package:delivery_manager/features/users/presentation/controller/users_event.dart';
@@ -104,10 +106,20 @@ class _UsersScreenState extends State<UsersScreen> {
         elevation: 0,
       ),
       body: BlocConsumer<UsersBloc, UsersState>(
+        listenWhen: (previous, current) =>
+            previous.action != current.action ||
+            previous.errorMessage != current.errorMessage,
         listener: (context, state) {
           // Show success messages
           if (state.action != null) {
             _showActionSnackbar(context, state.action!);
+            context.read<UsersBloc>().add(const ClearUsersFeedbackEvent());
+          } else if (state.errorMessage.isNotEmpty &&
+              state.requestState != RequestState.error) {
+            // An action or the next page refused or failed: the list stays,
+            // and the manager is told why (nothing was said: the account
+            // just stayed as it was)
+            ErrorSnackBar.show(context, state.errorMessage);
             context.read<UsersBloc>().add(const ClearUsersFeedbackEvent());
           }
         },
@@ -218,7 +230,12 @@ class _UsersScreenState extends State<UsersScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                state.errorMessage,
+                // In the manager's language: the network's failures were
+                // written in English on every page
+                ErrorMessageMapper.getUserFriendlyMessage(
+                  state.errorMessage,
+                  localizations,
+                ),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.grey[600],

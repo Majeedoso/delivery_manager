@@ -1,10 +1,13 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/features/app_config/domain/usecases/get_contact_info_usecase.dart';
 import 'package:delivery_manager/core/usecase/base_usecase.dart';
+import 'package:delivery_manager/core/utils/phone_text.dart';
 
 class AboutScreen extends StatefulWidget {
   static const String route = '/about';
@@ -127,11 +130,9 @@ class _AboutScreenState extends State<AboutScreen> {
                   FutureBuilder<PackageInfo>(
                     future: PackageInfo.fromPlatform(),
                     builder: (context, snapshot) {
-                      final version = snapshot.hasData
-                          ? snapshot.data!.version
-                          : '1.0.0';
+                      // "v1.0.0" was shown until the real version arrived
                       return Text(
-                        'v$version',
+                        snapshot.hasData ? 'v${snapshot.data!.version}' : '',
                         style: TextStyle(
                           fontSize: 17.sp,
                           color: isDark ? Colors.white54 : Colors.grey[500],
@@ -206,13 +207,18 @@ class _AboutScreenState extends State<AboutScreen> {
                   label: l10n.email,
                   value: _email!,
                   isDark: isDark,
+                  link: Uri(scheme: 'mailto', path: _email),
                 ),
               if (_phone != null && _phone!.isNotEmpty)
                 _ContactTile(
                   icon: Icons.phone_outlined,
                   label: l10n.phone,
-                  value: _phone!,
+                  value: phoneText(_phone!),
                   isDark: isDark,
+                  link: Uri(
+                    scheme: 'tel',
+                    path: _phone!.replaceAll(RegExp(r'[^0-9+]'), ''),
+                  ),
                 ),
               if (_website != null && _website!.isNotEmpty)
                 _ContactTile(
@@ -220,6 +226,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   label: l10n.website,
                   value: _website!,
                   isDark: isDark,
+                  link: _websiteLink(_website!),
                 ),
             ],
 
@@ -227,7 +234,7 @@ class _AboutScreenState extends State<AboutScreen> {
 
             Center(
               child: Text(
-                l10n.copyright,
+                l10n.copyright('${clock.now().year}'),
                 style: TextStyle(
                   fontSize: 13.sp,
                   color: isDark ? Colors.white38 : Colors.grey[400],
@@ -242,6 +249,16 @@ class _AboutScreenState extends State<AboutScreen> {
       ),
     );
   }
+}
+
+/// The website as a link: only http(s), "https://" added when missing.
+Uri? _websiteLink(String website) {
+  final uri = Uri.tryParse(
+    website.contains('://') ? website : 'https://$website',
+  );
+  return uri != null && (uri.scheme == 'https' || uri.scheme == 'http')
+      ? uri
+      : null;
 }
 
 class _SectionHeader extends StatelessWidget {
@@ -398,12 +415,14 @@ class _ContactTile extends StatelessWidget {
   final String label;
   final String value;
   final bool isDark;
+  final Uri? link;
 
   const _ContactTile({
     required this.icon,
     required this.label,
     required this.value,
     required this.isDark,
+    this.link,
   });
 
   @override
@@ -427,29 +446,37 @@ class _ContactTile extends StatelessWidget {
             ? Border.all(color: Colors.white.withValues(alpha: 0.1))
             : null,
       ),
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.8.h),
-        leading: Container(
-          padding: EdgeInsets.all(2.5.w),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFF892D).withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(3.w),
+      // The tile paints its ink on the nearest Material: the card's colour
+      // hid it (a debug assertion on every build)
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          onTap: link == null
+              ? null
+              : () => launchUrl(link!, mode: LaunchMode.externalApplication),
+          contentPadding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.8.h),
+          leading: Container(
+            padding: EdgeInsets.all(2.5.w),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFF892D).withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(3.w),
+            ),
+            child: Icon(icon, color: const Color(0xFFFF892D), size: 20.sp),
           ),
-          child: Icon(icon, color: const Color(0xFFFF892D), size: 20.sp),
-        ),
-        title: Text(
-          label,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: isDark ? Colors.white54 : Colors.grey[500],
+          title: Text(
+            label,
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: isDark ? Colors.white54 : Colors.grey[500],
+            ),
           ),
-        ),
-        subtitle: Text(
-          value,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-            color: isDark ? Colors.white : Colors.black87,
+          subtitle: Text(
+            value,
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+              color: isDark ? Colors.white : Colors.black87,
+            ),
           ),
         ),
       ),

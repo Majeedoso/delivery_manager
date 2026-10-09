@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/error/exceptions.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
+import 'package:delivery_manager/core/network/request_failure.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/features/dashboard/data/models/app_dashboard_model.dart';
@@ -29,6 +30,16 @@ class DashboardRemoteDataSource implements BaseDashboardRemoteDataSource {
     } catch (_) {
       return LoggingService();
     }
+  }
+
+  /// What a failed request tells the manager: the server's reason, or that
+  /// the network failed ([requestFailureOf]). An error page read as a map
+  /// threw, and the page read "An unexpected error occurred: ...".
+  Exception _failure(Object error, String request) {
+    logger.error('$request failed', error: error);
+    if (error is ServerException) return error;
+    if (error is NetworkException) return error;
+    return requestFailureOf(error);
   }
 
   @override
@@ -76,25 +87,8 @@ class DashboardRemoteDataSource implements BaseDashboardRemoteDataSource {
           message: response.data['message'] ?? 'Failed to load settings',
         );
       }
-    } on DioException catch (e) {
-      final statusCode = e.response?.statusCode ?? 0;
-      if (statusCode >= 400 && statusCode < 500) {
-        logger.warning('Get Settings DioException: ${e.message} ($statusCode)');
-      } else {
-        logger.error('Get Settings DioException: ${e.message}', error: e);
-      }
-      if (e.response != null) {
-        throw ServerException(
-          message: e.response!.data['message'] ?? 'Failed to load settings',
-        );
-      } else {
-        throw NetworkException(
-          message: 'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Get Settings unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Get Settings');
     }
   }
 
@@ -117,25 +111,8 @@ class DashboardRemoteDataSource implements BaseDashboardRemoteDataSource {
           message: response.data['message'] ?? 'Failed to update setting',
         );
       }
-    } on DioException catch (e) {
-      final statusCode = e.response?.statusCode ?? 0;
-      if (statusCode >= 400 && statusCode < 500) {
-        logger.warning('Update Setting DioException: ${e.message} ($statusCode)');
-      } else {
-        logger.error('Update Setting DioException: ${e.message}', error: e);
-      }
-      if (e.response != null) {
-        throw ServerException(
-          message: e.response!.data['message'] ?? 'Failed to update setting',
-        );
-      } else {
-        throw NetworkException(
-          message: 'Cannot connect to server. Please check your internet connection.',
-        );
-      }
     } catch (e) {
-      logger.error('Update Setting unexpected error: $e');
-      rethrow;
+      throw _failure(e, 'Update Setting');
     }
   }
 }

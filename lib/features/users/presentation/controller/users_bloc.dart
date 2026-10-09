@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
-import 'package:delivery_manager/features/users/domain/entities/managed_user.dart';
 import 'package:delivery_manager/features/users/domain/usecases/get_users_usecase.dart';
 import 'package:delivery_manager/features/users/domain/usecases/approve_user_usecase.dart';
 import 'package:delivery_manager/features/users/domain/usecases/reject_user_usecase.dart';
@@ -18,6 +17,11 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
   final SuspendUserUseCase suspendUserUseCase;
   final ActivateUserUseCase activateUserUseCase;
   final LoggingService _logger;
+
+  /// Counts the requests for the list (a load, a filter, a search): the
+  /// answer to an earlier one, arriving late, is dropped. It replaced the
+  /// later one (the drivers listed under "Restaurant").
+  int _listRequest = 0;
 
   UsersBloc({
     required this.getUsersUseCase,
@@ -43,6 +47,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     LoadUsersEvent event,
     Emitter<UsersState> emit,
   ) async {
+    final request = ++_listRequest;
     if (event.showLoading) {
       emit(
         state.copyWith(
@@ -60,6 +65,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       status: state.selectedStatus,
       search: state.searchQuery.isEmpty ? null : state.searchQuery,
     );
+    if (request != _listRequest) return;
 
     result.fold(
       (failure) {
@@ -98,6 +104,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       state.copyWith(isLoadingMore: true, errorMessage: '', resetAction: true),
     );
 
+    final request = _listRequest;
     final nextPage = state.currentPage + 1;
     final result = await getUsersUseCase(
       page: nextPage,
@@ -106,6 +113,12 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       status: state.selectedStatus,
       search: state.searchQuery.isEmpty ? null : state.searchQuery,
     );
+    // The list was asked for again meanwhile (another filter, a search):
+    // this page belongs to the list before
+    if (request != _listRequest) {
+      emit(state.copyWith(isLoadingMore: false));
+      return;
+    }
 
     result.fold(
       (failure) {
@@ -137,6 +150,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     FilterUsersEvent event,
     Emitter<UsersState> emit,
   ) async {
+    final request = ++_listRequest;
     // Update filters and reload
     emit(
       state.copyWith(
@@ -156,6 +170,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       status: event.status,
       search: state.searchQuery.isEmpty ? null : state.searchQuery,
     );
+    if (request != _listRequest) return;
 
     result.fold(
       (failure) {
@@ -367,6 +382,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     SearchUsersEvent event,
     Emitter<UsersState> emit,
   ) async {
+    final request = ++_listRequest;
     // Update search query and reload
     emit(
       state.copyWith(
@@ -383,6 +399,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       status: state.selectedStatus,
       search: event.query.isEmpty ? null : event.query,
     );
+    if (request != _listRequest) return;
 
     result.fold(
       (failure) {

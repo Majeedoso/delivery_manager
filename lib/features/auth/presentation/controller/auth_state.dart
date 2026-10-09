@@ -27,12 +27,18 @@ class AuthState extends Equatable {
   /// Resend countdown in seconds for email verification OTP (null if not applicable)
   final int? resendCountdown;
 
+  /// The server's own name for the refusal in [message] (ROLE_MISMATCH,
+  /// INVALID_CREDENTIALS, ACCOUNT_NOT_FOUND), when it gave one. It belongs to one
+  /// state: [copyWith] does not carry it to the next.
+  final String? errorCode;
+
   const AuthState({
     this.requestState = RequestState.loaded,
     this.user,
     this.message = '',
     this.isAuthenticated = false,
     this.resendCountdown,
+    this.errorCode,
   });
 
   /// Creates a new AuthState with updated values
@@ -45,6 +51,7 @@ class AuthState extends Equatable {
     String? message,
     bool? isAuthenticated,
     int? resendCountdown,
+    String? errorCode,
   }) {
     return AuthState(
       requestState: requestState ?? this.requestState,
@@ -52,9 +59,10 @@ class AuthState extends Equatable {
       message: message ?? this.message,
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       resendCountdown: resendCountdown ?? this.resendCountdown,
+      errorCode: errorCode,
     );
   }
 
   @override
-  List<Object?> get props => [requestState, user, message, isAuthenticated, resendCountdown];
+  List<Object?> get props => [requestState, user, message, isAuthenticated, resendCountdown, errorCode];
 }

@@ -6,6 +6,19 @@ import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/theme/widget_decorations.dart';
 import 'package:delivery_manager/core/utils/date_formatter.dart';
 
+/// The name of a period in the app's language. A period that has a name is
+/// the calendar one, as `PeriodCalculator` and the server count it: this week
+/// since Sunday, this month since the 1st, this year since 1 January. The last
+/// 7 days have no name: they are a date range.
+String periodLabel(AppLocalizations l10n, String period) => switch (period) {
+  'all' => l10n.all,
+  'day' => l10n.today,
+  'week' => l10n.thisWeek,
+  'month' => l10n.thisMonth,
+  'year' => l10n.thisYear,
+  _ => l10n.dateRange,
+};
+
 /// Complete period and date range selector widget
 /// 
 /// This widget provides a reusable component for selecting time periods
@@ -91,12 +104,15 @@ class PeriodDateSelector extends StatelessWidget {
     final borderColor = Theme.of(context).colorScheme.inversePrimary;
     
     final periodOptions = customPeriodOptions ?? [
-      if (includeAllOption) {'value': 'all', 'label': localizations.all},
-      {'value': 'day', 'label': localizations.day},
-      {'value': 'week', 'label': localizations.week},
-      {'value': 'month', 'label': localizations.month},
-      {'value': 'year', 'label': localizations.year},
-      {'value': 'dateRange', 'label': localizations.dateRange},
+      for (final period in [
+        if (includeAllOption) 'all',
+        'day',
+        'week',
+        'month',
+        'year',
+        'dateRange',
+      ])
+        {'value': period, 'label': periodLabel(localizations, period)},
     ];
     
     return DropdownButton2<String>(

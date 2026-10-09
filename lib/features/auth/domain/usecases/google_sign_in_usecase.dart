@@ -13,7 +13,7 @@ import '../repository/base_auth_repository.dart';
 /// 4. Repository automatically saves token and user data locally
 /// 
 /// Returns a [User] entity with authentication token if the user already
-/// exists in the system. For new users, use [GoogleSignUpUseCase] instead.
+/// exists in the system (a manager account is never created here).
 class GoogleSignInUseCase implements BaseUseCase<User, NoParameters> {
   /// The authentication repository to perform Google Sign-In
   final BaseAuthRepository _baseAuthRepository;

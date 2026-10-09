@@ -17,6 +17,7 @@ import 'package:delivery_manager/features/countdown/presentation/controller/coun
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
+import 'package:delivery_manager/core/utils/phone_text.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String route = '/profile';
@@ -118,7 +119,7 @@ class ProfileScreen extends StatelessWidget {
         // Delete Account Button
         WidgetDecorations.getActionCard(
           context: context,
-          title: 'Delete Account',
+          title: AppLocalizations.of(context)!.deleteAccount,
           icon: Icons.delete_forever,
           iconColor: Colors.red.shade700,
           onTap: () {
@@ -162,19 +163,25 @@ class ProfileScreen extends StatelessWidget {
           _buildInfoCard(
             context,
             AppLocalizations.of(context)!.phone,
-            user.phone,
+            phoneText(user.phone),
             Icons.phone,
           ),
         _buildInfoCard(
           context,
           AppLocalizations.of(context)!.userType,
-          ProfileFormatter.formatRoleName(user.role).toUpperCase(),
+          ProfileFormatter.formatRoleName(
+            user.role,
+            AppLocalizations.of(context)!,
+          ).toUpperCase(),
           Icons.category,
         ),
         _buildInfoCard(
           context,
           AppLocalizations.of(context)!.accountStatus,
-          ProfileFormatter.formatStatus(user.status),
+          ProfileFormatter.formatStatus(
+            user.status,
+            AppLocalizations.of(context)!,
+          ),
           Icons.verified,
         ),
       ],

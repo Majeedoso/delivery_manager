@@ -1,6 +1,7 @@
 import 'package:delivery_manager/features/bank/data/models/driver_credit_debt_detail_model.dart';
 import 'package:delivery_manager/features/bank/domain/entities/restaurant_debt.dart';
 import 'package:delivery_manager/core/utils/currency.dart';
+import 'package:delivery_manager/core/utils/server_time.dart';
 
 class RestaurantDebtModel extends RestaurantDebt {
   const RestaurantDebtModel({
@@ -12,6 +13,7 @@ class RestaurantDebtModel extends RestaurantDebt {
     super.counterpartyType,
     super.confirmedAt,
     super.details,
+    super.paidTowardsOrders,
   });
 
   /// Safely parses a value that might be a num or a String to double
@@ -24,7 +26,12 @@ class RestaurantDebtModel extends RestaurantDebt {
     return defaultValue;
   }
 
-  factory RestaurantDebtModel.fromJson(Map<String, dynamic> json) {
+  /// [isCredit]: the list it came in says it (the manager's debts are
+  /// positive amounts); without it, the amount's sign.
+  factory RestaurantDebtModel.fromJson(
+    Map<String, dynamic> json, {
+    bool? isCredit,
+  }) {
     // Handle both old and new API formats
     // New format uses 'balance' instead of 'amount'
     // New format uses 'counterparty_id' instead of 'restaurant_id'
@@ -33,7 +40,10 @@ class RestaurantDebtModel extends RestaurantDebt {
     final double rawAmount = _parseDouble(balancedRaw);
     final double amount = rawAmount.abs(); // Keep amount positive
 
-    final id = json['counterparty_id'] ?? json['restaurant_id'] ?? 0;
+    // A restaurant's counterparty id is its owner's user id; the payment endpoints
+    // take the restaurant's own id, sent beside it (paid by the owner's id, a
+    // payment was refused, or went to another restaurant)
+    final id = json['restaurant_id'] ?? json['counterparty_id'] ?? 0;
     final name =
         json['counterparty_name'] ?? json['restaurant_name'] ?? 'Unknown';
     final typeRaw = json['counterparty_type'] ?? json['type'];
@@ -50,7 +60,7 @@ class RestaurantDebtModel extends RestaurantDebt {
         json['confirmed_at'];
     if (dateRaw != null) {
       if (dateRaw is String) {
-        confirmedAt = DateTime.tryParse(dateRaw);
+        confirmedAt = tryParseServerTime(dateRaw);
       } else if (dateRaw is DateTime) {
         confirmedAt = dateRaw;
       }
@@ -70,10 +80,13 @@ class RestaurantDebtModel extends RestaurantDebt {
       formattedAmount:
           json['formatted_amount'] as String? ??
           '${amount.toStringAsFixed(2)} ${Currency.dzd.code}',
-      isCredit: rawAmount > 0, // Heuristic, or passed parameter
+      isCredit: isCredit ?? rawAmount > 0,
       counterpartyType: counterpartyType,
       confirmedAt: confirmedAt,
       details: detailsList,
+      paidTowardsOrders: json['paid_towards_orders'] == null
+          ? null
+          : _parseDouble(json['paid_towards_orders']),
     );
   }
 }

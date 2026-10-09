@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:flutter/services.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/features/countdown/presentation/controller/countdown_bloc.dart';
@@ -20,14 +21,20 @@ import 'package:delivery_manager/features/profile/presentation/controller/profil
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
+import 'package:delivery_manager/core/services/public_settings_service.dart';
 
 class VerifyEmailChangeOtpScreen extends StatefulWidget {
   static const String route = '/verify-email-change-otp';
   final String newEmail;
+
+  /// The password typed on the change email page, to resend the code (the
+  /// backend asks for it again). Absent when the page is reopened later.
+  final String? currentPassword;
   
   const VerifyEmailChangeOtpScreen({
     super.key,
     required this.newEmail,
+    this.currentPassword,
   });
 
   @override
@@ -43,6 +50,8 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
   String? _lastDetectedOtp;
   String? _initialClipboardOtp;
 
+  Timer? _clipboardTimer; // looks for a pasted code every second
+
   @override
   void initState() {
     super.initState();
@@ -51,8 +60,12 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
     // Start countdown if not already active (persists across navigation)
     final countdownBloc = context.read<CountdownBloc>();
     if (!countdownBloc.state.isActive) {
-      // Default to 120 seconds (2 minutes) - will be updated by resend response
-      countdownBloc.add(const StartCountdownEvent(120));
+      // The wait set on the server (settings); a resend answer updates it
+      countdownBloc.add(
+        StartCountdownEvent(
+          sl<PublicSettingsService>().otpResendWaitSeconds,
+        ),
+      );
     }
     
     _captureInitialClipboard();
@@ -62,6 +75,7 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
 
   @override
   void dispose() {
+    _clipboardTimer?.cancel();
     _otpController.dispose();
     super.dispose();
   }
@@ -98,12 +112,8 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
         if (code != null && code.length == 6) {
           _otpController.text = code;
           logger.info('✅ Smart Auth: OTP auto-filled: $code');
-          // Wait a bit longer to ensure onCompleted doesn't also trigger
-          Future.delayed(const Duration(milliseconds: 1000), () {
-            if (mounted && !_isProcessing) {
-              _confirmEmailChange();
-            }
-          });
+          // Filling the Pinput completes it, and its onCompleted sends the code
+          // (a delayed second send went out too)
         }
       } else {
         logger.debug('❌ Smart Auth: No SMS detected');
@@ -114,7 +124,7 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
   }
 
   Future<void> _checkClipboardPeriodically() async {
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
+    _clipboardTimer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (!mounted) {
         timer.cancel();
         return;
@@ -143,12 +153,8 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
               final logger = sl<LoggingService>();
               logger.info('✅ Auto-detected NEW OTP: $otp');
               _otpController.text = otp;
-              // Don't show message, just auto-confirm silently
-              Future.delayed(const Duration(milliseconds: 500), () {
-                if (mounted && !_isProcessing) {
-                  _confirmEmailChange();
-                }
-              });
+              // Filling the Pinput completes it, and its onCompleted sends the code
+              // (a delayed second send went out too)
             }
           }
         }
@@ -222,7 +228,9 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
             state.resendCountdown != null) {
           // Start countdown
           final countdownBloc = context.read<CountdownBloc>();
-          final countdownValue = state.resendCountdown ?? 120;
+          final countdownValue =
+              state.resendCountdown ??
+              sl<PublicSettingsService>().otpResendWaitSeconds;
           if (!countdownBloc.state.isActive) {
             countdownBloc.add(StartCountdownEvent(countdownValue));
           }
@@ -294,20 +302,24 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
                         SizedBox(height: 6.h),
                         Directionality(
                           textDirection: TextDirection.ltr,
-                          child: Pinput(
-                            length: 6,
-                            controller: _otpController,
-                            defaultPinTheme: defaultPinTheme,
-                            focusedPinTheme: focusedPinTheme,
-                            submittedPinTheme: submittedPinTheme,
-                            pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-                            showCursor: true,
-                            onCompleted: (pin) {
-                              // Only call if not already processing (prevents duplicate calls from auto-detection)
-                              if (!_isProcessing) {
-                                _confirmEmailChange();
-                              }
-                            },
+                          child: Semantics(
+                            identifier: 'otp.code',
+                            container: true,
+                            child: Pinput(
+                              length: 6,
+                              controller: _otpController,
+                              defaultPinTheme: defaultPinTheme,
+                              focusedPinTheme: focusedPinTheme,
+                              submittedPinTheme: submittedPinTheme,
+                              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                              showCursor: true,
+                              onCompleted: (pin) {
+                                // Only call if not already processing (prevents duplicate calls from auto-detection)
+                                if (!_isProcessing) {
+                                  _confirmEmailChange();
+                                }
+                              },
+                            ),
                           ),
                         ),
                         SizedBox(height: 4.h),
@@ -410,10 +422,19 @@ class _VerifyEmailChangeOtpScreenState extends State<VerifyEmailChangeOtpScreen>
     final authState = context.read<AuthBloc>().state;
     final isGoogleUser = authState.user?.googleId != null;
     
-    // Dispatch ChangeEmailEvent to resend OTP (same endpoint as initial request)
+    final password = widget.currentPassword ?? '';
+
+    // Reopened without the password: it has to be typed again
+    if (!isGoogleUser && password.isEmpty) {
+      Navigator.of(context).pushReplacementNamed(AppRoutes.changeEmail);
+      return;
+    }
+
+    // Resending is asking again (same endpoint as the first request), with
+    // the password for an account that has one
     context.read<ProfileBloc>().add(ChangeEmailEvent(
       newEmail: widget.newEmail,
-      currentPassword: isGoogleUser ? '' : '', // Empty for resend, backend handles it
+      currentPassword: isGoogleUser ? '' : password
     ));
   }
 }

@@ -1,8 +1,10 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
+import 'package:delivery_manager/core/utils/amounts.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/core/widgets/period_date_selector.dart';
 import 'package:delivery_manager/core/utils/period_calculator.dart';
@@ -10,7 +12,6 @@ import 'package:delivery_manager/features/bank/presentation/controller/bank_bloc
 import 'package:delivery_manager/features/bank/presentation/controller/bank_event.dart';
 import 'package:delivery_manager/features/bank/presentation/controller/bank_state.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
-import 'package:delivery_manager/core/utils/currency.dart';
 
 class NewTransactionScreen extends StatefulWidget {
   static const String route = '/bank-new-transaction';
@@ -30,8 +31,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   int? _selectedRestaurantId;
   int? _selectedDriverId;
 
-  // Period selection state
-  String _selectedPeriod = 'week';
+  // Period selection state: what is owed now (with "This Week", the amount
+  // left out older debts)
+  String _selectedPeriod = 'all';
   DateTime? _dateFrom;
   DateTime? _dateTo;
 
@@ -43,6 +45,10 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   double? _calculatedDriverAmount;
   bool _isCalculatingDriver = false;
 
+  // The restaurant or driver chosen sent a payment from its app that waits
+  // for the manager's answer: the amount reads 0, and another is refused
+  bool _paymentWaiting = false;
+
   // Cached restaurant list and system debt (persisted across state changes)
   List<Map<String, dynamic>> _restaurants = [];
   List<Map<String, dynamic>> _drivers = [];
@@ -50,8 +56,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize with week period
-    final range = PeriodCalculator.calculatePeriodRange('week');
+    final range = PeriodCalculator.calculatePeriodRange(_selectedPeriod);
     _dateFrom = range.startDate;
     _dateTo = range.endDate;
 
@@ -96,9 +101,9 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
     final picked = await showDatePicker(
       context: context,
-      initialDate: currentDate ?? DateTime.now(),
+      initialDate: currentDate ?? clock.now(),
       firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
+      lastDate: clock.now(),
     );
 
     if (picked != null) {
@@ -121,7 +126,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
   void _submitPayment() {
     if (!_formKey.currentState!.validate()) return;
 
-    final amount = double.tryParse(_amountController.text);
+    final amount = parseTypedAmount(_amountController.text);
     if (amount == null || amount <= 0) {
       ErrorSnackBar.show(context, AppLocalizations.of(context)!.invalidAmount);
       return;
@@ -180,19 +185,23 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             if (state is PaymentError) {
               ErrorSnackBar.show(context, state.message);
             } else if (state is PaymentRecorded) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message.replaceAll(RegExp(r'<[^>]+>'), '')),
-                  backgroundColor: Colors.green,
-                ),
+              // The form only starts again: say the payment was recorded
+              // (it read the bloc's English sentence)
+              ErrorSnackBar.showConfirmation(
+                context,
+                AppLocalizations.of(context)!.paymentRecordedNotice,
               );
-              // Clear form after successful payment
+              // Clear form after successful payment (the driver chosen
+              // stayed, with its old total)
               _formKey.currentState?.reset();
               _amountController.clear();
               _notesController.clear();
               setState(() {
                 _selectedRestaurantId = null;
+                _selectedDriverId = null;
                 _calculatedAmount = null;
+                _calculatedDriverAmount = null;
+                _paymentWaiting = false;
               });
             } else if (state is BalanceLoaded) {
               // Cache counterparty lists from credits (who owe the system)
@@ -222,11 +231,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             } else if (state is AmountCalculating) {
               setState(() {
                 _isCalculating = true;
+                _paymentWaiting = false;
               });
             } else if (state is AmountCalculated) {
               setState(() {
                 _isCalculating = false;
                 _calculatedAmount = state.amount;
+                _paymentWaiting = state.hasExistingTransaction;
               });
             } else if (state is AmountCalculationError) {
               setState(() {
@@ -236,11 +247,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             } else if (state is SystemAmountCalculating) {
               setState(() {
                 _isCalculatingDriver = true;
+                _paymentWaiting = false;
               });
             } else if (state is SystemAmountCalculated) {
               setState(() {
                 _isCalculatingDriver = false;
                 _calculatedDriverAmount = state.amount;
+                _paymentWaiting = state.hasExistingTransaction;
               });
             } else if (state is SystemAmountCalculationError) {
               setState(() {
@@ -299,6 +312,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                           _selectedDriverId = null;
                           _calculatedAmount = null;
                           _calculatedDriverAmount = null;
+                          _paymentWaiting = false;
                         });
                         // If driver payment selected, calculate driver amount
                         if (selection.first == 'driver') {
@@ -529,12 +543,14 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                                             ),
                                           )
                                         : Text(
-                                            '${(_calculatedAmount ?? 0.0).toStringAsFixed(2)} ${Currency.dzd.code}',
+                                            '${(_calculatedAmount ?? 0.0).toStringAsFixed(2)} ${AppLocalizations.of(context)!.currency}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium
                                                 ?.copyWith(
-                                                  color: Colors.black,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.onSurface,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                           ),
@@ -713,12 +729,14 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                                             ),
                                           )
                                         : Text(
-                                            '${(_calculatedDriverAmount ?? 0.0).toStringAsFixed(2)} ${Currency.dzd.code}',
+                                            '${(_calculatedDriverAmount ?? 0.0).toStringAsFixed(2)} ${AppLocalizations.of(context)!.currency}',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .titleMedium
                                                 ?.copyWith(
-                                                  color: Colors.black,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.onSurface,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                           ),
@@ -732,7 +750,27 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                       ],
                     ],
 
-                    // Driver debt info (handled in driver section)
+                    // A payment of theirs waits for the manager: said, or the
+                    // amount read 0 with no reason
+                    if (_paymentWaiting) ...[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(Icons.hourglass_top, color: Colors.orange),
+                          SizedBox(width: 2.w),
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(
+                                context,
+                              )!.paymentWaitingForAnswer,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(color: Colors.orange.shade800),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 2.h),
+                    ],
 
                     // Amount Input
                     TextFormField(
@@ -745,13 +783,13 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        suffixText: Currency.dzd.code,
+                        suffixText: AppLocalizations.of(context)!.currency,
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return AppLocalizations.of(context)!.invalidAmount;
                         }
-                        final amount = double.tryParse(value);
+                        final amount = parseTypedAmount(value);
                         if (amount == null || amount <= 0) {
                           return AppLocalizations.of(context)!.invalidAmount;
                         }

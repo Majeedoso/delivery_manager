@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 
 /// Represents a coupon managed by a manager.
@@ -46,36 +47,14 @@ class Coupon extends Equatable {
     this.deliveryZoneIds = const [],
   });
 
-  /// Returns the display text for the discount value.
-  String get discountDisplay {
-    if (type == 'percentage') {
-      return '$value%';
-    } else {
-      return '$value DZD';
-    }
-  }
-
-  /// Returns true if the coupon is currently active and within date range.
-  bool get isCurrentlyActive {
-    final now = DateTime.now();
-    return status == 'active' &&
-        now.isAfter(startDate) &&
-        now.isBefore(endDate);
-  }
-
-  /// Returns true if the coupon has expired.
+  /// Whether the coupon's last day has passed. The server keeps the days
+  /// (sent at midnight UTC) and accepts the coupon until the end of the
+  /// last one: it read "Expired" all that day.
   bool get isExpired {
-    return DateTime.now().isAfter(endDate);
+    final now = clock.now();
+    final today = DateTime(now.year, now.month, now.day);
+    return today.isAfter(DateTime(endDate.year, endDate.month, endDate.day));
   }
-
-  /// Returns true if the coupon has reached its usage limit.
-  bool get isUsageLimitReached {
-    if (maxUsesTotal == null) return false;
-    return usagesCount >= maxUsesTotal!;
-  }
-
-  /// Returns true if the coupon has zone restrictions.
-  bool get hasZoneRestrictions => deliveryZoneIds.isNotEmpty;
 
   @override
   List<Object?> get props => [

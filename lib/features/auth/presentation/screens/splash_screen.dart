@@ -16,14 +16,11 @@ import 'package:delivery_manager/features/app_version/presentation/screens/updat
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
-import 'package:delivery_manager/core/services/permission_service.dart';
 
 /// Splash screen for app initialization
 ///
 /// This is the first screen shown when the app starts. It handles:
 /// - Internet connectivity check
-/// - Notification permission request
-/// - Notification service initialization
 /// - Authentication status check
 ///
 /// The screen uses SplashBloc to orchestrate initialization and
@@ -48,16 +45,13 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with WidgetsBindingObserver {
+class _SplashScreenState extends State<SplashScreen> {
   Timer? _timeoutTimer;
   bool _forceShowRefresh = false;
-  bool _isSettingsDialogOpen = false;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     // Start initialization when screen is loaded
     context.read<SplashBloc>().add(const InitializeAppEvent());
 
@@ -75,21 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void dispose() {
     _timeoutTimer?.cancel();
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      final bloc = context.read<SplashBloc>();
-      final splashState = bloc.state;
-      if (!splashState.hasNotificationPermission &&
-          splashState.currentStep == SplashStep.noNotificationPermission) {
-        bloc.add(const RefreshNotificationPermissionEvent());
-      }
-    }
   }
 
   /// Handle authentication state changes
@@ -135,32 +115,18 @@ class _SplashScreenState extends State<SplashScreen>
     if (!state.hasInternetConnection) {
       return localizations.noInternetConnection;
     }
-    if (!state.hasNotificationPermission &&
-        state.requestState != RequestState.loading) {
-      return localizations.notificationsRequired;
-    }
 
     switch (state.statusMessage) {
       case 'initializing':
         return localizations.initializing;
       case 'checkingInternet':
         return localizations.checkingInternet;
-      case 'checkingNotifications':
-        return localizations.checkingNotifications;
-      case 'settingUpNotifications':
-        return localizations.settingUpNotifications;
       case 'checkingAuthentication':
         return localizations.checkingAuthentication;
-      case 'requestingPermission':
-        return localizations.requestingPermission;
       case 'noInternetConnection':
         return localizations.noInternetConnection;
-      case 'notificationsRequired':
-        return localizations.notificationsRequired;
       case 'initializationFailed':
         return localizations.initializationFailed;
-      case 'permissionRequestFailed':
-        return localizations.permissionRequestFailed;
       default:
         return localizations.initializing;
     }
@@ -239,62 +205,6 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  /// Build no notification permission UI
-  Widget _buildNoPermissionUI(SplashBloc bloc) {
-    return Column(
-      children: [
-        Icon(
-          Icons.notifications_off,
-          size: 26.sp,
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-        SizedBox(height: 3.h),
-        SizedBox(
-          width: double.infinity,
-          height: 7.5.h,
-          child: ElevatedButton(
-            onPressed: () {
-              final currentState = bloc.state;
-              final permanentlyDenied =
-                  currentState.errorMessage == 'permissionPermanentlyDenied';
-
-              if (permanentlyDenied) {
-                if (_isSettingsDialogOpen) return;
-                _isSettingsDialogOpen = true;
-                PermissionService().showSettingsDialog(context).then(
-                  (shouldOpen) {
-                    _isSettingsDialogOpen = false;
-                    if (shouldOpen) {
-                      PermissionService().openAppSettings();
-                    }
-                  },
-                );
-              } else {
-                bloc.add(const RequestNotificationPermissionEvent());
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.orange[700]
-                  : Colors.orange,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(3.w),
-              ),
-              elevation: 3,
-            ),
-            child: Text(
-              AppLocalizations.of(context)!.enableNotifications,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   /// Build main content based on state
   Widget _buildMainContent(
     SplashState state,
@@ -318,7 +228,6 @@ class _SplashScreenState extends State<SplashScreen>
     // Check if we're in an error/action state first - these should never show loading
     final bool isInErrorOrActionState =
         state.currentStep == SplashStep.noInternet ||
-        state.currentStep == SplashStep.noNotificationPermission ||
         state.currentStep == SplashStep.versionUpdateRequired ||
         state.currentStep == SplashStep.error;
 
@@ -334,7 +243,6 @@ class _SplashScreenState extends State<SplashScreen>
                 (!state.internetCheckCompleted &&
                     state.currentStep != SplashStep.checkingInternet) ||
                 (state.currentStep != SplashStep.noInternet &&
-                    state.currentStep != SplashStep.noNotificationPermission &&
                     state.currentStep != SplashStep.versionUpdateRequired &&
                     state.currentStep != SplashStep.error)));
 
@@ -379,9 +287,7 @@ class _SplashScreenState extends State<SplashScreen>
             _buildLoadingIndicator()
           else if (state.currentStep == SplashStep.noInternet ||
               shouldShowRefresh)
-            _buildNoInternetUI(bloc)
-          else if (state.currentStep == SplashStep.noNotificationPermission)
-            _buildNoPermissionUI(bloc),
+            _buildNoInternetUI(bloc),
         ],
       ),
     );

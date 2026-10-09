@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/features/users/domain/entities/managed_user.dart';
+import 'package:delivery_manager/features/users/presentation/widgets/user_labels.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 class UserFiltersSection extends StatelessWidget {
@@ -21,6 +22,10 @@ class UserFiltersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    // Black was lost on dark mode's dark card
+    final arrowColour = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white54
+        : Colors.black45;
 
     return Card(
       margin: const EdgeInsets.all(16),
@@ -69,7 +74,7 @@ class UserFiltersSection extends StatelessWidget {
                           .map((role) {
                             return DropdownMenuItem<UserRole?>(
                               value: role,
-                              child: Text(_getRoleDisplayName(role)),
+                              child: Text(roleLabel(localizations, role)),
                             );
                           }),
                     ],
@@ -78,8 +83,8 @@ class UserFiltersSection extends StatelessWidget {
                       height: 48,
                       padding: EdgeInsets.symmetric(horizontal: 4),
                     ),
-                    iconStyleData: const IconStyleData(
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black45),
+                    iconStyleData: IconStyleData(
+                      icon: Icon(Icons.arrow_drop_down, color: arrowColour),
                       iconSize: 24,
                     ),
                     dropdownStyleData: DropdownStyleData(
@@ -116,7 +121,7 @@ class UserFiltersSection extends StatelessWidget {
                       ...UserStatus.values.map((status) {
                         return DropdownMenuItem<UserStatus?>(
                           value: status,
-                          child: Text(status.displayName),
+                          child: Text(statusLabel(localizations, status)),
                         );
                       }),
                     ],
@@ -125,8 +130,8 @@ class UserFiltersSection extends StatelessWidget {
                       height: 48,
                       padding: EdgeInsets.symmetric(horizontal: 4),
                     ),
-                    iconStyleData: const IconStyleData(
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black45),
+                    iconStyleData: IconStyleData(
+                      icon: Icon(Icons.arrow_drop_down, color: arrowColour),
                       iconSize: 24,
                     ),
                     dropdownStyleData: DropdownStyleData(
@@ -145,20 +150,5 @@ class UserFiltersSection extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getRoleDisplayName(UserRole role) {
-    switch (role) {
-      case UserRole.customer:
-        return 'Customer';
-      case UserRole.driver:
-        return 'Driver';
-      case UserRole.restaurant:
-        return 'Restaurant';
-      case UserRole.operator:
-        return 'Operator';
-      case UserRole.manager:
-        return 'Manager';
-    }
   }
 }

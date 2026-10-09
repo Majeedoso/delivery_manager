@@ -23,8 +23,8 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     on<ChangeThemeEvent>(_onChangeTheme);
     on<ToggleThemeEvent>(_onToggleTheme);
 
-    // Load current theme on initialization
-    add(const GetCurrentThemeEvent());
+    // The theme is loaded by whoever creates the bloc (main.dart adds
+    // GetCurrentThemeEvent); adding it here too loaded it twice.
   }
 
   LoggingService get logger {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/features/app_version/domain/entities/app_version.dart';
+import 'package:delivery_manager/features/app_version/presentation/update_link.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/features/settings/presentation/screens/settings_screen.dart';
@@ -25,32 +25,9 @@ class UpdateRequiredScreen extends StatelessWidget {
   static const String route = '/update-required';
   
   
-  /// Open App Store or Play Store to update the app
-  Future<void> _openStore(BuildContext context, String? url) async {
-    if (url == null || url.isEmpty) {
-      // Fallback URLs if not provided
-      final fallbackUrl = Theme.of(context).platform == TargetPlatform.iOS
-          ? 'https://apps.apple.com'
-          : 'https://play.google.com/store';
-      
-      final uri = Uri.parse(fallbackUrl);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      }
-      return;
-    }
-
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    final updateUrl = isIOS ? appVersion.updateUrlIos : appVersion.updateUrlAndroid;
 
     return Scaffold(
       appBar: AppBar(
@@ -194,7 +171,7 @@ class UpdateRequiredScreen extends StatelessWidget {
                 
                 // Update Button
                 ElevatedButton(
-                  onPressed: () => _openStore(context, updateUrl),
+                  onPressed: () => openUpdateLink(context, appVersion),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 2.5.h),
                     shape: RoundedRectangleBorder(

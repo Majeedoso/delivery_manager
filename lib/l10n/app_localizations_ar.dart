@@ -9,22 +9,16 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appName => 'مدير التوصيل';
+  String get appName => 'تطبيق المدير';
 
   @override
   String get login => 'تسجيل الدخول';
-
-  @override
-  String get signUp => 'إنشاء حساب';
 
   @override
   String get email => 'البريد الإلكتروني';
 
   @override
   String get password => 'كلمة المرور';
-
-  @override
-  String get confirmPassword => 'تأكيد كلمة المرور';
 
   @override
   String get name => 'الاسم';
@@ -39,58 +33,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgotPassword => 'نسيت كلمة المرور';
 
   @override
-  String get dontHaveAccount => 'ليس لديك حساب؟ ';
-
-  @override
-  String get alreadyHaveAccount => 'لديك حساب بالفعل؟ ';
-
-  @override
   String get signInWithGoogle => 'تسجيل الدخول باستخدام جوجل';
-
-  @override
-  String get signUpWithGoogle => 'إنشاء حساب باستخدام جوجل';
-
-  @override
-  String get signUpWithEmail => 'إنشاء حساب بالبريد الإلكتروني';
-
-  @override
-  String get createAccount => 'إنشاء حساب';
 
   @override
   String get checkingAuthentication => 'جاري فحص المصادقة...';
 
   @override
-  String get welcome => 'مرحباً';
-
-  @override
   String get logout => 'تسجيل الخروج';
 
   @override
-  String get clearSavedCredentials => 'مسح بيانات الاعتماد المحفوظة';
-
-  @override
   String get language => 'اللغة';
-
-  @override
-  String get selectLanguage => 'اختر اللغة';
-
-  @override
-  String get english => 'الإنجليزية';
-
-  @override
-  String get arabic => 'العربية';
-
-  @override
-  String get french => 'الفرنسية';
 
   @override
   String get or => 'أو';
 
   @override
   String get profile => 'الملف الشخصي';
-
-  @override
-  String get profileInformation => 'معلومات الملف الشخصي';
 
   @override
   String get userType => 'نوع المستخدم';
@@ -100,76 +58,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get appSettings => 'إعدادات التطبيق';
-
-  @override
-  String get deliveryPreferences => '??????? ???????';
-
-  @override
-  String get deliveryPreferencesDescription => '???? ??????? ???? ???? ??????? ???';
-
-  @override
-  String get mutualSelected => 'Mutual';
-
-  @override
-  String get pendingSelected => 'Pending';
-
-  @override
-  String get selectAllRestaurants => '????? ?? ???????';
-
-  @override
-  String get noSelectionAllRestaurantsHint => '??? ????? ??? ?????? ???? ??????? ?? ???? ???????.';
-
-  @override
-  String selectedRestaurantsCount(int count, int total) {
-    return '$count ?? $total ?????';
-  }
-
-  @override
-  String updatingSelections(int done, int total) {
-    return '???? ????? ??????? $done/$total...';
-  }
-
-  @override
-  String get linkedRestaurants => '??????? ????????';
-
-  @override
-  String get addRestaurantByCode => '????? ???? ??????';
-
-  @override
-  String get restaurantCode => '??? ??????';
-
-  @override
-  String get enterRestaurantCode => '???? ??? ??????';
-
-  @override
-  String get linkRestaurant => '???';
-
-  @override
-  String get linkRestaurantSuccess => '?? ????? ?????';
-
-  @override
-  String get unlinkRestaurant => '?? ????? ????? ?????';
-
-  @override
-  String get noLinkedRestaurants => '?? ???? ????? ?????? ???';
-
-  @override
-  String get noLinkedRestaurantsDescription => '??? ??? ???? ????? ?? ??????? ?????? ?????.';
-
-  @override
-  String get notifications => 'الإشعارات';
-
-  @override
-  String get pushNotifications => 'الإشعارات الفورية';
-
-  @override
-  String get pushNotificationsDescription => 'تلقي الإشعارات الفورية';
-
-  @override
-  String get emailNotifications => 'إشعارات البريد الإلكتروني';
-
-  @override
-  String get emailNotificationsDescription => 'تلقي إشعارات البريد الإلكتروني';
 
   @override
   String get privacy => 'الخصوصية';
@@ -193,7 +81,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aboutApp => 'حول التطبيق';
 
   @override
-  String get aboutDescription => 'تطبيق المدير يمنحك إشرافاً كاملاً على منصة التوصيل بأكملها. وافق على المستخدمين، راقب الأداء، اضبط إعدادات النظام، وأدِر مناطق التوصيل — كل ذلك من لوحة تحكم إدارية متكاملة.';
+  String get aboutDescription => 'تطبيق المدير يمنحك إشرافاً كاملاً على منصة التوصيل بأكملها. وافق على المستخدمين، راقب الأداء، اضبط إعدادات النظام، وأدِر الكوبونات — كل ذلك من لوحة تحكم إدارية متكاملة.';
 
   @override
   String get features => 'الميزات';
@@ -217,16 +105,18 @@ class AppLocalizationsAr extends AppLocalizations {
   String get secureStorageDescription => 'ضبط رسوم التوصيل ونسب العمولة والقواعد التشغيلية للمنصة';
 
   @override
-  String get googleSignIn => 'إدارة المناطق';
+  String get googleSignIn => 'الكوبونات';
 
   @override
-  String get googleSignInDescription => 'تحديد مناطق التوصيل وتفعيلها للتحكم في أماكن قبول الطلبات';
+  String get googleSignInDescription => 'إنشاء الكوبونات وتحديد حدودها والمناطق التي تُطبَّق فيها';
 
   @override
   String get contactUs => 'اتصل بنا';
 
   @override
-  String get copyright => '© 2025 مدير التوصيل. جميع الحقوق محفوظة.';
+  String copyright(String year) {
+    return '© $year تطبيق المدير. جميع الحقوق محفوظة.';
+  }
 
   @override
   String get website => 'الموقع الإلكتروني';
@@ -247,31 +137,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get main => 'الرئيسية';
 
   @override
-  String get pendingOrders => 'الطلبات المعلقة';
-
-  @override
-  String get pendingOrdersDescription => 'إدارة الطلبات في انتظار التحقق';
-
-  @override
-  String get acceptOrder => 'قبول الطلب';
-
-  @override
-  String get orderAcceptedSuccessfully => 'تم قبول الطلب بنجاح!';
-
-  @override
-  String get noOrdersAvailable => 'لا توجد طلبات متاحة';
-
-  @override
-  String get checkBackLater => 'عد لاحقاً للطلبات الجديدة';
-
-  @override
   String get refresh => 'تحديث';
-
-  @override
-  String get noDeliveryAddress => 'لا يوجد عنوان توصيل';
-
-  @override
-  String get items => 'عناصر';
 
   @override
   String get total => 'الإجمالي';
@@ -280,46 +146,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get deliveryFee => 'رسوم التوصيل';
 
   @override
-  String get cash => 'نقداً';
-
-  @override
-  String get card => 'بطاقة';
-
-  @override
   String get confirmed => 'مؤكد';
 
   @override
-  String get readyForPickup => 'جاهز للاستلام';
-
-  @override
-  String get showMore => 'عرض المزيد';
-
-  @override
-  String get showLess => 'عرض أقل';
-
-  @override
-  String get paymentMethod => 'الدفع';
-
-  @override
-  String get deliveryNotes => 'ملاحظات';
-
-  @override
-  String get ongoingOrders => 'الطلبات الجارية';
-
-  @override
-  String get ongoingOrdersDescription => 'إدارة التوصيلات النشطة';
-
-  @override
-  String get archiveOrders => 'أرشيف الطلبات';
-
-  @override
-  String get archiveOrdersDescription => 'عرض الطلبات المقبولة والمرفوضة';
-
-  @override
   String get statistics => 'الإحصائيات';
-
-  @override
-  String get statisticsDescription => 'عرض مقاييس الأداء الخاصة بك';
 
   @override
   String get statisticsMoney => 'المال';
@@ -358,31 +188,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get user => 'مستخدم';
 
   @override
-  String get orders => 'الطلبات';
-
-  @override
-  String get archive => 'الأرشيف';
-
-  @override
-  String get ordersArchive => 'أرشيف الطلبات';
-
-  @override
-  String get acceptedOrders => 'الطلبات المقبولة';
-
-  @override
-  String get rejectedOrders => 'الطلبات المرفوضة';
-
-  @override
-  String get deliveredOrders => 'الطلبات المسلمة';
-
-  @override
-  String get canceledOrders => 'الطلبات الملغاة';
-
-  @override
   String get delivered => 'تم التوصيل';
-
-  @override
-  String get cancelled => 'ملغي';
 
   @override
   String get resetPassword => 'إعادة تعيين كلمة المرور';
@@ -397,13 +203,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get emailAddress => 'عنوان البريد الإلكتروني';
 
   @override
-  String get sendResetLink => 'إرسال رابط إعادة التعيين';
-
-  @override
   String get sendOtp => 'إرسال OTP';
-
-  @override
-  String get backToLogin => 'العودة لتسجيل الدخول';
 
   @override
   String get enterOtpCode => 'أدخل رمز OTP';
@@ -456,49 +256,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get resendVerificationEmail => 'إعادة التحقق';
 
   @override
-  String get verificationEmailSent => 'تم إرسال بريد التحقق بنجاح. يرجى التحقق من صندوق الوارد.';
-
-  @override
-  String get checking => 'جاري الفحص...';
-
-  @override
   String get checkStatus => 'فحص الحالة';
 
   @override
   String get checkStatusDescription => 'اضغط على \"فحص الحالة\" لمعرفة ما إذا تمت الموافقة على حسابك';
 
   @override
-  String get notificationsRequired => 'الإشعارات مطلوبة لهذا التطبيق';
-
-  @override
-  String get notificationsRequiredDescription => 'يتطلب هذا التطبيق إذن الإشعارات لتلقي تنبيهات الطلبات الجديدة.';
-
-  @override
-  String get enableNotifications => 'تفعيل الإشعارات';
-
-  @override
-  String get openSettings => '??? ?????????';
-
-  @override
-  String get exitApp => 'إغلاق التطبيق';
-
-  @override
   String get initializing => 'جاري التهيئة...';
 
   @override
-  String get checkingNotifications => 'جاري فحص الإشعارات...';
-
-  @override
-  String get settingUpNotifications => 'جاري إعداد الإشعارات...';
-
-  @override
   String get initializationFailed => 'فشل في التهيئة';
-
-  @override
-  String get requestingPermission => 'جاري طلب الإذن...';
-
-  @override
-  String get permissionRequestFailed => 'فشل في طلب الإذن';
 
   @override
   String get checkingInternet => 'جاري فحص الاتصال بالإنترنت...';
@@ -588,9 +355,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get day => 'يوم';
 
   @override
-  String get week => 'أسبوع';
-
-  @override
   String get month => 'شهر';
 
   @override
@@ -598,9 +362,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get dateRange => 'نطاق تاريخ';
-
-  @override
-  String get selectPeriod => 'اختر الفترة';
 
   @override
   String get from => 'من';
@@ -636,34 +397,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get performanceMetrics => 'مقاييس الأداء';
 
   @override
-  String get averageRespondingTime => 'متوسط وقت الاستجابة';
-
-  @override
-  String get acceptedOrdersSuccessRate => 'معدل القرارات الجيدة';
-
-  @override
-  String get acceptedOrdersSuccessRateExplanation => 'يقيس عدد الطلبات المقبولة التي تم تسليمها بنجاح. هذا مقياس إيجابي يركز على النجاحات.';
-
-  @override
   String get acceptedOrdersSuccessRateGood => 'معدل نجاح عالي يعني أنك تقبل طلبات يمكنك تنفيذها بشكل موثوق.';
 
   @override
   String get acceptedOrdersSuccessRateBad => 'معدل نجاح منخفض يشير إلى مشاكل في تنفيذ الطلبات - راجع قدرتك.';
 
   @override
-  String get acceptedOrdersFailureRate => 'معدل القرارات السيئة';
-
-  @override
-  String get acceptedOrdersFailureRateExplanation => 'يقيس عدد الطلبات المقبولة التي فشلت لأي سبب (ملغاة، مسترجعة، رفضها العميل، لم يتم تسليمها). هذا مقياس سلبي يركز على الفشل.';
-
-  @override
   String get acceptedOrdersFailureRateGood => 'معدل فشل منخفض يظهر معالجة موثوقة للطلبات.';
 
   @override
   String get acceptedOrdersFailureRateBad => 'معدل فشل عالي يضر بالسمعة - فكر لماذا تفشل الطلبات.';
-
-  @override
-  String get averageRespondingTimeExplanation => 'يقيس متوسط الوقت الذي يستغرقه المشغل للرد على الطلب (قبول أو رفض) بعد إنشائه.';
 
   @override
   String get averageRespondingTimeGood => 'أوقات الاستجابة السريعة تؤدي إلى رضا العملاء وقبول أعلى للطلبات.';
@@ -681,9 +424,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get close => 'إغلاق';
 
   @override
-  String get orderBreakdown => 'تفصيل الطلبات';
-
-  @override
   String get all => 'الكل';
 
   @override
@@ -696,16 +436,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get minute => 'دقيقة';
 
   @override
-  String get minutes => 'دقائق';
-
-  @override
   String get hour => 'ساعة';
-
-  @override
-  String get hours => 'ساعات';
-
-  @override
-  String get days => 'أيام';
 
   @override
   String get errorGeneric => 'حدث خطأ ما. يرجى المحاولة مرة أخرى.';
@@ -774,12 +505,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get errorDatabaseServer => 'حدث خطأ في قاعدة البيانات. يرجى المحاولة مرة أخرى لاحقاً.';
 
   @override
-  String get errorLoadingOrders => 'خطأ في تحميل الطلبات';
-
-  @override
-  String get order => 'طلب';
-
-  @override
   String get customer => 'عميل';
 
   @override
@@ -789,13 +514,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get description => 'الوصف';
 
   @override
-  String get address => 'العنوان';
-
-  @override
   String get isOpen => 'مفتوح';
-
-  @override
-  String get restaurantAndNotes => 'المطعم والملاحظات';
 
   @override
   String get notes => 'ملاحظات';
@@ -804,165 +523,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rejectionReason => 'السبب';
 
   @override
-  String get deliveryInstructions => 'تعليمات التسليم';
-
-  @override
   String get confirm => 'تأكيد';
-
-  @override
-  String get reject => 'رفض';
-
-  @override
-  String get startPreparing => 'بدء التحضير';
-
-  @override
-  String get markReady => 'تمييز جاهز';
-
-  @override
-  String get pickedUp => 'تم الاستلام';
-
-  @override
-  String get markDelivered => 'تمييز تم التسليم';
 
   @override
   String get loadMore => 'تحميل المزيد';
 
   @override
-  String get noPendingOrders => 'لا توجد طلبات معلقة';
-
-  @override
-  String get noPendingOrdersDescription => 'لا توجد طلبات معلقة في هذا النطاق الزمني.';
-
-  @override
-  String get noOngoingOrders => 'لا توجد طلبات قيد التنفيذ';
-
-  @override
-  String get noOngoingOrdersDescription => 'لا توجد طلبات قيد التنفيذ في هذا النطاق الزمني.';
-
-  @override
-  String get selectDeliveryMethod => 'اختر طريقة التوصيل';
-
-  @override
-  String get selfDelivery => 'توصيل ذاتي';
-
-  @override
-  String get externalDelivery => 'توصيل خارجي';
-
-  @override
-  String get selfDeliveryDescription => 'سيقوم المطعم بتوصيل الطلب باستخدام سائقه الخاص';
-
-  @override
-  String get externalDeliveryDescription => 'سيتم استلام الطلب من قبل سائقي التوصيل الخارجيين';
-
-  @override
-  String get pleaseSelectDeliveryMethod => 'يرجى اختيار طريقة التوصيل قبل تحديد الطلب كجاهز';
-
-  @override
   String get drivers => 'السائقون';
 
   @override
-  String get addDriver => 'إضافة سائق';
-
-  @override
-  String get editDriver => 'تعديل سائق';
-
-  @override
-  String get deleteDriver => 'حذف سائق';
-
-  @override
-  String get driverCode => 'رمز السائق';
-
-  @override
-  String get driverCodeRequired => 'رمز السائق مطلوب';
-
-  @override
-  String get noDriversAdded => 'لم يتم إضافة سائقين بعد';
-
-  @override
-  String get pleaseAddDriverBeforeSelfDelivery => 'يرجى إضافة سائق في ملفك الشخصي قبل اختيار التوصيل الذاتي.';
-
-  @override
-  String get selectDriversForDelivery => 'اختر السائقين للتوصيل';
-
-  @override
-  String get selectAllDrivers => 'اختر جميع السائقين';
-
-  @override
-  String get selectSpecificDrivers => 'اختر سائقين محددين';
-
-  @override
-  String driverSelected(int count) {
-    return '$count سائق محدد';
-  }
-
-  @override
-  String get driverCodeNotFound => 'لم يتم العثور على رمز السائق. يرجى إدخال رمز سائق صالح.';
-
-  @override
-  String get driverAlreadyLinked => 'هذا السائق مرتبط بالفعل بمطعمك.';
-
-  @override
-  String get driverLinkedSuccessfully => 'تم ربط السائق بنجاح!';
-
-  @override
-  String get requestTimeout => 'انتهت مهلة الطلب';
-
-  @override
-  String get requestTimeoutDescription => 'استغرق الطلب وقتاً طويلاً للإكمال. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.';
-
-  @override
   String get call => 'اتصال';
-
-  @override
-  String get failedToOpenPhoneApp => 'فشل فتح تطبيق الهاتف';
-
-  @override
-  String get errorMakingPhoneCall => 'خطأ في إجراء المكالمة';
-
-  @override
-  String get ordersLoadedSuccessfully => 'تم تحميل الطلبات بنجاح';
-
-  @override
-  String get orderConfirmedSuccessfully => 'تم تأكيد الطلب بنجاح';
-
-  @override
-  String get orderRejectedSuccessfully => 'تم رفض الطلب بنجاح';
-
-  @override
-  String get confirmOrder => 'تأكيد';
-
-  @override
-  String get areYouSureConfirmOrder => 'هل أنت متأكد أنك تريد تأكيد هذا الطلب؟';
-
-  @override
-  String get confirmOrderDescription => 'سيؤدي هذا إلى الموافقة على الطلب وجعله مرئياً للمطعم.';
-
-  @override
-  String get pleaseSelectRejectReason => 'يرجى اختيار سبب لرفض هذا الطلب:';
-
-  @override
-  String get enterYourReason => 'أدخل سببك...';
-
-  @override
-  String get rejectReasonDidntPickUp => 'لم يرد على الهاتف';
-
-  @override
-  String get rejectReasonSuspiciousBehavior => 'سلوك العميل مشبوه';
-
-  @override
-  String get rejectReasonInvalidAddress => 'عنوان التسليم غير صحيح';
-
-  @override
-  String get rejectReasonUnrealisticAmount => 'مبلغ الطلب يبدو غير واقعي';
-
-  @override
-  String get rejectReasonInvalidContact => 'معلومات الاتصال بالعميل غير صحيحة';
-
-  @override
-  String get rejectReasonRestaurantUnavailable => 'المطعم غير متاح';
-
-  @override
-  String get other => 'أخرى';
 
   @override
   String get currentPasswordRequired => 'كلمة المرور الحالية مطلوبة';
@@ -997,24 +567,6 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get appStoreUrlNotConfigured => 'رابط متجر التطبيقات غير مُكوّن. يرجى تحديث التطبيق يدوياً من متجر التطبيقات.';
-
-  @override
-  String unableToDetermineAppPackage(String store) {
-    return 'تعذر تحديد حزمة التطبيق. يرجى تحديث التطبيق يدوياً من $store.';
-  }
-
-  @override
-  String unableToOpenStore(String store) {
-    return 'تعذر فتح $store. يرجى تحديث التطبيق يدوياً.';
-  }
-
-  @override
-  String errorOpeningAppStore(String error) {
-    return 'خطأ في فتح متجر التطبيقات: $error. يرجى تحديث التطبيق يدوياً.';
-  }
-
-  @override
   String get emailVerifiedSuccessfully => 'تم التحقق من البريد الإلكتروني بنجاح';
 
   @override
@@ -1039,90 +591,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pleaseEnterValid6DigitOtp => 'يرجى إدخال رمز OTP صحيح مكون من 6 أرقام';
 
   @override
-  String get failedToGetLegalUrls => 'فشل الحصول على روابط المستندات القانونية';
-
-  @override
-  String get networkErrorCheckConnection => 'خطأ في الشبكة. يرجى التحقق من اتصالك بالإنترنت.';
-
-  @override
-  String get serverErrorOccurred => 'حدث خطأ في الخادم';
-
-  @override
-  String get failedToGetContactInformation => 'فشل الحصول على معلومات الاتصال';
-
-  @override
-  String unexpectedErrorOccurred(String error) {
-    return 'حدث خطأ غير متوقع: $error';
-  }
-
-  @override
-  String get appStore => 'متجر التطبيقات';
-
-  @override
-  String get playStore => 'متجر Google Play';
-
-  @override
   String get urlNotAvailable => 'الرابط غير متاح. يرجى المحاولة مرة أخرى لاحقاً.';
 
   @override
-  String get unableToOpenUrlTryAgain => 'تعذر فتح الرابط. يرجى المحاولة مرة أخرى.';
-
-  @override
-  String get unableToOpenUrlCheckConnection => 'تعذر فتح الرابط. يرجى التحقق من اتصالك بالإنترنت.';
-
-  @override
-  String get anErrorOccurred => 'حدث خطأ';
-
-  @override
-  String get openingHours => 'ساعات العمل';
-
-  @override
   String get closed => 'مغلق';
-
-  @override
-  String get monday => 'الاثنين';
-
-  @override
-  String get tuesday => 'الثلاثاء';
-
-  @override
-  String get wednesday => 'الأربعاء';
-
-  @override
-  String get thursday => 'الخميس';
-
-  @override
-  String get friday => 'الجمعة';
-
-  @override
-  String get saturday => 'السبت';
 
   @override
   String get sunday => 'الأحد';
 
   @override
   String get open => 'فتح';
-
-  @override
-  String get schedule => 'الجدول الزمني';
-
-  @override
-  String get restaurantIsOpen => 'المطعم مفتوح حالياً';
-
-  @override
-  String get restaurantIsClosed => 'المطعم مغلق حالياً';
-
-  @override
-  String get updateSchedule => 'تحديث الجدول الزمني';
-
-  @override
-  String get driverAvailability => 'التوفر';
-
-  @override
-  String get driverIsAvailable => 'أنت متاح حاليًا للتوصيل';
-
-  @override
-  String get driverIsUnavailable => 'أنت غير متاح حاليًا للتوصيل';
 
   @override
   String get unsavedChanges => 'تغييرات غير محفوظة';
@@ -1137,142 +615,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get discard => 'تجاهل';
 
   @override
-  String get selectLocationMethod => 'اختر طريقة تحديد الموقع';
-
-  @override
-  String get manualEntry => 'تعديل يدوي';
-
-  @override
-  String get fromMap => 'من الخارطة';
-
-  @override
-  String get selectLocationOnMap => 'اختر الموقع على الخريطة';
-
-  @override
-  String get selectLocation => 'اختيار الموقع';
-
-  @override
-  String get locationCoordinates => 'إحداثيات الموقع';
-
-  @override
-  String get enterCoordinatesManually => 'أدخل الإحداثيات يدويًا';
-
-  @override
   String get latitude => 'دوائر العرض';
 
   @override
   String get longitude => 'خطوط الطول';
 
   @override
-  String get latitudeRequired => 'دوائر العرض مطلوبة';
-
-  @override
-  String get longitudeRequired => 'خطوط الطول مطلوبة';
-
-  @override
-  String get invalidLatitude => 'قيمة دوائر العرض غير صحيحة';
-
-  @override
-  String get invalidLongitude => 'قيمة خطوط الطول غير صحيحة';
-
-  @override
-  String get latitudeRange => 'يجب أن تكون دوائر العرض بين -90 و 90';
-
-  @override
-  String get longitudeRange => 'يجب أن تكون خطوط الطول بين -180 و 180';
-
-  @override
-  String get menu => 'القائمة';
-
-  @override
-  String get categories => 'الفئات';
-
-  @override
-  String get menuItems => 'عناصر القائمة';
-
-  @override
-  String get addCategory => 'إضافة فئة';
-
-  @override
-  String get editCategory => 'تعديل فئة';
-
-  @override
-  String get deleteCategory => 'حذف فئة';
-
-  @override
-  String get addMenuItem => 'إضافة عنصر';
-
-  @override
-  String get editMenuItem => 'تعديل عنصر';
-
-  @override
-  String get deleteMenuItem => 'حذف عنصر';
-
-  @override
-  String get categoryName => 'اسم الفئة';
-
-  @override
-  String get categoryDescription => 'وصف الفئة';
-
-  @override
-  String get itemName => 'اسم العنصر';
-
-  @override
-  String get itemDescription => 'وصف العنصر';
-
-  @override
-  String get itemPrice => 'السعر';
-
-  @override
-  String get preparationTime => 'وقت التحضير';
-
-  @override
-  String get ingredients => 'المكونات';
-
-  @override
-  String get allergens => 'مسببات الحساسية';
-
-  @override
-  String get nutritionalInfo => 'المعلومات الغذائية';
-
-  @override
-  String get image => 'الصورة';
-
-  @override
-  String get selectImage => 'اختر صورة';
-
-  @override
-  String get takePhoto => 'التقاط صورة';
-
-  @override
-  String get chooseFromGallery => 'اختر من المعرض';
-
-  @override
   String get search => 'بحث';
 
   @override
-  String get filter => 'تصفية';
-
-  @override
-  String get bulkActions => 'إجراءات مجمعة';
-
-  @override
-  String get deleteSelected => 'حذف المحدد';
-
-  @override
-  String get toggleAvailability => 'تبديل التوفر';
-
-  @override
-  String get reorder => 'إعادة الترتيب';
-
-  @override
-  String get dragToReorder => 'اسحب لإعادة الترتيب';
-
-  @override
   String get active => 'نشط';
-
-  @override
-  String get inactive => 'غير نشط';
 
   @override
   String get edit => 'تعديل';
@@ -1281,170 +633,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get delete => 'حذف';
 
   @override
-  String get featured => 'مميز';
-
-  @override
-  String get available => 'متاح';
-
-  @override
-  String get unavailable => 'غير متاح';
-
-  @override
   String get selected => 'محدد';
-
-  @override
-  String get makeUnavailable => 'جعل غير متاح';
-
-  @override
-  String get makeAvailable => 'جعل متاح';
 
   @override
   String get remove => 'إزالة';
 
   @override
-  String get removeImage => 'إزالة الصورة';
-
-  @override
-  String get areYouSureYouWantToRemoveThisImage => 'هل أنت متأكد أنك تريد إزالة هذه الصورة؟';
-
-  @override
-  String get noCategories => 'لا توجد فئات';
-
-  @override
-  String get noCategoriesDescription => 'لم تقم بإنشاء أي فئات بعد. اضغط على زر + لإضافة واحدة.';
-
-  @override
-  String get noMenuItems => 'لا توجد عناصر في القائمة';
-
-  @override
-  String get noMenuItemsDescription => 'لا تحتوي هذه الفئة على أي عناصر بعد. اضغط على زر + لإضافة واحدة.';
-
-  @override
-  String get areYouSureDeleteCategory => 'هل أنت متأكد أنك تريد حذف هذه الفئة؟';
-
-  @override
-  String get areYouSureDeleteMenuItem => 'هل أنت متأكد أنك تريد حذف عنصر القائمة هذا؟';
-
-  @override
-  String areYouSureDeleteSelected(int count) {
-    return 'هل أنت متأكد أنك تريد حذف $count عنصر(عناصر) محدد(ة)؟';
-  }
-
-  @override
-  String categoryHasItems(int count) {
-    return 'تحتوي هذه الفئة على $count عنصر(عناصر). يرجى حذف العناصر أو نقلها أولاً.';
-  }
-
-  @override
-  String get categoryNameRequired => 'اسم الفئة مطلوب';
-
-  @override
-  String get itemNameRequired => 'اسم العنصر مطلوب';
-
-  @override
-  String get priceRequired => 'السعر مطلوب';
-
-  @override
-  String get priceInvalid => 'يجب أن يكون السعر أكبر من 0';
-
-  @override
-  String get preparationTimeRequired => 'وقت التحضير مطلوب';
-
-  @override
-  String get preparationTimeInvalid => 'يجب أن يكون وقت التحضير دقيقة واحدة على الأقل';
-
-  @override
-  String get categoryRequired => 'الفئة مطلوبة';
-
-  @override
-  String get addIngredient => 'إضافة مكون';
-
-  @override
-  String get addAllergen => 'إضافة مسبب حساسية';
-
-  @override
-  String get sortOrder => 'ترتيب الفرز';
-
-  @override
   String get isActive => 'نشط';
-
-  @override
-  String get isAvailable => 'متاح';
-
-  @override
-  String get isFeatured => 'مميز';
 
   @override
   String get clearFilters => 'مسح المرشحات';
 
   @override
-  String get sortByName => 'الفرز حسب الاسم';
-
-  @override
-  String get sortByPrice => 'الفرز حسب السعر';
-
-  @override
-  String get sortByOrder => 'الفرز حسب الترتيب';
-
-  @override
-  String get sortAscending => 'تصاعدي';
-
-  @override
-  String get sortDescending => 'تنازلي';
-
-  @override
-  String get minPrice => 'الحد الأدنى للسعر';
-
-  @override
-  String get maxPrice => 'الحد الأقصى للسعر';
-
-  @override
-  String get selectCategory => 'اختر الفئة';
-
-  @override
-  String get categoryCreatedSuccessfully => 'تم إنشاء الفئة بنجاح';
-
-  @override
-  String get categoryUpdatedSuccessfully => 'تم تحديث الفئة بنجاح';
-
-  @override
-  String get categoryDeletedSuccessfully => 'تم حذف الفئة بنجاح';
-
-  @override
-  String get menuItemCreatedSuccessfully => 'تم إنشاء عنصر القائمة بنجاح';
-
-  @override
-  String get menuItemUpdatedSuccessfully => 'تم تحديث عنصر القائمة بنجاح';
-
-  @override
-  String get menuItemDeletedSuccessfully => 'تم حذف عنصر القائمة بنجاح';
-
-  @override
-  String get menuItemsUpdatedSuccessfully => 'تم تحديث عناصر القائمة بنجاح';
-
-  @override
-  String get menuItemsDeletedSuccessfully => 'تم حذف عناصر القائمة بنجاح';
-
-  @override
-  String get categoriesReorderedSuccessfully => 'تم إعادة ترتيب الفئات بنجاح';
-
-  @override
-  String get menuItemsReorderedSuccessfully => 'تم إعادة ترتيب عناصر القائمة بنجاح';
-
-  @override
   String get bank => 'البنك';
-
-  @override
-  String get totalExpected => 'المبلغ المتوقع الإجمالي';
-
-  @override
-  String get driverDebts => 'ديون السائقين';
-
-  @override
-  String get pendingPayments => 'المدفوعات المعلقة';
-
-  @override
-  String get noPendingTransactions => 'لا توجد معاملات معلقة';
 
   @override
   String get errorLoadingData => 'خطأ في تحميل البيانات';
@@ -1453,25 +654,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noDataAvailable => 'لا توجد بيانات متاحة';
 
   @override
-  String get restaurantSystemManagerDebt => 'دين المطعم لمدير النظام';
-
-  @override
-  String get restaurantDebtToSystem => 'دين المطعم للنظام';
-
-  @override
-  String get restaurantSystemManagerDebtDescription => 'المبلغ الذي يدين به المطعم لمدير النظام (10% من إجمالي الطلب)';
-
-  @override
   String get amount => 'المبلغ';
 
   @override
   String get driver => 'سائق';
-
-  @override
-  String get expectedFromDrivers => 'المتوقع من السائقين';
-
-  @override
-  String get payToSystemAdministrator => 'الدفع لمدير النظام';
 
   @override
   String get transactions => 'المعاملات';
@@ -1480,91 +666,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bankArchive => 'أرشيف البنك';
 
   @override
-  String get createTransaction => 'إنشاء معاملة';
-
-  @override
-  String get paySystem => 'دفع للنظام';
-
-  @override
-  String get calculatingAmount => 'جاري حساب المبلغ...';
-
-  @override
-  String get amountCalculated => 'تم حساب المبلغ';
-
-  @override
-  String get noAmountForRange => 'لا يوجد مبلغ مستحق للفترة المحددة';
-
-  @override
-  String get amountFieldReadOnly => 'يتم حساب المبلغ تلقائياً بناءً على الفترة المحددة';
-
-  @override
-  String get pendingApprovals => 'الموافقات المعلقة';
-
-  @override
-  String get myPendingTransactions => 'معاملاتي المعلقة';
-
-  @override
-  String get transactionHistory => 'سجل المعاملات';
-
-  @override
-  String get filterByType => 'تصفية حسب النوع';
-
-  @override
-  String get filterByDate => 'تصفية حسب التاريخ';
-
-  @override
-  String get waitingForApproval => 'في انتظار الموافقة';
-
-  @override
   String get approvedBy => 'تمت الموافقة من قبل';
-
-  @override
-  String get rejectedBy => 'تم الرفض من قبل';
-
-  @override
-  String get breakdownByDriver => 'التفصيل حسب السائق';
-
-  @override
-  String get breakdown => 'التفاصيل';
 
   @override
   String get transactionType => 'النوع';
 
   @override
-  String get paymentToDriver => 'من السائق';
-
-  @override
-  String get paymentToSystem => 'دفع للنظام';
-
-  @override
   String get selectDriver => 'اختر السائق';
-
-  @override
-  String get enterAmount => 'أدخل المبلغ';
-
-  @override
-  String get submit => 'إرسال';
-
-  @override
-  String get approve => 'موافقة';
 
   @override
   String get date => 'التاريخ';
 
   @override
   String get status => 'الحالة';
-
-  @override
-  String get confirmCancellation => 'تأكيد الإلغاء';
-
-  @override
-  String get cancelTransactionConfirmation => 'هل أنت متأكد أنك تريد إلغاء هذه المعاملة؟ لا يمكن التراجع عن هذا الإجراء.';
-
-  @override
-  String get no => 'لا';
-
-  @override
-  String get yesCancel => 'نعم، إلغاء';
 
   @override
   String get receivables => 'المستحقات';
@@ -1579,123 +693,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get newTransaction => 'معاملة جديدة';
 
   @override
-  String get pendingTransactions => 'المعاملات المعلقة';
-
-  @override
   String get transactionsHistory => 'سجل المعاملات';
-
-  @override
-  String get ratings => 'التقييمات';
-
-  @override
-  String get ratingsTitle => 'تقييمات العملاء';
-
-  @override
-  String get ratingsDetailTitle => 'تفاصيل التقييم';
-
-  @override
-  String ratingsBasedOn(String count) {
-    return 'بناءً على $count تقييم';
-  }
-
-  @override
-  String get ratingsAnonymous => 'عميل مجهول';
-
-  @override
-  String get ratingsResponded => 'تم الرد';
-
-  @override
-  String get ratingsReplyNow => 'رد الآن';
-
-  @override
-  String get ratingsResponseSuccess => 'تم إرسال الرد بنجاح';
-
-  @override
-  String get ratingsOverallRating => 'التقييم العام';
-
-  @override
-  String get ratingsDate => 'التاريخ';
-
-  @override
-  String get ratingsWouldReorder => 'سيطلب مجدداً';
-
-  @override
-  String get ratingsWouldRecommend => 'سيوصي به';
-
-  @override
-  String get ratingsDetailedRatings => 'التقييمات التفصيلية';
-
-  @override
-  String get ratingsFoodQuality => 'جودة الطعام';
-
-  @override
-  String get ratingsDeliverySpeed => 'سرعة التوصيل';
-
-  @override
-  String get ratingsDriver => 'السائق';
-
-  @override
-  String get ratingsService => 'الخدمة';
-
-  @override
-  String get ratingsComments => 'التعليقات';
-
-  @override
-  String get ratingsGeneralComment => 'تعليق عام';
-
-  @override
-  String get ratingsFoodComment => 'تعليق على الطعام';
-
-  @override
-  String get ratingsDeliveryComment => 'تعليق على التوصيل';
-
-  @override
-  String get ratingsDriverComment => 'تعليق على السائق';
-
-  @override
-  String get ratingsRestaurantComment => 'تعليق على المطعم';
-
-  @override
-  String get ratingsTags => 'الوسوم';
-
-  @override
-  String get ratingsYourResponse => 'ردك';
-
-  @override
-  String get ratingsWriteResponse => 'اكتب رداً';
-
-  @override
-  String get ratingsResponseHint => 'اشكر العميل أو عالج ملاحظاته...';
-
-  @override
-  String get ratingsResponseRequired => 'الرجاء إدخال رد';
-
-  @override
-  String get ratingsResponseMinLength => 'يجب أن يكون الرد 10 أحرف على الأقل';
-
-  @override
-  String get ratingsSubmitResponse => 'إرسال الرد';
-
-  @override
-  String get ratingsEmptyTitle => 'لا توجد تقييمات بعد';
-
-  @override
-  String get ratingsEmptyMessage => 'ستظهر تقييمات العملاء هنا بمجرد استلامها.';
-
-  @override
-  String get ratingsLoadMore => 'تحميل المزيد';
-
-  @override
-  String get ratingsFilterAll => 'الكل';
-
-  @override
-  String get ratingsFilterPositive => 'إيجابية';
-
-  @override
-  String get ratingsFilterNegative => 'سلبية';
-
-  @override
-  String get orderCounts => 'عدد الطلبات';
 
   @override
   String get performance => 'الأداء';
@@ -1714,9 +712,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get thisYear => 'هذه السنة';
-
-  @override
-  String get custom => 'مخصص';
 
   @override
   String get responseSpeed => 'سرعة الاستجابة';
@@ -1743,146 +738,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get poorDecisionsDescription => 'نسبة الطلبات الملغاة بعد القبول';
 
   @override
-  String get statisticsDataFrom => 'بيانات من';
-
-  @override
-  String get orderCapacity => 'سعة الطلبات';
-
-  @override
-  String canAcceptMoreOrders(int count) {
-    return 'يمكنك قبول $count طلب(ات) أخرى';
-  }
-
-  @override
-  String get maxCapacityReached => 'تم الوصول للحد الأقصى';
-
-  @override
-  String get preparing => 'قيد التحضير';
-
-  @override
-  String get onDelivery => 'قيد التوصيل';
-
-  @override
-  String get noPreparingOrders => 'لا توجد طلبات قيد التحضير';
-
-  @override
-  String get noPreparingOrdersDescription => 'ستظهر الطلبات التي تنتظر تحضير الطعام هنا';
-
-  @override
-  String get noReadyOrders => 'لا توجد طلبات جاهزة للاستلام';
-
-  @override
-  String get noReadyOrdersDescription => 'ستظهر الطلبات الجاهزة للاستلام هنا';
-
-  @override
-  String get noDeliveringOrders => 'لا توجد طلبات قيد التوصيل';
-
-  @override
-  String get noDeliveringOrdersDescription => 'ستظهر الطلبات التي تقوم بتوصيلها هنا';
-
-  @override
-  String get markPickedUp => 'تأكيد الاستلام';
-
-  @override
-  String get navigateToRestaurant => 'التوجه للمطعم';
-
-  @override
-  String get navigateToCustomer => 'التوجه للعميل';
-
-  @override
-  String get rejectOrder => 'رفض الطلب';
-
-  @override
-  String get selectRejectionReason => 'اختر سبب الرفض:';
-
-  @override
-  String get rejectionReasonTooFar => 'بعيد جداً عن موقعي';
-
-  @override
-  String get rejectionReasonLowEarnings => 'أرباح منخفضة لهذا الطلب';
-
-  @override
-  String get rejectionReasonBadArea => 'منطقة التوصيل صعبة';
-
-  @override
-  String get rejectionReasonBusy => 'مشغول حالياً بتوصيلات أخرى';
-
-  @override
-  String get rejectionReasonVehicleIssue => 'مشكلة في المركبة/النقل';
-
-  @override
-  String get rejectionReasonPersonal => 'أسباب شخصية';
-
-  @override
-  String get rejectionReasonOther => 'أخرى';
-
-  @override
-  String get additionalNotes => 'ملاحظات إضافية (اختياري)';
-
-  @override
-  String get additionalNotesHint => 'أضف تفاصيل إضافية...';
-
-  @override
-  String get confirmRejection => 'رفض';
-
-  @override
-  String get orderRejected => 'تم رفض الطلب';
-
-  @override
-  String get noRejectedOrders => 'لا توجد طلبات مرفوضة';
-
-  @override
-  String get rejectedAt => 'تم الرفض في';
-
-  @override
-  String get unassignOrder => 'إلغاء التعيين من الطلب';
-
-  @override
-  String get selectUnassignReason => 'لماذا لا يمكنك إكمال هذا الطلب؟';
-
-  @override
-  String get unassignReasonVehicleBreakdown => 'عطل في المركبة';
-
-  @override
-  String get unassignReasonPersonalEmergency => 'طارئ شخصي';
-
-  @override
-  String get unassignReasonSafetyConcern => 'مخاوف أمنية في الموقع';
-
-  @override
-  String get unassignReasonCannotReach => 'لا يمكن الوصول إلى موقع الاستلام/التسليم';
-
-  @override
-  String get unassignReasonLongWait => 'وقت انتظار طويل في المطعم';
-
-  @override
-  String get unassignReasonOrderIssue => 'مشكلة في الطلب (عناصر مفقودة، طلب خاطئ)';
-
-  @override
-  String get unassignReasonOther => 'سبب آخر';
-
-  @override
-  String get confirmUnassign => 'إلغاء التعيين';
-
-  @override
-  String get orderUnassigned => 'تم إلغاء التعيين من الطلب';
-
-  @override
-  String get unassignOnDeliveryWarning => 'حالة طارئة فقط! إلغاء التعيين أثناء التوصيل أمر خطير وسيتم مراجعته. استخدم فقط في حالات الطوارئ الحقيقية.';
-
-  @override
-  String get unassignReadyWarning => 'الطعام جاهز وفي انتظار. إلغاء التعيين الآن قد يؤثر على جودة الطعام للعميل.';
-
-  @override
-  String get unassignEmergencyNotesHint => 'يرجى وصف حالة الطوارئ...';
-
-  @override
-  String get unassignConsequenceNotice => 'إلغاء التعيين المتكرر قد يؤثر على مقاييس السائق الخاصة بك. سيعود الطلب إلى مجموعة الطلبات المتاحة.';
-
-  @override
-  String get cantCompleteOrder => 'لا يمكن الإكمال';
-
-  @override
   String get totalDebt => 'إجمالي الدين';
 
   @override
@@ -1904,12 +759,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recordSystemPayment => 'تسجيل دفع النظام';
 
   @override
-  String get paySystemDebt => 'دفع دين النظام';
-
-  @override
-  String get paymentToRestaurant => 'دفع للمطعم';
-
-  @override
   String get noDebts => 'لا توجد ديون مستحقة';
 
   @override
@@ -1917,9 +766,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get invalidAmount => 'مبلغ غير صالح';
-
-  @override
-  String get record => 'تسجيل';
 
   @override
   String get noTransactionsFound => 'لا توجد معاملات';
@@ -1940,64 +786,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get overpay => 'دفع زائد';
 
   @override
-  String get credit => 'رصيد';
-
-  @override
   String get pickupSpeed => 'سرعة الاستلام';
 
   @override
   String get pickupSpeedDescription => 'الوقت من جاهزية الطعام إلى الاستلام';
 
   @override
-  String get pickupSpeedGood => 'الاستلام السريع (أقل من 10 دقائق) يضمن طعامًا طازجًا وعملاء سعداء.';
-
-  @override
-  String get pickupSpeedBad => 'الاستلام البطيء (أكثر من 20 دقيقة) قد يؤدي إلى طعام بارد وعملاء غير راضين.';
-
-  @override
-  String get deliverySpeed => 'سرعة التوصيل';
-
-  @override
-  String get deliverySpeedDescription => 'الوقت من الاستلام إلى التوصيل';
-
-  @override
-  String get deliverySpeedGood => 'التوصيل السريع (أقل من 20 دقيقة) يؤدي إلى عملاء راضين وتقييمات أفضل.';
-
-  @override
-  String get deliverySpeedBad => 'التوصيل البطيء (أكثر من 40 دقيقة) قد يؤدي إلى شكاوى وتقييمات أقل.';
-
-  @override
   String get completionRate => 'معدل الإكمال';
-
-  @override
-  String get completionRateDescription => 'نسبة الطلبات المقبولة التي تم توصيلها';
-
-  @override
-  String get completionRateGood => 'معدل عالٍ (95%+) يظهر الموثوقية والاحترافية.';
-
-  @override
-  String get completionRateBad => 'معدل منخفض (أقل من 85%) يشير إلى مشاكل في معالجة الطلبات.';
 
   @override
   String get cancellationRate => 'معدل الإلغاء';
 
   @override
   String get cancellationRateDescription => 'نسبة الطلبات المقبولة التي تم إلغاؤها';
-
-  @override
-  String get cancellationRateGood => 'معدل منخفض (أقل من 5%) ممتاز ويظهر خدمة متسقة.';
-
-  @override
-  String get cancellationRateBad => 'معدل عالٍ (أكثر من 15%) يثير مخاوف حول الموثوقية.';
-
-  @override
-  String get iHaveArrived => 'لقد وصلت';
-
-  @override
-  String get arrived => 'وصل';
-
-  @override
-  String get driverArrived => 'وصل السائق';
 
   @override
   String get ok => 'حسناً';
@@ -2015,7 +816,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get accountNotFound => 'الحساب غير موجود';
 
   @override
-  String get accountNotFoundMessage => 'لم يتم العثور على حساب بهذا البريد الإلكتروني. يرجى التسجيل أولاً.';
+  String get accountNotFoundMessage => 'لا يوجد حساب مدير بهذا البريد الإلكتروني. فريق المنصة هو من يُنشئ حسابات المديرين، وليس التطبيق.';
 
   @override
   String get loginFailed => 'فشل تسجيل الدخول';
@@ -2058,9 +859,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get suspended => 'معلق';
-
-  @override
-  String get rejectedStatus => 'مرفوض';
 
   @override
   String get operator => 'مشغل';
@@ -2283,12 +1081,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get selectZonesInfo => 'اختر المناطق (ينطبق على الكل إذا لم يتم الاختيار)';
 
   @override
-  String get zone => 'منطقة';
-
-  @override
-  String get zones => 'مناطق';
-
-  @override
   String get noRestaurantsAvailable => 'لا توجد مطاعم متاحة. ستكون هذه القسيمة عامة.';
 
   @override
@@ -2429,22 +1221,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get averageOrderValueDesc => 'متوسط المبلغ الإجمالي (طعام + توصيل) لكل طلب مُسلَّم في الفترة المحددة.';
 
   @override
-  String get ordersPlacedDesc => 'إجمالي عدد الطلبات المُسلَّمة بنجاح في الفترة المحددة.';
-
-  @override
-  String get netProfit => 'صافي الربح';
-
-  @override
   String get orderMetrics => 'مقاييس الطلبات';
 
   @override
   String get averageOrderValue => 'متوسط قيمة الطلب';
-
-  @override
-  String get completedOrders => 'الطلبات المكتملة';
-
-  @override
-  String get statisticsDelivery => 'التوصيل';
 
   @override
   String get statisticsRatings => 'التقييمات';
@@ -2501,13 +1281,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get slowestDeliveryDesc => 'أطول وقت توصيل مسجل في الفترة المحددة.';
 
   @override
-  String get driverPerformance => 'أداء السائقين';
-
-  @override
   String get minutesAbbr => 'د';
-
-  @override
-  String get noDriverData => 'لا توجد بيانات أداء للسائقين';
 
   @override
   String get averageRating => 'متوسط التقييم';
@@ -2525,9 +1299,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get restaurantServiceRating => 'خدمة المطعم';
 
   @override
-  String get driverRatingLabel => 'تقييم السائق';
-
-  @override
   String get deliverySpeedRating => 'سرعة التوصيل';
 
   @override
@@ -2537,28 +1308,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get recommendRate => 'معدل التوصية';
 
   @override
-  String get customerSatisfaction => 'رضا العملاء';
-
-  @override
-  String get categoryRatings => 'تقييمات الفئات';
-
-  @override
-  String get last7Days => 'آخر 7 أيام';
-
-  @override
-  String get last30Days => 'آخر 30 يومًا';
-
-  @override
-  String get last90Days => 'آخر 90 يومًا';
-
-  @override
-  String get last365Days => 'آخر 365 يومًا';
-
-  @override
   String get outOf5 => 'من 5';
-
-  @override
-  String get quarter => 'ربع السنة';
 
   @override
   String get restaurantsTab => 'المطاعم';
@@ -2573,109 +1323,742 @@ class AppLocalizationsAr extends AppLocalizations {
   String get driversTab => 'السائقون';
 
   @override
-  String get dashboard => 'Dashboard';
+  String get dashboard => 'لوحة التحكم';
 
   @override
-  String get failedToLoadSettings => 'Failed to load settings';
+  String get failedToLoadSettings => 'تعذّر تحميل الإعدادات';
 
   @override
-  String get noSettingsFound => 'No settings found';
+  String get noSettingsFound => 'لا توجد إعدادات';
 
   @override
-  String get noSettingsInThisCategory => 'No settings in this category';
+  String get noSettingsInThisCategory => 'لا توجد إعدادات في هذه الفئة';
 
   @override
-  String get settingUpdatedSuccessfully => 'Setting updated successfully';
+  String get settingUpdatedSuccessfully => 'تم تحديث الإعداد';
 
   @override
-  String get emptyInParentheses => '(empty)';
+  String get emptyInParentheses => '(فارغ)';
 
   @override
-  String get currentValue => 'Current value';
+  String get currentValue => 'القيمة الحالية';
 
   @override
-  String get keyLabel => 'Key';
+  String get keyLabel => 'المفتاح';
 
   @override
-  String get editValue => 'Edit value';
+  String get editValue => 'تعديل القيمة';
 
   @override
-  String get newValue => 'New value';
+  String get newValue => 'القيمة الجديدة';
 
   @override
-  String get invalidRouteArguments => 'Invalid route arguments';
+  String get invalidRouteArguments => 'بيانات التنقل غير صالحة';
 
   @override
-  String get invalidAppVersionArgument => 'Invalid app version argument';
+  String get invalidAppVersionArgument => 'بيانات الإصدار غير صالحة';
 
   @override
-  String get globalCoupons => 'Global Coupons';
+  String get globalCoupons => 'قسائم عامة';
 
   @override
-  String get enterVerificationCode => 'Enter Verification Code';
+  String get enterVerificationCode => 'أدخل رمز التحقق';
 
   @override
   String weSentVerificationCodeTo(Object email) {
-    return 'We sent a verification code to $email';
+    return 'لقد أرسلنا رمز التحقق إلى $email';
   }
 
   @override
-  String get confirmAccountDeletionCodeMessage => 'Please enter the code to confirm account deletion. This action cannot be undone.';
+  String get confirmAccountDeletionCodeMessage => 'يرجى إدخال الرمز لتأكيد حذف الحساب. لا يمكن التراجع عن هذا الإجراء.';
 
   @override
-  String get enableInSettings => 'Enable in Settings';
+  String get unableToCheckForUpdates => 'تعذر التحقق من التحديثات. يرجى المحاولة مرة أخرى لاحقاً.';
 
   @override
-  String get notificationPermissionNeededMessage => 'This app needs notification permission to:';
+  String get accountPendingApprovalMessage => 'حسابك في انتظار موافقة المدير. يرجى الانتظار حتى يراجع المدير حسابك ويوافق عليه قبل أن تتمكن من الوصول إلى النظام. ستتلقى إشعاراً عند الموافقة على حسابك.';
 
   @override
-  String get notificationBenefitNewOrders => 'Alert you about new delivery orders';
+  String get accountSuspendedMessage => 'تم تعليق حسابك. يرجى التواصل مع الدعم للحصول على المساعدة.';
 
   @override
-  String get notificationBenefitStatusUpdates => 'Notify you of order status updates';
+  String get accountRejectedMessage => 'تم رفض حسابك. يرجى التواصل مع الدعم للحصول على مزيد من المعلومات.';
 
   @override
-  String get notificationBenefitImportantAlerts => 'Send important delivery alerts';
+  String balanceForPeriod(String period) {
+    return '(الرصيد: $period)';
+  }
 
   @override
-  String get notificationPermissionWarning => 'Without notifications, you won\'t receive new orders and the app cannot function properly.';
+  String get updateLinkUnavailable => 'تعذر فتح التحديث على هذا الجهاز. تواصل معنا للحصول على الإصدار الجديد.';
 
   @override
-  String get notificationPermissionDeniedInstructions => 'Notification permission was denied. To enable it:';
+  String get pageNotFound => 'الصفحة غير موجودة';
 
   @override
-  String get stepTapOpenSettings => '1. Tap \"Open Settings\" below';
+  String get accountApprovedRedirectingMessage => 'تمت الموافقة على حسابك! جارٍ التحويل...';
 
   @override
-  String get stepFindNotificationsInSettings => '2. Find \"Notifications\" in the app settings';
+  String get accountPendingApproval => 'الحساب بانتظار الموافقة';
 
   @override
-  String get stepEnableAllowNotifications => '3. Enable \"Allow notifications\"';
+  String get accountPendingApprovalFallbackMessage => 'حسابك بانتظار موافقة المدير. يرجى الانتظار حتى يراجع المدير حسابك ويوافق عليه قبل أن تتمكن من الدخول إلى النظام.';
 
   @override
-  String get stepReturnToApp => '4. Return to the app';
+  String get accountRejected => 'تم رفض الحساب';
 
   @override
-  String get initializationErrorTitle => 'Initialization Error';
+  String get accountSuspended => 'الحساب موقوف';
 
   @override
-  String get initializationErrorMessage => 'The app failed to initialize properly.';
+  String get appFailedToInitializeProperly => 'تعذر تشغيل التطبيق بشكل صحيح.';
 
   @override
-  String get unableToCheckForUpdates => 'Unable to check for updates. Please try again later.';
+  String get pleaseConfirmYourPassword => 'يرجى تأكيد كلمة المرور';
 
   @override
-  String get accountApprovedRedirecting => 'Your account has been approved! Redirecting...';
+  String get nameIsRequired => 'الاسم مطلوب';
 
   @override
-  String get accountPendingApprovalMessage => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system. You will be notified once your account is approved.';
+  String get nameTooShort => 'يجب أن يتكون الاسم من حرفين على الأقل';
 
   @override
-  String get accountPendingApprovalMessageShort => 'Your account is pending manager approval. Please wait for a manager to review and approve your account before you can access the system.';
+  String get phoneTooShort => 'يجب أن يتكون رقم الهاتف من 10 أرقام على الأقل';
 
   @override
-  String get accountSuspendedMessage => 'Your account has been suspended. Please contact support for assistance.';
+  String usesUnlimited(int count) {
+    return '$count (غير محدود)';
+  }
 
   @override
-  String get accountRejectedMessage => 'Your account has been rejected. Please contact support for more information.';
+  String get finalTotalGlobal => 'المجموع النهائي (عام)';
+
+  @override
+  String zonesSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count منطقة محددة',
+      few: '$count مناطق محددة',
+      two: 'منطقتان محددتان',
+      one: 'منطقة واحدة محددة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get settingsCategoryDelivery => 'التوصيل';
+
+  @override
+  String get settingsCategoryFinancials => 'المالية';
+
+  @override
+  String get settingsCategoryCustomersOrders => 'العملاء والطلبات';
+
+  @override
+  String get settingsCategoryLoyaltyPromotions => 'الولاء والعروض';
+
+  @override
+  String get settingsCategoryAccountsSecurity => 'الحسابات والأمان';
+
+  @override
+  String get settingsCategoryApiIntegrations => 'الواجهات البرمجية والتكامل';
+
+  @override
+  String get settingsCategoryLegalContact => 'الشؤون القانونية والاتصال';
+
+  @override
+  String get settingTypeText => 'نص';
+
+  @override
+  String get settingTypeWhole => 'عدد صحيح';
+
+  @override
+  String get settingTypeNumber => 'عدد';
+
+  @override
+  String get settingTypeYesNo => 'نعم أو لا';
+
+  @override
+  String get settingTypeList => 'قائمة (JSON)';
+
+  @override
+  String get settingSystemManagerOrderPercentageName => 'العمولة على الطلبات (%)';
+
+  @override
+  String get settingSystemManagerOrderPercentageRole => 'حصة المنصة من المجموع الفرعي للأطباق';
+
+  @override
+  String get settingSystemManagerOrderPercentageHelp => 'النسبة المئوية من المجموع الفرعي لأطباق كل طلب التي تحتفظ بها المنصة عمولةً لها. مثلاً، القيمة 10 تعني أن المنصة تكسب 10 دج عن كل 100 دج من الأطباق المطلوبة. عند توصيل الطلب، يسجّلها البنك مبلغاً مستحقاً على المطعم للمنصة (أما السائق فيدين للمطعم بكامل المجموع الفرعي للأطباق).';
+
+  @override
+  String get settingSystemManagerDeliveryFeePercentageName => 'الحصة من رسوم التوصيل (%)';
+
+  @override
+  String get settingSystemManagerDeliveryFeePercentageRole => 'حصة المنصة من كل رسوم توصيل';
+
+  @override
+  String get settingSystemManagerDeliveryFeePercentageHelp => 'النسبة المئوية من رسوم التوصيل التي تذهب إلى المنصة، ويحتفظ السائق بالباقي. مثلاً، مع القيمة 30 تحتفظ المنصة بـ 30% من كل رسوم توصيل ويأخذ السائق 70%. يطبّقها البنك في كل مرة يُسلَّم فيها طلب.';
+
+  @override
+  String get settingContactEmailName => 'البريد الإلكتروني للدعم';
+
+  @override
+  String get settingContactEmailRole => 'يظهر في كل التطبيقات';
+
+  @override
+  String get settingContactEmailHelp => 'يظهر مع بقية بيانات الاتصال في صفحتي الاتصال وحول التطبيق في كل التطبيقات (العميل، السائق، المطعم، المشغل). غيّره كلما تغيّر بريد الدعم، حتى يصل المستخدمون دائماً إلى العنوان الصحيح.';
+
+  @override
+  String get settingContactPhoneName => 'هاتف الدعم';
+
+  @override
+  String get settingContactPhoneRole => 'يظهر في كل التطبيقات';
+
+  @override
+  String get settingContactPhoneHelp => 'يظهر في صفحة الاتصال في كل التطبيقات. تقرؤه التطبيقات من الخادم، فيصل أي تغيير هنا إليها جميعاً فوراً دون إصدار جديد.';
+
+  @override
+  String get settingContactWebsiteName => 'الموقع الإلكتروني';
+
+  @override
+  String get settingContactWebsiteRole => 'يظهر في كل التطبيقات';
+
+  @override
+  String get settingContactWebsiteHelp => 'عنوان الموقع الإلكتروني لمنصتك، يظهر في صفحتي حول التطبيق والاتصال في كل التطبيقات، ويُفتح في متصفح الهاتف عند لمسه.';
+
+  @override
+  String get settingContactAddressName => 'العنوان البريدي';
+
+  @override
+  String get settingContactAddressRole => 'عنوان الشركة';
+
+  @override
+  String get settingContactAddressHelp => 'العنوان الرسمي لشركتك. يُطبع في قسم الاتصال من صفحتي سياسة الخصوصية وشروط الخدمة (بكل اللغات)، ويُرسَل إلى التطبيقات مع بقية بيانات الاتصال. اتركه فارغاً لإخفاء سطر العنوان.';
+
+  @override
+  String get settingMinimumDeliveryFeeName => 'الحد الأدنى لرسوم التوصيل';
+
+  @override
+  String get settingMinimumDeliveryFeeRole => 'أقل ما يكلّفه التوصيل';
+
+  @override
+  String get settingMinimumDeliveryFeeHelp => 'أقل مبلغ يدفعه العميل للتوصيل مهما كان المطعم قريباً. مثلاً، القيمة 50 تعني أن طلباً على بعد 300 متر يكلّف مع ذلك 50 دج للتوصيل. ضع 0 لإلغاء الحد الأدنى: تُستعمل نتيجة الحساب كما هي.';
+
+  @override
+  String get settingMaximumDeliveryFeeName => 'الحد الأقصى لرسوم التوصيل';
+
+  @override
+  String get settingMaximumDeliveryFeeRole => 'أقصى ما يكلّفه التوصيل';
+
+  @override
+  String get settingMaximumDeliveryFeeHelp => 'أقصى مبلغ يمكن أن يدفعه العميل للتوصيل مهما كان المطعم بعيداً. مثلاً، القيمة 500 تعني أن طلباً على بعد 20 كم لا يكلّف أبداً أكثر من 500 دج للتوصيل. ضع 0 لإلغاء الحد الأقصى: تُستعمل نتيجة الحساب كما هي.';
+
+  @override
+  String get settingMaxDriverConcurrentOrdersName => 'الطلبات لدى السائق في وقت واحد';
+
+  @override
+  String get settingMaxDriverConcurrentOrdersRole => 'أقصى عدد من الطلبات الجارية لكل سائق';
+
+  @override
+  String get settingMaxDriverConcurrentOrdersHelp => 'أكبر عدد من الطلبات الجارية يمكن أن يحمله سائق واحد في الوقت نفسه. حين يبلغ السائق هذا العدد لا يُعرض عليه أي طلب جديد حتى يوصل طلباً أو يعيده. ارفعه في أوقات الذروة، واخفضه لتبقى مدة التوصيل قصيرة.';
+
+  @override
+  String get settingFixedDeliveryFeeName => 'رسوم التوصيل الثابتة';
+
+  @override
+  String get settingFixedDeliveryFeeRole => 'الجزء الثابت من كل رسوم توصيل';
+
+  @override
+  String get settingFixedDeliveryFeeHelp => 'مبلغ ثابت يدخل في كل رسوم توصيل مهما كانت المسافة: الرسوم = الرسوم الثابتة + (السعر لكل متر × المسافة بالأمتار)، ثم تُقرَّب وتبقى بين الحد الأدنى والحد الأقصى. رفعه يرفع ما يدفعه كل عميل للتوصيل.';
+
+  @override
+  String get settingPricePerMeterName => 'السعر لكل متر';
+
+  @override
+  String get settingPricePerMeterRole => 'جزء المسافة من رسوم التوصيل';
+
+  @override
+  String get settingPricePerMeterHelp => 'ما يضيفه كل متر من الطريق بين المطعم وعنوان التوصيل إلى الرسوم. مثلاً، 0.02 دج لكل متر تعني أن مساراً طوله 5 كم يضيف 100 دج إلى الرسوم الثابتة. تأتي المسافة عبر الطريق من Mapbox أو OpenRouteService.';
+
+  @override
+  String get settingMaxDeliveryDistanceKmName => 'أقصى مسافة للتوصيل (كم)';
+
+  @override
+  String get settingMaxDeliveryDistanceKmRole => 'إلى أي مدى يمكن أن يصل التوصيل';
+
+  @override
+  String get settingMaxDeliveryDistanceKmHelp => 'يُرفض الطلب الذي يبعد عنوان توصيله عن المطعم أكثر من هذا العدد من الكيلومترات عند تقديمه. يجنّب ذلك السائقين رحلات طويلة جداً ويبقي مدة التوصيل متوقعة. ارفعه أو اخفضه لتوسيع منطقة خدمتك أو تضييقها.';
+
+  @override
+  String get settingAverageCitySpeedKmhName => 'السرعة داخل المدينة (كم/س)';
+
+  @override
+  String get settingAverageCitySpeedKmhRole => 'لمدة التوصيل حين لا يُعرف المسار';
+
+  @override
+  String get settingAverageCitySpeedKmhHelp => 'حين لا يجيب Mapbox ولا OpenRouteService، تُقاس المسافة في خط مستقيم وتعطي هذه السرعة الوقت الذي يستغرقه التوصيل في شوارع المدينة. القيمة المعتادة من 25 إلى 40 كم/س، مراعاةً لحركة المرور والتوقفات.';
+
+  @override
+  String get settingAverageHighwaySpeedKmhName => 'السرعة على الطريق السريع (كم/س)';
+
+  @override
+  String get settingAverageHighwaySpeedKmhRole => 'للجزء الطويل من مثل هذه الرحلة';
+
+  @override
+  String get settingAverageHighwaySpeedKmhHelp => 'تُستعمل مع السرعة داخل المدينة في هذا التقدير بخط مستقيم: بعد مسافة الانتقال من المدينة إلى الطريق السريع، يُحسب باقي الرحلة بهذه السرعة الأعلى. القيمة المعتادة من 80 إلى 120 كم/س.';
+
+  @override
+  String get settingCityHighwayTransitionKmName => 'مسافة الانتقال من المدينة إلى الطريق السريع (كم)';
+
+  @override
+  String get settingCityHighwayTransitionKmRole => 'حيث تنتهي السرعة داخل المدينة';
+
+  @override
+  String get settingCityHighwayTransitionKmHelp => 'في هذا التقدير بخط مستقيم، تُحسب الرحلة الأقصر من هذه المسافة كلها بالسرعة داخل المدينة، وتُحسب الكيلومترات التي تتجاوزها بسرعة الطريق السريع. مثلاً، 5 تعني أول 5 كم بسرعة المدينة والباقي بسرعة الطريق السريع.';
+
+  @override
+  String get settingCurrencyName => 'العملة';
+
+  @override
+  String get settingCurrencyRole => 'رمز عملة المنصة';
+
+  @override
+  String get settingCurrencyHelp => 'رمز ISO 4217 لعملة كل المبالغ في المنصة: مجاميع الطلبات، رسوم التوصيل، الأرباح، الإشعارات. مثلاً، «DZD» للدينار الجزائري. يكتبه الخادم بعد المبالغ ويرسله إلى كل التطبيقات.';
+
+  @override
+  String get settingBirthdayGiftEnabledName => 'هدية عيد الميلاد';
+
+  @override
+  String get settingBirthdayGiftEnabledRole => 'مفعّلة أو لا';
+
+  @override
+  String get settingBirthdayGiftEnabledHelp => 'إذا كانت القيمة true (أو 1)، يحصل العميل الذي يطلب يوم عيد ميلاده على طلبه مدفوعاً حتى سقف الهدية، مرة واحدة في السنة. وإذا كانت false (أو 0)، فلا هدية. يشغّل ذلك العرض أو يوقفه دون المساس بالشيفرة.';
+
+  @override
+  String get settingBirthdayGiftCapName => 'سقف هدية عيد الميلاد (دج)';
+
+  @override
+  String get settingBirthdayGiftCapRole => 'أقصى ما تغطيه هدية عيد الميلاد';
+
+  @override
+  String get settingBirthdayGiftCapHelp => 'أقصى ما تغطيه هدية عيد الميلاد، بعملة المنصة. مثلاً، مع سقف 500، يُخفَّض طلب عيد ميلاد قيمته 700 دج بمقدار 500 دج. يبقي ذلك الهدية معقولة في الطلبات الكبيرة.';
+
+  @override
+  String get settingCustomerRestaurantRadiusKmName => 'نصف قطر البحث عن المطاعم (كم)';
+
+  @override
+  String get settingCustomerRestaurantRadiusKmRole => 'المطاعم التي يراها العميل';
+
+  @override
+  String get settingCustomerRestaurantRadiusKmHelp => 'يرى العميل المطاعم الواقعة ضمن هذا العدد من الكيلومترات من مكانه. نصف قطر أكبر يعرض خيارات أكثر، لكنه قد يُظهر مطاعم بعيدة جداً عن التوصيل في وقت مناسب.';
+
+  @override
+  String get settingCustomerRestaurantPrefilterRadiusKmName => 'نصف قطر التصفية الأولية للبحث (كم)';
+
+  @override
+  String get settingCustomerRestaurantPrefilterRadiusKmRole => 'فرز أول وأسرع للمطاعم';
+
+  @override
+  String get settingCustomerRestaurantPrefilterRadiusKmHelp => 'قبل الحساب الدقيق للمسافة، تحتفظ قاعدة البيانات بالمطاعم الواقعة ضمن هذا النطاق الأوسع فقط، وهو أسرع. يجب ألا يقل عن نصف قطر البحث عن المطاعم: إن كان أصغر استُبعدت مطاعم قريبة، وإن كان أكبر بكثير أبطأ البحث فقط.';
+
+  @override
+  String get settingPrivacyPolicyUrlName => 'رابط سياسة الخصوصية';
+
+  @override
+  String get settingPrivacyPolicyUrlRole => 'يظهر في كل التطبيقات';
+
+  @override
+  String get settingPrivacyPolicyUrlHelp => 'يُفتح في متصفح الهاتف حين يلمس أحدهم «سياسة الخصوصية» في أي تطبيق. غيّره هنا كلما نشرت نسخة جديدة من سياستك: لا حاجة إلى تحديث التطبيقات.';
+
+  @override
+  String get settingTermsOfServiceUrlName => 'رابط شروط الخدمة';
+
+  @override
+  String get settingTermsOfServiceUrlRole => 'يظهر في كل التطبيقات';
+
+  @override
+  String get settingTermsOfServiceUrlHelp => 'يُفتح في متصفح الهاتف حين يلمس أحدهم «شروط الخدمة» في أي تطبيق. غيّره هنا كلما راجعت شروطك: لا حاجة إلى تحديث التطبيقات.';
+
+  @override
+  String get settingMinOrderSchedulingMinutesName => 'مهلة جدولة الطلب (دقائق)';
+
+  @override
+  String get settingMinOrderSchedulingMinutesRole => 'كم من الوقت مسبقاً تُجدول الطلبات';
+
+  @override
+  String get settingMinOrderSchedulingMinutesHelp => 'على العميل الذي يجدول طلباً أن يختار وقتاً بعد هذا العدد من الدقائق على الأقل. مثلاً، 30 تعني أنه لا يمكن جدولة طلب خلال الـ 30 دقيقة القادمة. يمنح ذلك المطاعم والسائقين وقتاً كافياً للاستعداد.';
+
+  @override
+  String get settingNumberOfOrdersToBeTrustedName => 'الطلبات اللازمة ليصبح العميل موثوقاً';
+
+  @override
+  String get settingNumberOfOrdersToBeTrustedRole => 'متى يتوقف المشغل عن التحقق من طلبات العميل';
+
+  @override
+  String get settingNumberOfOrdersToBeTrustedHelp => 'يتحقق مشغل من طلبات العميل الجديد قبل أن تصل إلى المطعم. حين يبلغ العميل هذا العدد من الطلبات المسلَّمة يصبح «موثوقاً»، وتذهب طلباته التالية مباشرة إلى المطعم. اخفضه لتثق أسرع، وارفعه لمزيد من التحقق.';
+
+  @override
+  String get settingOtpValidityMinutesName => 'مدة صلاحية الرمز (دقائق)';
+
+  @override
+  String get settingOtpValidityMinutesRole => 'كم تبقى الرموز المرسلة بالبريد صالحة';
+
+  @override
+  String get settingOtpValidityMinutesHelp => 'تُرسل رموز بالبريد الإلكتروني لإعادة تعيين كلمة المرور، والتحقق من البريد أو تغييره، وتأكيد حذف الحساب. يبقى الرمز صالحاً هذا العدد من الدقائق بعد إرساله، ويذكر البريد ذلك. المدة الأقصر أكثر أماناً، والأطول أرحم بصناديق البريد البطيئة.';
+
+  @override
+  String get settingOtpResendWaitSecondsName => 'الانتظار قبل رمز جديد (ثوانٍ)';
+
+  @override
+  String get settingOtpResendWaitSecondsRole => 'بين رمزين مرسلين بالبريد';
+
+  @override
+  String get settingOtpResendWaitSecondsHelp => 'بعد إرسال رمز، لا يمكن طلب رمز جديد إلا بعد هذا العدد من الثواني، وتعرض التطبيقات العدّ التنازلي. يحدّ ذلك من الرسائل المرسلة إلى عنوان واحد.';
+
+  @override
+  String get settingMaxSavedAddressesName => 'العناوين المحفوظة لكل عميل';
+
+  @override
+  String get settingMaxSavedAddressesRole => 'كم عنواناً يحتفظ به العميل';
+
+  @override
+  String get settingMaxSavedAddressesHelp => 'أكبر عدد من عناوين التوصيل يمكن أن يحتفظ به عميل واحد في التطبيق. يُرفض أي عنوان إضافي برسالة.';
+
+  @override
+  String get settingMaxItemsPerOrderName => 'الأطباق في الطلب الواحد';
+
+  @override
+  String get settingMaxItemsPerOrderRole => 'أطباق مختلفة في طلب واحد';
+
+  @override
+  String get settingMaxItemsPerOrderHelp => 'يُرفض الطلب الذي يحتوي على أطباق مختلفة أكثر من هذا العدد. يبقي ذلك الطلب الواحد في حدود ما يستطيع مطبخ وسائق التعامل معه دفعة واحدة.';
+
+  @override
+  String get settingMaxQuantityPerItemName => 'الحصص من الطبق الواحد';
+
+  @override
+  String get settingMaxQuantityPerItemRole => 'حصص الطبق الواحد في طلب واحد';
+
+  @override
+  String get settingMaxQuantityPerItemHelp => 'أكبر كمية من طبق واحد يمكن أن يطلبها العميل. تُرفض الكمية الأكبر برسالة.';
+
+  @override
+  String get settingAmountRoundingStepName => 'خطوة التقريب (دج)';
+
+  @override
+  String get settingAmountRoundingStepRole => 'تقريب رسوم التوصيل وخصومات القسائم';
+
+  @override
+  String get settingAmountRoundingStepHelp => 'تُقرَّب رسوم التوصيل إلى الأعلى، وخصومات القسائم إلى الأسفل، إلى مضاعف لهذا المبلغ. مع 5، تصبح رسوم 162 دج 165 ويصبح خصم 312 دج 310. ضع 1 لإيقاف التقريب.';
+
+  @override
+  String get settingLoyaltyCouponValidityDaysName => 'مدة صلاحية قسيمة الولاء (أيام)';
+
+  @override
+  String get settingLoyaltyCouponValidityDaysRole => 'كم تبقى قسيمة الولاء قابلة للاستعمال';
+
+  @override
+  String get settingLoyaltyCouponValidityDaysHelp => 'يمكن استعمال القسيمة المحصّلة بنقاط الولاء طوال هذا العدد من الأيام. يعرض تطبيق العميل هذا العدد قبل صرف النقاط.';
+
+  @override
+  String get settingDefaultDeliveryTimeMinutesName => 'مدة التوصيل الافتراضية (دقائق)';
+
+  @override
+  String get settingDefaultDeliveryTimeMinutesRole => 'حين يكون المسار غير معروف';
+
+  @override
+  String get settingDefaultDeliveryTimeMinutesHelp => 'حين يتعذر حساب المسار إلى العميل (لا موقع بعد، أو لا خدمة لحساب المسارات)، يُعرض هذا العدد من الدقائق ويُستعمل مدةً للتوصيل.';
+
+  @override
+  String get settingRouteCacheMinutesName => 'مدة الاحتفاظ بمسافة الطريق (دقائق)';
+
+  @override
+  String get settingRouteCacheMinutesRole => 'كم من الوقت يُعاد استعمال المسافة المحسوبة';
+
+  @override
+  String get settingRouteCacheMinutesHelp => 'تُحفظ المسافة عبر الطريق بين مطعم ومكان التوصيل هذا العدد من الدقائق بدل طلبها من جديد. فتكون الرسوم المدفوعة هي الرسوم المعروضة، وتقلّ طلبات حساب المسارات. لا تخفضه إلا إذا كانت الطرق تتغير كثيراً.';
+
+  @override
+  String get settingMapDefaultLatitudeName => 'مركز الخريطة: خط العرض';
+
+  @override
+  String get settingMapDefaultLatitudeRole => 'حيث تُفتح خريطة التطبيقات';
+
+  @override
+  String get settingMapDefaultLatitudeHelp => 'حين يفتح أحدهم الخريطة لاختيار مكان ولا يُعرف أي موقع بعد، تُفتح الخريطة هنا. اضبطه مع خط الطول على مركز منطقة خدمتك. قيمة بين -90 و90.';
+
+  @override
+  String get settingMapDefaultLongitudeName => 'مركز الخريطة: خط الطول';
+
+  @override
+  String get settingMapDefaultLongitudeRole => 'حيث تُفتح خريطة التطبيقات';
+
+  @override
+  String get settingMapDefaultLongitudeHelp => 'خط الطول المرافق لخط عرض مركز الخريطة: مركز منطقة خدمتك. قيمة بين -180 و180.';
+
+  @override
+  String get settingAppMapboxAccessTokenName => 'رمز الخرائط (Mapbox)';
+
+  @override
+  String get settingAppMapboxAccessTokenRole => 'يرسم الخرائط في التطبيقات';
+
+  @override
+  String get settingAppMapboxAccessTokenHelp => 'رمز Mapbox العام (يبدأ بـ «pk.») الذي ترسم به تطبيقات العميل والسائق والمطعم والمدير خرائطها. تقرؤه التطبيقات من الخادم، فاستبداله هنا لا يتطلب إصداراً جديداً. يُرفض الرمز السري («sk.»): فهذا الرمز يُسلَّم إلى كل التطبيقات. المفاتيح التي يقيس بها الخادم المسافات عبر الطرق ليست هنا: إنها أسرار محفوظة في ملف .env على الخادم.';
+
+  @override
+  String get settingLocalTimezoneName => 'المنطقة الزمنية';
+
+  @override
+  String get settingLocalTimezoneRole => 'لساعات عمل المطاعم';
+
+  @override
+  String get settingLocalTimezoneHelp => 'تُدخل المطاعم ساعات عملها بالتوقيت المحلي، مثلاً من 11:00 إلى 23:00. هذه هي المنطقة الزمنية التي تُقرأ بها تلك الساعات حين تقرر المنصة إن كان المطعم مفتوحاً. استعمل اسماً معيارياً مثل «Africa/Algiers»، وما عداه يُرفض.';
+
+  @override
+  String get settingBestSellerCountName => 'الأكثر مبيعاً لكل مطعم';
+
+  @override
+  String get settingBestSellerCountRole => 'كم طبقاً يحصل على الشارة';
+
+  @override
+  String get settingBestSellerCountHelp => 'في تطبيق العميل، تحمل أكثر أطباق المطعم طلباً شارة «الأكثر مبيعاً». هذا هو عدد أطباقه التي تحصل عليها: تلك الموجودة في أكثر الطلبات المسلَّمة. ضع 0 لعدم عرض أي شارة.';
+
+  @override
+  String get settingBestSellerDaysName => 'فترة الأكثر مبيعاً (أيام)';
+
+  @override
+  String get settingBestSellerDaysRole => 'الأيام التي تحسبها الشارة';
+
+  @override
+  String get settingBestSellerDaysHelp => 'لا تُحسب للشارة إلا الطلبات المسلَّمة خلال هذا العدد من الأيام الماضية، فتتبع ما يطلبه العملاء الآن. مثلاً، 30 تعني آخر شهر من الطلبات المسلَّمة.';
+
+  @override
+  String get settingBestSellerMinOrdersName => 'الطلبات اللازمة لشارة الأكثر مبيعاً';
+
+  @override
+  String get settingBestSellerMinOrdersRole => 'أقل ما يحتاجه الطبق للشارة';
+
+  @override
+  String get settingBestSellerMinOrdersHelp => 'لا يحصل الطبق على الشارة إلا إذا ورد في هذا العدد على الأقل من الطلبات المسلَّمة خلال تلك الفترة. فلا يُظهر مطعم جديد قليل الطلبات أي شارة حتى تبلغ أطباقه هذا العدد.';
+
+  @override
+  String get settingLoyaltyEnabledName => 'نقاط الولاء';
+
+  @override
+  String get settingLoyaltyEnabledRole => 'مفعّلة أو لا';
+
+  @override
+  String get settingLoyaltyEnabledHelp => 'إذا كانت القيمة true، يكسب العملاء نقاطاً على كل طلب مسلَّم ويمكنهم صرفها في قسائم خصم. وإذا كانت false، فلا تُكسب نقاط ولا تُصرف، وتبقى الأرصدة المكتسبة محفوظة. يوقف ذلك برنامج الولاء مؤقتاً دون فقدان شيء.';
+
+  @override
+  String get settingLoyaltyEarnRateName => 'النقاط المكتسبة لكل دينار';
+
+  @override
+  String get settingLoyaltyEarnRateRole => 'ما يكسبه الطلب';
+
+  @override
+  String get settingLoyaltyEarnRateHelp => 'نقاط الولاء التي يحصل عليها العميل عن كل دينار يدفعه في طلب مسلَّم (مجموعه، مع التوصيل، بعد الخصومات). مثلاً، 0.1 تعني أن طلباً بقيمة 1000 دج يكسب 100 نقطة. المعدل الأعلى يجعل البرنامج أسخى، والأقل يكلّف المنصة أقل.';
+
+  @override
+  String get settingLoyaltyRedeemRateName => 'الدنانير لكل نقطة مصروفة';
+
+  @override
+  String get settingLoyaltyRedeemRateRole => 'قيمة النقطة';
+
+  @override
+  String get settingLoyaltyRedeemRateHelp => 'قيمة نقطة الولاء حين يصرفها العميل في قسيمة. مثلاً، 0.5 تعني أن 200 نقطة تصنع قسيمة بقيمة 100 دج. تحدد التكلفة الحقيقية للبرنامج: القيمة الأقل تحمي الهوامش، والأعلى تشجع العملاء أكثر على صرف نقاطهم.';
+
+  @override
+  String get settingLoyaltyMinRedeemPointsName => 'أقل عدد من النقاط للصرف';
+
+  @override
+  String get settingLoyaltyMinRedeemPointsRole => 'أقل ما يصرفه العميل دفعة واحدة';
+
+  @override
+  String get settingLoyaltyMinRedeemPointsHelp => 'لا يمكن للعميل صرف نقاط أقل من هذا العدد دفعة واحدة. يمنع هذا الحد الأدنى (مثلاً 100 نقطة) القسائم الصغيرة جداً ويترك العملاء يجمعون رصيداً حقيقياً أولاً.';
+
+  @override
+  String get settingLoyaltyTiersName => 'شرائح الاستبدال';
+
+  @override
+  String get settingLoyaltyTiersRole => 'مقادير النقاط التي يمكن للعميل صرفها';
+
+  @override
+  String get settingLoyaltyTiersHelp => 'مقادير النقاط الدقيقة التي يمكن للعميل صرفها دفعة واحدة، على شكل قائمة JSON من أعداد صحيحة، مثلاً [100, 500, 1000, 2000]. لا يعرض تطبيق العميل إلا هذه المقادير. يجب ألا يقل كل منها عن أقل عدد من النقاط للصرف.';
+
+  @override
+  String get settingMaxCouponsPerCategoryName => 'القسائم من النوع نفسه في الطلب';
+
+  @override
+  String get settingMaxCouponsPerCategoryRole => 'جمع قسائم من النوع نفسه';
+
+  @override
+  String get settingMaxCouponsPerCategoryHelp => 'أكبر عدد من القسائم من النوع نفسه (مطعم، توصيل أو عامة) يمكن أن يستعمله طلب واحد. مع 1، لا يمكن للعميل وضع قسيمتي مطعم على طلب واحد. تُحسب قسائم الولاء قسائمَ مطعم. ارفعه للسماح بجمع قسائم من النوع نفسه.';
+
+  @override
+  String get settingMaxCouponCategoriesName => 'أنواع القسائم في الطلب';
+
+  @override
+  String get settingMaxCouponCategoriesRole => 'الجمع بين أنواع مختلفة من القسائم';
+
+  @override
+  String get settingMaxCouponCategoriesHelp => 'أكبر عدد من أنواع القسائم المختلفة (مطعم، توصيل، عامة) يمكن أن يستعملها طلب واحد معاً. مثلاً، 2 تعني أن الطلب يمكن أن يجمع نوعين على الأكثر، كقسيمة مطعم وقسيمة توصيل. ومع 3 يمكن استعمال الأنواع الثلاثة معاً.';
+
+  @override
+  String confirmPaymentReceived(String amount, String payer) {
+    return 'هل استلمت $amount من $payer؟';
+  }
+
+  @override
+  String get paymentRecordedNotice => 'تم تسجيل الدفعة';
+
+  @override
+  String get refusedAt => 'تم الرفض في';
+
+  @override
+  String get paymentWaitingForAnswer => 'دفعة أرسلوها من تطبيقهم تنتظر ردك في سجل المعاملات: لم تُحتسب بعد.';
+
+  @override
+  String get reasonLoyaltyCouponCredit => 'رصيد قسيمة الولاء';
+
+  @override
+  String get reject => 'رفض';
+
+  @override
+  String paymentNote(String note) {
+    return 'ملاحظة: $note';
+  }
+
+  @override
+  String paymentAnswer(String note) {
+    return 'الرد: $note';
+  }
+
+  @override
+  String get paymentConfirmedNotice => 'تم تأكيد الدفعة';
+
+  @override
+  String get paymentRefusedNotice => 'تم رفض الدفعة';
+
+  @override
+  String get refusePaymentTitle => 'رفض هذه الدفعة؟';
+
+  @override
+  String get refusePaymentReasonHint => 'لماذا؟ (مثلاً: لم يتم الاستلام)';
+
+  @override
+  String get confirmPaymentReceivedTitle => 'هل استلمت الدفعة؟';
+
+  @override
+  String get creditDetails => 'تفاصيل المستحقات';
+
+  @override
+  String get debtDetails => 'تفاصيل الدين';
+
+  @override
+  String get orderSettlements => 'تسويات الطلبات';
+
+  @override
+  String get cashTransactions => 'المعاملات النقدية';
+
+  @override
+  String get noTransactionsInPeriod => 'لا توجد معاملات في هذه الفترة';
+
+  @override
+  String get receivedPayment => 'دفعة مستلمة';
+
+  @override
+  String get sentPayment => 'دفعة مرسلة';
+
+  @override
+  String get totalOrderSettlements => 'مجموع التسويات';
+
+  @override
+  String get totalCashOutgoing => 'مجموع المدفوعات المرسلة';
+
+  @override
+  String get totalCashIncoming => 'مجموع المدفوعات المستلمة';
+
+  @override
+  String get netBalance => 'الرصيد الصافي';
+
+  @override
+  String get paidTowardsOrders => 'المدفوع من هذه الطلبات';
+
+  @override
+  String get cashPaidInTheseDays => 'النقود المدفوعة في هذه الأيام';
+
+  @override
+  String get cashReceivedInTheseDays => 'النقود المستلمة في هذه الأيام';
+
+  @override
+  String get reasonOvercharge => 'مبلغ زائد';
+
+  @override
+  String get reasonOrderSettlement => 'تسوية طلب';
+
+  @override
+  String get reasonCouponCredit => 'رصيد قسيمة';
+
+  @override
+  String get reasonGlobalCouponCredit => 'رصيد قسيمة عامة';
+
+  @override
+  String get reasonBirthdayCredit => 'رصيد هدية عيد الميلاد';
+
+  @override
+  String get deliveryAreas => 'مناطق التوصيل';
+
+  @override
+  String get deliveryAreasHelp => 'لا يمكن للزبائن الطلب إلا من عنوان يقع داخل منطقة مفعّلة.';
+
+  @override
+  String get noDeliveryAreasYet => 'لا توجد منطقة توصيل بعد: لا يمكن لأي زبون الطلب.';
+
+  @override
+  String get addDeliveryArea => 'إضافة منطقة توصيل';
+
+  @override
+  String get editDeliveryArea => 'تعديل منطقة التوصيل';
+
+  @override
+  String get deliveryAreaOn => 'مفعّلة: يمكن للزبائن الطلب فيها';
+
+  @override
+  String get deliveryAreaOff => 'معطّلة: لا يمكن لأي زبون الطلب فيها';
+
+  @override
+  String get deleteDeliveryArea => 'حذف منطقة التوصيل';
+
+  @override
+  String deleteDeliveryAreaConfirmation(String name) {
+    return 'حذف $name؟ لن يتمكن الزبائن في هذه المنطقة من الطلب بعد الآن.';
+  }
+
+  @override
+  String get coordinatesInvalid => 'خط العرض من -90 إلى 90، وخط الطول من -180 إلى 180';
+
+  @override
+  String get radiusOutOfRange => 'نصف القطر من 0.1 إلى 100 كم';
+
+  @override
+  String get payFromPlatform => 'الدفع من المنصة';
+
+  @override
+  String platformPaymentTitle(String name) {
+    return 'دفعة من المنصة إلى $name';
+  }
+
+  @override
+  String get platformPaymentHelp => 'تُحتسب فورًا ويُبلَّغ المستفيد بها. ما يُدفع زيادة على المستحق يصبح دينًا عليه للمنصة.';
+
+  @override
+  String get platformPaymentRecorded => 'تم تسجيل دفعة المنصة';
+
+  @override
+  String get paidByThePlatform => 'دفعته المنصة';
+
+  @override
+  String get paidBeyondWhatWasOwed => 'مدفوع زيادة على المستحق';
 }

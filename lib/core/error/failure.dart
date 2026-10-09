@@ -5,12 +5,22 @@ abstract class Failure extends Equatable {
 
   const Failure(this.message);
 
+  /// The server's own name for the refusal (ROLE_MISMATCH, INVALID_CREDENTIALS...),
+  /// when it gave one: the app decides on it, never on the words of [message]
+  String? get errorCode => null;
+
   @override
   List<Object> get props => [message];
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure(super.message);
+  @override
+  final String? errorCode;
+
+  const ServerFailure(super.message, {this.errorCode});
+
+  @override
+  List<Object> get props => [message, if (errorCode != null) errorCode!];
 }
 
 class DatabaseFailure extends Failure {

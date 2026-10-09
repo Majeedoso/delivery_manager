@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -7,13 +8,15 @@ import 'package:delivery_manager/features/bank/domain/entities/driver_credit_deb
 import 'package:delivery_manager/features/bank/presentation/controller/bank_bloc.dart';
 import 'package:delivery_manager/features/bank/presentation/controller/bank_event.dart';
 import 'package:delivery_manager/features/bank/presentation/controller/bank_state.dart';
+import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/core/widgets/period_date_selector.dart';
 import 'package:delivery_manager/core/utils/period_calculator.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
-import 'package:delivery_manager/core/utils/currency.dart';
+import 'package:delivery_manager/core/utils/server_time.dart';
+import 'package:delivery_manager/core/utils/amounts.dart';
 
 class DriverDebtDetailsScreen extends StatefulWidget {
-  static const String route = '/driver_debt_details';
+  static const String route = '/driver-debt-details';
   final RestaurantDebt debtItem;
   final String? initialPeriod;
   final DateTime? initialDateFrom;
@@ -69,9 +72,9 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
 
     final picked = await showDatePicker(
       context: context,
-      initialDate: currentDate ?? DateTime.now(),
+      initialDate: currentDate ?? clock.now(),
       firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
+      lastDate: clock.now(),
     );
 
     if (picked != null) {
@@ -86,12 +89,77 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
     }
   }
 
+  /// The period on screen, in the app's language ("WEEK" was the code itself)
+  /// and named as the filter names it
+  String _periodLabel(AppLocalizations l10n) =>
+      _period == 'all' ? l10n.allTime : periodLabel(l10n, _period);
+
+  /// The same counterparty, on the same side: a restaurant's own id and a
+  /// driver's user id can be the same number (the page showed another's
+  /// debts), and a restaurant may both owe and be owed
+  bool _isSameCounterparty(RestaurantDebt other) =>
+      other.counterpartyType == widget.debtItem.counterpartyType &&
+      other.restaurantId == widget.debtItem.restaurantId &&
+      other.isCredit == widget.debtItem.isCredit;
+
+  /// What the platform owes a restaurant or a driver is paid from here
+  /// (decision 6 of manager_suite_report.md: no such payment could be
+  /// recorded, so what it owed only grew)
+  Widget? _payButton(BuildContext context) {
+    final item = _currentItem;
+    if (widget.debtItem.isCredit ||
+        item == null ||
+        item.amount <= 0 ||
+        !const {'restaurant', 'driver'}.contains(item.counterpartyType)) {
+      return null;
+    }
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.all(4.w),
+        child: BlocBuilder<BankBloc, BankState>(
+          builder: (context, state) => ElevatedButton.icon(
+            onPressed: state is PaymentRecording
+                ? null
+                : () => _askPlatformPayment(context, item),
+            icon: const Icon(Icons.payments_outlined),
+            label: Text(AppLocalizations.of(context)!.payFromPlatform),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _askPlatformPayment(
+    BuildContext context,
+    RestaurantDebt item,
+  ) async {
+    final bloc = context.read<BankBloc>();
+    final answer = await showDialog<(double, String)>(
+      context: context,
+      builder: (_) => _PlatformPaymentDialog(item: item),
+    );
+    if (answer == null) return;
+    final (amount, notes) = answer;
+    final toRestaurant = item.counterpartyType == 'restaurant';
+    bloc.add(
+      RecordPlatformPaymentEvent(
+        restaurantId: toRestaurant ? item.restaurantId : null,
+        driverId: toRestaurant ? null : item.restaurantId,
+        amount: amount,
+        notes: notes.isEmpty ? null : notes,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: _payButton(context),
       appBar: AppBar(
         title: Text(
-          widget.debtItem.isCredit ? 'Credit Details' : 'Debt Details',
+          widget.debtItem.isCredit
+              ? AppLocalizations.of(context)!.creditDetails
+              : AppLocalizations.of(context)!.debtDetails,
         ),
       ),
       body: BlocConsumer<BankBloc, BankState>(
@@ -103,7 +171,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
 
             // Search in credits first
             for (var credit in balance.restaurantCredits) {
-              if (credit.restaurantId == widget.debtItem.restaurantId) {
+              if (_isSameCounterparty(credit)) {
                 matchingItem = credit;
                 break;
               }
@@ -112,7 +180,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
             // If not found in credits, search in debts
             if (matchingItem == null) {
               for (var debt in balance.restaurantDebts) {
-                if (debt.restaurantId == widget.debtItem.restaurantId) {
+                if (_isSameCounterparty(debt)) {
                   matchingItem = debt;
                   break;
                 }
@@ -129,6 +197,19 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                 _currentItem = null;
               });
             }
+          } else if (state is BalanceError) {
+            // The figures stay as they were last read: say they could not be
+            // read again, instead of showing them as if they were fresh
+            ErrorSnackBar.show(context, state.message);
+          } else if (state is PaymentRecorded) {
+            // A payment from the platform counts at once: the figures again
+            ErrorSnackBar.showConfirmation(
+              context,
+              AppLocalizations.of(context)!.platformPaymentRecorded,
+            );
+            _fetchData();
+          } else if (state is PaymentError) {
+            ErrorSnackBar.show(context, state.message);
           }
         },
         builder: (context, state) {
@@ -243,7 +324,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                   child: const CircularProgressIndicator(strokeWidth: 2),
                 )
               : Text(
-                  '${amount > 0 ? (isPositive ? '+' : '-') : ''}${amount.toStringAsFixed(2)} ${Currency.dzd.code}',
+                  '${amount > 0 ? (isPositive ? '+' : '-') : ''}${amount.toStringAsFixed(2)} ${AppLocalizations.of(context)!.currency}',
                   style: TextStyle(
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w900,
@@ -254,7 +335,10 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
             Padding(
               padding: EdgeInsets.only(top: 0.5.h),
               child: Text(
-                '(${_period == 'all' ? 'All Time' : _period.toUpperCase()} Balance)',
+                // Named as the filter names it (it read "WEEK Balance")
+                AppLocalizations.of(context)!.balanceForPeriod(
+                  _periodLabel(AppLocalizations.of(context)!),
+                ),
                 style: TextStyle(fontSize: 12.sp, color: Colors.grey),
               ),
             ),
@@ -277,12 +361,18 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (orderSettlements.isNotEmpty) ...[
-            _buildSectionHeader(context, 'Order Settlements'),
+            _buildSectionHeader(
+              context,
+              AppLocalizations.of(context)!.orderSettlements,
+            ),
             _buildOrderSettlementsList(context, orderSettlements),
             SizedBox(height: 3.h),
           ],
           if (cashTransactions.isNotEmpty) ...[
-            _buildSectionHeader(context, 'Cash Transactions'),
+            _buildSectionHeader(
+              context,
+              AppLocalizations.of(context)!.cashTransactions,
+            ),
             _buildCashTransactionsList(context, cashTransactions),
             SizedBox(height: 3.h),
           ],
@@ -291,7 +381,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
               child: Padding(
                 padding: EdgeInsets.only(top: 5.h),
                 child: Text(
-                  'No transactions in selected date range',
+                  AppLocalizations.of(context)!.noTransactionsInPeriod,
                   style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                 ),
               ),
@@ -309,7 +399,8 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
         style: TextStyle(
           fontSize: 18.sp,
           fontWeight: FontWeight.bold,
-          color: Theme.of(context).primaryColor,
+          // primaryColor is the surface in dark mode: black on black
+          color: Theme.of(context).colorScheme.primary,
         ),
       ),
     );
@@ -350,7 +441,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${item.amount.toStringAsFixed(2)} ${Currency.dzd.code}',
+                      '${item.amount.toStringAsFixed(2)} ${AppLocalizations.of(context)!.currency}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 17.sp,
@@ -365,7 +456,11 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                 ),
                 SizedBox(height: 0.5.h),
                 Text(
-                  _reasonLabel(item.reason, false),
+                  _reasonLabel(
+                    AppLocalizations.of(context)!,
+                    item.reason,
+                    false,
+                  ),
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: Colors.blueGrey,
@@ -421,7 +516,13 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        isIncoming ? 'Received Payment' : 'Sent Payment',
+                        // What a side paid beyond its debts, owed back by the
+                        // other (anyone may pay more than they owe)
+                        item.reason == 'overpayment'
+                            ? AppLocalizations.of(context)!.paidBeyondWhatWasOwed
+                            : isIncoming
+                            ? AppLocalizations.of(context)!.receivedPayment
+                            : AppLocalizations.of(context)!.sentPayment,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 17.sp,
@@ -438,7 +539,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${item.amount.toStringAsFixed(2)} ${Currency.dzd.code}',
+                      '${item.amount.toStringAsFixed(2)} ${AppLocalizations.of(context)!.currency}',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 17.sp,
@@ -446,7 +547,11 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                       ),
                     ),
                     Text(
-                      _reasonLabel(item.reason, isIncoming),
+                      _reasonLabel(
+                        AppLocalizations.of(context)!,
+                        item.reason,
+                        isIncoming,
+                      ),
                       style: TextStyle(
                         fontSize: 16.sp,
                         color: Colors.blueGrey,
@@ -484,6 +589,11 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
       }
     }
 
+    final paidTowardsOrders = item?.paidTowardsOrders;
+    // Days chosen: the balance is what their orders still owe, whatever day
+    // the cash came; the cash rows are those days' cash only
+    final forSomeDays = _dateFrom != null || _dateTo != null;
+
     final isPositive = (item?.isCredit ?? widget.debtItem.isCredit);
     final balanceColor = isPositive
         ? const Color(0xFF2E7D32)
@@ -505,24 +615,35 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
         child: Column(
           children: [
             _buildFooterRow(
-              'Total Order Settlements',
+              AppLocalizations.of(context)!.totalOrderSettlements,
               totalOrderSettlements.toStringAsFixed(2),
             ),
+            if (paidTowardsOrders != null) ...[
+              SizedBox(height: 1.h),
+              _buildFooterRow(
+                AppLocalizations.of(context)!.paidTowardsOrders,
+                paidTowardsOrders.toStringAsFixed(2),
+              ),
+            ],
             SizedBox(height: 1.h),
             _buildFooterRow(
-              'Total Cash Outgoing',
+              forSomeDays
+                  ? AppLocalizations.of(context)!.cashPaidInTheseDays
+                  : AppLocalizations.of(context)!.totalCashOutgoing,
               totalOutgoing.toStringAsFixed(2),
             ),
             SizedBox(height: 1.h),
             _buildFooterRow(
-              'Total Cash Incoming',
+              forSomeDays
+                  ? AppLocalizations.of(context)!.cashReceivedInTheseDays
+                  : AppLocalizations.of(context)!.totalCashIncoming,
               totalIncoming.toStringAsFixed(2),
             ),
             SizedBox(height: 1.5.h),
             const Divider(),
             SizedBox(height: 1.h),
             _buildFooterRow(
-              'Net Balance',
+              AppLocalizations.of(context)!.netBalance,
               '${netBalance > 0 ? (isPositive ? '+' : '-') : ''}${netBalance.toStringAsFixed(2)}',
               isBold: true,
               color: balanceColor,
@@ -550,7 +671,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
           ),
         ),
         Text(
-          '$value ${Currency.dzd.code}',
+          '$value ${AppLocalizations.of(context)!.currency}',
           style: TextStyle(
             fontSize: 16.sp,
             fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
@@ -561,33 +682,122 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
     );
   }
 
-  String _reasonLabel(String? reason, bool isIncoming) {
+  /// Why a row is owed, in the app's language (it was English): what the
+  /// manager's balance sends, the loyalty coupon included
+  String _reasonLabel(AppLocalizations l10n, String? reason, bool isIncoming) {
     switch (reason) {
       case 'settlement':
-        return 'Order Settlement';
+        return l10n.reasonOrderSettlement;
       case 'coupon_credit':
-        return 'Coupon Credit';
+        return l10n.reasonCouponCredit;
       case 'global_coupon_credit':
-        return 'Global Coupon Credit';
+        return l10n.reasonGlobalCouponCredit;
       case 'birthday_credit':
-        return 'Birthday Gift Credit';
+        return l10n.reasonBirthdayCredit;
+      case 'loyalty_coupon_credit':
+        return l10n.reasonLoyaltyCouponCredit;
       case 'overcharge':
-        return 'Overcharge';
+        return l10n.reasonOvercharge;
       case 'overpay':
-        return 'Overpay';
+        return l10n.overpay;
       case 'payment':
-        return isIncoming ? 'Received Payment' : 'Sent Payment';
+        return isIncoming ? l10n.receivedPayment : l10n.sentPayment;
       default:
-        return isIncoming ? 'Overpay' : 'Overcharge';
+        return isIncoming ? l10n.overpay : l10n.reasonOvercharge;
     }
   }
 
   String _formatDate(String dateStr) {
     try {
-      final dateTime = DateTime.parse(dateStr);
+      // The server's times are UTC: shown on the phone's clock
+      final dateTime = parseServerTime(dateStr);
       return DateFormat('yyyy-MM-dd HH:mm').format(dateTime);
     } catch (e) {
       return dateStr;
     }
+  }
+}
+
+/// How much the platform pays [item], and a note. More than it owes is the
+/// receiver's debt to the platform (anyone may pay more than they owe).
+class _PlatformPaymentDialog extends StatefulWidget {
+  final RestaurantDebt item;
+
+  const _PlatformPaymentDialog({required this.item});
+
+  @override
+  State<_PlatformPaymentDialog> createState() => _PlatformPaymentDialogState();
+}
+
+class _PlatformPaymentDialogState extends State<_PlatformPaymentDialog> {
+  late final _amount = TextEditingController(
+    text: widget.item.amount.toStringAsFixed(2),
+  );
+  final _notes = TextEditingController();
+  String? _problem;
+
+  @override
+  void dispose() {
+    _amount.dispose();
+    _notes.dispose();
+    super.dispose();
+  }
+
+  void _send(AppLocalizations l10n) {
+    final amount = parseTypedAmount(_amount.text);
+    if (amount == null || amount <= 0) {
+      setState(() => _problem = l10n.invalidAmount);
+      return;
+    }
+    Navigator.of(context).pop((amount, _notes.text.trim()));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return AlertDialog(
+      scrollable: true,
+      title: Text(l10n.platformPaymentTitle(widget.item.restaurantName)),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.platformPaymentHelp),
+          const SizedBox(height: 16),
+          TextField(
+            controller: _amount,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            decoration: InputDecoration(
+              labelText: l10n.amount,
+              suffixText: l10n.currency,
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 12),
+          TextField(
+            controller: _notes,
+            maxLines: 2,
+            decoration: InputDecoration(
+              labelText: l10n.notes,
+              border: const OutlineInputBorder(),
+            ),
+          ),
+          if (_problem != null) ...[
+            const SizedBox(height: 12),
+            Text(
+              _problem!,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+          ],
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l10n.cancel),
+        ),
+        ElevatedButton(onPressed: () => _send(l10n), child: Text(l10n.confirm)),
+      ],
+    );
   }
 }

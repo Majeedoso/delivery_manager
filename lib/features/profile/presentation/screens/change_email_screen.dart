@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:sizer/sizer.dart';
@@ -14,6 +15,7 @@ import 'package:delivery_manager/features/profile/presentation/controller/profil
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_state.dart';
+import 'package:delivery_manager/core/services/public_settings_service.dart';
 
 class ChangeEmailScreen extends StatefulWidget {
   static const String route = '/change-email';
@@ -55,19 +57,28 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
               // Start countdown timer (persists across navigation)
               final countdownBloc = context.read<CountdownBloc>();
               if (!countdownBloc.state.isActive) {
-                // Default to 120 seconds (2 minutes) - will be updated by resend response
-                countdownBloc.add(const StartCountdownEvent(120));
+                // The wait set on the server (settings); a resend answer updates it
+                countdownBloc.add(
+                  StartCountdownEvent(
+                    sl<PublicSettingsService>().otpResendWaitSeconds,
+                  ),
+                );
               }
               
               // Store newEmail in SharedPreferences for later retrieval
               final newEmail = _newEmailController.text.trim();
               final prefs = sl<SharedPreferences>();
               await prefs.setString('pending_email_change', newEmail);
+              if (!context.mounted) return;
               
               // Navigate to OTP verification screen
               Navigator.of(context).pushReplacementNamed(
-                '/verify-email-change-otp',
-                arguments: {'newEmail': newEmail},
+                AppRoutes.verifyEmailChangeOtp,
+                // The password is needed again to resend the code
+                arguments: {
+                  'newEmail': newEmail,
+                  'currentPassword': _currentPasswordController.text,
+                },
               );
             }
           },
@@ -99,13 +110,19 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
                               ),
                               keyboardType: TextInputType.emailAddress,
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                // The address sent is trimmed: check that one
+                                final email = value?.trim() ?? '';
+                                if (email.isEmpty) {
                                   return AppLocalizations.of(context)!.pleaseEnterEmail;
                                 }
-                                if (!RegExp(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$').hasMatch(value)) {
+                                if (!RegExp(r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$').hasMatch(email)) {
                                   return AppLocalizations.of(context)!.pleaseEnterValidEmail;
                                 }
-                                if (state.profile != null && value == state.profile!.email) {
+                                // This page's bloc never loads the profile:
+                                // the signed-in user's email is the current one
+                                final current = state.profile?.email ??
+                                    context.read<AuthBloc>().state.user?.email;
+                                if (current != null && email.toLowerCase() == current.toLowerCase()) {
                                   return AppLocalizations.of(context)!.newEmailMustBeDifferent;
                                 }
                                 return null;

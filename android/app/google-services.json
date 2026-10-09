@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:697ce7238a6ed936369db1",
+        "mobilesdk_app_id": "1:279573864228:android:d9b79770bfc74d16369db1",
         "android_client_info": {
           "package_name": "website.sofistem.delivery_customer"
         }
@@ -22,11 +22,11 @@
           }
         },
         {
-          "client_id": "279573864228-o7ahg5f0ks48lpkmq3jviucjr6347f98.apps.googleusercontent.com",
+          "client_id": "279573864228-mhfsp4qm5h6k9g1hn2ruejjm7lns7gj1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "website.sofistem.delivery_customer",
-            "certificate_hash": "ee98ee717a4447c4140230ebfcdfcb6b512d9010"
+            "certificate_hash": "15dc687415157dfa786bf918690075903279307e"
           }
         },
         {
@@ -59,7 +59,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:f079a156245ea1a5369db1",
+        "mobilesdk_app_id": "1:279573864228:android:b083f038caec14c5369db1",
         "android_client_info": {
           "package_name": "website.sofistem.delivery_driver"
         }
@@ -74,11 +74,11 @@
           }
         },
         {
-          "client_id": "279573864228-kc1dh7chd3utc4kb919mugfk6p1dmbkr.apps.googleusercontent.com",
+          "client_id": "279573864228-p305nc24j6cctkjgrnkpepdakv4jnoqt.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "website.sofistem.delivery_driver",
-            "certificate_hash": "0dcaad6e14806bf869b903832acfe1c50063182f"
+            "certificate_hash": "7fd95f811a7c8f65d77b32cde35f1cbcb9e62917"
           }
         },
         {
@@ -111,7 +111,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:92bb03a6776d44f0369db1",
+        "mobilesdk_app_id": "1:279573864228:android:f1d5d3b45cb11b2e369db1",
         "android_client_info": {
           "package_name": "website.sofistem.delivery_manager"
         }
@@ -126,11 +126,11 @@
           }
         },
         {
-          "client_id": "279573864228-hnq76b49ss93iolh7pt8pqqn6ueb6ik1.apps.googleusercontent.com",
+          "client_id": "279573864228-i0ap886f8bgogu0oalfttg2ao90mqi0n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "website.sofistem.delivery_manager",
-            "certificate_hash": "f2fd57e1317f95f52a2a8087868f5df9b01e43fc"
+            "certificate_hash": "e1490bb3bd4ccdb2e1bcbc48a494e4385cb28568"
           }
         },
         {
@@ -163,7 +163,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:f7d6083d46eda0fd369db1",
+        "mobilesdk_app_id": "1:279573864228:android:eb075151d2885e79369db1",
         "android_client_info": {
           "package_name": "website.sofistem.delivery_restaurant"
         }
@@ -178,11 +178,11 @@
           }
         },
         {
-          "client_id": "279573864228-dppoae7cb47jjvsm336nm5955ann1h2f.apps.googleusercontent.com",
+          "client_id": "279573864228-6t366uhpc3q8il67e0t6rqvv96n67sue.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "website.sofistem.delivery_restaurant",
-            "certificate_hash": "beb0ec40ebefe32d797c251faa788a880039e1bf"
+            "certificate_hash": "7468ce908d58a2fc9f02040fd8f2b62efd7d143c"
           }
         },
         {
@@ -215,26 +215,26 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:776845f7bccc876a369db1",
+        "mobilesdk_app_id": "1:279573864228:android:82b8a14d7e81bab5369db1",
         "android_client_info": {
           "package_name": "website.sofistem.operator"
         }
       },
       "oauth_client": [
         {
+          "client_id": "279573864228-dcjln3j5ufofq0bjidv5rncm6bipd0d2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "website.sofistem.operator",
+            "certificate_hash": "f5ce5b81f06480390e05399a55b6899c75b04983"
+          }
+        },
+        {
           "client_id": "279573864228-lh5sepvhgeqkuh2phlt4o37u7ov16k68.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "website.sofistem.operator",
             "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
-          }
-        },
-        {
-          "client_id": "279573864228-p5ljb2fnu4rnu961t2t6nqts8r3t3cjg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "website.sofistem.operator",
-            "certificate_hash": "beb0ec40ebefe32d797c251faa788a880039e1bf"
           }
         },
         {

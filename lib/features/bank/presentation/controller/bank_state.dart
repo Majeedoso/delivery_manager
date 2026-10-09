@@ -51,14 +51,15 @@ class PaymentRecording extends BankState {
   const PaymentRecording();
 }
 
+/// Recorded: the page says it in the manager's language (the bloc's English
+/// sentence was shown)
 class PaymentRecorded extends BankState {
   final Transaction transaction;
-  final String message;
 
-  const PaymentRecorded({required this.transaction, required this.message});
+  const PaymentRecorded({required this.transaction});
 
   @override
-  List<Object?> get props => [transaction, message];
+  List<Object?> get props => [transaction];
 }
 
 class PaymentError extends BankState {
@@ -70,6 +71,23 @@ class PaymentError extends BankState {
   List<Object?> get props => [message];
 }
 
+/// The manager's answer to a payment: confirmed or refused, or [failure],
+/// the reason the server did not take it (answered already...).
+class PaymentAnswer extends Equatable {
+  final int transactionId;
+  final bool confirmed;
+  final String? failure;
+
+  const PaymentAnswer({
+    required this.transactionId,
+    required this.confirmed,
+    this.failure,
+  });
+
+  @override
+  List<Object?> get props => [transactionId, confirmed, failure];
+}
+
 class TransactionsLoaded extends BankState {
   final List<Transaction> transactions;
   final int currentPage;
@@ -79,6 +97,12 @@ class TransactionsLoaded extends BankState {
   final String? statusFilter;
   final String? typeFilter;
 
+  /// The payment an answer is on its way for: the others wait
+  final int? answeringPaymentId;
+
+  /// The answer just given, said once by the page
+  final PaymentAnswer? lastAnswer;
+
   const TransactionsLoaded({
     required this.transactions,
     required this.currentPage,
@@ -87,6 +111,8 @@ class TransactionsLoaded extends BankState {
     this.transactionsState = RequestState.loaded,
     this.statusFilter,
     this.typeFilter,
+    this.answeringPaymentId,
+    this.lastAnswer,
   });
 
   @override
@@ -98,6 +124,8 @@ class TransactionsLoaded extends BankState {
     transactionsState,
     statusFilter,
     typeFilter,
+    answeringPaymentId,
+    lastAnswer,
   ];
 
   TransactionsLoaded copyWith({

@@ -66,7 +66,7 @@ class TokenRemoteDataSource implements BaseTokenRemoteDataSource {
           if (kDebugMode) {
             logger.warning('TokenRemoteDataSource: Token validation timed out after 8 seconds');
           }
-          throw ServerException(message: 'Token validation timed out');
+          throw NetworkException(message: 'Token validation timed out');
         },
       );
 
@@ -87,6 +87,7 @@ class TokenRemoteDataSource implements BaseTokenRemoteDataSource {
         throw ServerException(message: 'Token validation failed: ${e.message}');
       }
     } catch (e) {
+      if (e is ServerException || e is NetworkException) rethrow;
       throw ServerException(message: 'Token validation failed: ${e.toString()}');
     }
   }

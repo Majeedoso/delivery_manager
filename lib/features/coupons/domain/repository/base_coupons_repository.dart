@@ -25,7 +25,7 @@ abstract class BaseCouponsRepository {
   Future<Either<Failure, List<Map<String, dynamic>>>> getRestaurants({
     String? search,
     int page = 1,
-    int perPage = 50,
+    int perPage = 100,
   });
 
   /// Create a new delivery zone.

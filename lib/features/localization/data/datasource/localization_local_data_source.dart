@@ -16,15 +16,20 @@ class LocalizationLocalDataSource implements BaseLocalizationLocalDataSource {
   final SharedPreferences sharedPreferences;
   static const String _languageKey = 'selected_language';
 
-  const LocalizationLocalDataSource({required this.sharedPreferences});
+  /// The phone's language code (a test can give its own).
+  final String Function() deviceLanguageCode;
+
+  const LocalizationLocalDataSource({
+    required this.sharedPreferences,
+    this.deviceLanguageCode = _platformLanguageCode,
+  });
+
+  static String _platformLanguageCode() =>
+      ui.PlatformDispatcher.instance.locale.languageCode;
 
   /// Get the device's default locale language code
   /// Returns the language code from the device's system locale
-  String _getDeviceLanguageCode() {
-    final deviceLocale = ui.PlatformDispatcher.instance.locale;
-    return deviceLocale.languageCode.toLowerCase();
-  }
-
+  String _getDeviceLanguageCode() => deviceLanguageCode().toLowerCase();
   /// Detect language based on device locale
   ///
   /// If device language is Arabic, English, or French, use it.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:delivery_manager/core/utils/password_rules.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:sizer/sizer.dart';
@@ -154,10 +155,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             if (value == null || value.isEmpty) {
                               return AppLocalizations.of(context)!.newPasswordRequired;
                             }
-                            if (value.length < 8) {
+                            if (!PasswordRules.isLongEnough(value)) {
                               return AppLocalizations.of(context)!.passwordMinLength8;
                             }
-                            if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]').hasMatch(value)) {
+                            if (!PasswordRules.isComplex(value)) {
                               return AppLocalizations.of(context)!.passwordComplexity;
                             }
                             return null;

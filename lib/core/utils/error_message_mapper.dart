@@ -34,7 +34,8 @@ class ErrorMessageMapper {
 
     // Handle String errors
     if (error is String) {
-      return _cleanErrorMessage(error, localizations);
+      return _appText(error, localizations) ??
+          _cleanErrorMessage(error, localizations);
     }
 
     // Handle DioException first (before Exception, since DioException extends Exception)
@@ -57,8 +58,43 @@ class ErrorMessageMapper {
     return _cleanErrorMessage(errorString, localizations);
   }
 
+  /// The failures the app's own code describes, in English, when the server
+  /// gave no answer or no reason: said in the user's language. (The server's
+  /// own messages come in that language already.)
+  static String? _appText(String message, AppLocalizations localizations) {
+    final lower = message.toLowerCase();
+    bool startsWith(List<String> prefixes) => prefixes.any(lower.startsWith);
+
+    if (startsWith(const [
+      'request timeout',
+      'backend request timed out',
+      'token validation timed out',
+    ])) {
+      return localizations.errorNetworkTimeout;
+    }
+    if (startsWith(const [
+      'cannot connect to server',
+      'network connection error',
+      'ssl certificate validation failed',
+    ])) {
+      return localizations.errorConnectionError;
+    }
+    if (startsWith(const ['network error'])) {
+      return localizations.errorNetworkGeneric;
+    }
+    if (startsWith(const ['server error occurred'])) {
+      return localizations.errorServerGeneric;
+    }
+    return null;
+  }
+
   /// Map Failure to user-friendly message
   static String _mapFailureToMessage(Failure failure, AppLocalizations localizations) {
+    final appText = _appText(failure.message, localizations);
+    if (appText != null) {
+      return appText;
+    }
+
     if (failure is NetworkFailure) {
       return _getNetworkErrorMessage(failure.message, localizations);
     }
@@ -214,12 +250,16 @@ class ErrorMessageMapper {
 
     final lowerMessage = message.toLowerCase();
 
-    // Check for specific server error patterns
-    if (lowerMessage.contains('maintenance') || lowerMessage.contains('down')) {
+    // Check for specific server error patterns (whole words: "feedback" is not
+    // a database error, and "turned down" is not maintenance)
+    if (RegExp(r'\bmaintenance\b').hasMatch(lowerMessage) ||
+        RegExp(r'\b(server|service|system|api) (is )?down\b').hasMatch(
+          lowerMessage,
+        )) {
       return localizations.errorServerMaintenance;
     }
 
-    if (lowerMessage.contains('database') || lowerMessage.contains('db')) {
+    if (RegExp(r'\b(database|db)\b').hasMatch(lowerMessage)) {
       return localizations.errorDatabaseServer;
     }
 
@@ -259,33 +299,12 @@ class ErrorMessageMapper {
   }
 
   /// Get validation error message
+  ///
+  /// These are the backend's per-field messages, already in the user's
+  /// language ("The current password is incorrect."), so they are shown as they
+  /// are; replacing them with a generic text would hide what to fix.
   static String _getValidationErrorMessage(String? message, AppLocalizations localizations) {
     if (message == null || message.isEmpty) {
-      return localizations.errorValidation;
-    }
-
-    final lowerMessage = message.toLowerCase();
-
-    if (lowerMessage.contains('required') || lowerMessage.contains('empty')) {
-      // Use existing localization if available, otherwise use validation error
-      return localizations.errorValidation;
-    }
-
-    if (lowerMessage.contains('email')) {
-      return localizations.pleaseEnterValidEmail;
-    }
-
-    if (lowerMessage.contains('password')) {
-      if (lowerMessage.contains('weak') || lowerMessage.contains('short')) {
-        return localizations.passwordMinLength;
-      }
-      if (lowerMessage.contains('match')) {
-        return localizations.errorValidation;
-      }
-      return localizations.errorValidation;
-    }
-
-    if (lowerMessage.contains('phone')) {
       return localizations.errorValidation;
     }
 
@@ -299,8 +318,10 @@ class ErrorMessageMapper {
     
     final lowerMessage = message.toLowerCase();
     
-    // Check for raw PHP errors that bypass the error handler
-    return lowerMessage.contains('call to undefined method') ||
+    // Check for raw PHP and SQL errors that bypass the error handler
+    return lowerMessage.contains('sqlstate') ||
+        lowerMessage.contains('integrity constraint violation') ||
+        lowerMessage.contains('call to undefined method') ||
         lowerMessage.contains('fatal error') ||
         lowerMessage.contains('parse error') ||
         lowerMessage.contains('syntax error') ||
@@ -390,24 +411,45 @@ class ErrorMessageMapper {
   }
 
   /// Check if error should be shown to user
-  /// Some errors (like user cancellation) should be silently ignored
+  ///
+  /// Only the user backing out stays silent: the app cancelling a request, or
+  /// closing the Google sign-in sheet. Errors that merely talk about
+  /// cancelling ("Order cannot be cancelled at this stage") must be shown.
   static bool shouldShowError(dynamic error) {
     if (error == null) return false;
 
-    final errorString = error.toString().toLowerCase();
+    // A request the app cancelled itself
+    if (error is DioException) {
+      return error.type != DioExceptionType.cancel;
+    }
+
+    final message = _messageOf(error).toLowerCase();
     
-    // Don't show errors for user cancellation
-    if (errorString.contains('cancelled') || 
-        errorString.contains('cancel')) {
-      return false;
-    }
+    return !_userBackedOut.any(message.contains);
+  }
 
-    // Don't show errors for aborted operations
-    if (errorString.contains('abort') || 
-        errorString.contains('aborted')) {
-      return false;
-    }
+  /// How the app words a user backing out (see GoogleAuthRemoteDataSource).
+  static const _userBackedOut = [
+    'sign-in was cancelled',
+    'sign in was cancelled',
+    'sign-up was cancelled',
+    'cancelled by user',
+    'canceled by user',
+    'cancelled by the user',
+    'canceled by the user',
+    'aborted by user',
+    'aborted by the user',
+  ];
 
-    return true;
+  /// The text of an error (exceptions here don't override toString).
+  static String _messageOf(dynamic error) {
+    if (error is Failure) return error.message;
+    if (error is ServerException) return error.message;
+    if (error is NetworkException) return error.message;
+    if (error is AuthException) return error.message;
+    if (error is ValidationException) return error.message;
+    if (error is LocalDatabaseException) return error.message;
+    if (error is CacheException) return error.message;
+    return error.toString();
   }
 }

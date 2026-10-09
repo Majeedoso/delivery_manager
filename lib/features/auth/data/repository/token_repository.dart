@@ -73,6 +73,8 @@ class TokenRepository implements BaseTokenRepository {
       return Right(isValid);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
     } catch (e) {
       return Left(ServerFailure('Token validation failed: ${e.toString()}'));
     }
