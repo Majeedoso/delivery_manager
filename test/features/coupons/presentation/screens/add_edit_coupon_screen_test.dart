@@ -284,6 +284,45 @@ void main() {
       expect(await result, isTrue);
     });
 
+    // After the save the list reloads, and its first state still carries
+    // success: the closed form's listener must not run again and pop the list
+    // too (it did, landing the manager two screens back on the coupons home).
+    testForm('saving does not pop the list when it reloads', (tester) async {
+      whenListen(coupons, states.stream, initialState: ready);
+      // The real stack: the coupons home, its restaurant-coupons list, the form.
+      await pumpPage(tester, const Scaffold(body: Text('home')), routes: routes);
+      navigatorKey.currentState!.push(
+        MaterialPageRoute<void>(
+          builder: (_) => const Scaffold(body: Text('list')),
+        ),
+      );
+      await tester.pumpAndSettle();
+      navigatorKey.currentState!.push(
+        MaterialPageRoute<bool>(
+          builder: (_) => BlocProvider<CouponsBloc>.value(
+            value: coupons,
+            child: const AddEditCouponScreen(discountTarget: 'subtotal'),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(AddEditCouponScreen), findsOneWidget);
+
+      states.add(
+        ready.copyWith(operationStatus: CouponOperationStatus.success),
+      );
+      states.add(
+        ready.copyWith(
+          operationStatus: CouponOperationStatus.success,
+          isLoading: true,
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AddEditCouponScreen), findsNothing); // the form closed
+      expect(find.text('list'), findsOneWidget); // the list stayed
+    });
+
     testForm('while it is sent, the button waits', (tester) async {
       await open(tester, coupon: rentree);
 

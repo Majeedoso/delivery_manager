@@ -300,6 +300,11 @@ class _AddEditCouponScreenState extends State<AddEditCouponScreen> {
         }
       },
       child: BlocListener<CouponsBloc, CouponsState>(
+        // Only on the status change itself: after a save the list reloads, and
+        // its first state still carries success. Without this the closed form's
+        // listener fired again and popped the list too (back to the home page).
+        listenWhen: (previous, current) =>
+            previous.operationStatus != current.operationStatus,
         listener: (context, state) {
           if (state.operationStatus == CouponOperationStatus.success) {
             Navigator.pop(context, true);

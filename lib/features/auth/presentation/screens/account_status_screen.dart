@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
@@ -94,16 +93,7 @@ class AccountStatusScreen extends StatelessWidget {
             if (state.user == null &&
                 state.requestState != RequestState.loading) {
               return Center(
-                child: SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: Lottie.asset(
-                    'assets/images/delivery_riding.json',
-                    fit: BoxFit.contain,
-                    repeat: true,
-                    animate: true,
-                  ),
-                ),
+                child: CircularProgressIndicator(),
               );
             }
 

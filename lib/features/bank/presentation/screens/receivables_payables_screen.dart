@@ -1,7 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/utils/error_message_mapper.dart';
@@ -134,16 +133,7 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
                 builder: (context, state) {
                   if (state is BankLoading) {
                     return Center(
-                      child: SizedBox(
-                        width: 50.w,
-                        height: 25.h,
-                        child: Lottie.asset(
-                          'assets/images/delivery_riding.json',
-                          fit: BoxFit.contain,
-                          repeat: true,
-                          animate: true,
-                        ),
-                      ),
+                      child: CircularProgressIndicator(),
                     );
                   }
 

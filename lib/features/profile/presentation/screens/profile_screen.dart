@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/theme/widget_decorations.dart';
@@ -33,16 +32,7 @@ class ProfileScreen extends StatelessWidget {
           if (authState.user == null) {
             return Scaffold(
               body: Center(
-                child: SizedBox(
-                  width: 50.w,
-                  height: 25.h,
-                  child: Lottie.asset(
-                    'assets/images/delivery_riding.json',
-                    fit: BoxFit.contain,
-                    repeat: true,
-                    animate: true,
-                  ),
-                ),
+                child: CircularProgressIndicator(),
               ),
             );
           }
