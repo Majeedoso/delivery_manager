@@ -50,7 +50,7 @@ class RetryInterceptor extends Interceptor {
       if (e is DioException && e.response != null) {
         try {
           final logger = _logger ?? sl<LoggingService>();
-          logger.error('RetryInterceptor: Retry failed with response: ${e.response!.statusCode} - ${e.response!.data}');
+          logger.error('RetryInterceptor: Retry failed with status ${e.response!.statusCode}');
         } catch (_) {
           // Ignore logging errors
         }

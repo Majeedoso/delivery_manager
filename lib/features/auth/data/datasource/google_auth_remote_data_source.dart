@@ -202,7 +202,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
         print('🟢 [GOOGLE_AUTH] Firebase UID: ${firebaseUser.uid}');
         print('🟢 [GOOGLE_AUTH] Google user ID: ${googleUser.id}');
       }
-      logger.debug('🔍 Firebase user: ${firebaseUser.email}');
+      logger.debug('🔍 Firebase user resolved');
       logger.debug('🔍 Firebase UID: ${firebaseUser.uid}');
       logger.debug('🔍 Google user ID from GoogleSignIn: ${googleUser.id}');
 
@@ -225,7 +225,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
         print('🟡 [GOOGLE_AUTH] Request data: $requestData');
         print('🟡 [GOOGLE_AUTH] Backend URL: ${ApiConstance.googleSignInPath}');
       }
-      logger.debug('🔍 Sending to backend: $requestData');
+      logger.debug('🔍 Sending to backend');
       logger.debug('🔍 Backend URL: ${ApiConstance.googleSignInPath}');
       logger.debug('🔍 Attempting backend connection...');
 
@@ -413,7 +413,7 @@ class GoogleAuthRemoteDataSource implements BaseGoogleAuthRemoteDataSource {
       if (kDebugMode) {
         print('🟢 [GOOGLE_AUTH] Extracted token: $token');
       }
-      logger.debug('🔍 Extracted token: $token');
+      logger.debug('🔍 Backend token received');
 
       userData['token'] = token;
 

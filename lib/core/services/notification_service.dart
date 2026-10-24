@@ -99,7 +99,7 @@ class NotificationService {
         // Step 2: Get FCM token for server communication
         // This token is sent to the backend to identify this device
         _fcmToken = await fetchFcmToken();
-        _logger.info('NotificationService: FCM Token: $_fcmToken');
+        _logger.info('NotificationService: FCM token obtained');
 
         // Note: FCM token is not sent to server here - wait for user login
         // This prevents sending tokens for unauthenticated users
@@ -174,7 +174,7 @@ class NotificationService {
   static Future<void> _sendTokenToServer(String? token) async {
     if (token == null) return;
 
-    _logger.debug('NotificationService: Sending FCM token to server: $token');
+    _logger.debug('NotificationService: Sending FCM token to server');
 
     // Get the auth remote datasource to make API call
     final authRemoteDataSource = GetIt.instance.get<BaseAuthRemoteDataSource>();
@@ -403,7 +403,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   logger.debug('NotificationService: From: ${message.from}');
   logger.debug('NotificationService: Title: ${message.notification?.title}');
   logger.debug('NotificationService: Body: ${message.notification?.body}');
-  logger.debug('NotificationService: Data: ${message.data}');
+  logger.debug('NotificationService: Data: ${message.data.keys}');
   logger.debug('NotificationService: Sent Time: ${message.sentTime}');
   logger.debug('NotificationService: TTL: ${message.ttl}');
   logger.debug(
@@ -413,5 +413,5 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   logger.debug(
     'NotificationService: Handling background message: ${message.messageId}',
   );
-  logger.debug('NotificationService: Background message data: ${message.data}');
+  logger.debug('NotificationService: Background message data: ${message.data.keys}');
 }

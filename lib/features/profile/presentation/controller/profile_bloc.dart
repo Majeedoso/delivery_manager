@@ -150,9 +150,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               },
               (success) {
                 if (success) {
-                  _logger.info('ProfileBloc: Updated saved password for user: ${credentials['email']}');
+                  _logger.info('ProfileBloc: Updated saved password');
                 } else {
-                  _logger.warning('ProfileBloc: Save credentials returned false for user: ${credentials['email']}');
+                  _logger.warning('ProfileBloc: Save credentials returned false');
                 }
               },
             );
@@ -229,7 +229,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   /// Since the user is authenticated, we update any saved credentials with rememberMe enabled
   Future<void> _updateSavedCredentialsEmailIfNeeded(String? oldEmail, String newEmail) async {
     try {
-      _logger.debug('ProfileBloc: Checking saved credentials for email change - oldEmail: $oldEmail, newEmail: $newEmail');
+      _logger.debug('ProfileBloc: Checking saved credentials for email change');
       
       // Load existing credentials
       final loadResult = await loadCredentialsUseCase(const NoParameters());
@@ -240,7 +240,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           // No saved credentials or error loading, nothing to update
         },
         (credentials) async {
-          _logger.debug('ProfileBloc: Loaded credentials - rememberMe: ${credentials['rememberMe']}, email: ${credentials['email']}');
+          _logger.debug('ProfileBloc: Loaded credentials - rememberMe: ${credentials['rememberMe']}');
           
           // "Remember me" keeps the email only: the password is never
           // stored (waiting for one meant the email was never updated)
@@ -248,7 +248,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               credentials['email'] != null && 
               credentials['email']!.isNotEmpty) {
             
-            _logger.debug('ProfileBloc: Updating saved email to: $newEmail');
+            _logger.debug('ProfileBloc: Updating saved email');
             
             final saveResult = await saveCredentialsUseCase(SaveCredentialsParameters(
               email: newEmail,
@@ -262,7 +262,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               },
               (success) {
                 if (success) {
-                  _logger.info('ProfileBloc: Updated saved email from ${credentials['email']} to $newEmail');
+                  _logger.info('ProfileBloc: Updated saved email');
                 } else {
                   _logger.warning('ProfileBloc: Save credentials returned false');
                 }

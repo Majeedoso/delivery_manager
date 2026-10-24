@@ -86,7 +86,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
           _initialClipboardOtp = match.group(0)!;
           final logger = sl<LoggingService>();
           logger.debug(
-            '📋 Initial clipboard OTP captured: $_initialClipboardOtp',
+            '📋 Initial clipboard OTP captured',
           );
         }
       }
@@ -105,12 +105,12 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
 
       if (res.hasData) {
         final code = res.requireData.code;
-        logger.debug('🔍 Smart Auth: Detected code: $code');
+        logger.debug('🔍 Smart Auth: Detected code');
         if (code != null && code.length == 6) {
           // Filling the Pinput completes it, and its onCompleted verifies
           // the code (a second, delayed verify used to send it twice)
           _otpController.text = code;
-          logger.info('✅ Smart Auth: OTP auto-filled: $code');
+          logger.info('✅ Smart Auth: OTP auto-filled');
         }
       } else {
         logger.debug('❌ Smart Auth: No SMS detected');
@@ -148,7 +148,7 @@ class _VerifyEmailOtpScreenState extends State<VerifyEmailOtpScreen> {
             if (isNewOtp && isNotInField && isNotInitialOtp) {
               _lastDetectedOtp = otp;
               final logger = sl<LoggingService>();
-              logger.info('✅ Auto-detected NEW OTP: $otp');
+              logger.info('✅ Auto-detected NEW OTP');
               // Filling the Pinput completes it, and its onCompleted
               // verifies the code (a second, delayed verify sent it twice)
               _otpController.text = otp;

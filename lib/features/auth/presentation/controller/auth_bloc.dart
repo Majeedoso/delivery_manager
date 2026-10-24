@@ -457,7 +457,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         final user = User.fromJson(userData);
         _logger.info(
-          'AuthBloc: User refreshed from server successfully: ${user.email}',
+          'AuthBloc: User refreshed from server successfully',
         );
         _logger.debug(
           'AuthBloc: User status: ${user.status}, isApproved: ${user.isApproved}',
@@ -555,7 +555,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       (user) async {
         _logger.info(
-          'AuthBloc: Google Sign-In successful for user: ${user.email}',
+          'AuthBloc: Google Sign-In successful',
         );
         // Note: Google Sign-In doesn't return a token in this implementation
         // The token is handled internally by the Google Sign-In flow
@@ -954,7 +954,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         },
         (credentials) async {
           _logger.debug(
-            'AuthBloc: Loaded credentials - rememberMe: ${credentials['rememberMe']}, email: ${credentials['email']}',
+            'AuthBloc: Loaded credentials - rememberMe: ${credentials['rememberMe']}',
           );
 
           // Check if rememberMe is enabled and we have saved credentials
@@ -982,11 +982,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               (success) {
                 if (success) {
                   _logger.info(
-                    'AuthBloc: Updated saved password for user: ${credentials['email']}',
+                    'AuthBloc: Updated saved password',
                   );
                 } else {
                   _logger.warning(
-                    'AuthBloc: Save credentials returned false for user: ${credentials['email']}',
+                    'AuthBloc: Save credentials returned false',
                   );
                 }
               },
@@ -1012,11 +1012,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     String newPassword,
   ) async {
     try {
-      _logger.debug('AuthBloc: Checking saved credentials for email: $email');
-
-      // Normalize the email from the event (trim and lowercase for comparison)
-      final normalizedEventEmail = email.trim().toLowerCase();
-      _logger.debug('AuthBloc: Normalized event email: $normalizedEventEmail');
+      _logger.debug('AuthBloc: Checking saved credentials');
 
       // Load existing credentials
       final loadResult = await loadCredentialsUseCase(const NoParameters());
@@ -1030,7 +1026,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         },
         (credentials) async {
           _logger.debug(
-            'AuthBloc: Loaded credentials - rememberMe: ${credentials['rememberMe']}, email: ${credentials['email']}',
+            'AuthBloc: Loaded credentials - rememberMe: ${credentials['rememberMe']}',
           );
 
           // Check if rememberMe is enabled and we have saved credentials
@@ -1063,11 +1059,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               (success) {
                 if (success) {
                   _logger.info(
-                    'AuthBloc: Successfully updated saved password and email for user: $email',
+                    'AuthBloc: Successfully updated saved password and email',
                   );
                 } else {
                   _logger.warning(
-                    'AuthBloc: Save credentials returned false for user: $email',
+                    'AuthBloc: Save credentials returned false',
                   );
                 }
               },
@@ -1077,7 +1073,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               'AuthBloc: No saved credentials with rememberMe enabled or email is empty',
             );
             _logger.debug(
-              'AuthBloc: rememberMe=${credentials['rememberMe']}, email=${credentials['email']}',
+              'AuthBloc: rememberMe=${credentials['rememberMe']}',
             );
           }
         },

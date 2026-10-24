@@ -31,7 +31,10 @@ class LoggingService {
   /// Log a debug message
   ///
   /// Use this for detailed information that is only useful during development.
-  /// These messages are shown in both debug and release modes.
+  /// The logger package's default filter drops console output in release, and
+  /// debug messages are never forwarded to Crashlytics, so this reaches a sink
+  /// only in debug builds. Even so, never interpolate credentials, OTPs, auth
+  /// or FCM tokens, request/response bodies or personal data into the message.
   void debug(String message, [dynamic error, StackTrace? stackTrace]) {
     _logger.d(message, error: error, stackTrace: stackTrace);
   }
@@ -39,7 +42,9 @@ class LoggingService {
   /// Log an info message
   ///
   /// Use this for general informational messages about app flow.
-  /// These messages are shown in both debug and release modes.
+  /// Like debug, the default filter drops this in release and it is never sent
+  /// to Crashlytics, so it reaches a sink only in debug builds. Never
+  /// interpolate credentials, tokens, request/response bodies or personal data.
   void info(String message) {
     _logger.i(message);
   }
@@ -47,7 +52,10 @@ class LoggingService {
   /// Log a warning message
   ///
   /// Use this for potentially problematic situations that don't prevent the app from functioning.
-  /// These messages are shown in both debug and release modes.
+  /// Console output is dropped in release by the default filter, but in release
+  /// warnings ARE forwarded off-device to Crashlytics, so never interpolate
+  /// credentials, tokens, request/response bodies or personal data into the
+  /// message or pass them inside [error].
   void warning(String message, [dynamic error, StackTrace? stackTrace]) {
     _logger.w(message, error: error, stackTrace: stackTrace);
 
@@ -65,8 +73,11 @@ class LoggingService {
   /// Log an error message
   ///
   /// Use this for errors that don't crash the app but should be tracked.
-  /// These are automatically sent to Firebase Crashlytics.
-  /// These messages are shown in both debug and release modes.
+  /// These are automatically sent to Firebase Crashlytics, off-device, in every
+  /// build. Never interpolate credentials, tokens, request/response bodies or
+  /// personal data into the message. A caught exception may be passed as
+  /// [error] for its type and stack — but not a DioException's response body
+  /// (dio's toString() omits it; do not interpolate it separately).
   void error(
     String message, {
     dynamic error,

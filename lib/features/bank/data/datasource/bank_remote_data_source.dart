@@ -117,7 +117,6 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       logger.info(
         'BankRemoteDataSource: Received response with status code: ${response.statusCode}',
       );
-      logger.debug('BankRemoteDataSource: Response data: ${response.data}');
 
       if (response.statusCode == 200) {
         if (response.data['data'] == null) {
@@ -302,7 +301,6 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       logger.info(
         'BankRemoteDataSource: Making POST request to ${ApiConstance.managerRestaurantPaymentsPath}',
       );
-      logger.debug('BankRemoteDataSource: Request data: $data');
 
       final response = await dio.post(
         ApiConstance.managerRestaurantPaymentsPath,
@@ -316,7 +314,6 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       logger.info(
         'BankRemoteDataSource: Received response with status code: ${response.statusCode}',
       );
-      logger.debug('BankRemoteDataSource: Response data: ${response.data}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final transaction = TransactionModel.fromJson(
@@ -384,7 +381,6 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       logger.info(
         'BankRemoteDataSource: Making POST request to ${ApiConstance.managerSystemPaymentsPath}',
       );
-      logger.debug('BankRemoteDataSource: Request data: $data');
 
       final response = await dio.post(
         ApiConstance.managerSystemPaymentsPath,
@@ -398,7 +394,6 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       logger.info(
         'BankRemoteDataSource: Received response with status code: ${response.statusCode}',
       );
-      logger.debug('BankRemoteDataSource: Response data: ${response.data}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final transaction = TransactionModel.fromJson(

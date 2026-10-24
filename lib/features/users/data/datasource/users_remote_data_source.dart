@@ -76,7 +76,7 @@ class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
     String? search,
   }) async {
     _logger.debug(
-      'UsersRemoteDataSource: Fetching users page=$page, perPage=$perPage, role=$role, status=$status, search=$search',
+      'UsersRemoteDataSource: Fetching users page=$page, perPage=$perPage, role=$role, status=$status, hasSearch=${search != null && search.isNotEmpty}',
     );
 
     try {

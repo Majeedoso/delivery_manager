@@ -83,7 +83,7 @@ class _ResetPasswordAuthenticatedScreenState extends State<ResetPasswordAuthenti
         if (match != null) {
           _initialClipboardOtp = match.group(0)!;
           final logger = sl<LoggingService>();
-          logger.debug('📋 Initial clipboard OTP captured: $_initialClipboardOtp');
+          logger.debug('📋 Initial clipboard OTP captured');
         }
       }
     } catch (e) {
@@ -101,10 +101,10 @@ class _ResetPasswordAuthenticatedScreenState extends State<ResetPasswordAuthenti
       
       if (res.hasData) {
         final code = res.requireData.code;
-        logger.debug('🔍 Smart Auth: Detected code: $code');
+        logger.debug('🔍 Smart Auth: Detected code');
         if (code != null && code.length == 6) {
           _otpController.text = code;
-          logger.info('✅ Smart Auth: OTP auto-filled: $code');
+          logger.info('✅ Smart Auth: OTP auto-filled');
           // Filling the Pinput completes it, and its onCompleted sends the code
           // (a delayed second send went out too)
         }
@@ -144,7 +144,7 @@ class _ResetPasswordAuthenticatedScreenState extends State<ResetPasswordAuthenti
             if (isNewOtp && isNotInField && isNotInitialOtp) {
               _lastDetectedOtp = otp;
               final logger = sl<LoggingService>();
-              logger.info('✅ Auto-detected NEW OTP: $otp');
+              logger.info('✅ Auto-detected NEW OTP');
               _otpController.text = otp;
               // Filling the Pinput completes it, and its onCompleted sends the code
               // (a delayed second send went out too)
