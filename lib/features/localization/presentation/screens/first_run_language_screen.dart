@@ -93,9 +93,7 @@ class FirstRunLanguageScreen extends StatelessWidget {
                       width: 35.w,
                       height: 35.w,
                       child: Image.asset(
-                        isDark
-                            ? 'assets/images/splash_screen_dark_mode.png'
-                            : 'assets/images/splash_screen_light_mode.png',
+                        'assets/images/logo.png',
                         fit: BoxFit.contain,
                       ),
                     ),

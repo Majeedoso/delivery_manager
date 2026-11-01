@@ -254,9 +254,7 @@ class _SplashScreenState extends State<SplashScreen> {
             width: 50.w,
             height: 50.w,
             child: Image.asset(
-              Theme.of(context).brightness == Brightness.dark
-                  ? 'assets/images/splash_screen_dark_mode.png'
-                  : 'assets/images/splash_screen_light_mode.png',
+              'assets/images/logo.png',
               width: 50.w,
               height: 50.w,
               fit: BoxFit.fill,

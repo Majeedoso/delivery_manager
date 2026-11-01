@@ -108,10 +108,9 @@ flutter_native_splash:
 flutter_launcher_icons:
   android: true
   ios: true
-  # The manager app's own sign-in symbol (decision 2 of manager_suite_report.md);
-  # replace the two pictures, then: dart run flutter_launcher_icons
-  image_path: "assets/launcher/manager_icon.png"
-  adaptive_icon_foreground: "assets/launcher/manager_icon_foreground.png"
+  # Replace assets/images/logo.png, then: dart run flutter_launcher_icons
+  image_path: "assets/images/logo.png"
+  adaptive_icon_foreground: "assets/images/logo.png"
   adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground_inset: 20
   remove_alpha_ios: true
