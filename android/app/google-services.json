@@ -7,25 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:d9b79770bfc74d16369db1",
+        "mobilesdk_app_id": "1:279573864228:android:5d42d1aae1f40e92369db1",
         "android_client_info": {
-          "package_name": "website.sofistem.delivery_customer"
+          "package_name": "app.lihlih_customer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "279573864228-imqlt5tf5g2bfo5tftte7g5vejho1b21.apps.googleusercontent.com",
+          "client_id": "279573864228-6pqm4851r6t4u11bimr2ok8cqjau4nmb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "website.sofistem.delivery_customer",
+            "package_name": "app.lihlih_customer",
             "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
           }
         },
         {
-          "client_id": "279573864228-mhfsp4qm5h6k9g1hn2ruejjm7lns7gj1.apps.googleusercontent.com",
+          "client_id": "279573864228-hepd0mb5n3rqjqdniv1fd2f1lusqssor.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "website.sofistem.delivery_customer",
+            "package_name": "app.lihlih_customer",
             "certificate_hash": "15dc687415157dfa786bf918690075903279307e"
           }
         },
@@ -59,25 +59,25 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:b083f038caec14c5369db1",
+        "mobilesdk_app_id": "1:279573864228:android:328783bce68dadc4369db1",
         "android_client_info": {
-          "package_name": "website.sofistem.delivery_driver"
+          "package_name": "app.lihlih_driver"
         }
       },
       "oauth_client": [
         {
-          "client_id": "279573864228-gcbu8bsqmlcn2fef2smp8fag35869rf0.apps.googleusercontent.com",
+          "client_id": "279573864228-9ia6skl6iodktbj6rqs3ildda1a22r9f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "website.sofistem.delivery_driver",
+            "package_name": "app.lihlih_driver",
             "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
           }
         },
         {
-          "client_id": "279573864228-p305nc24j6cctkjgrnkpepdakv4jnoqt.apps.googleusercontent.com",
+          "client_id": "279573864228-d48f2tf1ubm0ucj03mq103agmjmdjrrv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "website.sofistem.delivery_driver",
+            "package_name": "app.lihlih_driver",
             "certificate_hash": "7fd95f811a7c8f65d77b32cde35f1cbcb9e62917"
           }
         },
@@ -111,81 +111,29 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:f1d5d3b45cb11b2e369db1",
+        "mobilesdk_app_id": "1:279573864228:android:ef1f67506aa186d7369db1",
         "android_client_info": {
-          "package_name": "website.sofistem.delivery_manager"
+          "package_name": "app.lihlih_manager"
         }
       },
       "oauth_client": [
         {
-          "client_id": "279573864228-eff2hpb995g3875at28gqbp3gj48l924.apps.googleusercontent.com",
+          "client_id": "279573864228-57fuuj7kruu0kfbsidl7r2aavk70tgae.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "website.sofistem.delivery_manager",
-            "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
-          }
-        },
-        {
-          "client_id": "279573864228-i0ap886f8bgogu0oalfttg2ao90mqi0n.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "website.sofistem.delivery_manager",
+            "package_name": "app.lihlih_manager",
             "certificate_hash": "e1490bb3bd4ccdb2e1bcbc48a494e4385cb28568"
           }
         },
         {
-          "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBwsMXNSjfqMsLvodPty06NGp6Ynj9AVIU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "279573864228-6e10b56irmtov3hldcgkpcojlca7633s.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.deliveryRestaurant"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:eb075151d2885e79369db1",
-        "android_client_info": {
-          "package_name": "website.sofistem.delivery_restaurant"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "279573864228-6h83fro7uncs7qe4c25m02dmbnm4emum.apps.googleusercontent.com",
+          "client_id": "279573864228-ke6fms1ms0ffgvjh4bgd6rdrrciamrcj.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "website.sofistem.delivery_restaurant",
+            "package_name": "app.lihlih_manager",
             "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
           }
         },
         {
-          "client_id": "279573864228-6t366uhpc3q8il67e0t6rqvv96n67sue.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "website.sofistem.delivery_restaurant",
-            "certificate_hash": "7468ce908d58a2fc9f02040fd8f2b62efd7d143c"
-          }
-        },
-        {
           "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -215,26 +163,78 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:279573864228:android:82b8a14d7e81bab5369db1",
+        "mobilesdk_app_id": "1:279573864228:android:a424872c3365af7b369db1",
         "android_client_info": {
-          "package_name": "website.sofistem.operator"
+          "package_name": "app.lihlih_operator"
         }
       },
       "oauth_client": [
         {
-          "client_id": "279573864228-dcjln3j5ufofq0bjidv5rncm6bipd0d2.apps.googleusercontent.com",
+          "client_id": "279573864228-05h0th2k9jh6r9niu5psj157ep6r22kc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "website.sofistem.operator",
+            "package_name": "app.lihlih_operator",
             "certificate_hash": "f5ce5b81f06480390e05399a55b6899c75b04983"
           }
         },
         {
-          "client_id": "279573864228-lh5sepvhgeqkuh2phlt4o37u7ov16k68.apps.googleusercontent.com",
+          "client_id": "279573864228-5fnqg2i0mfean6j8jogh4b527uke7mrq.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "website.sofistem.operator",
+            "package_name": "app.lihlih_operator",
             "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
+          }
+        },
+        {
+          "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwsMXNSjfqMsLvodPty06NGp6Ynj9AVIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279573864228-pvl0gv2r5tk1fog89psavatikttsi62q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "279573864228-6e10b56irmtov3hldcgkpcojlca7633s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.deliveryRestaurant"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279573864228:android:b766b82e22f784fb369db1",
+        "android_client_info": {
+          "package_name": "app.lihlih_restaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279573864228-e4gfuvd7vhdpsgmvkvaj9a2pcsqoodp5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.lihlih_restaurant",
+            "certificate_hash": "169ea2e1ac39bddb9522d4dc78b2fd22e11a06a5"
+          }
+        },
+        {
+          "client_id": "279573864228-ve48hcchbs4rue7p0lse1fgvummllpnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.lihlih_restaurant",
+            "certificate_hash": "7468ce908d58a2fc9f02040fd8f2b62efd7d143c"
           }
         },
         {

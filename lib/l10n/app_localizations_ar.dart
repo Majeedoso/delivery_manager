@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appName => 'تطبيق المدير';
+  String get appName => 'LihLih Manager';
 
   @override
   String get login => 'تسجيل الدخول';
@@ -115,7 +115,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String copyright(String year) {
-    return '© $year تطبيق المدير. جميع الحقوق محفوظة.';
+    return '© $year LihLih Manager. جميع الحقوق محفوظة.';
   }
 
   @override

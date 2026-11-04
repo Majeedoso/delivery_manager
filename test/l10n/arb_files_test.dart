@@ -112,6 +112,7 @@ void main() {
             if (translated.containsKey(key) &&
                 letters(translated[key]) == letters(template[key]) &&
                 RegExp('[A-Za-z]{3,}').hasMatch('${template[key]}') &&
+                key != 'appName' && // the brand: the same in every language
                 !(language == 'fr' && _sameInFrench.contains(key)))
               key,
         ];

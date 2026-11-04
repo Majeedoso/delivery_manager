@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "appName": "تطبيق المدير",
+  "appName": "LihLih Manager",
   "login": "تسجيل الدخول",
   "email": "البريد الإلكتروني",
   "password": "كلمة المرور",
@@ -35,7 +35,7 @@
   "googleSignIn": "الكوبونات",
   "googleSignInDescription": "إنشاء الكوبونات وتحديد حدودها والمناطق التي تُطبَّق فيها",
   "contactUs": "اتصل بنا",
-  "copyright": "© {year} تطبيق المدير. جميع الحقوق محفوظة.",
+  "copyright": "© {year} LihLih Manager. جميع الحقوق محفوظة.",
   "website": "الموقع الإلكتروني",
   "editProfile": "تعديل الملف الشخصي",
   "changePassword": "تغيير كلمة المرور",

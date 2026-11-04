@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appName": "Manager App",
+  "appName": "LihLih Manager",
   "@appName": {
     "description": "The name of the application"
   },
@@ -140,7 +140,7 @@
   "@contactUs": {
     "description": "Contact us section title"
   },
-  "copyright": "© {year} Manager App. All rights reserved.",
+  "copyright": "© {year} LihLih Manager. All rights reserved.",
   "@copyright": {
     "description": "The copyright line, with the current year",
     "placeholders": {

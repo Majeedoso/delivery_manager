@@ -40,7 +40,7 @@ void main() {
     );
     PackageInfo.setMockInitialValues(
       appName: 'Delivery',
-      packageName: 'website.sofistem.delivery_manager',
+      packageName: 'app.lihlih_manager',
       version: '1.2.0',
       buildNumber: '7',
       buildSignature: '',

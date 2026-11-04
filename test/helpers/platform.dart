@@ -46,7 +46,7 @@ Future<void> installPlatformFakes() async {
   FlutterSecureStorage.setMockInitialValues({});
   PackageInfo.setMockInitialValues(
     appName: 'Delivery',
-    packageName: 'website.sofistem.delivery_manager',
+    packageName: 'app.lihlih_manager',
     version: '1.0.0',
     buildNumber: '1',
     buildSignature: '',

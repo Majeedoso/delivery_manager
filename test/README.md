@@ -117,8 +117,8 @@ server themselves, have one file per family: `statistics_money_test.dart`,
 
 ## Gotchas
 
-- **The bank's spinner is a Lottie animation** (also on the account status
-  and profile pages): it never settles. Pump by hand (twice is usually
+- **The bank's spinner** (`CircularProgressIndicator`, also on the account status
+  and profile pages) never settles. Pump by hand (twice is usually
   enough) instead of `pumpAndSettle`.
 - **The statistics pages ask the server themselves**, from `initState` and
   at each filter: script every path before pumping (a page with a list asks

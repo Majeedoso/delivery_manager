@@ -100,7 +100,7 @@ abstract class AppLocalizations {
   /// The name of the application
   ///
   /// In en, this message translates to:
-  /// **'Manager App'**
+  /// **'LihLih Manager'**
   String get appName;
 
   /// Login button text
@@ -310,7 +310,7 @@ abstract class AppLocalizations {
   /// The copyright line, with the current year
   ///
   /// In en, this message translates to:
-  /// **'© {year} Manager App. All rights reserved.'**
+  /// **'© {year} LihLih Manager. All rights reserved.'**
   String copyright(String year);
 
   /// Website label

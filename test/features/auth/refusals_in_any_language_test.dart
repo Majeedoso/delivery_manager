@@ -344,7 +344,7 @@ void main() {
 
         expect(
           find.text(
-            '© ${DateTime.now().year} Appli Gestionnaire. Tous droits réservés.',
+            '© ${DateTime.now().year} LihLih Manager. Tous droits réservés.',
           ),
           findsOneWidget,
         );

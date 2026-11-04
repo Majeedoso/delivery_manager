@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'Manager App';
+  String get appName => 'LihLih Manager';
 
   @override
   String get login => 'Login';
@@ -115,7 +115,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String copyright(String year) {
-    return '© $year Manager App. All rights reserved.';
+    return '© $year LihLih Manager. All rights reserved.';
   }
 
   @override

@@ -82,7 +82,7 @@ void main() {
       );
 
       expect(
-        find.text('© 2027 Appli Gestionnaire. Tous droits réservés.'),
+        find.text('© 2027 LihLih Manager. Tous droits réservés.'),
         findsOneWidget,
       );
       expect(find.textContaining('2024'), findsNothing);

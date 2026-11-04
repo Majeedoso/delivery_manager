@@ -200,7 +200,7 @@ void main() {
 
     expect(
       tester.widgetList<Title>(find.byType(Title)).map((title) => title.title),
-      ['تطبيق المدير'],
+      ['LihLih Manager'],
     );
   });
 

@@ -14,7 +14,6 @@ import 'package:delivery_manager/features/countdown/presentation/controller/coun
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mocktail/mocktail.dart';
 
 import '../../../../helpers/api_json.dart';
@@ -225,7 +224,7 @@ void main() {
 
     await pump(tester, settle: false);
 
-    expect(find.byType(Lottie), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
   });
 
   testWidgets('settings', (tester) async {

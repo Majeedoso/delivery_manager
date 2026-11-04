@@ -1,6 +1,6 @@
 {
   "@@locale": "fr",
-  "appName": "Appli Gestionnaire",
+  "appName": "LihLih Manager",
   "login": "Connexion",
   "email": "E-mail",
   "password": "Mot de passe",
@@ -35,7 +35,7 @@
   "googleSignIn": "Coupons",
   "googleSignInDescription": "Créer des coupons, fixer leurs limites et les zones où ils s’appliquent",
   "contactUs": "Nous contacter",
-  "copyright": "© {year} Appli Gestionnaire. Tous droits réservés.",
+  "copyright": "© {year} LihLih Manager. Tous droits réservés.",
   "website": "Site web",
   "editProfile": "Modifier le profil",
   "changePassword": "Changer le mot de passe",
