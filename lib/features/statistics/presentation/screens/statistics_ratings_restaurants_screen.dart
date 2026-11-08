@@ -631,7 +631,7 @@ class _RestaurantCard extends StatelessWidget {
                     ),
                     SizedBox(height: 0.3.h),
                     Text(
-                      '${restaurant.totalReviews} ${l.reviews}',
+                      l.ratingsCount(restaurant.totalReviews),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(
                           context,

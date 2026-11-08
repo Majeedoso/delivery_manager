@@ -320,8 +320,8 @@ void main() {
         'Code OTP invalide ou expiré.',
       );
       expect(
-        shown(const ServerFailure('رمز OTP غير صالح أو منتهي الصلاحية.'), fr),
-        'رمز OTP غير صالح أو منتهي الصلاحية.',
+        shown(const ServerFailure('رمز التحقق غير صالح أو منتهي الصلاحية.'), fr),
+        'رمز التحقق غير صالح أو منتهي الصلاحية.',
       );
     });
   });

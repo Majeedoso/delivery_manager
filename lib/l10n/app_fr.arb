@@ -9,6 +9,7 @@
   "rememberMe": "Se souvenir de moi",
   "forgotPassword": "Mot de passe oublié",
   "signInWithGoogle": "Se connecter avec Google",
+  "signInWithEmail": "Se connecter avec Email",
   "checkingAuthentication": "Vérification de l'authentification...",
   "logout": "Déconnexion",
   "language": "Langue",
@@ -696,7 +697,9 @@
   "platformPaymentHelp": "Il compte aussitôt, et le bénéficiaire en est averti. Payer plus que le dû lui fait devoir la différence à la plateforme.",
   "platformPaymentRecorded": "Paiement de la plateforme enregistré",
   "paidByThePlatform": "Payé par la plateforme",
-  "paidBeyondWhatWasOwed": "Payé au-delà du dû"
+  "paidBeyondWhatWasOwed": "Payé au-delà du dû",
+  "systemAccount": "Système",
+  "ratingsCount": "{count, plural, =1{1 avis} other{{count} avis}}"
 }
 
 

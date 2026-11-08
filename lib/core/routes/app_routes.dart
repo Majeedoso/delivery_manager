@@ -10,6 +10,7 @@ class AppRoutes {
   static const String firstRunLanguage = '/first-run-language';
   static const String splash = '/splash';
   static const String login = '/login';
+  static const String loginEmail = '/login/email';
   static const String forgotPassword = '/forgot-password';
   static const String resetPasswordUnauthenticated =
       '/reset-password-unauthenticated';

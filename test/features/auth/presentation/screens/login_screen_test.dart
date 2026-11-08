@@ -55,12 +55,14 @@ void main() {
 
   tearDown(() => states.close());
 
+  /// The e-mail form unless [withEmail] is false: the sign-in page, two buttons.
   Future<void> pump(
     WidgetTester tester, {
     Locale locale = const Locale('en'),
+    bool withEmail = true,
   }) => pumpPage(
     tester,
-    const LoginScreen(),
+    LoginScreen(withEmail: withEmail),
     locale: locale,
     routes: routes,
     blocs: [BlocProvider<AuthBloc>.value(value: auth)],
@@ -177,8 +179,67 @@ void main() {
     });
   });
 
+  group('the sign-in page', () {
+    testWidgets('offers two buttons, Google and e-mail, and no form', (
+      tester,
+    ) async {
+      await pump(tester, withEmail: false);
+
+      // Google is the orange button, e-mail the outlined one
+      expect(
+        find.widgetWithText(ElevatedButton, 'Sign in with Google'),
+        findsOneWidget,
+      );
+      expect(
+        find.widgetWithText(OutlinedButton, 'Sign in with Email'),
+        findsOneWidget,
+      );
+      expect(find.byType(TextFormField), findsNothing);
+      expect(find.byType(BackButton), findsNothing);
+    });
+
+    testWidgets('the e-mail button opens the form, with a way back', (
+      tester,
+    ) async {
+      await pumpPage(
+        tester,
+        const LoginScreen(),
+        routes: routes,
+        blocs: [BlocProvider<AuthBloc>.value(value: auth)],
+        onGenerateRoute: (settings) => settings.name == AppRoutes.loginEmail
+            ? MaterialPageRoute(
+                settings: settings,
+                builder: (_) => const LoginScreen(withEmail: true),
+              )
+            : stubRoute(settings),
+      );
+
+      await tester.tap(find.text('Sign in with Email'));
+      await tester.pumpAndSettle();
+
+      expect(routes.last.name, AppRoutes.loginEmail);
+      expect(find.byType(TextFormField), findsNWidgets(2));
+      verifyNever(() => auth.add(any()));
+
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+      expect(find.text('Sign in with Email'), findsOneWidget);
+    });
+
+    testWidgets('the form has no Google button and no sign-up link', (
+      tester,
+    ) async {
+      await pump(tester);
+
+      expect(find.text('Sign in with Google'), findsNothing);
+      expect(find.text('Sign in with Email'), findsNothing);
+      expect(find.byType(TextFormField), findsNWidgets(2));
+      expect(find.text('Sign Up'), findsNothing);
+    });
+  });
+
   testWidgets('Google sign-in is one tap', (tester) async {
-    await pump(tester);
+    await pump(tester, withEmail: false);
 
     await tester.tap(find.text('Sign in with Google'));
 
@@ -188,7 +249,7 @@ void main() {
   testWidgets('while signing in, the screen is covered and blocked', (
     tester,
   ) async {
-    await pump(tester);
+    await pump(tester, withEmail: false);
 
     states.add(const AuthState(requestState: RequestState.loading));
     await tester.pump();
@@ -196,9 +257,18 @@ void main() {
 
     expect(find.byType(AbsorbPointer), findsWidgets);
     expect(
-      tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed,
+      tester
+          .widget<ElevatedButton>(
+            find.widgetWithText(ElevatedButton, 'Sign in with Google'),
+          )
+          .onPressed,
       isNull,
       reason: 'no second sign-in while one runs',
+    );
+    expect(
+      tester.widget<OutlinedButton>(find.byType(OutlinedButton)).onPressed,
+      isNull,
+      reason: 'nor the e-mail form',
     );
   });
 
@@ -271,7 +341,7 @@ void main() {
       // do (M1)
       await failWith(
         tester,
-        'الحساب غير موجود. يرجى التسجيل أولاً.',
+        'الحساب غير موجود. يرجى إنشاء حساب أولًا.',
         code: 'ACCOUNT_NOT_FOUND',
       );
 
@@ -283,7 +353,7 @@ void main() {
         ),
         findsOneWidget,
       );
-      expect(find.text('الحساب غير موجود. يرجى التسجيل أولاً.'), findsNothing);
+      expect(find.text('الحساب غير موجود. يرجى إنشاء حساب أولًا.'), findsNothing);
     });
 
     testWidgets('the words alone decide nothing', (tester) async {
@@ -361,10 +431,15 @@ void main() {
   });
 
   for (final locale in const [Locale('fr'), Locale('ar')]) {
-    testWidgets('fits a phone in ${locale.languageCode}', (tester) async {
-      await pump(tester, locale: locale);
+    for (final withEmail in const [false, true]) {
+      testWidgets(
+        '${withEmail ? 'the form' : 'the sign-in page'} fits a phone in ${locale.languageCode}',
+        (tester) async {
+          await pump(tester, locale: locale, withEmail: withEmail);
 
-      expect(tester.takeException(), isNull);
-    });
+          expect(tester.takeException(), isNull);
+        },
+      );
+    }
   }
 }

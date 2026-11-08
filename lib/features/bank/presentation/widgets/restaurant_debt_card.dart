@@ -40,7 +40,7 @@ class RestaurantDebtCard extends StatelessWidget {
                         Text(
                           // "System" was English in every language
                           restaurantDebt.counterpartyType == 'system'
-                              ? AppLocalizations.of(context)!.system
+                              ? AppLocalizations.of(context)!.systemAccount
                               : restaurantDebt.restaurantName,
                           style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.bold),

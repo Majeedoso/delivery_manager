@@ -931,7 +931,7 @@ void main() {
         said(const {
           'en': 'This payment has already been confirmed or refused.',
           'fr': 'Ce paiement a déjà été confirmé ou refusé.',
-          'ar': 'سبق تأكيد هذا الدفع أو رفضه.',
+          'ar': 'سبق تأكيد هذه الدفعة أو رفضها.',
         }),
       );
     });

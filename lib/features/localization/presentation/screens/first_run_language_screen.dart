@@ -90,8 +90,8 @@ class FirstRunLanguageScreen extends StatelessWidget {
                     SizedBox(height: 2.h),
                     // App logo
                     SizedBox(
-                      width: 35.w,
-                      height: 35.w,
+                      width: 50.w,
+                      height: 16.w,
                       child: Image.asset(
                         'assets/images/logo.png',
                         fit: BoxFit.contain,

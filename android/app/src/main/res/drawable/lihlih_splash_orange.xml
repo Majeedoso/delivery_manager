@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- LihLih Manager animated splash icon, orange logo, transparent background. 2000 ms (the kit file's 1000 ms, slowed down 2x). Android 12+ native splash screen. -->
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+  <aapt:attr name="android:drawable">
+    <vector
+        android:width="288dp"
+        android:height="288dp"
+        android:viewportWidth="900"
+        android:viewportHeight="900">
+      <group android:name="origin" android:translateX="281.5" android:translateY="370">
+        <group android:name="word">
+          <path android:name="trail1"
+              android:pathData="M-194.58,78 L-46.58,78"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="12"
+              android:strokeLineCap="round"
+              android:trimPathStart="0.8108"/>
+          <path android:name="trail2"
+              android:pathData="M-233.81,112 L-53.81,112"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="12"
+              android:strokeLineCap="round"
+              android:trimPathStart="0.6667"/>
+          <path android:name="trail3"
+              android:pathData="M-223.03,146 L-61.03,146"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="12"
+              android:strokeLineCap="round"
+              android:trimPathStart="0.7407"/>
+          <path android:pathData="M7.9,24 L-15.91,136 L37.09,136"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="26"
+              android:strokeLineCap="round"
+              android:strokeLineJoin="round"/>
+          <path android:pathData="M258.9,24 L235.09,136 L288.09,136"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="26"
+              android:strokeLineCap="round"
+              android:strokeLineJoin="round"/>
+          <path android:pathData="M407.9,24 L384.09,136"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="26"
+              android:strokeLineCap="round"
+              android:strokeLineJoin="round"/>
+          <path android:pathData="M391.74,100 C395.57,82 407.7,72 423.7,72 C439.7,72 447.57,82 443.74,100 L436.09,136"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="26"
+              android:strokeLineCap="round"
+              android:strokeLineJoin="round"/>
+          <path android:pathData="M349.7,72 L336.09,136"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="26"
+              android:strokeLineCap="round"
+              android:strokeLineJoin="round"/>
+          <path android:pathData="M156.9,24 L133.09,136"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="26"
+              android:strokeLineCap="round"
+              android:strokeLineJoin="round"/>
+          <path android:pathData="M140.74,100 C144.57,82 156.7,72 172.7,72 C188.7,72 196.57,82 192.74,100 L185.09,136"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="26"
+              android:strokeLineCap="round"
+              android:strokeLineJoin="round"/>
+          <path android:pathData="M98.75,20 L120.75,20 L112.35,36 L100.35,36 Z"
+              android:fillColor="#FF8A33"
+              android:strokeColor="#FF8A33"
+              android:strokeWidth="4"
+              android:strokeLineJoin="round"/>
+          <path android:pathData="M370.35,36 C368.82,43.18 361.76,49 354.58,49 C347.41,49 342.82,43.18 344.35,36 C345.87,28.82 352.93,23 360.11,23 C367.29,23 371.87,28.82 370.35,36 Z"
+              android:fillColor="#FF8A33"/>
+          <group android:name="tie" android:pivotX="104.65" android:pivotY="44">
+            <path android:pathData="M98.65,44 L110.65,44 L102.07,122 L83.39,144 L74.07,122 Z"
+                android:fillColor="#FF8A33"
+                android:strokeColor="#FF8A33"
+                android:strokeWidth="4"
+                android:strokeLineJoin="round"/>
+          </group>
+        </group>
+      </group>
+    </vector>
+  </aapt:attr>
+  <target android:name="word">
+    <aapt:attr name="android:animation">
+        <objectAnimator android:duration="2000">
+          <propertyValuesHolder android:propertyName="translateX" android:valueType="floatType">
+            <keyframe android:fraction="0" android:value="-620"/>
+            <keyframe android:fraction="0.4" android:value="14" android:interpolator="@android:interpolator/decelerate_cubic"/>
+            <keyframe android:fraction="0.52" android:value="0" android:interpolator="@android:interpolator/accelerate_decelerate"/>
+            <keyframe android:fraction="1" android:value="0"/>
+          </propertyValuesHolder>
+        </objectAnimator>
+    </aapt:attr>
+  </target>
+  <target android:name="trail1">
+    <aapt:attr name="android:animation">
+        <objectAnimator android:duration="2000">
+          <propertyValuesHolder android:propertyName="trimPathStart" android:valueType="floatType">
+            <keyframe android:fraction="0" android:value="0.0000"/>
+            <keyframe android:fraction="0.3" android:value="0.0000"/>
+            <keyframe android:fraction="0.62" android:value="0.8108" android:interpolator="@android:interpolator/decelerate_cubic"/>
+            <keyframe android:fraction="1" android:value="0.8108"/>
+          </propertyValuesHolder>
+        </objectAnimator>
+    </aapt:attr>
+  </target>
+  <target android:name="trail2">
+    <aapt:attr name="android:animation">
+        <objectAnimator android:duration="2000">
+          <propertyValuesHolder android:propertyName="trimPathStart" android:valueType="floatType">
+            <keyframe android:fraction="0" android:value="0.0000"/>
+            <keyframe android:fraction="0.3" android:value="0.0000"/>
+            <keyframe android:fraction="0.62" android:value="0.6667" android:interpolator="@android:interpolator/decelerate_cubic"/>
+            <keyframe android:fraction="1" android:value="0.6667"/>
+          </propertyValuesHolder>
+        </objectAnimator>
+    </aapt:attr>
+  </target>
+  <target android:name="trail3">
+    <aapt:attr name="android:animation">
+        <objectAnimator android:duration="2000">
+          <propertyValuesHolder android:propertyName="trimPathStart" android:valueType="floatType">
+            <keyframe android:fraction="0" android:value="0.0000"/>
+            <keyframe android:fraction="0.3" android:value="0.0000"/>
+            <keyframe android:fraction="0.62" android:value="0.7407" android:interpolator="@android:interpolator/decelerate_cubic"/>
+            <keyframe android:fraction="1" android:value="0.7407"/>
+          </propertyValuesHolder>
+        </objectAnimator>
+    </aapt:attr>
+  </target>
+  <target android:name="tie">
+    <aapt:attr name="android:animation">
+        <objectAnimator android:duration="2000">
+          <propertyValuesHolder android:propertyName="rotation" android:valueType="floatType">
+            <keyframe android:fraction="0" android:value="16"/>
+            <keyframe android:fraction="0.2" android:value="11" android:interpolator="@android:interpolator/accelerate_decelerate"/>
+            <keyframe android:fraction="0.28" android:value="15" android:interpolator="@android:interpolator/accelerate_decelerate"/>
+            <keyframe android:fraction="0.4" android:value="12" android:interpolator="@android:interpolator/accelerate_decelerate"/>
+            <keyframe android:fraction="0.48" android:value="-9" android:interpolator="@android:interpolator/accelerate_decelerate"/>
+            <keyframe android:fraction="0.58" android:value="5" android:interpolator="@android:interpolator/accelerate_decelerate"/>
+            <keyframe android:fraction="0.68" android:value="-2" android:interpolator="@android:interpolator/accelerate_decelerate"/>
+            <keyframe android:fraction="0.78" android:value="0" android:interpolator="@android:interpolator/accelerate_decelerate"/>
+            <keyframe android:fraction="1" android:value="0"/>
+          </propertyValuesHolder>
+        </objectAnimator>
+    </aapt:attr>
+  </target>
+</animated-vector>

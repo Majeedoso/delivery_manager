@@ -261,7 +261,7 @@ void main() {
       );
       await tester.tap(find.text('جميع الأدوار'));
       await tester.pumpAndSettle();
-      expect(find.text('مشغل'), findsWidgets);
+      expect(find.text('موظف التحقق'), findsWidgets);
       expect(find.text('Operator'), findsNothing);
     });
   });

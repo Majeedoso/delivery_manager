@@ -298,6 +298,7 @@ void main() {
   final routes = <String, (Object?, Type)>{
     AppRoutes.firstRunLanguage: (null, FirstRunLanguageScreen),
     AppRoutes.login: (null, LoginScreen),
+    AppRoutes.loginEmail: (null, LoginScreen),
     AppRoutes.forgotPassword: (null, ForgotPasswordScreen),
     AppRoutes.resetPasswordUnauthenticated: (
       <String, String>{'email': 'karim@example.dz', 'otp': '123456'},

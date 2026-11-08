@@ -107,6 +107,7 @@ class RouteGenerator {
         ),
       ),
       AppRoutes.login: (context) => const LoginScreen(),
+      AppRoutes.loginEmail: (context) => const LoginScreen(withEmail: true),
       AppRoutes.main: (context) => const MainScreen(),
       AppRoutes.profile: (context) => BlocProvider(
         create: (context) => sl<ProfileBloc>(),

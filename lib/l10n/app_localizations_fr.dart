@@ -36,6 +36,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get signInWithGoogle => 'Se connecter avec Google';
 
   @override
+  String get signInWithEmail => 'Se connecter avec Email';
+
+  @override
   String get checkingAuthentication => 'Vérification de l\'authentification...';
 
   @override
@@ -2059,4 +2062,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get paidBeyondWhatWasOwed => 'Payé au-delà du dû';
+
+  @override
+  String get systemAccount => 'Système';
+
+  @override
+  String ratingsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count avis',
+      one: '1 avis',
+    );
+    return '$_temp0';
+  }
 }

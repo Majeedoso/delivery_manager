@@ -90,27 +90,31 @@ flutter:
     - assets/images/
 
 # Native splash screen configuration
+# Android 12+ plays res/drawable/lihlih_splash_orange.xml instead (test/app/native_splash_test.dart): after :create, put it back in values-v31 and values-night-v31
 flutter_native_splash:
   # Android and iOS only: dart run flutter_native_splash:create
   web: false
   color: "#FEF8F1"
-  image: assets/images/app_icon_light_mode.png
+  image: assets/brand/splash.png
   color_dark: "#000000"
-  image_dark: assets/images/app_icon_dark_mode.png
+  image_dark: assets/brand/splash.png
 
   android_12:
-    image: assets/images/app_icon_light_mode.png
+    image: assets/brand/splash.png
     color: "#FEF8F1"
-    image_dark: assets/images/app_icon_dark_mode.png
+    image_dark: assets/brand/splash.png
     color_dark: "#000000"
 
 # App icon configuration
 flutter_launcher_icons:
   android: true
   ios: true
-  # Replace assets/images/logo.png, then: dart run flutter_launcher_icons
-  image_path: "assets/images/logo.png"
-  adaptive_icon_foreground: "assets/images/logo.png"
-  adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground_inset: 20
+  # Replace assets/brand/icon*.png, then: dart run flutter_launcher_icons
+  image_path: "assets/brand/icon.png"
+  image_path_ios_dark_transparent: "assets/brand/icon_dark.png"
+  image_path_ios_tinted_grayscale: "assets/brand/icon_tinted.png"
+  adaptive_icon_foreground: "assets/brand/icon_foreground.png"
+  adaptive_icon_monochrome: "assets/brand/icon_monochrome.png"
+  adaptive_icon_background: "#FEF8F1"
+  adaptive_icon_foreground_inset: 0 # the kit keeps the word inside the safe zone already
   remove_alpha_ios: true

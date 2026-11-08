@@ -1,4 +1,3 @@
-import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -11,7 +10,9 @@ import 'package:delivery_manager/features/auth/domain/usecases/load_credentials_
 import 'package:delivery_manager/features/auth/presentation/controller/auth_bloc.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_event.dart';
 import 'package:delivery_manager/features/auth/presentation/controller/auth_state.dart';
+import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/features/auth/presentation/helpers/auth_navigation_helper.dart';
+import 'package:delivery_manager/features/auth/presentation/widgets/auth_page_widgets.dart';
 import 'package:delivery_manager/features/settings/presentation/screens/settings_screen.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
 import 'package:delivery_manager/core/widgets/error_dialog.dart';
@@ -33,10 +34,14 @@ import 'package:flutter/foundation.dart';
 /// based on user status (MainScreen, AccountStatusScreen, or LoginScreen)
 /// using AuthNavigationHelper.
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({super.key, this.withEmail = false});
 
   /// Route name for navigation
   static const String route = '/login';
+
+  /// False: the sign-in page, two buttons (Google, e-mail). True: the e-mail
+  /// form its e-mail button opens ([AppRoutes.loginEmail]).
+  final bool withEmail;
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -171,126 +176,46 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             // Logo Section
-                            Container(
-                              margin: EdgeInsets.only(top: 2.h, bottom: 4.h),
-                              padding: EdgeInsets.all(5.w),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(6.w),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
-                                    blurRadius: 20,
-                                    offset: const Offset(0, 5),
-                                  ),
-                                ],
-                              ),
-                              child: Icon(
-                                Icons.admin_panel_settings_outlined,
-                                size: 18.w,
-                                color: const Color(0xFFFF892D),
-                              ),
-                            ),
+                            const AuthLogo(),
                             SizedBox(height: 2.h),
 
-                            // Google Sign-In Button
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4.w),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.orange.shade200.withValues(
-                                      alpha: 0.15,
-                                    ),
-                                    blurRadius: 15,
-                                    offset: const Offset(0, 8),
-                                  ),
-                                ],
-                              ),
-                              child: SizedBox(
-                                width: double.infinity,
-                                height: 7.h,
-                                child: OutlinedButton(
-                                  onPressed:
-                                      state.requestState == RequestState.loading
-                                      ? null
-                                      : () => context.read<AuthBloc>().add(
-                                          GoogleSignInEvent(),
-                                        ),
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide(
-                                      color: Colors.orange.shade200,
-                                      width: 2,
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(4.w),
-                                    ),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/google_logo.png',
-                                        width: 6.w,
-                                        errorBuilder:
-                                            (context, error, stackTrace) =>
-                                                const Icon(Icons.g_mobiledata),
+                            // The two ways in: Google (the orange one) and e-mail
+                            if (!widget.withEmail) ...[
+                              GoogleAuthButton(
+                                label: AppLocalizations.of(context)!.signInWithGoogle,
+                                onPressed: isLoading
+                                    ? null
+                                    : () => context.read<AuthBloc>().add(
+                                        GoogleSignInEvent(),
                                       ),
-                                      SizedBox(width: 3.w),
-                                      Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.signInWithGoogle,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                              MaterialTheme.getSpacingVertical(
+                                vertical: MaterialTheme.getSpacing(
+                                  'spacingVerticalSmall',
                                 ),
                               ),
-                            ),
-                            MaterialTheme.getSpacingVertical(
-                              vertical: MaterialTheme.getSpacing(
-                                'spacingVerticalSmall',
+                              const AuthOrDivider(),
+                              MaterialTheme.getSpacingVertical(
+                                vertical: MaterialTheme.getSpacing(
+                                  'spacingVerticalSmall',
+                                ),
                               ),
-                            ),
+                              EmailAuthButton(
+                                label: AppLocalizations.of(context)!.signInWithEmail,
+                                onPressed: isLoading
+                                    ? null
+                                    : () => Navigator.of(
+                                        context,
+                                      ).pushNamed(AppRoutes.loginEmail),
+                              ),
+                              MaterialTheme.getSpacingVertical(
+                                vertical: MaterialTheme.getSpacing(
+                                  'spacingVerticalSmall',
+                                ),
+                              ),
+                            ],
 
-                            // Divider
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Divider(color: Colors.grey[300]),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: 4.w,
-                                  ),
-                                  child: Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.or.toUpperCase(),
-                                    style: TextStyle(
-                                      color: Colors.grey[400],
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Divider(color: Colors.grey[300]),
-                                ),
-                              ],
-                            ),
-                            MaterialTheme.getSpacingVertical(
-                              vertical: MaterialTheme.getSpacing(
-                                'spacingVerticalSmall',
-                              ),
-                            ),
-
+                            if (widget.withEmail) ...[
                             // Email Field
                             TextFormField(
                               controller: _emailController,
@@ -546,22 +471,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
 
+                            ],
+
                             // Footer Links and Copyright
-                            Column(
-                              children: [
-                                // No way to sign up: manager accounts are
-                                // created on the server, never in the app
-                                Text(
-                                  AppLocalizations.of(context)!.copyright('${clock.now().year}'),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: 18.sp,
-                                  ),
-                                ),
-                                SizedBox(height: 2.h),
-                              ],
-                            ),
+                            const AuthFooter(),
                           ],
                         ),
                       ),
@@ -588,7 +501,7 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: isDark ? Colors.black : const Color(0xFFFEF8F1),
             elevation: 0,
             centerTitle: false,
-            automaticallyImplyLeading: false,
+            automaticallyImplyLeading: widget.withEmail,
             title: Text(
               AppLocalizations.of(context)!.login,
               style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),

@@ -36,6 +36,10 @@
   "@signInWithGoogle": {
     "description": "Google sign in button text"
   },
+  "signInWithEmail": "Sign in with Email",
+  "@signInWithEmail": {
+    "description": "Sign-in page button that opens the e-mail form"
+  },
   "checkingAuthentication": "Checking authentication...",
   "@checkingAuthentication": {
     "description": "Checking authentication status message"
@@ -2431,5 +2435,18 @@
   "paidBeyondWhatWasOwed": "Paid beyond what was owed",
   "@paidBeyondWhatWasOwed": {
     "description": "A balance's details: what a side paid beyond its debts, owed back by the other (anyone may pay more than they owe)"
+  },
+  "systemAccount": "System",
+  "@systemAccount": {
+    "description": "The platform as a party in the money pages (the \"system\" key is the theme option)"
+  },
+  "ratingsCount": "{count, plural, =1{1 review} other{{count} reviews}}",
+  "@ratingsCount": {
+    "description": "How many reviews a restaurant or a driver has",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

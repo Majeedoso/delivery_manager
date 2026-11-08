@@ -623,7 +623,7 @@ class _DriverCard extends StatelessWidget {
                     ),
                     SizedBox(height: 0.3.h),
                     Text(
-                      '${driver.totalRatings} ${l.reviews}',
+                      l.ratingsCount(driver.totalRatings),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(
                           context,

@@ -739,7 +739,7 @@ class _ReceivablesPayablesScreenState extends State<ReceivablesPayablesScreen>
       case 'driver':
         return AppLocalizations.of(context)!.driver;
       case 'system':
-        return AppLocalizations.of(context)!.system;
+        return AppLocalizations.of(context)!.systemAccount;
       case 'restaurant':
       default:
         return AppLocalizations.of(context)!.restaurant;

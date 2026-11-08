@@ -252,21 +252,12 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           SizedBox(
             width: 50.w,
-            height: 50.w,
+            height: 16.w, // the logo is 900x293
             child: Image.asset(
               'assets/images/logo.png',
               width: 50.w,
-              height: 50.w,
-              fit: BoxFit.fill,
-            ),
-          ),
-          SizedBox(height: 3.h),
-          // App name
-          Text(
-            localizations.appName,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-              fontWeight: FontWeight.bold,
+              height: 16.w,
+              fit: BoxFit.contain,
             ),
           ),
           SizedBox(height: 4.h),

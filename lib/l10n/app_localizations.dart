@@ -151,6 +151,12 @@ abstract class AppLocalizations {
   /// **'Sign in with Google'**
   String get signInWithGoogle;
 
+  /// Sign-in page button that opens the e-mail form
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Email'**
+  String get signInWithEmail;
+
   /// Checking authentication status message
   ///
   /// In en, this message translates to:
@@ -4128,6 +4134,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Paid beyond what was owed'**
   String get paidBeyondWhatWasOwed;
+
+  /// The platform as a party in the money pages (the "system" key is the theme option)
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get systemAccount;
+
+  /// How many reviews a restaurant or a driver has
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 review} other{{count} reviews}}'**
+  String ratingsCount(int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

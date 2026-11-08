@@ -179,7 +179,7 @@ void main() {
         InitializationErrorScreen(errorMessage: 'Broken', onRetry: () {}),
       );
 
-      expect(find.text('فشل في التهيئة'), findsOneWidget);
+      expect(find.text('تعذّر تشغيل التطبيق'), findsOneWidget);
       expect(find.text('إعادة المحاولة'), findsOneWidget);
     });
 
