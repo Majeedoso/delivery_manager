@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AppConfig {
   /// The server of a build made for the end-to-end tests on the emulators
   /// (`--dart-define=E2E_API=http://10.0.2.2:8011/api`, see
   /// delivery_backend/tests/E2E/README.md). Empty in every other build, where
-  /// `.env` decides.
+  /// the env file decides (see [load]).
   static String e2eApi = const String.fromEnvironment('E2E_API');
 
   static String get baseUrl {
@@ -40,6 +41,7 @@ class AppConfig {
   }
 
   static Future<void> load() async {
-    await dotenv.load(fileName: ".env");
+    // A release build goes to the real server, whatever this PC's .env says.
+    await dotenv.load(fileName: kReleaseMode ? ".env.production" : ".env");
   }
 }

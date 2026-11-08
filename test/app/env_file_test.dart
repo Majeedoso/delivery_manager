@@ -25,4 +25,20 @@ void main() {
         if (line.startsWith('#') && line.contains('://')) line,
     ], isEmpty);
   });
+
+  test('.env.production is the server, in https, and nothing else', () {
+    final lines = File('.env.production').readAsLinesSync();
+    final host = lines.last.replaceFirst('HOST_URL=', '');
+
+    expect(host, startsWith('https://'));
+    expect(lines, ['BASE_URL=$host/api', 'HOST_URL=$host']);
+  });
+
+  // Not packed, a release build stops at launch, and no other test runs in
+  // release.
+  test('.env.production is packed into the APK', () {
+    final assets = File('pubspec.yaml').readAsLinesSync().map((l) => l.trim());
+
+    expect(assets, contains('- .env.production'));
+  });
 }

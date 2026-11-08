@@ -87,6 +87,7 @@ flutter:
 
   assets:
     - .env
+    - .env.production
     - assets/images/
 
 # Native splash screen configuration
