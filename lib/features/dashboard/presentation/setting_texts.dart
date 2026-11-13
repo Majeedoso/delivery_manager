@@ -183,6 +183,16 @@ SettingTexts? settingTexts(AppLocalizations l10n, String key) => switch (key) {
     role: l10n.settingRouteCacheMinutesRole,
     help: l10n.settingRouteCacheMinutesHelp,
   ),
+  'max_route_lookups_per_day' => SettingTexts(
+    name: l10n.settingMaxRouteLookupsPerDayName,
+    role: l10n.settingMaxRouteLookupsPerDayRole,
+    help: l10n.settingMaxRouteLookupsPerDayHelp,
+  ),
+  'max_route_lookups_per_customer_per_day' => SettingTexts(
+    name: l10n.settingMaxRouteLookupsPerCustomerPerDayName,
+    role: l10n.settingMaxRouteLookupsPerCustomerPerDayRole,
+    help: l10n.settingMaxRouteLookupsPerCustomerPerDayHelp,
+  ),
   'map_default_latitude' => SettingTexts(
     name: l10n.settingMapDefaultLatitudeName,
     role: l10n.settingMapDefaultLatitudeRole,

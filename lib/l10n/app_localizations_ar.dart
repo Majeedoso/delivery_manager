@@ -1791,6 +1791,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingRouteCacheMinutesHelp => 'تُحفظ مسافة الطريق بين المطعم ومكان التوصيل هذا العدد من الدقائق بدل حسابها من جديد، فتكون الرسوم المدفوعة هي الرسوم المعروضة وتقل طلبات حساب المسارات. لا تخفضه إلا إذا كانت الطرق تتغير كثيرًا.';
 
   @override
+  String get settingMaxRouteLookupsPerDayName => 'مسافات الطريق في اليوم (Mapbox)';
+
+  @override
+  String get settingMaxRouteLookupsPerDayRole => 'أقصى عدد من مسافات الطريق يُطلب حسابها من Mapbox في اليوم';
+
+  @override
+  String get settingMaxRouteLookupsPerDayHelp => 'كل مطعم يُعرض في مكان جديد يُطلب من Mapbox حساب مسافة الطريق إليه، ويحتسب Mapbox ثمنها بعد تجاوز حصته المجانية الشهرية. فإذا بلغ العدد هذا الحد في يوم، تُحسب المسافة بـ OpenRouteService (مجاني) أو بخط مستقيم حتى منتصف الليل، كما لو كان Mapbox معطلًا، وتبقى الرسوم المدفوعة هي الرسوم المعروضة. القيمة 0 لا تطلب من Mapbox شيئًا.';
+
+  @override
+  String get settingMaxRouteLookupsPerCustomerPerDayName => 'مسافات الطريق لكل عميل في اليوم (Mapbox)';
+
+  @override
+  String get settingMaxRouteLookupsPerCustomerPerDayRole => 'أقصى عدد من مسافات الطريق يمكن لعميل واحد أن يُطلب حسابها من Mapbox في اليوم';
+
+  @override
+  String get settingMaxRouteLookupsPerCustomerPerDayHelp => 'يُحسب لكل حساب، ولكل عنوان شبكة للزوار بلا حساب (فالزوار الذين يتشاركون عنوانًا واحدًا يتشاركون هذا الحد). فإذا تجاوزه عميل، رأى هو وحده مسافات تقريبية حتى منتصف الليل، ولا يتأثر غيره. القيمة 0 لا تطلب من Mapbox شيئًا.';
+
+  @override
   String get settingMapDefaultLatitudeName => 'مركز الخريطة: دوائر العرض';
 
   @override

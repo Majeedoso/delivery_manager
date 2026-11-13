@@ -1781,6 +1781,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingRouteCacheMinutesHelp => 'The road distance between a restaurant and a delivery spot is kept this many minutes instead of being asked again. The fee charged is then the fee shown, and fewer routing requests are made. Lower it only if roads change very often.';
 
   @override
+  String get settingMaxRouteLookupsPerDayName => 'Road distances per day (Mapbox)';
+
+  @override
+  String get settingMaxRouteLookupsPerDayRole => 'Most road distances Mapbox is asked in a day';
+
+  @override
+  String get settingMaxRouteLookupsPerDayHelp => 'Each restaurant shown at a new spot asks Mapbox for its road distance, which Mapbox bills past its free monthly allowance. Once this many are asked in a day, OpenRouteService (free) or a straight line answers until midnight, as when Mapbox is down; the fee shown is still the fee charged. 0 never asks Mapbox.';
+
+  @override
+  String get settingMaxRouteLookupsPerCustomerPerDayName => 'Road distances per customer per day (Mapbox)';
+
+  @override
+  String get settingMaxRouteLookupsPerCustomerPerDayRole => 'Most road distances one customer can have Mapbox asked in a day';
+
+  @override
+  String get settingMaxRouteLookupsPerCustomerPerDayHelp => 'Counted per account, and per network address for visitors without an account (visitors sharing one address share it). Past it, that customer alone sees approximate distances until midnight; the others are not affected. 0 never asks Mapbox.';
+
+  @override
   String get settingMapDefaultLatitudeName => 'Map centre: latitude';
 
   @override

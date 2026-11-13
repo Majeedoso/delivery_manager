@@ -3589,6 +3589,42 @@ abstract class AppLocalizations {
   /// **'The road distance between a restaurant and a delivery spot is kept this many minutes instead of being asked again. The fee charged is then the fee shown, and fewer routing requests are made. Lower it only if roads change very often.'**
   String get settingRouteCacheMinutesHelp;
 
+  /// The platform setting max_route_lookups_per_day: its name
+  ///
+  /// In en, this message translates to:
+  /// **'Road distances per day (Mapbox)'**
+  String get settingMaxRouteLookupsPerDayName;
+
+  /// The platform setting max_route_lookups_per_day: its what it is for, in a line
+  ///
+  /// In en, this message translates to:
+  /// **'Most road distances Mapbox is asked in a day'**
+  String get settingMaxRouteLookupsPerDayRole;
+
+  /// The platform setting max_route_lookups_per_day: its how it works
+  ///
+  /// In en, this message translates to:
+  /// **'Each restaurant shown at a new spot asks Mapbox for its road distance, which Mapbox bills past its free monthly allowance. Once this many are asked in a day, OpenRouteService (free) or a straight line answers until midnight, as when Mapbox is down; the fee shown is still the fee charged. 0 never asks Mapbox.'**
+  String get settingMaxRouteLookupsPerDayHelp;
+
+  /// The platform setting max_route_lookups_per_customer_per_day: its name
+  ///
+  /// In en, this message translates to:
+  /// **'Road distances per customer per day (Mapbox)'**
+  String get settingMaxRouteLookupsPerCustomerPerDayName;
+
+  /// The platform setting max_route_lookups_per_customer_per_day: its what it is for, in a line
+  ///
+  /// In en, this message translates to:
+  /// **'Most road distances one customer can have Mapbox asked in a day'**
+  String get settingMaxRouteLookupsPerCustomerPerDayRole;
+
+  /// The platform setting max_route_lookups_per_customer_per_day: its how it works
+  ///
+  /// In en, this message translates to:
+  /// **'Counted per account, and per network address for visitors without an account (visitors sharing one address share it). Past it, that customer alone sees approximate distances until midnight; the others are not affected. 0 never asks Mapbox.'**
+  String get settingMaxRouteLookupsPerCustomerPerDayHelp;
+
   /// The platform setting map_default_latitude: its name
   ///
   /// In en, this message translates to:

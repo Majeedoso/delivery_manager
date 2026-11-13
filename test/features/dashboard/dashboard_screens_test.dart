@@ -490,6 +490,8 @@ void main() {
       'max_driver_concurrent_orders',
       'max_items_per_order',
       'max_quantity_per_item',
+      'max_route_lookups_per_customer_per_day',
+      'max_route_lookups_per_day',
       'max_saved_addresses',
       'maximum_delivery_fee',
       'min_order_scheduling_minutes',
