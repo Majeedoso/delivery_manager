@@ -87,35 +87,15 @@ class _AboutScreenState extends State<AboutScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // App icon + name + version
+            // App logo + name + version
             Center(
               child: Column(
                 children: [
-                  Container(
-                    width: 22.w,
-                    height: 22.w,
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFFFFB824), Color(0xFFFF5000)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(5.w),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(
-                            0xFFFF892D,
-                          ).withValues(alpha: 0.35),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Icon(
-                      Icons.admin_panel_settings_rounded,
-                      color: Colors.white,
-                      size: 11.w,
-                    ),
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: 55.w,
+                    height: 18.w, // the logo is 900x293, transparent
+                    fit: BoxFit.contain,
                   ),
                   SizedBox(height: 2.h),
                   Text(
