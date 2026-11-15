@@ -656,7 +656,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get clearFilters => 'مسح عوامل التصفية';
 
   @override
-  String get bank => 'الحسابات';
+  String get bank => 'البنك';
 
   @override
   String get errorLoadingData => 'تعذّر تحميل البيانات';
