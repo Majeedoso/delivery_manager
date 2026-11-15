@@ -11,10 +11,31 @@ class GetDriverBalanceEvent extends BankEvent {
   final String? from;
   final String? to;
 
-  const GetDriverBalanceEvent({this.from, this.to});
+  /// One line's details page: its counterparty, its side ('credits': what
+  /// they owe the platform), and the page of its rows
+  final String? counterpartyType;
+  final int? counterpartyId;
+  final String? side;
+  final int page;
+
+  const GetDriverBalanceEvent({
+    this.from,
+    this.to,
+    this.counterpartyType,
+    this.counterpartyId,
+    this.side,
+    this.page = 1,
+  });
 
   @override
-  List<Object?> get props => [from, to];
+  List<Object?> get props => [
+    from,
+    to,
+    counterpartyType,
+    counterpartyId,
+    side,
+    page,
+  ];
 }
 
 class RefreshBalanceEvent extends BankEvent {
@@ -110,18 +131,24 @@ class AnswerPaymentEvent extends BankEvent {
 class GetTransactionsEvent extends BankEvent {
   final String? status;
   final String? type;
+
+  /// Some local days, yyyy-MM-dd
+  final String? from;
+  final String? to;
   final int page;
   final int perPage;
 
   const GetTransactionsEvent({
     this.status,
     this.type,
+    this.from,
+    this.to,
     this.page = 1,
-    this.perPage = 15,
+    this.perPage = 10,
   });
 
   @override
-  List<Object?> get props => [status, type, page, perPage];
+  List<Object?> get props => [status, type, from, to, page, perPage];
 }
 
 class LoadMoreTransactionsEvent extends BankEvent {

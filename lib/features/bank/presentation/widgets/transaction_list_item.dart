@@ -40,6 +40,7 @@ class TransactionListItem extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final dateFormat = DateFormat('yyyy-MM-dd HH:mm');
+    final days = DateFormat.MMMd(Localizations.localeOf(context).toString());
     final isConfirmed = transaction.status == 'confirmed';
     final isRejected = transaction.status == 'rejected';
 
@@ -69,7 +70,10 @@ class TransactionListItem extends StatelessWidget {
         }.contains(transaction.transactionType)
         ? l10n.restaurant
         : l10n.driver;
-    final payerKind = isFromPlatform(transaction)
+    // A set-off moved no cash (its other half is not listed)
+    final payerKind = transaction.isSetOff
+        ? '${l10n.setOffLabel} · $kind'
+        : isFromPlatform(transaction)
         ? '${l10n.paidByThePlatform} · $kind'
         : kind;
     final notes = transaction.notes?.trim() ?? '';
@@ -102,6 +106,23 @@ class TransactionListItem extends StatelessWidget {
                       ),
                       SizedBox(height: 0.5.h),
                       Text(payerKind, style: theme.textTheme.bodySmall),
+                      // What a set-off was: it read only "Set-off"
+                      if (transaction.isSetOff) ...[
+                        SizedBox(height: 0.5.h),
+                        Text(l10n.setOffExplanation, style: faded),
+                      ],
+                      // The days a restaurant's payment paid for
+                      if (transaction.startDate != null &&
+                          transaction.endDate != null) ...[
+                        SizedBox(height: 0.5.h),
+                        Text(
+                          l10n.paymentForDays(
+                            days.format(transaction.startDate!),
+                            days.format(transaction.endDate!),
+                          ),
+                          style: faded,
+                        ),
+                      ],
                     ],
                   ),
                 ),

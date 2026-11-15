@@ -2094,4 +2094,30 @@ class AppLocalizationsFr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get setOffLabel => 'Compensation';
+
+  @override
+  String get yesterday => 'Hier';
+
+  @override
+  String get allKinds => 'Tous les types';
+
+  @override
+  String get historyPaid => 'Payé';
+
+  @override
+  String get historyReceived => 'Reçu';
+
+  @override
+  String get setOffExplanation => 'Ce que la plateforme lui devait, déduit de ce qu\'il devait à la plateforme. Aucun argent n\'a été remis.';
+
+  @override
+  String paymentForDays(String from, String to) {
+    return 'Du $from au $to';
+  }
+
+  @override
+  String get afterSetOff => 'Après compensation';
 }

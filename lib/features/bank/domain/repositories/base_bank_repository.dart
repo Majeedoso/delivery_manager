@@ -1,7 +1,25 @@
 import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
 import 'package:delivery_manager/core/error/failure.dart';
 import 'package:delivery_manager/features/bank/domain/entities/driver_balance.dart';
 import 'package:delivery_manager/features/bank/domain/entities/transaction.dart';
+
+/// What the payments of a history's days and kind moved, the confirmed ones:
+/// paid and received in cash, and set off (the owner's ask, 2026-11-14).
+class TransactionsSummary extends Equatable {
+  final double paid;
+  final double received;
+  final double setOff;
+
+  const TransactionsSummary({
+    required this.paid,
+    required this.received,
+    required this.setOff,
+  });
+
+  @override
+  List<Object?> get props => [paid, received, setOff];
+}
 
 class PaginatedTransactions {
   final List<Transaction> transactions;
@@ -9,11 +27,15 @@ class PaginatedTransactions {
   final int totalPages;
   final bool hasMore;
 
+  /// What the payments of these days and this kind moved (null: not said)
+  final TransactionsSummary? summary;
+
   PaginatedTransactions({
     required this.transactions,
     required this.currentPage,
     required this.totalPages,
     required this.hasMore,
+    this.summary,
   });
 }
 
@@ -22,6 +44,10 @@ abstract class BaseBankRepository {
   Future<Either<Failure, DriverBalance>> getDriverBalance({
     String? from,
     String? to,
+    String? counterpartyType,
+    int? counterpartyId,
+    String? side,
+    int page = 1,
   });
 
   /// Record a payment to a restaurant
@@ -56,12 +82,15 @@ abstract class BaseBankRepository {
     String? notes,
   });
 
-  /// Get transaction history
+  /// Get transaction history: of one status, one kind, and some local days
+  /// ([from], [to], yyyy-MM-dd)
   Future<Either<Failure, PaginatedTransactions>> getTransactions({
     String? status,
     String? type,
+    String? from,
+    String? to,
     int page = 1,
-    int perPage = 15,
+    int perPage = 10,
   });
 
   /// Calculate the amount driver owes to a restaurant for a date range

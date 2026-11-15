@@ -1,10 +1,15 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
 import 'package:delivery_manager/core/utils/error_message_mapper.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
+import 'package:delivery_manager/core/utils/period_calculator.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
+import 'package:delivery_manager/core/widgets/load_more_on_scroll.dart';
+import 'package:delivery_manager/core/widgets/period_date_selector.dart';
 import 'package:delivery_manager/features/bank/domain/entities/transaction.dart';
 import 'package:delivery_manager/features/bank/presentation/controller/bank_bloc.dart';
 import 'package:delivery_manager/features/bank/presentation/controller/bank_event.dart';
@@ -13,9 +18,10 @@ import 'package:delivery_manager/features/bank/presentation/widgets/transaction_
 import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/utils/currency.dart';
 
-/// The payments drivers and restaurants sent to the platform, the newest
-/// first: those still waiting are answered here (they waited for good: no
-/// page could answer them).
+/// The payments drivers and restaurants sent to the platform, and those the
+/// platform made, the newest first, under each day's heading: those still
+/// waiting are answered here (they waited for good: no page could answer
+/// them). Of some days, one kind and one status, with what they moved.
 class BankArchiveScreen extends StatefulWidget {
   static const String route = '/bank-archive';
 
@@ -26,26 +32,34 @@ class BankArchiveScreen extends StatefulWidget {
 }
 
 class _BankArchiveScreenState extends State<BankArchiveScreen> {
-  final ScrollController _scrollController = ScrollController();
-
   /// The payments shown: of one status, or all (null)
   String? _status;
+
+  /// Of some local days (the owner's ask, 2026-11-14), as the bank's other
+  /// pages choose them
+  String _period = 'all';
+  DateTime? _dateFrom;
+  DateTime? _dateTo;
+
+  /// Of one kind: a transaction type, 'platform', 'set_off', or all
+  String _kind = 'all';
 
   @override
   void initState() {
     super.initState();
     _load();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
   }
 
   void _load() {
-    context.read<BankBloc>().add(GetTransactionsEvent(status: _status));
+    String? day(DateTime? date) => date?.toIso8601String().split('T')[0];
+    context.read<BankBloc>().add(
+      GetTransactionsEvent(
+        status: _status,
+        type: _kind == 'all' ? null : _kind,
+        from: day(_dateFrom),
+        to: day(_dateTo),
+      ),
+    );
   }
 
   /// An answer is on its way: the list is read again after it
@@ -54,22 +68,40 @@ class _BankArchiveScreenState extends State<BankArchiveScreen> {
     return state is TransactionsLoaded && state.answeringPaymentId != null;
   }
 
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent * 0.9) {
-      final state = context.read<BankBloc>().state;
-      if (state is TransactionsLoaded &&
-          state.hasMore &&
-          state.transactionsState != RequestState.loading &&
-          state.answeringPaymentId == null) {
-        context.read<BankBloc>().add(const LoadMoreTransactionsEvent());
-      }
-    }
-  }
-
   void _show(String? status) {
     if (status == _status || _answering) return;
     setState(() => _status = status);
+    _load();
+  }
+
+  void _choosePeriod(String period) {
+    if (_answering) return;
+    final range = period == 'dateRange'
+        ? PeriodCalculator.getDefaultDateRange()
+        : PeriodCalculator.calculatePeriodRange(period);
+    setState(() {
+      _period = period;
+      _dateFrom = range.startDate;
+      _dateTo = range.endDate;
+    });
+    _load();
+  }
+
+  Future<void> _chooseDay({required bool from}) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: (from ? _dateFrom : _dateTo) ?? clock.now(),
+      firstDate: DateTime(2020),
+      lastDate: clock.now(),
+    );
+    if (picked == null || !mounted || _answering) return;
+    setState(() => from ? _dateFrom = picked : _dateTo = picked);
+    _load();
+  }
+
+  void _chooseKind(String kind) {
+    if (kind == _kind || _answering) return;
+    setState(() => _kind = kind);
     _load();
   }
 
@@ -134,19 +166,115 @@ class _BankArchiveScreenState extends State<BankArchiveScreen> {
     };
     return Padding(
       padding: EdgeInsets.fromLTRB(2.5.w, 1.h, 2.5.w, 0),
-      child: Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: Wrap(
-          spacing: 2.w,
-          runSpacing: 1.h,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PeriodDateSelector(
+            selectedPeriod: _period,
+            dateFrom: _dateFrom,
+            dateTo: _dateTo,
+            onPeriodChanged: _choosePeriod,
+            onDateFromSelected: (_) => _chooseDay(from: true),
+            onDateToSelected: (_) => _chooseDay(from: false),
+            spacingBetween: 1.h,
+          ),
+          SizedBox(height: 1.h),
+          // The same dropdown as the period's, for the kind of payment
+          PeriodDateSelector(
+            selectedPeriod: _kind,
+            dateFrom: null,
+            dateTo: null,
+            customPeriodOptions: [
+              {'value': 'all', 'label': l10n.allKinds},
+              {'value': 'driver_to_system_payment', 'label': l10n.driver},
+              {'value': 'restaurant_to_system_payment', 'label': l10n.restaurant},
+              {'value': 'platform', 'label': l10n.paidByThePlatform},
+              {'value': 'set_off', 'label': l10n.setOffLabel},
+            ],
+            onPeriodChanged: _chooseKind,
+            onDateFromSelected: (_) async {},
+            onDateToSelected: (_) async {},
+          ),
+          SizedBox(height: 1.h),
+          Wrap(
+            spacing: 2.w,
+            runSpacing: 1.h,
+            children: [
+              for (final option in options.entries)
+                ChoiceChip(
+                  label: Text(option.value),
+                  selected: _status == option.key,
+                  onSelected: (_) => _show(option.key),
+                ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// What the days shown moved, the confirmed payments: none for those
+  /// waiting or refused, which moved no money
+  Widget _buildTotals(BuildContext context, TransactionsLoaded state) {
+    final summary = state.summary;
+    if (summary == null ||
+        state.statusFilter == 'pending' ||
+        state.statusFilter == 'rejected') {
+      return const SizedBox.shrink();
+    }
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    // Each on one line, smaller if need be: "Compensation" broke in two
+    Widget total(String label, double amount) => Expanded(
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
           children: [
-            for (final option in options.entries)
-              ChoiceChip(
-                label: Text(option.value),
-                selected: _status == option.key,
-                onSelected: (_) => _show(option.key),
+            Text(label, style: theme.textTheme.bodySmall),
+            Text(
+              '${amount.toStringAsFixed(2)} ${l10n.currency}',
+              style: theme.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.onSurface,
               ),
+            ),
           ],
+        ),
+      ),
+    );
+    return Card(
+      margin: EdgeInsets.fromLTRB(2.5.w, 1.h, 2.5.w, 0),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+        child: Row(
+          children: [
+            total(l10n.historyReceived, summary.received),
+            total(l10n.historyPaid, summary.paid),
+            total(l10n.setOffLabel, summary.setOff),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// A day's heading: today, yesterday, or its date in the manager's language
+  Widget _dayHeading(BuildContext context, DateTime day) {
+    final l10n = AppLocalizations.of(context)!;
+    final today = DateUtils.dateOnly(clock.now());
+    final label = day == today
+        ? l10n.today
+        : day == today.subtract(const Duration(days: 1))
+        ? l10n.yesterday
+        : DateFormat.yMMMMEEEEd(
+            Localizations.localeOf(context).toString(),
+          ).format(day);
+    return Padding(
+      padding: EdgeInsets.only(top: 1.h, bottom: 1.h),
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );
@@ -244,7 +372,12 @@ class _BankArchiveScreenState extends State<BankArchiveScreen> {
                             ),
                             SizedBox(height: 2.h),
                             Text(
-                              AppLocalizations.of(context)!.noTransactionsFound,
+                              // Days chosen: none in them
+                              _period == 'all'
+                                  ? AppLocalizations.of(context)!.noTransactionsFound
+                                  : AppLocalizations.of(
+                                      context,
+                                    )!.noTransactionsInPeriod,
                               style: Theme.of(context).textTheme.titleMedium
                                   ?.copyWith(
                                     color: Theme.of(
@@ -258,12 +391,11 @@ class _BankArchiveScreenState extends State<BankArchiveScreen> {
                       );
                     }
 
-                    return RefreshIndicator(
+                    final list = RefreshIndicator(
                       onRefresh: () async {
                         if (!_answering) _load();
                       },
                       child: ListView.builder(
-                        controller: _scrollController,
                         physics: const AlwaysScrollableScrollPhysics(),
                         padding: EdgeInsets.all(2.5.w),
                         itemCount:
@@ -287,21 +419,56 @@ class _BankArchiveScreenState extends State<BankArchiveScreen> {
 
                           final transaction = state.transactions[index];
                           final waiting = transaction.status == 'pending';
-                          return Padding(
-                            padding: EdgeInsets.only(bottom: 2.h),
-                            child: TransactionListItem(
-                              transaction: transaction,
-                              busy: state.answeringPaymentId != null,
-                              onConfirm: waiting
-                                  ? () => _confirm(transaction)
-                                  : null,
-                              onReject: waiting
-                                  ? () => _reject(transaction)
-                                  : null,
-                            ),
+                          // A heading wherever the day changes (newest first)
+                          final day = DateUtils.dateOnly(transaction.createdAt);
+                          final newDay =
+                              index == 0 ||
+                              DateUtils.dateOnly(
+                                    state.transactions[index - 1].createdAt,
+                                  ) !=
+                                  day;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (newDay) _dayHeading(context, day),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 2.h),
+                                child: TransactionListItem(
+                                  transaction: transaction,
+                                  busy: state.answeringPaymentId != null,
+                                  onConfirm: waiting
+                                      ? () => _confirm(transaction)
+                                      : null,
+                                  onReject: waiting
+                                      ? () => _reject(transaction)
+                                      : null,
+                                ),
+                              ),
+                            ],
                           );
                         },
                       ),
+                    );
+                    return Column(
+                      children: [
+                        _buildTotals(context, state),
+                        Expanded(
+                          child: LoadMoreOnScroll(
+                            hasMore: state.hasMore,
+                            // Nor while an answer is on its way: the list is
+                            // read again after it
+                            isLoadingMore:
+                                state.transactionsState ==
+                                    RequestState.loading ||
+                                state.answeringPaymentId != null,
+                            itemCount: state.transactions.length,
+                            onLoadMore: () => context.read<BankBloc>().add(
+                              const LoadMoreTransactionsEvent(),
+                            ),
+                            child: list,
+                          ),
+                        ),
+                      ],
                     );
                   }
 

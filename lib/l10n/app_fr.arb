@@ -705,7 +705,15 @@
   "paidByThePlatform": "Payé par la plateforme",
   "paidBeyondWhatWasOwed": "Payé au-delà du dû",
   "systemAccount": "Système",
-  "ratingsCount": "{count, plural, =1{1 avis} other{{count} avis}}"
+  "ratingsCount": "{count, plural, =1{1 avis} other{{count} avis}}",
+  "setOffLabel": "Compensation",
+  "yesterday": "Hier",
+  "allKinds": "Tous les types",
+  "historyPaid": "Payé",
+  "historyReceived": "Reçu",
+  "setOffExplanation": "Ce que la plateforme lui devait, déduit de ce qu'il devait à la plateforme. Aucun argent n'a été remis.",
+  "paymentForDays": "Du {from} au {to}",
+  "afterSetOff": "Après compensation"
 }
 
 

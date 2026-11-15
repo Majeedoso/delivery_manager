@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
+import 'package:delivery_manager/core/widgets/load_more_on_scroll.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/core/utils/server_time.dart';
@@ -177,7 +178,7 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
       final dio = sl<Dio>();
       final response = await dio.get(
         ApiConstance.managerRestaurantRatingsPath(widget.restaurant.id),
-        queryParameters: {'page': page, 'per_page': 20},
+        queryParameters: {'page': page, 'per_page': 10},
       );
       if (response.data is Map<String, dynamic> &&
           response.data['success'] == true) {
@@ -225,26 +226,32 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
         width: double.infinity,
         height: double.infinity,
         decoration: MaterialTheme.getGradientBackground(context),
-        child: RefreshIndicator(
-          onRefresh: () => _loadPage(1),
-          child: ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.all(4.w),
-            children: [
-              if (_stats != null) ...[
-                _StatsHeader(
-                  avgRating: avgRating,
-                  totalRatings: totalRatings,
-                  distribution: distribution,
-                  l: l,
-                ),
+        child: LoadMoreOnScroll(
+          hasMore: _currentPage < _lastPage,
+          isLoadingMore: _isLoading,
+          itemCount: _reviews.length,
+          onLoadMore: () => _loadPage(_currentPage + 1),
+          child: RefreshIndicator(
+            onRefresh: () => _loadPage(1),
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.all(4.w),
+              children: [
+                if (_stats != null) ...[
+                  _StatsHeader(
+                    avgRating: avgRating,
+                    totalRatings: totalRatings,
+                    distribution: distribution,
+                    l: l,
+                  ),
+                  SizedBox(height: 2.h),
+                  _SectionHeader(title: l.reviews),
+                  SizedBox(height: 1.h),
+                ],
+                ..._buildReviewsContent(context, l),
                 SizedBox(height: 2.h),
-                _SectionHeader(title: l.reviews),
-                SizedBox(height: 1.h),
               ],
-              ..._buildReviewsContent(context, l),
-              SizedBox(height: 2.h),
-            ],
+            ),
           ),
         ),
       ),
@@ -304,17 +311,10 @@ class _RestaurantDetailPageState extends State<_RestaurantDetailPage> {
     }
     return [
       ..._reviews.map((r) => _ReviewCard(review: r, l: l)),
-      if (_currentPage < _lastPage) ...[
+      // The next page's spinner, while it comes
+      if (_currentPage < _lastPage && _isLoading) ...[
         SizedBox(height: 0.5.h),
-        if (_isLoading)
-          Center(child: MaterialTheme.getCircularProgressIndicator(context))
-        else
-          Center(
-            child: TextButton(
-              onPressed: () => _loadPage(_currentPage + 1),
-              child: Text(l.loadMore),
-            ),
-          ),
+        Center(child: MaterialTheme.getCircularProgressIndicator(context)),
       ],
     ];
   }

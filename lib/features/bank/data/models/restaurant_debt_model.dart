@@ -14,6 +14,9 @@ class RestaurantDebtModel extends RestaurantDebt {
     super.confirmedAt,
     super.details,
     super.paidTowardsOrders,
+    super.balanceAfterSetOff,
+    super.counterpartyId,
+    super.totals,
   });
 
   /// Safely parses a value that might be a num or a String to double
@@ -87,6 +90,18 @@ class RestaurantDebtModel extends RestaurantDebt {
       paidTowardsOrders: json['paid_towards_orders'] == null
           ? null
           : _parseDouble(json['paid_towards_orders']),
+      balanceAfterSetOff: json['balance_after_set_off'] == null
+          ? null
+          : _parseDouble(json['balance_after_set_off']),
+      counterpartyId: int.tryParse('${json['counterparty_id'] ?? 0}') ?? 0,
+      totals: json['totals'] is Map<String, dynamic>
+          ? LineTotals(
+              settlements: _parseDouble(json['totals']['settlements']),
+              cashIn: _parseDouble(json['totals']['cash_in']),
+              cashOut: _parseDouble(json['totals']['cash_out']),
+              setOff: _parseDouble(json['totals']['set_off']),
+            )
+          : null,
     );
   }
 }

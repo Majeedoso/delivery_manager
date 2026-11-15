@@ -25,7 +25,17 @@ class TransactionModel extends Transaction {
     required super.recipientApproved,
     super.senderApprovedAt,
     super.recipientApprovedAt,
+    super.isSetOff,
+    super.startDate,
+    super.endDate,
   });
+
+  /// A day the server wrote ("2026-09-20T00:00:00.000000Z"): its date alone, so
+  /// that no time zone moves it to another day
+  static DateTime? _day(dynamic value) =>
+      value is String && value.length >= 10
+      ? DateTime.tryParse(value.substring(0, 10))
+      : null;
 
   /// Safely parses a value that might be a num or a String to double
   static double _parseDouble(dynamic value, [double defaultValue = 0.0]) {
@@ -96,6 +106,9 @@ class TransactionModel extends Transaction {
       recipientApproved: json['recipient_approved'] as bool? ?? false,
       senderApprovedAt: tryParseServerTime(json['sender_approved_at']),
       recipientApprovedAt: tryParseServerTime(json['recipient_approved_at']),
+      isSetOff: json['is_set_off'] as bool? ?? false,
+      startDate: _day(json['start_date']),
+      endDate: _day(json['end_date']),
     );
   }
 }

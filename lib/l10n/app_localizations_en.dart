@@ -2094,4 +2094,30 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get setOffLabel => 'Set-off';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get allKinds => 'All kinds';
+
+  @override
+  String get historyPaid => 'Paid';
+
+  @override
+  String get historyReceived => 'Received';
+
+  @override
+  String get setOffExplanation => 'What the platform owed them, deducted from what they owed it. No cash changed hands.';
+
+  @override
+  String paymentForDays(String from, String to) {
+    return 'For $from – $to';
+  }
+
+  @override
+  String get afterSetOff => 'After set-off';
 }

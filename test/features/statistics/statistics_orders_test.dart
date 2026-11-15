@@ -166,7 +166,7 @@ void main() {
     });
 
     // M39: the next pages were read from where the server does not send them
-    testWidgets('the next ten, at the bottom', (tester) async {
+    testWidgets('the next ten come as the list ends', (tester) async {
       backend.replyInTurn('GET', driversPath, [
         FakeReply(200, managerDriversJson([managerDriverJson()], lastPage: 2)),
         FakeReply(
@@ -180,7 +180,6 @@ void main() {
       ]);
       await pump(tester, const StatisticsOrdersDriversScreen());
 
-      await tester.tap(find.text(en.loadMore));
       await tester.pumpAndSettle();
 
       expect(find.text('Yacine Bouzid'), findsOneWidget);
@@ -222,7 +221,7 @@ void main() {
     });
 
     // M39
-    testWidgets('the next ten, at the bottom', (tester) async {
+    testWidgets('the next ten come as the list ends', (tester) async {
       backend.replyInTurn('GET', restaurantsPath, [
         FakeReply(
           200,
@@ -239,7 +238,6 @@ void main() {
       ]);
       await pump(tester, const StatisticsOrdersRestaurantsScreen());
 
-      await tester.tap(find.text(en.loadMore));
       await tester.pumpAndSettle();
 
       expect(backend.last('GET', restaurantsPath).query, {

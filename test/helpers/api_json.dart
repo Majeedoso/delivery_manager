@@ -462,6 +462,7 @@ Map<String, dynamic> balanceEntryJson({
   String name = 'Pizzeria Le Phare',
   double balance = 500,
   double? paidTowardsOrders = 0,
+  double? balanceAfterSetOff,
   List<Map<String, dynamic>> details = const [],
 }) => {
   'counterparty_type': type,
@@ -476,6 +477,8 @@ Map<String, dynamic> balanceEntryJson({
   'last_transaction_at': null,
   'details': details,
   'balance': balance,
+  // What a payment between them asks for once each side's debt is set off
+  'balance_after_set_off': balanceAfterSetOff ?? balance,
   'paid_towards_orders': paidTowardsOrders,
 };
 
@@ -537,6 +540,9 @@ Map<String, dynamic> systemPaymentJson({
   String createdAt = '2026-09-30T09:15:00.000000Z',
   String? confirmedAt,
   String? confirmedBy,
+  bool isSetOff = false,
+  String? startDate,
+  String? endDate,
 }) {
   final restaurant = type == 'restaurant_to_system_payment';
   // What the platform paid a restaurant or a driver (decision 6)
@@ -563,14 +569,15 @@ Map<String, dynamic> systemPaymentJson({
     'currency': 'DZD',
     'status': status,
     'status_display': status[0].toUpperCase() + status.substring(1),
+    'is_set_off': isSetOff,
     'notes': notes,
     'response_notes': responseNotes,
     'restaurant_name': restaurant || toRestaurant ? 'Pizzeria Le Phare' : null,
     if (confirmedBy != null)
       'confirmed_by': {'id': 1, 'name': confirmedBy, 'role': 'manager'},
     'confirmed_at': confirmedAt,
-    'start_date': null,
-    'end_date': null,
+    'start_date': startDate,
+    'end_date': endDate,
     'created_at': createdAt,
     'updated_at': confirmedAt ?? createdAt,
     'summary': null,
@@ -582,10 +589,13 @@ Map<String, dynamic> systemPaymentsPageJson(
   List<Map<String, dynamic>> payments, {
   int currentPage = 1,
   int lastPage = 1,
+  Map<String, dynamic>? summary,
 }) => {
   'success': true,
   'message': 'System payments retrieved successfully',
   'data': payments,
+  // What the payments of these days and this kind moved, the confirmed ones
+  'summary': ?summary,
   'pagination': {
     'current_page': currentPage,
     'last_page': lastPage,

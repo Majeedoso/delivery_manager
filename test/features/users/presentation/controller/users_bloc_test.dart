@@ -70,7 +70,7 @@ void main() {
   }) => when(
     () => getUsers(
       page: pageNumber,
-      perPage: 20,
+      perPage: 10,
       role: role,
       status: any(named: 'status'),
       search: any(named: 'search'),
@@ -222,7 +222,7 @@ void main() {
       verify: (_) => verify(
         () => getUsers(
           page: 1,
-          perPage: 20,
+          perPage: 10,
           role: null,
           status: null,
           search: null,
@@ -279,7 +279,7 @@ void main() {
       verify: (_) => verify(
         () => getUsers(
           page: 2,
-          perPage: 20,
+          perPage: 10,
           role: UserRole.driver,
           status: null,
           search: 'bou',
@@ -338,7 +338,7 @@ void main() {
       verify: (_) => verify(
         () => getUsers(
           page: 1,
-          perPage: 20,
+          perPage: 10,
           role: UserRole.driver,
           status: UserStatus.pendingApproval,
           search: 'bou',
@@ -379,7 +379,7 @@ void main() {
       verify: (_) => verify(
         () => getUsers(
           page: 1,
-          perPage: 20,
+          perPage: 10,
           role: UserRole.restaurant,
           status: null,
           search: 'phare',
@@ -400,7 +400,7 @@ void main() {
       verify: (_) => verify(
         () => getUsers(
           page: 1,
-          perPage: 20,
+          perPage: 10,
           role: null,
           status: null,
           search: null,
@@ -441,7 +441,7 @@ void main() {
       when(
         () => getUsers(
           page: 1,
-          perPage: 20,
+          perPage: 10,
           role: null,
           status: null,
           search: 'ya',
@@ -450,7 +450,7 @@ void main() {
       when(
         () => getUsers(
           page: 1,
-          perPage: 20,
+          perPage: 10,
           role: null,
           status: null,
           search: 'yacine',

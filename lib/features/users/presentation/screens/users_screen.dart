@@ -4,6 +4,7 @@ import 'package:delivery_manager/l10n/app_localizations.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/core/utils/error_message_mapper.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
+import 'package:delivery_manager/core/widgets/load_more_on_scroll.dart';
 import 'package:delivery_manager/features/users/domain/entities/managed_user.dart';
 import 'package:delivery_manager/features/users/presentation/controller/users_bloc.dart';
 import 'package:delivery_manager/features/users/presentation/controller/users_event.dart';
@@ -303,30 +304,18 @@ class _UsersScreenState extends State<UsersScreen> {
       );
     }
 
-    return ListView.builder(
+    final list = ListView.builder(
       padding: const EdgeInsets.only(bottom: 16),
       itemCount: state.users.length + (state.hasMorePages ? 1 : 0),
       itemBuilder: (context, index) {
         if (index == state.users.length) {
-          // Load More button
+          // The next page's spinner, while it comes
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Center(
               child: state.isLoadingMore
                   ? const CircularProgressIndicator()
-                  : ElevatedButton.icon(
-                      onPressed: () {
-                        context.read<UsersBloc>().add(const LoadMoreUsersEvent());
-                      },
-                      icon: const Icon(Icons.expand_more),
-                      label: Text(AppLocalizations.of(context)!.loadMore),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 12,
-                        ),
-                      ),
-                    ),
+                  : const SizedBox.shrink(),
             ),
           );
         }
@@ -355,6 +344,15 @@ class _UsersScreenState extends State<UsersScreen> {
               : null,
         );
       },
+    );
+    return LoadMoreOnScroll(
+      hasMore: state.hasMorePages,
+      isLoadingMore: state.isLoadingMore,
+      itemCount: state.users.length,
+      onLoadMore: () => context.read<UsersBloc>().add(
+        const LoadMoreUsersEvent(),
+      ),
+      child: list,
     );
   }
 }

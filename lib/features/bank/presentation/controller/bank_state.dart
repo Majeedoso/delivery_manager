@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:delivery_manager/core/utils/enums.dart';
 import 'package:delivery_manager/features/bank/domain/entities/driver_balance.dart';
 import 'package:delivery_manager/features/bank/domain/entities/transaction.dart';
+import 'package:delivery_manager/features/bank/domain/repositories/base_bank_repository.dart';
 
 abstract class BankState extends Equatable {
   const BankState();
@@ -97,6 +98,13 @@ class TransactionsLoaded extends BankState {
   final String? statusFilter;
   final String? typeFilter;
 
+  /// The local days asked for, yyyy-MM-dd
+  final String? fromFilter;
+  final String? toFilter;
+
+  /// What the payments of these days and this kind moved
+  final TransactionsSummary? summary;
+
   /// The payment an answer is on its way for: the others wait
   final int? answeringPaymentId;
 
@@ -111,6 +119,9 @@ class TransactionsLoaded extends BankState {
     this.transactionsState = RequestState.loaded,
     this.statusFilter,
     this.typeFilter,
+    this.fromFilter,
+    this.toFilter,
+    this.summary,
     this.answeringPaymentId,
     this.lastAnswer,
   });
@@ -124,6 +135,9 @@ class TransactionsLoaded extends BankState {
     transactionsState,
     statusFilter,
     typeFilter,
+    fromFilter,
+    toFilter,
+    summary,
     answeringPaymentId,
     lastAnswer,
   ];
@@ -145,6 +159,9 @@ class TransactionsLoaded extends BankState {
       transactionsState: transactionsState ?? this.transactionsState,
       statusFilter: statusFilter ?? this.statusFilter,
       typeFilter: typeFilter ?? this.typeFilter,
+      fromFilter: fromFilter,
+      toFilter: toFilter,
+      summary: summary,
     );
   }
 }

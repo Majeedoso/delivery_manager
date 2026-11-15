@@ -12,6 +12,9 @@ class DriverBalance {
   final double totalCredits;
   final String formattedTotalCredits;
 
+  /// One line's rows asked for (its details page): whether more follow
+  final bool hasMoreRows;
+
   const DriverBalance({
     required this.driverId,
     required this.driverName,
@@ -23,5 +26,6 @@ class DriverBalance {
     required this.formattedTotalDebt,
     required this.totalCredits,
     required this.formattedTotalCredits,
+    this.hasMoreRows = false,
   });
 }

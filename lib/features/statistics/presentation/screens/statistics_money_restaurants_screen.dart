@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:dio/dio.dart';
 import 'package:delivery_manager/core/theme/theme.dart';
+import 'package:delivery_manager/core/widgets/load_more_on_scroll.dart';
 import 'package:delivery_manager/core/network/api_constance.dart';
 import 'package:delivery_manager/core/routes/app_routes.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
@@ -138,7 +139,7 @@ class _StatisticsMoneyRestaurantsScreenState
       );
     }
 
-    return RefreshIndicator(
+    final list = RefreshIndicator(
       onRefresh: () => _loadPage(1),
       child: ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -155,29 +156,25 @@ class _StatisticsMoneyRestaurantsScreenState
               ),
             );
           }
-          // Footer: load more button or spinner
-          if (_currentPage < _lastPage) {
-            if (_isLoading) {
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.h),
-                child: Center(
-                  child: MaterialTheme.getCircularProgressIndicator(context),
-                ),
-              );
-            }
+          // The next page's spinner, while it comes
+          if (_currentPage < _lastPage && _isLoading) {
             return Padding(
-              padding: EdgeInsets.only(bottom: 2.h),
+              padding: EdgeInsets.symmetric(vertical: 2.h),
               child: Center(
-                child: TextButton(
-                  onPressed: () => _loadPage(_currentPage + 1),
-                  child: Text(l.loadMore),
-                ),
+                child: MaterialTheme.getCircularProgressIndicator(context),
               ),
             );
           }
           return SizedBox(height: 2.h);
         },
       ),
+    );
+    return LoadMoreOnScroll(
+      hasMore: _currentPage < _lastPage,
+      isLoadingMore: _isLoading,
+      itemCount: _restaurants.length,
+      onLoadMore: () => _loadPage(_currentPage + 1),
+      child: list,
     );
   }
 }

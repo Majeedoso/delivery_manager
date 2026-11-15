@@ -5,23 +5,36 @@ import 'package:delivery_manager/core/services/logging_service.dart';
 import 'package:delivery_manager/core/services/services_locator.dart';
 import 'package:delivery_manager/features/bank/data/models/driver_balance_model.dart';
 import 'package:delivery_manager/features/bank/data/models/transaction_model.dart';
+import 'package:delivery_manager/features/bank/domain/repositories/base_bank_repository.dart';
 
 class GetTransactionsResult {
   final List<TransactionModel> transactions;
   final int currentPage;
   final int totalPages;
   final bool hasMore;
+  final TransactionsSummary? summary;
 
   GetTransactionsResult({
     required this.transactions,
     required this.currentPage,
     required this.totalPages,
     required this.hasMore,
+    this.summary,
   });
 }
 
 abstract class BankRemoteDataSource {
-  Future<DriverBalanceModel> getDriverBalance({String? from, String? to});
+  /// The balance, its lines without their rows; with [counterpartyType],
+  /// [counterpartyId] and [side] ('credits': what they owe the platform),
+  /// that one line with its rows, 10 a [page] (its details page)
+  Future<DriverBalanceModel> getDriverBalance({
+    String? from,
+    String? to,
+    String? counterpartyType,
+    int? counterpartyId,
+    String? side,
+    int page = 1,
+  });
   Future<Map<String, dynamic>> calculateRestaurantPaymentAmount({
     required int restaurantId,
     required String selectedPeriod,
@@ -67,8 +80,10 @@ abstract class BankRemoteDataSource {
   Future<GetTransactionsResult> getTransactions({
     String? status,
     String? type,
+    String? from,
+    String? to,
     int page = 1,
-    int perPage = 15,
+    int perPage = 10,
   });
 }
 
@@ -91,6 +106,10 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
   Future<DriverBalanceModel> getDriverBalance({
     String? from,
     String? to,
+    String? counterpartyType,
+    int? counterpartyId,
+    String? side,
+    int page = 1,
   }) async {
     logger.debug(
       'BankRemoteDataSource: Starting to fetch manager credits/debts from ${ApiConstance.managerCreditsDebtsPath}',
@@ -100,6 +119,12 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       final queryParams = <String, dynamic>{};
       if (from != null) queryParams['from'] = from;
       if (to != null) queryParams['to'] = to;
+      if (counterpartyType != null) {
+        queryParams['counterparty_type'] = counterpartyType;
+        queryParams['counterparty_id'] = counterpartyId ?? 0;
+        if (side != null) queryParams['side'] = side;
+        queryParams['page'] = page;
+      }
 
       logger.info(
         'BankRemoteDataSource: Making GET request to ${ApiConstance.managerCreditsDebtsPath} with params: $queryParams',
@@ -124,9 +149,11 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
         }
 
         try {
-          final balance = DriverBalanceModel.fromJson(
-            response.data['data'] as Map<String, dynamic>,
-          );
+          final meta = response.data['meta'];
+          final balance = DriverBalanceModel.fromJson({
+            ...response.data['data'] as Map<String, dynamic>,
+            'has_more_rows': meta is Map && meta['has_more'] == true,
+          });
           logger.info(
             'BankRemoteDataSource: Successfully parsed driver balance for driver ${balance.driverId}',
           );
@@ -420,8 +447,10 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
   Future<GetTransactionsResult> getTransactions({
     String? status,
     String? type,
+    String? from,
+    String? to,
     int page = 1,
-    int perPage = 15,
+    int perPage = 10,
   }) async {
     logger.debug('BankRemoteDataSource: Getting transactions with filters');
 
@@ -434,6 +463,9 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
       if (type != null && type.isNotEmpty) {
         queryParams['type'] = type;
       }
+      // Some local days
+      if (from != null) queryParams['start_date'] = from;
+      if (to != null) queryParams['end_date'] = to;
 
       logger.info(
         'BankRemoteDataSource: Making GET request to ${ApiConstance.managerSystemPaymentsPath}',
@@ -467,11 +499,20 @@ class BankRemoteDataSourceImpl implements BankRemoteDataSource {
           'BankRemoteDataSource: Successfully loaded ${transactions.length} transactions',
         );
 
+        final summary = response.data['summary'];
+        double sum(String key) => (summary[key] as num? ?? 0).toDouble();
         return GetTransactionsResult(
           transactions: transactions,
           currentPage: pagination['current_page'] as int,
           totalPages: pagination['last_page'] as int,
           hasMore: pagination['has_more_pages'] as bool? ?? false,
+          summary: summary is Map
+              ? TransactionsSummary(
+                  paid: sum('paid'),
+                  received: sum('received'),
+                  setOff: sum('set_off'),
+                )
+              : null,
         );
       } else {
         throw Exception('Failed to load transactions: ${response.statusCode}');

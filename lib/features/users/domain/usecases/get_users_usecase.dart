@@ -11,7 +11,7 @@ class GetUsersUseCase {
 
   Future<Either<Failure, PaginatedUsers>> call({
     int page = 1,
-    int perPage = 20,
+    int perPage = 10,
     UserRole? role,
     UserStatus? status,
     String? search,

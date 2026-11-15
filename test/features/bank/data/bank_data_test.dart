@@ -6,6 +6,7 @@ import 'package:delivery_manager/features/bank/data/models/driver_balance_model.
 import 'package:delivery_manager/features/bank/data/models/restaurant_debt_model.dart';
 import 'package:delivery_manager/features/bank/data/models/transaction_model.dart';
 import 'package:delivery_manager/features/bank/data/repositories/bank_repository_impl.dart';
+import 'package:delivery_manager/features/bank/domain/repositories/base_bank_repository.dart';
 import 'package:delivery_manager/features/bank/domain/usecases/answer_payment_usecase.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -131,6 +132,24 @@ void main() {
       expect(balance.restaurantCredits.single.isCredit, isTrue);
       expect(balance.restaurantDebts.single.isCredit, isFalse);
     });
+
+    // The owner's rule, 2026-11-14: the lists show what each side owes, a
+    // payment only the difference, the rest set off
+    test('what is left to pay once each side\'s debt is set off', () {
+      expect(
+        RestaurantDebtModel.fromJson(
+          balanceEntryJson(balance: 15, balanceAfterSetOff: 10),
+        ).balanceAfterSetOff,
+        10,
+      );
+      expect(
+        RestaurantDebtModel.fromJson(
+          balanceEntryJson()..remove('balance_after_set_off'),
+        ).balanceAfterSetOff,
+        isNull,
+        reason: 'a server that does not say it',
+      );
+    });
   });
 
   group('a payment', () {
@@ -178,6 +197,21 @@ void main() {
       expect(payment.confirmedBy, 1);
     });
 
+    // A restaurant's payment names the days it paid: read as days, so that
+    // no time zone moves them
+    test('the days a payment paid for', () {
+      final payment = TransactionModel.fromJson(
+        systemPaymentJson(
+          startDate: '2026-09-20T00:00:00.000000Z',
+          endDate: '2026-09-26T00:00:00.000000Z',
+        ),
+      );
+
+      expect(payment.startDate, DateTime(2026, 9, 20));
+      expect(payment.endDate, DateTime(2026, 9, 26));
+      expect(TransactionModel.fromJson(systemPaymentJson()).startDate, isNull);
+    });
+
     test('a driver\'s, by the driver\'s name', () {
       final payment = TransactionModel.fromJson(
         systemPaymentJson(type: 'driver_to_system_payment', amount: 200),
@@ -185,6 +219,22 @@ void main() {
 
       expect(payment.restaurantName, isNull);
       expect(payment.fromUserName, 'Yacine Bouzid');
+    });
+
+    test('half of a set-off: no cash changed hands', () {
+      expect(
+        TransactionModel.fromJson(
+          systemPaymentJson(type: 'driver_to_system_payment', isSetOff: true),
+        ).isSetOff,
+        isTrue,
+      );
+      expect(TransactionModel.fromJson(systemPaymentJson()).isSetOff, isFalse);
+      expect(
+        TransactionModel.fromJson(
+          systemPaymentJson()..remove('is_set_off'),
+        ).isSetOff,
+        isFalse,
+      );
     });
   });
 
@@ -215,6 +265,50 @@ void main() {
         <String, dynamic>{},
         {'from': '2026-09-27', 'to': '2026-09-30'},
       ]);
+    });
+
+    // The lists carry no rows (2026-11-15): a details page asks for its
+    // line's, on its side, 10 at a time, and reads the line's totals
+    test('one line, with a page of its rows and its totals', () async {
+      backend.reply(
+        'GET',
+        balancePath,
+        body: {
+          ...ok(
+            managerBalanceJson(
+              credits: [
+                {
+                  ...balanceEntryJson(),
+                  'totals': {
+                    'settlements': 900,
+                    'cash_in': 600,
+                    'cash_out': 0,
+                    'set_off': 0,
+                  },
+                },
+              ],
+            ),
+          ),
+          'meta': {'current_page': 2, 'per_page': 10, 'has_more': true},
+        },
+      );
+
+      final line = await source.getDriverBalance(
+        counterpartyType: 'restaurant',
+        counterpartyId: 21,
+        side: 'credits',
+        page: 2,
+      );
+
+      expect(line.hasMoreRows, isTrue);
+      expect(line.restaurantCredits.single.counterpartyId, 21);
+      expect(line.restaurantCredits.single.totals?.cashIn, 600);
+      expect(backend.requests.last.query, {
+        'counterparty_type': 'restaurant',
+        'counterparty_id': 21,
+        'side': 'credits',
+        'page': 2,
+      });
     });
 
     test('the amount a restaurant owes for some days', () async {
@@ -340,6 +434,36 @@ void main() {
       });
     });
 
+    // The owner's ask, 2026-11-14: some days, a kind, and what they moved
+    test('the payments of some days and of one kind, with what they moved', () async {
+      backend.reply(
+        'GET',
+        paymentsPath,
+        body: systemPaymentsPageJson(
+          [systemPaymentJson()],
+          summary: {'paid': 40, 'received': 30.5, 'set_off': 5},
+        ),
+      );
+
+      final page = await source.getTransactions(
+        type: 'set_off',
+        from: '2026-09-27',
+        to: '2026-09-30',
+      );
+
+      expect(backend.last('GET', paymentsPath).query, {
+        'page': 1,
+        'per_page': 10,
+        'type': 'set_off',
+        'start_date': '2026-09-27',
+        'end_date': '2026-09-30',
+      });
+      expect(
+        page.summary,
+        const TransactionsSummary(paid: 40, received: 30.5, setOff: 5),
+      );
+    });
+
     test('the payments sent from the apps, a page at a time', () async {
       backend.reply(
         'GET',
@@ -351,11 +475,12 @@ void main() {
 
       expect(backend.last('GET', paymentsPath).query, {
         'page': 1,
-        'per_page': 15,
+        'per_page': 10,
         'status': 'pending',
       });
       expect(page.transactions.single.id, 70);
       expect((page.currentPage, page.totalPages, page.hasMore), (1, 2, true));
+      expect(page.summary, isNull, reason: 'a server that does not say it');
     });
 
     // M28: they waited for good: no page could answer them

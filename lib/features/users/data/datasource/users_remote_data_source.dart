@@ -10,7 +10,7 @@ import 'package:delivery_manager/features/users/data/models/user_management_mode
 abstract class BaseUsersRemoteDataSource {
   Future<UsersPage> getUsers({
     int page = 1,
-    int perPage = 20,
+    int perPage = 10,
     UserRole? role,
     String? status,
     String? search,
@@ -70,7 +70,7 @@ class UsersRemoteDataSourceImpl implements BaseUsersRemoteDataSource {
   @override
   Future<UsersPage> getUsers({
     int page = 1,
-    int perPage = 20,
+    int perPage = 10,
     UserRole? role,
     String? status,
     String? search,

@@ -58,11 +58,16 @@ class BankBloc extends Bloc<BankEvent, BankState> {
     logger.info(
       'BankBloc: Getting driver balance with range: ${event.from} - ${event.to}',
     );
-    emit(const BankLoading());
+    // A details page's next rows come under the ones on screen
+    if (event.page <= 1) emit(const BankLoading());
 
     final result = await getDriverBalanceUseCase(
       from: event.from,
       to: event.to,
+      counterpartyType: event.counterpartyType,
+      counterpartyId: event.counterpartyId,
+      side: event.side,
+      page: event.page,
     );
 
     result.fold(
@@ -216,6 +221,8 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       GetTransactionsParams(
         status: event.status,
         type: event.type,
+        from: event.from,
+        to: event.to,
         page: event.page,
         perPage: event.perPage,
       ),
@@ -242,6 +249,9 @@ class BankBloc extends Bloc<BankEvent, BankState> {
             hasMore: paginatedTransactions.hasMore,
             statusFilter: event.status,
             typeFilter: event.type,
+            fromFilter: event.from,
+            toFilter: event.to,
+            summary: paginatedTransactions.summary,
           ),
         );
       },
@@ -271,8 +281,10 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       GetTransactionsParams(
         status: currentState.statusFilter,
         type: currentState.typeFilter,
+        from: currentState.fromFilter,
+        to: currentState.toFilter,
         page: currentState.currentPage + 1,
-        perPage: 15,
+        perPage: 10,
       ),
     );
     // The list was asked for again meanwhile: this page belongs to the one before
@@ -302,6 +314,9 @@ class BankBloc extends Bloc<BankEvent, BankState> {
             transactionsState: RequestState.loaded,
             statusFilter: currentState.statusFilter,
             typeFilter: currentState.typeFilter,
+            fromFilter: currentState.fromFilter,
+            toFilter: currentState.toFilter,
+            summary: paginatedTransactions.summary ?? currentState.summary,
           ),
         );
       },
@@ -328,6 +343,9 @@ class BankBloc extends Bloc<BankEvent, BankState> {
         transactionsState: current.transactionsState,
         statusFilter: current.statusFilter,
         typeFilter: current.typeFilter,
+        fromFilter: current.fromFilter,
+        toFilter: current.toFilter,
+        summary: current.summary,
         answeringPaymentId: event.transactionId,
       ),
     );
@@ -355,6 +373,8 @@ class BankBloc extends Bloc<BankEvent, BankState> {
       GetTransactionsParams(
         status: current.statusFilter,
         type: current.typeFilter,
+        from: current.fromFilter,
+        to: current.toFilter,
       ),
     );
     emit(
@@ -367,6 +387,9 @@ class BankBloc extends Bloc<BankEvent, BankState> {
           hasMore: current.hasMore,
           statusFilter: current.statusFilter,
           typeFilter: current.typeFilter,
+          fromFilter: current.fromFilter,
+          toFilter: current.toFilter,
+          summary: current.summary,
           lastAnswer: answer,
         ),
         (page) => TransactionsLoaded(
@@ -376,6 +399,9 @@ class BankBloc extends Bloc<BankEvent, BankState> {
           hasMore: page.hasMore,
           statusFilter: current.statusFilter,
           typeFilter: current.typeFilter,
+          fromFilter: current.fromFilter,
+          toFilter: current.toFilter,
+          summary: page.summary,
           lastAnswer: answer,
         ),
       ),

@@ -5,14 +5,20 @@ import 'package:delivery_manager/features/bank/domain/repositories/base_bank_rep
 class GetTransactionsParams {
   final String? status;
   final String? type;
+
+  /// Some local days, yyyy-MM-dd
+  final String? from;
+  final String? to;
   final int page;
   final int perPage;
 
   GetTransactionsParams({
     this.status,
     this.type,
+    this.from,
+    this.to,
     this.page = 1,
-    this.perPage = 15,
+    this.perPage = 10,
   });
 }
 
@@ -27,6 +33,8 @@ class GetTransactionsUseCase {
     return await repository.getTransactions(
       status: params.status,
       type: params.type,
+      from: params.from,
+      to: params.to,
       page: params.page,
       perPage: params.perPage,
     );

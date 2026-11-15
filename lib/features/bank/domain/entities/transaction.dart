@@ -23,6 +23,14 @@ class Transaction {
   final DateTime? senderApprovedAt;
   final DateTime? recipientApprovedAt;
 
+  /// Half of a set-off: no cash changed hands (the archive lists the other
+  /// side's half only)
+  final bool isSetOff;
+
+  /// The days a restaurant's payment paid for, when it names them
+  final DateTime? startDate;
+  final DateTime? endDate;
+
   const Transaction({
     required this.id,
     required this.transactionType,
@@ -45,5 +53,8 @@ class Transaction {
     required this.recipientApproved,
     this.senderApprovedAt,
     this.recipientApprovedAt,
+    this.isSetOff = false,
+    this.startDate,
+    this.endDate,
   });
 }

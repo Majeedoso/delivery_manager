@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 import 'package:delivery_manager/core/utils/error_message_mapper.dart';
+import 'package:delivery_manager/core/widgets/load_more_on_scroll.dart';
 import 'package:delivery_manager/features/coupons/domain/entities/coupon.dart';
 import 'package:delivery_manager/features/coupons/presentation/controller/coupons_bloc.dart';
 import 'package:delivery_manager/features/coupons/presentation/controller/coupons_event.dart';
@@ -26,13 +27,11 @@ class CouponsListScreen extends StatefulWidget {
 }
 
 class _CouponsListScreenState extends State<CouponsListScreen> {
-  final ScrollController _scrollController = ScrollController();
   String? _selectedStatus;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
     // The route's bloc: the page made a second one, which the status filter
     // and the next pages never reached
     context.read<CouponsBloc>().add(
@@ -40,28 +39,6 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 200) {
-      final bloc = context.read<CouponsBloc>();
-      final state = bloc.state;
-      if (!state.isLoading && !state.isLoadingMore && state.hasMore) {
-        bloc.add(
-          LoadCouponsEvent(
-            status: _selectedStatus,
-            page: state.currentPage + 1,
-            discountTarget: widget.discountTarget,
-          ),
-        );
-      }
-    }
-  }
 
   void _onStatusFilterChanged(String? status) {
     setState(() => _selectedStatus = status);
@@ -272,7 +249,7 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
             );
           }
 
-          return RefreshIndicator(
+          final list = RefreshIndicator(
             onRefresh: () async {
               context.read<CouponsBloc>().add(
                 LoadCouponsEvent(
@@ -283,7 +260,6 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
               );
             },
             child: ListView.builder(
-              controller: _scrollController,
               padding: EdgeInsets.all(4.w),
               itemCount: state.coupons.length + (state.isLoadingMore ? 1 : 0),
               itemBuilder: (context, index) {
@@ -302,6 +278,19 @@ class _CouponsListScreenState extends State<CouponsListScreen> {
                 return _buildCouponCard(context, state.coupons[index]);
               },
             ),
+          );
+          return LoadMoreOnScroll(
+            hasMore: state.hasMore,
+            isLoadingMore: state.isLoading || state.isLoadingMore,
+            itemCount: state.coupons.length,
+            onLoadMore: () => context.read<CouponsBloc>().add(
+              LoadCouponsEvent(
+                status: _selectedStatus,
+                page: state.currentPage + 1,
+                discountTarget: widget.discountTarget,
+              ),
+            ),
+            child: list,
           );
         },
       ),

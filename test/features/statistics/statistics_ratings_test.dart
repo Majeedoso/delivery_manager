@@ -163,7 +163,7 @@ void main() {
 
       expect(backend.last('GET', yacineReviewsPath).query, {
         'page': 1,
-        'per_page': 20,
+        'per_page': 10,
       });
       expect(find.text('Amina Kaci'), findsOneWidget);
       expect(find.text('Pizzeria Le Phare'), findsOneWidget);
@@ -190,17 +190,11 @@ void main() {
       await pump(tester, const StatisticsRatingsDriversScreen());
       await openYacine(tester);
 
-      await tester.scrollUntilVisible(
-        find.text(en.loadMore),
-        200,
-        scrollable: find.byType(Scrollable).last,
-      );
-      await tester.tap(find.text(en.loadMore));
       await tester.pumpAndSettle();
 
       expect(backend.last('GET', yacineReviewsPath).query, {
         'page': 2,
-        'per_page': 20,
+        'per_page': 10,
       });
       expect(find.text('Un peu en retard'), findsOneWidget);
     });
@@ -263,7 +257,7 @@ void main() {
 
       expect(backend.last('GET', pizzeriaReviewsPath).query, {
         'page': 1,
-        'per_page': 20,
+        'per_page': 10,
       });
       expect(find.text('Amina Kaci'), findsOneWidget);
       expect(find.text('Rapide et chaud'), findsOneWidget);

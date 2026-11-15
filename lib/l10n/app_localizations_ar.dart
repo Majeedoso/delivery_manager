@@ -2107,4 +2107,30 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get setOffLabel => 'مقاصّة';
+
+  @override
+  String get yesterday => 'أمس';
+
+  @override
+  String get allKinds => 'كل الأنواع';
+
+  @override
+  String get historyPaid => 'المدفوع';
+
+  @override
+  String get historyReceived => 'المستلَم';
+
+  @override
+  String get setOffExplanation => 'ما كانت المنصة مدينة له به خُصم مما كان مدينًا به لها، دون تسليم أي نقد.';
+
+  @override
+  String paymentForDays(String from, String to) {
+    return 'عن الفترة من $from إلى $to';
+  }
+
+  @override
+  String get afterSetOff => 'بعد المقاصّة';
 }

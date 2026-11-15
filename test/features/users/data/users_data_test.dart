@@ -92,13 +92,13 @@ void main() {
       );
     });
 
-    test('asks for the first 20 accounts, with the stored token', () async {
+    test('asks for the first 10 accounts, with the stored token', () async {
       backend.reply('GET', listPath, body: usersPageJson([managedUserJson()]));
 
       await source.getUsers();
 
       final request = backend.last('GET', listPath);
-      expect(request.query, {'page': 1, 'per_page': 20});
+      expect(request.query, {'page': 1, 'per_page': 10});
       expect(request.headers['Authorization'], 'Bearer tok-1');
     });
 
@@ -164,7 +164,7 @@ void main() {
 
         expect(backend.last('GET', listPath).query, {
           'page': 1,
-          'per_page': 20,
+          'per_page': 10,
           'role': 'restaurant',
           'status': 'suspended',
           'search': 'phare',
@@ -428,7 +428,7 @@ void main() {
       verify(
         () => remote.getUsers(
           page: 2,
-          perPage: 20,
+          perPage: 10,
           role: UserRole.driver,
           status: 'pending_approval',
           search: 'bouzid',

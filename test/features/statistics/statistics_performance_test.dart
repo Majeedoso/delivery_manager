@@ -226,7 +226,7 @@ void main() {
     });
 
     // M39
-    testWidgets('the next ten, at the bottom', (tester) async {
+    testWidgets('the next ten come as the list ends', (tester) async {
       backend.replyInTurn('GET', driversPath, [
         FakeReply(200, managerDriversJson([managerDriverJson()], lastPage: 2)),
         FakeReply(
@@ -240,7 +240,6 @@ void main() {
       ]);
       await pump(tester, const StatisticsPerformanceDriversScreen());
 
-      await tester.tap(find.text(en.loadMore));
       await tester.pumpAndSettle();
 
       expect(find.text('Sofiane Amrani'), findsOneWidget);
@@ -277,7 +276,7 @@ void main() {
     });
 
     // M39
-    testWidgets('the next ten, at the bottom', (tester) async {
+    testWidgets('the next ten come as the list ends', (tester) async {
       backend.replyInTurn('GET', restaurantsPath, [
         FakeReply(
           200,
@@ -294,7 +293,6 @@ void main() {
       ]);
       await pump(tester, const StatisticsPerformanceRestaurantsScreen());
 
-      await tester.tap(find.text(en.loadMore));
       await tester.pumpAndSettle();
 
       expect(find.text('Tacos Hydra'), findsOneWidget);

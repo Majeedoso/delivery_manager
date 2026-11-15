@@ -14,6 +14,7 @@ class DriverBalanceModel extends DriverBalance {
     required super.formattedTotalDebt,
     required super.totalCredits,
     required super.formattedTotalCredits,
+    super.hasMoreRows,
   });
 
   /// Safely parses a value that might be a num or a String to double
@@ -88,6 +89,7 @@ class DriverBalanceModel extends DriverBalance {
       totalCredits: totalCredits,
       formattedTotalCredits:
           '${totalCredits.toStringAsFixed(2)} ${Currency.dzd.code}',
+      hasMoreRows: json['has_more_rows'] == true,
     );
   }
 }

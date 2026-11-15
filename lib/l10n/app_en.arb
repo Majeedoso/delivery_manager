@@ -2472,5 +2472,45 @@
         "type": "int"
       }
     }
+  },
+  "setOffLabel": "Set-off",
+  "@setOffLabel": {
+    "description": "The bank: what a driver or a restaurant owed the platform, set against what it owed them when one paid the other (no cash changed hands), as a row, a total and an archive entry"
+  },
+  "yesterday": "Yesterday",
+  "@yesterday": {
+    "description": "The bank's history: the heading of yesterday's payments"
+  },
+  "allKinds": "All kinds",
+  "@allKinds": {
+    "description": "The bank's history: every kind of payment (the kind filter)"
+  },
+  "historyPaid": "Paid",
+  "@historyPaid": {
+    "description": "The bank's history: what the platform paid in the days shown (confirmed, in cash)"
+  },
+  "historyReceived": "Received",
+  "@historyReceived": {
+    "description": "The bank's history: what the platform received in the days shown (confirmed, in cash)"
+  },
+  "setOffExplanation": "What the platform owed them, deducted from what they owed it. No cash changed hands.",
+  "@setOffExplanation": {
+    "description": "The bank's history: what a set-off entry was"
+  },
+  "paymentForDays": "For {from} – {to}",
+  "@paymentForDays": {
+    "description": "The bank's history: the days a restaurant's payment paid for",
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "afterSetOff": "After set-off",
+  "@afterSetOff": {
+    "description": "The bank, an amount's details: what is left once what each side owes the other is set off, the amount a payment asks"
   }
 }

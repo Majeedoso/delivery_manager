@@ -156,7 +156,7 @@ void main() {
     });
 
     group('the coupons', () {
-      test('one kind of coupon at a time, 20 a page', () async {
+      test('one kind of coupon at a time, 10 a page', () async {
         backend.reply(
           'GET',
           couponsPath,
@@ -167,7 +167,7 @@ void main() {
 
         expect(backend.last('GET', couponsPath).query, {
           'page': 1,
-          'per_page': 20,
+          'per_page': 10,
           'discount_target': 'delivery_fee',
         });
         expect((page['coupons'] as List<CouponModel>).single.code, 'RENTREE10');
@@ -188,7 +188,7 @@ void main() {
 
         expect(backend.last('GET', couponsPath).query, {
           'page': 2,
-          'per_page': 20,
+          'per_page': 10,
           'status': 'draft',
           'discount_target': 'subtotal',
         });
@@ -553,7 +553,7 @@ void main() {
           search: null,
           discountTarget: null,
           page: 2,
-          perPage: 20,
+          perPage: 10,
         ),
       ).called(1);
     });

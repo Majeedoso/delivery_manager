@@ -4182,6 +4182,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 review} other{{count} reviews}}'**
   String ratingsCount(int count);
+
+  /// The bank: what a driver or a restaurant owed the platform, set against what it owed them when one paid the other (no cash changed hands), as a row, a total and an archive entry
+  ///
+  /// In en, this message translates to:
+  /// **'Set-off'**
+  String get setOffLabel;
+
+  /// The bank's history: the heading of yesterday's payments
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
+
+  /// The bank's history: every kind of payment (the kind filter)
+  ///
+  /// In en, this message translates to:
+  /// **'All kinds'**
+  String get allKinds;
+
+  /// The bank's history: what the platform paid in the days shown (confirmed, in cash)
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get historyPaid;
+
+  /// The bank's history: what the platform received in the days shown (confirmed, in cash)
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get historyReceived;
+
+  /// The bank's history: what a set-off entry was
+  ///
+  /// In en, this message translates to:
+  /// **'What the platform owed them, deducted from what they owed it. No cash changed hands.'**
+  String get setOffExplanation;
+
+  /// The bank's history: the days a restaurant's payment paid for
+  ///
+  /// In en, this message translates to:
+  /// **'For {from} – {to}'**
+  String paymentForDays(String from, String to);
+
+  /// The bank, an amount's details: what is left once what each side owes the other is set off, the amount a payment asks
+  ///
+  /// In en, this message translates to:
+  /// **'After set-off'**
+  String get afterSetOff;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

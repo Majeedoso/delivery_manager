@@ -8,10 +8,23 @@ class GetDriverBalanceUseCase {
 
   GetDriverBalanceUseCase(this.repository);
 
+  /// The balance; with [counterpartyType], [counterpartyId] and [side], that
+  /// one line with its rows, 10 a [page]
   Future<Either<Failure, DriverBalance>> call({
     String? from,
     String? to,
+    String? counterpartyType,
+    int? counterpartyId,
+    String? side,
+    int page = 1,
   }) async {
-    return await repository.getDriverBalance(from: from, to: to);
+    return await repository.getDriverBalance(
+      from: from,
+      to: to,
+      counterpartyType: counterpartyType,
+      counterpartyId: counterpartyId,
+      side: side,
+      page: page,
+    );
   }
 }

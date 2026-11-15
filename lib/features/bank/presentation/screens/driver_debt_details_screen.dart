@@ -9,6 +9,7 @@ import 'package:delivery_manager/features/bank/presentation/controller/bank_bloc
 import 'package:delivery_manager/features/bank/presentation/controller/bank_event.dart';
 import 'package:delivery_manager/features/bank/presentation/controller/bank_state.dart';
 import 'package:delivery_manager/core/widgets/error_snackbar.dart';
+import 'package:delivery_manager/core/widgets/load_more_on_scroll.dart';
 import 'package:delivery_manager/core/widgets/period_date_selector.dart';
 import 'package:delivery_manager/core/utils/period_calculator.dart';
 import 'package:delivery_manager/l10n/app_localizations.dart';
@@ -43,6 +44,12 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
   // Store the current counterparty's data (refreshed from API)
   RestaurantDebt? _currentItem;
 
+  // Its rows come 10 at a time, the next as the list nears its end (the
+  // owner's rule, 2026-11-15)
+  int _page = 1;
+  bool _hasMoreRows = false;
+  bool _loadingMoreRows = false;
+
   @override
   void initState() {
     super.initState();
@@ -58,12 +65,20 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
     });
   }
 
-  void _fetchData() {
+  void _fetchData({int page = 1}) {
+    _page = page;
     String? fromStr = _dateFrom?.toIso8601String().split('T')[0];
     String? toStr = _dateTo?.toIso8601String().split('T')[0];
 
     context.read<BankBloc>().add(
-      GetDriverBalanceEvent(from: fromStr, to: toStr),
+      GetDriverBalanceEvent(
+        from: fromStr,
+        to: toStr,
+        counterpartyType: widget.debtItem.counterpartyType,
+        counterpartyId: widget.debtItem.counterpartyId,
+        side: widget.debtItem.isCredit ? 'credits' : 'debts',
+        page: page,
+      ),
     );
   }
 
@@ -109,7 +124,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
     final item = _currentItem;
     if (widget.debtItem.isCredit ||
         item == null ||
-        item.amount <= 0 ||
+        (item.balanceAfterSetOff ?? item.amount) <= 0 ||
         !const {'restaurant', 'driver'}.contains(item.counterpartyType)) {
       return null;
     }
@@ -187,17 +202,29 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
               }
             }
 
-            if (matchingItem != null) {
+            final line = matchingItem;
+            if (line != null) {
               setState(() {
-                _currentItem = matchingItem;
+                // A next page of rows comes under the ones on screen
+                _currentItem = _page == 1 || _currentItem == null
+                    ? line
+                    : line.withDetails([
+                        ..._currentItem!.details,
+                        ...line.details,
+                      ]);
+                _hasMoreRows = balance.hasMoreRows;
+                _loadingMoreRows = false;
               });
             } else {
               // Counterparty not found in this date range - clear item
               setState(() {
                 _currentItem = null;
+                _hasMoreRows = false;
+                _loadingMoreRows = false;
               });
             }
           } else if (state is BalanceError) {
+            setState(() => _loadingMoreRows = false);
             // The figures stay as they were last read: say they could not be
             // read again, instead of showing them as if they were fresh
             ErrorSnackBar.show(context, state.message);
@@ -355,7 +382,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
         .where((d) => d.source == 'cash_transactions')
         .toList();
 
-    return SingleChildScrollView(
+    final list = SingleChildScrollView(
       padding: EdgeInsets.all(4.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -386,8 +413,20 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                 ),
               ),
             ),
+          if (_loadingMoreRows)
+            const Center(child: CircularProgressIndicator()),
         ],
       ),
+    );
+    return LoadMoreOnScroll(
+      hasMore: _hasMoreRows,
+      isLoadingMore: _loadingMoreRows,
+      itemCount: item.details.length,
+      onLoadMore: () {
+        setState(() => _loadingMoreRows = true);
+        _fetchData(page: _page + 1);
+      },
+      child: list,
     );
   }
 
@@ -486,7 +525,13 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
       itemBuilder: (context, index) {
         final item = details[index];
         final isIncoming = item.direction == 'incoming';
-        final color = isIncoming ? Colors.green : Colors.orange;
+        // A set-off moved no cash: neither in nor out
+        final isSetOff = item.reason == 'set_off';
+        final color = isSetOff
+            ? Colors.blueGrey
+            : isIncoming
+            ? Colors.green
+            : Colors.orange;
 
         return Card(
           margin: EdgeInsets.only(bottom: 1.h),
@@ -505,7 +550,11 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
-                    isIncoming ? Icons.arrow_downward : Icons.arrow_upward,
+                    isSetOff
+                        ? Icons.swap_horiz
+                        : isIncoming
+                        ? Icons.arrow_downward
+                        : Icons.arrow_upward,
                     color: color,
                     size: 24.sp,
                   ),
@@ -520,6 +569,8 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                         // other (anyone may pay more than they owe)
                         item.reason == 'overpayment'
                             ? AppLocalizations.of(context)!.paidBeyondWhatWasOwed
+                            : isSetOff
+                            ? AppLocalizations.of(context)!.setOffLabel
                             : isIncoming
                             ? AppLocalizations.of(context)!.receivedPayment
                             : AppLocalizations.of(context)!.sentPayment,
@@ -546,18 +597,19 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                         color: color,
                       ),
                     ),
-                    Text(
-                      _reasonLabel(
-                        AppLocalizations.of(context)!,
-                        item.reason,
-                        isIncoming,
+                    if (!isSetOff)
+                      Text(
+                        _reasonLabel(
+                          AppLocalizations.of(context)!,
+                          item.reason,
+                          isIncoming,
+                        ),
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        color: Colors.blueGrey,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                   ],
                 ),
               ],
@@ -573,12 +625,24 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
     double totalOrderSettlements = 0;
     double totalIncoming = 0;
     double totalOutgoing = 0;
+    // What was set off: no cash, so not in the cash totals
+    double totalSetOff = 0;
     double netBalance = item?.amount ?? 0.0;
 
-    if (item != null) {
+    // Every row counted, as the server sums them: the page holds only the
+    // rows scrolled to
+    final totals = item?.totals;
+    if (totals != null) {
+      totalOrderSettlements = totals.settlements;
+      totalIncoming = totals.cashIn;
+      totalOutgoing = totals.cashOut;
+      totalSetOff = totals.setOff;
+    } else if (item != null) {
       for (var d in item.details) {
         if (d.source == 'order_settlements') {
           totalOrderSettlements += d.amount;
+        } else if (d.reason == 'set_off') {
+          totalSetOff += d.amount;
         } else if (d.source == 'cash_transactions') {
           if (d.direction == 'incoming') {
             totalIncoming += d.amount;
@@ -590,6 +654,7 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
     }
 
     final paidTowardsOrders = item?.paidTowardsOrders;
+    final afterSetOff = item?.balanceAfterSetOff;
     // Days chosen: the balance is what their orders still owe, whatever day
     // the cash came; the cash rows are those days' cash only
     final forSomeDays = _dateFrom != null || _dateTo != null;
@@ -639,6 +704,13 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
                   : AppLocalizations.of(context)!.totalCashIncoming,
               totalIncoming.toStringAsFixed(2),
             ),
+            if (totalSetOff > 0) ...[
+              SizedBox(height: 1.h),
+              _buildFooterRow(
+                AppLocalizations.of(context)!.setOffLabel,
+                totalSetOff.toStringAsFixed(2),
+              ),
+            ],
             SizedBox(height: 1.5.h),
             const Divider(),
             SizedBox(height: 1.h),
@@ -648,6 +720,17 @@ class _DriverDebtDetailsScreenState extends State<DriverDebtDetailsScreen> {
               isBold: true,
               color: balanceColor,
             ),
+            // What a payment asks once the other side's debt is set off: the
+            // page lists one side only
+            if (afterSetOff != null &&
+                (afterSetOff - netBalance).abs() > 0.004) ...[
+              SizedBox(height: 1.h),
+              _buildFooterRow(
+                AppLocalizations.of(context)!.afterSetOff,
+                '${afterSetOff > 0 ? (isPositive ? '+' : '-') : ''}${afterSetOff.toStringAsFixed(2)}',
+                color: balanceColor,
+              ),
+            ],
           ],
         ),
       ),
@@ -731,7 +814,9 @@ class _PlatformPaymentDialog extends StatefulWidget {
 
 class _PlatformPaymentDialogState extends State<_PlatformPaymentDialog> {
   late final _amount = TextEditingController(
-    text: widget.item.amount.toStringAsFixed(2),
+    // Only the difference: what they owe the platform is set off first
+    text: (widget.item.balanceAfterSetOff ?? widget.item.amount)
+        .toStringAsFixed(2),
   );
   final _notes = TextEditingController();
   String? _problem;

@@ -622,19 +622,18 @@ void main() {
       expect((filter.role, filter.status), (null, null));
     });
 
-    testWidgets('more accounts: the next page at the bottom', (tester) async {
-      await pump(tester, state: loaded([yacine, phare], hasMorePages: true));
-
-      await scrollList(tester, find.text('Load More'));
-      await tester.tap(find.text('Load More'));
-      await tester.pump();
-
-      expect(added().single, isA<LoadMoreUsersEvent>());
-    });
-
-    testWidgets('while it comes, a spinner instead of the button', (
+    // The next page comes as the list ends, with no button (the owner's
+    // rule, 2026-11-15): a page too short to scroll asks at once
+    testWidgets('more accounts: a short page asks for the next', (
       tester,
     ) async {
+      await pump(tester, state: loaded([yacine, phare], hasMorePages: true));
+
+      expect(added().whereType<LoadMoreUsersEvent>(), hasLength(1));
+      expect(find.text('Load More'), findsNothing);
+    });
+
+    testWidgets('while it comes, a spinner', (tester) async {
       await pump(
         tester,
         state: loaded([yacine], hasMorePages: true, isLoadingMore: true),

@@ -60,7 +60,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
     final result = await getUsersUseCase(
       page: 1,
-      perPage: 20,
+      perPage: 10,
       role: state.selectedRole,
       status: state.selectedStatus,
       search: state.searchQuery.isEmpty ? null : state.searchQuery,
@@ -108,7 +108,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
     final nextPage = state.currentPage + 1;
     final result = await getUsersUseCase(
       page: nextPage,
-      perPage: 20,
+      perPage: 10,
       role: state.selectedRole,
       status: state.selectedStatus,
       search: state.searchQuery.isEmpty ? null : state.searchQuery,
@@ -165,7 +165,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
     final result = await getUsersUseCase(
       page: 1,
-      perPage: 20,
+      perPage: 10,
       role: event.role,
       status: event.status,
       search: state.searchQuery.isEmpty ? null : state.searchQuery,
@@ -394,7 +394,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
     final result = await getUsersUseCase(
       page: 1,
-      perPage: 20,
+      perPage: 10,
       role: state.selectedRole,
       status: state.selectedStatus,
       search: event.query.isEmpty ? null : event.query,

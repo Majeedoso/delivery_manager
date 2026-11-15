@@ -54,11 +54,13 @@ void main() {
     List<Transaction> payments, {
     int current = 1,
     int last = 1,
+    TransactionsSummary? summary,
   }) => PaginatedTransactions(
     transactions: payments,
     currentPage: current,
     totalPages: last,
     hasMore: current < last,
+    summary: summary,
   );
 
   void paymentsAnswer(Either<Failure, PaginatedTransactions> answer) =>
@@ -105,6 +107,39 @@ void main() {
       expect: () => [const BankLoading(), BalanceLoaded(balance: balance)],
       verify: (_) => verify(
         () => getBalance(from: '2026-09-27', to: '2026-09-30'),
+      ).called(1),
+    );
+
+    // A details page's next rows come under the ones on screen (2026-11-15)
+    blocTest<BankBloc, BankState>(
+      'a line\'s next rows come with no spinner over the page',
+      setUp: () => when(
+        () => getBalance(
+          from: any(named: 'from'),
+          to: any(named: 'to'),
+          counterpartyType: any(named: 'counterpartyType'),
+          counterpartyId: any(named: 'counterpartyId'),
+          side: any(named: 'side'),
+          page: any(named: 'page'),
+        ),
+      ).thenAnswer((_) async => Right(balance)),
+      build: build,
+      act: (bloc) => bloc.add(
+        const GetDriverBalanceEvent(
+          counterpartyType: 'restaurant',
+          counterpartyId: 21,
+          side: 'credits',
+          page: 2,
+        ),
+      ),
+      expect: () => [BalanceLoaded(balance: balance)],
+      verify: (_) => verify(
+        () => getBalance(
+          counterpartyType: 'restaurant',
+          counterpartyId: 21,
+          side: 'credits',
+          page: 2,
+        ),
       ).called(1),
     );
 
@@ -322,6 +357,73 @@ void main() {
   });
 
   group('the payments sent from the apps', () {
+    // The owner's ask, 2026-11-14: some days, a kind, and what they moved
+    const moved = TransactionsSummary(paid: 40, received: 30, setOff: 5);
+    blocTest<BankBloc, BankState>(
+      'those of some days and one kind, with what they moved',
+      setUp: () => paymentsAnswer(Right(page([waiting], summary: moved))),
+      build: build,
+      act: (bloc) => bloc.add(
+        const GetTransactionsEvent(
+          type: 'set_off',
+          from: '2026-09-27',
+          to: '2026-09-30',
+        ),
+      ),
+      expect: () => [
+        const BankLoading(),
+        TransactionsLoaded(
+          transactions: [waiting],
+          currentPage: 1,
+          totalPages: 1,
+          hasMore: false,
+          typeFilter: 'set_off',
+          fromFilter: '2026-09-27',
+          toFilter: '2026-09-30',
+          summary: moved,
+        ),
+      ],
+      verify: (_) {
+        final asked =
+            verify(() => getPayments(captureAny())).captured.single
+                as GetTransactionsParams;
+        expect((asked.type, asked.from, asked.to), (
+          'set_off',
+          '2026-09-27',
+          '2026-09-30',
+        ));
+      },
+    );
+
+    blocTest<BankBloc, BankState>(
+      'the next page is of the same days',
+      setUp: () =>
+          paymentsAnswer(Right(page([fromDriver], current: 2, last: 2))),
+      build: build,
+      seed: () => TransactionsLoaded(
+        transactions: [waiting],
+        currentPage: 1,
+        totalPages: 2,
+        hasMore: true,
+        fromFilter: '2026-09-27',
+        toFilter: '2026-09-30',
+        summary: moved,
+      ),
+      act: (bloc) => bloc.add(const LoadMoreTransactionsEvent()),
+      verify: (bloc) {
+        final asked =
+            verify(() => getPayments(captureAny())).captured.single
+                as GetTransactionsParams;
+        expect((asked.page, asked.from, asked.to), (
+          2,
+          '2026-09-27',
+          '2026-09-30',
+        ));
+        final shown = bloc.state as TransactionsLoaded;
+        expect(shown.summary, moved, reason: 'what these days moved stays');
+      },
+    );
+
     blocTest<BankBloc, BankState>(
       'those of one status',
       setUp: () => paymentsAnswer(Right(page([waiting], last: 2))),

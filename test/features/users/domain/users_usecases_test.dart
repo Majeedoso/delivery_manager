@@ -50,7 +50,7 @@ void main() {
       verifyForwarded: () => verify(
         () => repository.getUsers(
           page: 2,
-          perPage: 20,
+          perPage: 10,
           role: UserRole.operator,
           status: UserStatus.suspended,
           search: 'nadia',

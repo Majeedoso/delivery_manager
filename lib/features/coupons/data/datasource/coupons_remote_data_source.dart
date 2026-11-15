@@ -16,7 +16,7 @@ abstract class BaseCouponsRemoteDataSource {
     String? search,
     String? discountTarget,
     int page = 1,
-    int perPage = 20,
+    int perPage = 10,
   });
 
   /// Get coupon zones for manager selection.
@@ -80,7 +80,7 @@ class CouponsRemoteDataSource implements BaseCouponsRemoteDataSource {
     String? search,
     String? discountTarget,
     int page = 1,
-    int perPage = 20,
+    int perPage = 10,
   }) async {
     try {
       final queryParams = <String, dynamic>{'page': page, 'per_page': perPage};

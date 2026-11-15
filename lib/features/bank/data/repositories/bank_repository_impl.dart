@@ -26,11 +26,19 @@ class BankRepositoryImpl implements BaseBankRepository {
   Future<Either<Failure, DriverBalance>> getDriverBalance({
     String? from,
     String? to,
+    String? counterpartyType,
+    int? counterpartyId,
+    String? side,
+    int page = 1,
   }) async {
     try {
       final balance = await remoteDataSource.getDriverBalance(
         from: from,
         to: to,
+        counterpartyType: counterpartyType,
+        counterpartyId: counterpartyId,
+        side: side,
+        page: page,
       );
       return Right(balance);
     } catch (e) {
@@ -123,13 +131,17 @@ class BankRepositoryImpl implements BaseBankRepository {
   Future<Either<Failure, PaginatedTransactions>> getTransactions({
     String? status,
     String? type,
+    String? from,
+    String? to,
     int page = 1,
-    int perPage = 15,
+    int perPage = 10,
   }) async {
     try {
       final result = await remoteDataSource.getTransactions(
         status: status,
         type: type,
+        from: from,
+        to: to,
         page: page,
         perPage: perPage,
       );
@@ -139,6 +151,7 @@ class BankRepositoryImpl implements BaseBankRepository {
           currentPage: result.currentPage,
           totalPages: result.totalPages,
           hasMore: result.hasMore,
+          summary: result.summary,
         ),
       );
     } catch (e) {

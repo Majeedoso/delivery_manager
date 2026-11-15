@@ -206,7 +206,11 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             } else if (state is BalanceLoaded) {
               // Cache counterparty lists from credits (who owe the system)
               setState(() {
-                final credits = state.balance.restaurantCredits;
+                // Who still owes once what the platform owes them is set
+                // off: a new transaction asks only for the difference
+                final credits = state.balance.restaurantCredits.where(
+                  (item) => (item.balanceAfterSetOff ?? item.amount) > 0,
+                );
                 _restaurants = credits
                     .where((item) => item.counterpartyType == 'restaurant')
                     .map(

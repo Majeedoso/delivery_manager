@@ -19,7 +19,7 @@ class CouponsRepository implements BaseCouponsRepository {
     String? search,
     String? discountTarget,
     int page = 1,
-    int perPage = 20,
+    int perPage = 10,
   }) async {
     try {
       final result = await remoteDataSource.getCoupons(

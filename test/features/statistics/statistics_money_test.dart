@@ -205,14 +205,13 @@ void main() {
 
       // M39: the next pages were read from `meta.pagination`, which the
       // server does not send: each list stopped at its first ten
-      testWidgets('the next ten, at the bottom', (tester) async {
+      testWidgets('the next ten come as the list ends', (tester) async {
         backend.replyInTurn('GET', path, [
           FakeReply(200, list(1, 2, name, 4)),
           FakeReply(200, list(2, 2, 'Tacos Hydra', 9)),
         ]);
         await pump(tester, page);
 
-        await tester.tap(find.text(en.loadMore));
         await tester.pumpAndSettle();
 
         expect(backend.last('GET', path).query, {'page': 2, 'per_page': 10});

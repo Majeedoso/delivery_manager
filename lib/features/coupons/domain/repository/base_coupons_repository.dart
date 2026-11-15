@@ -15,7 +15,7 @@ abstract class BaseCouponsRepository {
     String? search,
     String? discountTarget,
     int page = 1,
-    int perPage = 20,
+    int perPage = 10,
   });
 
   /// Get coupon zones for manager selection.

@@ -230,7 +230,9 @@ void main() {
       ]);
     });
 
-    testWidgets('the next page comes at the bottom', (tester) async {
+    testWidgets('the next page comes at the bottom, asked once', (
+      tester,
+    ) async {
       await pump(
         tester,
         state: CouponsState(
@@ -239,14 +241,29 @@ void main() {
           total: 24,
         ),
       );
-      added();
 
       await tester.fling(find.text('RENTREE10'), const Offset(0, -3000), 3000);
       await tester.pumpAndSettle();
 
       expect(
-        added().first,
-        const LoadCouponsEvent(page: 2, discountTarget: 'subtotal'),
+        added().where(
+          (e) => e == const LoadCouponsEvent(page: 2, discountTarget: 'subtotal'),
+        ),
+        hasLength(1),
+      );
+    });
+
+    // The next page comes as the list ends (the owner's rule, 2026-11-15):
+    // a page too short to scroll asks at once
+    testWidgets('a short page asks for the next by itself', (tester) async {
+      await pump(
+        tester,
+        state: CouponsState(coupons: [rentree], lastPage: 2, total: 11),
+      );
+
+      expect(
+        added(),
+        contains(const LoadCouponsEvent(page: 2, discountTarget: 'subtotal')),
       );
     });
 
