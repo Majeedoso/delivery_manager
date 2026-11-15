@@ -17,47 +17,57 @@ class BankMainScreen extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         decoration: MaterialTheme.getGradientBackground(context),
-        child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(),
-          padding: EdgeInsets.all(2.5.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(height: 4.h),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: MaterialTheme.getSpacing('spacingGrid').w,
-                runSpacing: MaterialTheme.getSpacing('spacingGrid').w * 3,
-                children: [
-                  _buildIconContainer(
-                    context,
-                    title: AppLocalizations.of(context)!.receivablesAndPayables,
-                    icon: Icons.account_balance_wallet,
-                    onTap: () => Navigator.of(
-                      context,
-                    ).pushNamed(AppRoutes.bankReceivables),
-                  ),
-                  _buildIconContainer(
-                    context,
-                    title: AppLocalizations.of(context)!.newTransaction,
-                    icon: Icons.add_card,
-                    onTap: () => Navigator.of(
-                      context,
-                    ).pushNamed(AppRoutes.bankNewTransaction),
-                  ),
-                  _buildIconContainer(
-                    context,
-                    title: AppLocalizations.of(context)!.transactionsHistory,
-                    icon: Icons.history,
-                    onTap: () =>
-                        Navigator.of(context).pushNamed(AppRoutes.bankArchive),
-                  ),
-                ],
+        child: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Padding(
+                padding: EdgeInsets.all(2.5.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: MaterialTheme.getSpacing('spacingGrid').w,
+                      runSpacing: MaterialTheme.getSpacing('spacingGrid').w * 3,
+                      children: [
+                        _buildIconContainer(
+                          context,
+                          title: AppLocalizations.of(
+                            context,
+                          )!.receivablesAndPayables,
+                          iconPath: 'assets/images/bank_credits_and_debts.png',
+                          onTap: () => Navigator.of(
+                            context,
+                          ).pushNamed(AppRoutes.bankReceivables),
+                        ),
+                        _buildIconContainer(
+                          context,
+                          title: AppLocalizations.of(context)!.newTransaction,
+                          iconPath: 'assets/images/bank_new_transaction.png',
+                          onTap: () => Navigator.of(
+                            context,
+                          ).pushNamed(AppRoutes.bankNewTransaction),
+                        ),
+                        _buildIconContainer(
+                          context,
+                          title: AppLocalizations.of(
+                            context,
+                          )!.transactionsHistory,
+                          iconPath:
+                              'assets/images/bank_transactions_history.png',
+                          onTap: () => Navigator.of(
+                            context,
+                          ).pushNamed(AppRoutes.bankArchive),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 4.h),
-            ],
+            ),
           ),
         ),
       ),
@@ -67,9 +77,11 @@ class BankMainScreen extends StatelessWidget {
   Widget _buildIconContainer(
     BuildContext context, {
     required String title,
-    required IconData icon,
+    required String iconPath,
     required VoidCallback onTap,
   }) {
+    final iconSize = MaterialTheme.getSpacing('containerWidthMedium').w * 1.05;
+
     return SizedBox(
       width: MaterialTheme.getSpacing('containerWidthLarge').w,
       height: MaterialTheme.getSpacing('containerWidthLarge').w,
@@ -87,15 +99,18 @@ class BankMainScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  height:
-                      MaterialTheme.getSpacing('containerWidthMedium').w * 1.05,
+                  height: iconSize,
                   child: Center(
-                    child: Icon(
-                      icon,
-                      size:
-                          MaterialTheme.getSpacing('containerWidthMedium').w *
-                          1.05,
-                      color: Theme.of(context).colorScheme.onSurface,
+                    child: Image.asset(
+                      iconPath,
+                      width: iconSize,
+                      height: iconSize,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.error_outline,
+                        size: iconSize,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
                   ),
                 ),
