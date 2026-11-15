@@ -5,30 +5,19 @@ import 'package:delivery_manager/l10n/app_localizations.dart';
 
 // What the sign-in page and the sign-up choice share, so the two look alike.
 
-/// The app's logo in its white box, at the top of the page.
+/// The app's logo at the top of the page.
 class AuthLogo extends StatelessWidget {
   const AuthLogo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // The logo is a transparent PNG — show it directly on the page, no box.
     return Container(
-      margin: EdgeInsets.only(top: 2.h, bottom: 4.h),
-      padding: EdgeInsets.all(5.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(6.w),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
+      margin: EdgeInsets.only(top: 4.h, bottom: 4.h),
       child: Image.asset(
         'assets/images/logo.png',
-        width: 50.w,
-        height: 16.w, // the logo is 900x293
+        width: 55.w,
+        height: 18.w, // the logo is 900x293
         fit: BoxFit.contain,
       ),
     );
@@ -193,54 +182,22 @@ class AuthOrDivider extends StatelessWidget {
   }
 }
 
-/// The page's foot: the way to the other page ("Don't have an account? Sign
-/// Up"), when [question] is given, then the copyright with this year.
-class AuthFooter extends StatelessWidget {
-  const AuthFooter({super.key, this.question, this.action, this.onAction});
-
-  final String? question;
-  final String? action;
-  final VoidCallback? onAction;
+/// The copyright with this year, at the foot of the page, on two lines.
+class AuthCopyright extends StatelessWidget {
+  const AuthCopyright({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return Column(
-      children: [
-        if (question != null)
-          // The link drops under the question when a small phone can't fit both
-          Wrap(
-            alignment: WrapAlignment.center,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Text(
-                question!,
-                style: TextStyle(
-                  color: isDark ? Colors.white : Colors.grey[600],
-                  fontSize: 18.sp,
-                ),
-              ),
-              TextButton(
-                onPressed: onAction,
-                child: Text(
-                  action!,
-                  style: TextStyle(
-                    color: const Color(0xFFFF5C00),
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        SizedBox(height: 4.h),
-        Text(
-          AppLocalizations.of(context)!.copyright('${clock.now().year}'),
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.grey[500], fontSize: 18.sp),
-        ),
-        SizedBox(height: 2.h),
-      ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 2.h),
+      child: Text(
+        // "© 2026 LihLih Manager." over "All rights reserved." (the same split in ar, fr)
+        AppLocalizations.of(context)!
+            .copyright('${clock.now().year}')
+            .replaceFirst('. ', '.\n'),
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Colors.grey[500], fontSize: 16.sp),
+      ),
     );
   }
 }

@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: double.infinity,
             decoration: MaterialTheme.getGradientBackground(context),
             child: SafeArea(
-              child: SingleChildScrollView(
+              child: LayoutBuilder(builder: (_, box) => SingleChildScrollView(
                 padding: MaterialTheme.getPaddingHorizontal(
                   horizontal: MaterialTheme.getSpacing(
                     'paddingHorizontalMedium',
@@ -163,11 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(
                       maxWidth: 700, // Maximum width for desktop
-                      minHeight:
-                          MediaQuery.of(context).size.height -
-                          MediaQuery.of(context).padding.top -
-                          MediaQuery.of(context).padding.bottom -
-                          48,
+                      // the whole screen under the app bar: the copyright at its foot
+                      minHeight: box.maxHeight,
                     ),
                     child: IntrinsicHeight(
                       child: Form(
@@ -177,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: <Widget>[
                             // Logo Section
                             const AuthLogo(),
-                            SizedBox(height: 2.h),
+                            const Spacer(),
 
                             // The two ways in: Google (the orange one) and e-mail
                             if (!widget.withEmail) ...[
@@ -473,15 +470,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             ],
 
-                            // Footer Links and Copyright
-                            const AuthFooter(),
+                            const Spacer(),
+                            const AuthCopyright(),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              )),
             ),
           ),
         ];
