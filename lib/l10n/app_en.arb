@@ -2080,6 +2080,18 @@
   "@settingMaxRouteLookupsPerCustomerPerDayHelp": {
     "description": "The platform setting max_route_lookups_per_customer_per_day: its how it works"
   },
+  "settingNoDriverAlertMinutesName": "Order without a driver: alert after (minutes)",
+  "@settingNoDriverAlertMinutesName": {
+    "description": "The platform setting no_driver_alert_minutes: its name"
+  },
+  "settingNoDriverAlertMinutesRole": "Minutes a ready order may wait for a driver before the operators are alerted",
+  "@settingNoDriverAlertMinutesRole": {
+    "description": "The platform setting no_driver_alert_minutes: its what it is for, in a line"
+  },
+  "settingNoDriverAlertMinutesHelp": "When every driver holds the most orders allowed, a ready order can wait with nobody to take it. Once it has waited this long, the operators get an urgent alert and find it among their problem orders, with the customer's and the restaurant's numbers, to offer it again or cancel it. The server checks every 5 minutes, so the alert can come up to 5 minutes later. Offering it again counts the minutes from then.",
+  "@settingNoDriverAlertMinutesHelp": {
+    "description": "The platform setting no_driver_alert_minutes: its how it works"
+  },
   "settingMapDefaultLatitudeName": "Map centre: latitude",
   "@settingMapDefaultLatitudeName": {
     "description": "The platform setting map_default_latitude: its name"

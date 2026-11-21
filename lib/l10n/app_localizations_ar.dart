@@ -1809,6 +1809,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get settingMaxRouteLookupsPerCustomerPerDayHelp => 'يُحسب لكل حساب، ولكل عنوان شبكة للزوار بلا حساب (فالزوار الذين يتشاركون عنوانًا واحدًا يتشاركون هذا الحد). فإذا تجاوزه عميل، رأى هو وحده مسافات تقريبية حتى منتصف الليل، ولا يتأثر غيره. القيمة 0 لا تطلب من Mapbox شيئًا.';
 
   @override
+  String get settingNoDriverAlertMinutesName => 'طلب بلا سائق: التنبيه بعد (بالدقائق)';
+
+  @override
+  String get settingNoDriverAlertMinutesRole => 'عدد الدقائق التي يمكن أن ينتظر فيها طلب جاهز سائقًا قبل تنبيه موظفي التحقق';
+
+  @override
+  String get settingNoDriverAlertMinutesHelp => 'حين يبلغ كل سائق أقصى عدد مسموح به من الطلبات، قد ينتظر طلب جاهز ولا أحد يأخذه. فإذا طال انتظاره هذه المدة، يتلقى موظفو التحقق تنبيهًا عاجلًا ويجدونه بين الطلبات المتعثرة مع رقمَي العميل والمطعم، ليعرضوه من جديد أو يلغوه. يتحقق الخادم كل 5 دقائق، فقد يتأخر التنبيه حتى 5 دقائق. وإذا عُرض الطلب من جديد تُحسب الدقائق من تلك اللحظة.';
+
+  @override
   String get settingMapDefaultLatitudeName => 'مركز الخريطة: دوائر العرض';
 
   @override

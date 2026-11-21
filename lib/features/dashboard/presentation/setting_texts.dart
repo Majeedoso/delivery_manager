@@ -193,6 +193,11 @@ SettingTexts? settingTexts(AppLocalizations l10n, String key) => switch (key) {
     role: l10n.settingMaxRouteLookupsPerCustomerPerDayRole,
     help: l10n.settingMaxRouteLookupsPerCustomerPerDayHelp,
   ),
+  'no_driver_alert_minutes' => SettingTexts(
+    name: l10n.settingNoDriverAlertMinutesName,
+    role: l10n.settingNoDriverAlertMinutesRole,
+    help: l10n.settingNoDriverAlertMinutesHelp,
+  ),
   'map_default_latitude' => SettingTexts(
     name: l10n.settingMapDefaultLatitudeName,
     role: l10n.settingMapDefaultLatitudeRole,

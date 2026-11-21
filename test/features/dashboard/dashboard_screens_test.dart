@@ -496,6 +496,7 @@ void main() {
       'maximum_delivery_fee',
       'min_order_scheduling_minutes',
       'minimum_delivery_fee',
+      'no_driver_alert_minutes',
       'number_of_orders_to_be_trusted',
       'otp_resend_wait_seconds',
       'otp_validity_minutes',

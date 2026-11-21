@@ -3625,6 +3625,24 @@ abstract class AppLocalizations {
   /// **'Counted per account, and per network address for visitors without an account (visitors sharing one address share it). Past it, that customer alone sees approximate distances until midnight; the others are not affected. 0 never asks Mapbox.'**
   String get settingMaxRouteLookupsPerCustomerPerDayHelp;
 
+  /// The platform setting no_driver_alert_minutes: its name
+  ///
+  /// In en, this message translates to:
+  /// **'Order without a driver: alert after (minutes)'**
+  String get settingNoDriverAlertMinutesName;
+
+  /// The platform setting no_driver_alert_minutes: its what it is for, in a line
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes a ready order may wait for a driver before the operators are alerted'**
+  String get settingNoDriverAlertMinutesRole;
+
+  /// The platform setting no_driver_alert_minutes: its how it works
+  ///
+  /// In en, this message translates to:
+  /// **'When every driver holds the most orders allowed, a ready order can wait with nobody to take it. Once it has waited this long, the operators get an urgent alert and find it among their problem orders, with the customer\'s and the restaurant\'s numbers, to offer it again or cancel it. The server checks every 5 minutes, so the alert can come up to 5 minutes later. Offering it again counts the minutes from then.'**
+  String get settingNoDriverAlertMinutesHelp;
+
   /// The platform setting map_default_latitude: its name
   ///
   /// In en, this message translates to:

@@ -1799,6 +1799,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingMaxRouteLookupsPerCustomerPerDayHelp => 'Compté par compte, et par adresse réseau pour les visiteurs sans compte (les visiteurs qui partagent une adresse le partagent). Au-delà, ce client seul voit des distances approximatives jusqu\'à minuit ; les autres ne sont pas touchés. 0 ne demande jamais à Mapbox.';
 
   @override
+  String get settingNoDriverAlertMinutesName => 'Commande sans livreur : alerte après (minutes)';
+
+  @override
+  String get settingNoDriverAlertMinutesRole => 'Minutes qu\'une commande prête peut attendre un livreur avant que les opérateurs soient alertés';
+
+  @override
+  String get settingNoDriverAlertMinutesHelp => 'Quand chaque livreur a le plus de commandes permis, une commande prête peut attendre sans personne pour la prendre. Après ce délai, les opérateurs reçoivent une alerte urgente et la trouvent parmi leurs commandes problématiques, avec les numéros du client et du restaurant, pour la proposer de nouveau ou l\'annuler. Le serveur vérifie toutes les 5 minutes : l\'alerte peut arriver jusqu\'à 5 minutes plus tard. La proposer de nouveau fait repartir les minutes de ce moment.';
+
+  @override
   String get settingMapDefaultLatitudeName => 'Centre de la carte : latitude';
 
   @override
