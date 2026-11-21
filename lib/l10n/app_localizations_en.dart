@@ -1799,13 +1799,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingMaxRouteLookupsPerCustomerPerDayHelp => 'Counted per account, and per network address for visitors without an account (visitors sharing one address share it). Past it, that customer alone sees approximate distances until midnight; the others are not affected. 0 never asks Mapbox.';
 
   @override
-  String get settingNoDriverAlertMinutesName => 'Order without a driver: alert after (minutes)';
+  String get settingNoDriverAlertMinutesName => 'Order without a driver: minutes before each alert';
 
   @override
-  String get settingNoDriverAlertMinutesRole => 'Minutes a ready order may wait for a driver before the operators are alerted';
+  String get settingNoDriverAlertMinutesRole => 'How long a ready order waits for a driver before the operators are alerted, then between reminders';
 
   @override
-  String get settingNoDriverAlertMinutesHelp => 'When every driver holds the most orders allowed, a ready order can wait with nobody to take it. Once it has waited this long, the operators get an urgent alert and find it among their problem orders, with the customer\'s and the restaurant\'s numbers, to offer it again or cancel it. The server checks every 5 minutes, so the alert can come up to 5 minutes later. Offering it again counts the minutes from then.';
+  String get settingNoDriverAlertMinutesHelp => 'When every driver holds the most orders allowed, a ready order can wait with nobody to take it. Once it has waited this long, the operators get an urgent alert and find it among their problem orders, with the customer\'s and the restaurant\'s numbers, to offer it again or cancel it. While it still waits, they are reminded each time this many minutes pass, until a driver takes it. The server checks every 5 minutes, so an alert can come up to 5 minutes later. Offering it again counts the minutes from then.';
 
   @override
   String get settingMapDefaultLatitudeName => 'Map centre: latitude';

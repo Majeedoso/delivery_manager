@@ -3628,19 +3628,19 @@ abstract class AppLocalizations {
   /// The platform setting no_driver_alert_minutes: its name
   ///
   /// In en, this message translates to:
-  /// **'Order without a driver: alert after (minutes)'**
+  /// **'Order without a driver: minutes before each alert'**
   String get settingNoDriverAlertMinutesName;
 
   /// The platform setting no_driver_alert_minutes: its what it is for, in a line
   ///
   /// In en, this message translates to:
-  /// **'Minutes a ready order may wait for a driver before the operators are alerted'**
+  /// **'How long a ready order waits for a driver before the operators are alerted, then between reminders'**
   String get settingNoDriverAlertMinutesRole;
 
   /// The platform setting no_driver_alert_minutes: its how it works
   ///
   /// In en, this message translates to:
-  /// **'When every driver holds the most orders allowed, a ready order can wait with nobody to take it. Once it has waited this long, the operators get an urgent alert and find it among their problem orders, with the customer\'s and the restaurant\'s numbers, to offer it again or cancel it. The server checks every 5 minutes, so the alert can come up to 5 minutes later. Offering it again counts the minutes from then.'**
+  /// **'When every driver holds the most orders allowed, a ready order can wait with nobody to take it. Once it has waited this long, the operators get an urgent alert and find it among their problem orders, with the customer\'s and the restaurant\'s numbers, to offer it again or cancel it. While it still waits, they are reminded each time this many minutes pass, until a driver takes it. The server checks every 5 minutes, so an alert can come up to 5 minutes later. Offering it again counts the minutes from then.'**
   String get settingNoDriverAlertMinutesHelp;
 
   /// The platform setting map_default_latitude: its name
